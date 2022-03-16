@@ -1,4 +1,4 @@
-import Navbar from './components/Navbar';
+import NavBar from './components/Navbar';
 import Login from './components/Login';
 import Profile from './components/Profile';
 
@@ -6,7 +6,7 @@ import Profile from './components/Profile';
 function App() {
   return (
     <div className="App">
-      <Navbar/>
+      <NavBar/>
       <Login/>
       <Profile/>
     </div>
