@@ -1,16 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SearchBar from './SearchBar'
 import Card from './Card'
 import arrProductos from './../dataSimulate';
 import { Container, Row } from 'react-bootstrap'
-
-
-const handleChange = (e) => {
-    e.preventDefault()
-}
+import img from '../img/logo2.png'
 
 
 function Shop() {
+
+    const [inview, setInview] = useState(4)
+
+
+    let arrProducts = arrProductos?.slice(0, inview)
+
+
+    const handleChange = (e) => {
+        e.preventDefault()
+    }
+
+    const showMoreItems = () => {
+        setInview((value) => value + 4)
+    }
+    const showLessItems = () => {
+        setInview((value) => value - 4)
+    }
+
+
+
     return (
         <div>
             <div style={{ width: "50%", height: "500px", margin: "auto", marginTop: "30px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
@@ -40,7 +56,7 @@ function Shop() {
             </div>
             <Container>
                 <Row xs={1} md={2} className="g-4">
-                    {arrProductos?.map((p) => (
+                    {arrProducts.map((p) => (
                         <Card
                             key={p.id}
                             nombre={p.nombre}
@@ -51,10 +67,30 @@ function Shop() {
                     ))}
                 </Row>
             </Container>
-
-
-
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
+                {
+                    arrProductos.length <= arrProducts.length ?
+                        <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" disabled>Load More</button>
+                        :
+                        <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" onClick={showMoreItems}>Load More</button>
+                }
+                {
+                    arrProducts.length > 5 ?
+                        <div>
+                            <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" onClick={showLessItems}>Load Less</button>
+                        </div>
+                        :
+                        <div>
+                            <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" disabled>Load Less</button>
+                        </div>
+                }
+            </div>
+            <div className="bg-dark" style={{ padding: "100px 0 100px 0", marginTop: "30px", display:"flex", alignItems:"baseline", justifyContent:"space-around" }}>
+                    <img src={img} alt="logo" style={{ width: "8%" }} />
+                <p className='text-light'>Copyright © 2022 Beef Shop, Todos los derechos reservados.</p>
+            </div>
         </div>
+
     )
 }
 

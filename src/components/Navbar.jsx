@@ -15,7 +15,7 @@ function NavBar() {
     return (
         <nav className="navbar navbar-expand-lg flex-column bg-dark">
             <div className="container-fluid">
-                <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/" style={{width:"3%"}}><img src={img} alt="logo" style={{width:"100%"}}/></Link>
+                <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/" style={{ width: "3%" }}><img src={img} alt="logo" style={{ width: "100%" }} /></Link>
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/">Beef Shop</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon btn-outline-light" type="button"><GiHamburgerMenu /></span>
@@ -37,8 +37,13 @@ function NavBar() {
                             </div>
                             :
                             <div>
-                                <a className="btn btn-outline-success text-decoration-none fs-6">Carrito <RiShoppingCartLine /></a>
-                                <a className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={handleLogin}>Log out</a>
+                                <button className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        1
+                                        <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                </button>
+                                <button className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={handleLogin}>Log out</button>
                             </div>
                     }
                 </div>
