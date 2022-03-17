@@ -241,6 +241,13 @@ function flushCart() {
   };
 }
 
+function postProducts(payload){
+ return async function(dispatch){
+   const newProduct= await axios.post("/crear", payload)
+   return newProduct
+ }
+}
+
 //SALES...
 
 module.exports = {

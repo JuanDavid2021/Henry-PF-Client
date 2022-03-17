@@ -30,7 +30,8 @@ const reduxActions = {
   deleteCartItem: "deleteCartItem",
   flushCart: "flushCart",  
   
-  getComments: "getComments",  
+  getComments: "getComments", 
+  postProduct: "POST_PRODUCT" 
 };
 
 export default reduxActions;

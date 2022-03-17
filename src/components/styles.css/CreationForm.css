@@ -1,0 +1,34 @@
+  .form{
+    display: flex;
+    flex-direction: column;
+    border: thin solid white;
+    border-radius:5px;
+    width: 50vw;
+    height: 50vh;
+    color:white;
+    position:relative;
+    top:100px;
+    left:450px;
+    justify-content: center;
+
+  }
+   .fondo{
+     background-image: url("../styles.css/fondo_form.jpeg");
+     background-repeat: no-repeat;
+     min-height:100%; 
+     background-size: cover;
+     width: 100vw;
+     height: 100vh;
+     color:black;
+   }
+
+  .h1{
+    display: flex;
+    justify-content: space-around;
+    color:brown;
+    position: relative;
+    top:50px;
+    right:25px
+  }
+
+  
