@@ -1,28 +1,36 @@
-const actions = {
-  addProduct: "addProduct",
-  deleteProduct: "deleteProduct",
-  editProduct: "editProduct",
-  addCategory: "addCategory",
-  deleteCategory: "deleteCategory",
+const reduxActions = {
+  gettingProducts: "gettingProducts",
+  setProducts: "setProducts",  
+  addProduct: "addProduct",//admin
+  deleteProduct: "deleteProduct",//admin
+  editProduct: "editProduct",//admin
 
   rateProduct: "rateProduct",
   addProductComment: "addProductComment",
-  deleteProductComment: "deleteProductComment",
+  deleteProductComment: "deleteProductComment",//admin
 
-  getUsers: "getUsers",
-  deleteUser: "deleteUser",
-  forcePasswordReset: "forcePasswordReset",
-  getSales: "getSales",
-  editSaleStatus: "editSaleStatus",
+  filterProducts: "filterProducts",
+  filteringProducts: "filteringProducts",
+
+  gettingProductDetails: "gettingProductDetails",
+  setProductDetails: "setProductDetails",
+  setProductDetailsFront: "setProductDetailsFront",//solo si lo hacemos por front sin solicitar la api
+
+  addCategory: "addCategory",//admin
+  deleteCategory: "deleteCategory",//admin
+
+  gettingUsers: "gettingUsers",
+  setUsers: "setUsers",//admin
+  deleteUser: "deleteUser",//admin
+  forcePasswordReset: "forcePasswordReset",//admin
+  getSales: "getSales",//admin
+  editSaleStatus: "editSaleStatus",//admin
   
   addCartItem: "addCartItem",
   deleteCartItem: "deleteCartItem",
-  flushCart: "flushCart",
+  flushCart: "flushCart",  
   
-  getProducts: "getProducts",
-  getComments: "getComments",
-  filterProducts: "filterProducts",
-  selectProductDetails: "selectProductDetail",
+  getComments: "getComments",  
 };
 
-export default actions;
+export default reduxActions;
