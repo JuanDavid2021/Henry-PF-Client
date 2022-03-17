@@ -1,6 +1,5 @@
 import React from 'react'
 import SearchBar from './SearchBar'
-// style={{objectFit:"cover"}}
 import Card from './Card'
 import arrProductos from './../dataSimulate';
 import { Container, Row } from 'react-bootstrap'
