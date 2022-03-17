@@ -4,6 +4,8 @@ import NavBar from './components/Navbar';
 import Login from './components/Login';
 import Profile from './components/Profile';
 import Shop from './components/Shop';
+import { CreationForm } from './components/CreationForm';
+
 
 
 
@@ -15,6 +17,7 @@ function App() {
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/shop' element={<Shop />} />
         <Route exact path='/profile/:id' element={<Profile />} />
+        <Route exact path='/creationForm' element={<CreationForm/>}/>
       </Routes>
     </div>
   );
