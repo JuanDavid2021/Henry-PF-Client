@@ -35,8 +35,8 @@ async function apiAddUser(data) {
     const response = await axios.post(`http://localhost:3001/user/create`, { data });
     return response.data;
   } catch (error) {
-    error = `error en FRONT /actions apiDeleteUser, ${error}`;
-    return { error: error };
+    let err = `error en FRONT /actions apiDeleteUser, ${error}`;
+    return { error: err };
   }
 }
 
@@ -45,8 +45,8 @@ async function apiUpdateUser(data) {
     const response = await axios.put(`http://localhost:3001/user/update`, { data });
     return response.data;
   } catch (error) {
-    error = `error en FRONT /actions apiUpdateUser, ${error}`;
-    return { error: error };
+    let err = `error en FRONT /actions apiUpdateUser, ${error}`;
+    return { error: err };
   }
 }
 
@@ -55,8 +55,8 @@ async function apiDeleteUser(id) {
     const response = await axios.delete(`http://localhost:3001/user/delete/${id}`);
     return response.data;
   } catch (error) {
-    error = `error en FRONT /actions apiDeleteUser, ${error}`;
-    return { error: error };
+    let err = `error en FRONT /actions apiDeleteUser, ${error}`;
+    return { error: err };
   }
 }
 
@@ -65,8 +65,8 @@ async function apiGetAllProducts() {
     const response = await axios.get(`http://localhost:3001/product/all`);
     return response.data;
   } catch (error) {
-    error = `error en FRONT /actions apiGetAllProducts, ${error}`;
-    return { error: error };
+    let err = `error en FRONT /actions apiGetAllProducts, ${error}`;
+    return { error: err };
   }
 }
 
@@ -75,8 +75,8 @@ async function apiGetProductDetails(id) {
     const response = await axios.get(`http://localhost:3001/product/get/${id}`);
     return response.data;
   } catch (error) {
-    error = `error en /actions apiGetProductDetails, ${error}`;
-    return { error: error, id: null };
+    let err = `error en /actions apiGetProductDetails, ${error}`;
+    return { error: err, id: null };
   }
 }
 
@@ -85,8 +85,8 @@ async function apiGetAllCategories() {
     const response = await axios.get(`http://localhost:3001/category/all`);
     return response.data;
   } catch (error) {
-    error = `error en /actions apiGetAllCategories, ${error}`;
-    return { error: error };
+    let err = `error en /actions apiGetAllCategories, ${error}`;
+    return { error: err };
   }
 }
 
@@ -202,7 +202,7 @@ function getUsers() {
     try {
       dispatch({ type: action.gettingUsers, payload: true });
       const users = await apiGetAllUsers();
-      if (products.error) {
+      if (users.error) {
         return dispatch({ type: action.gettingUsers, payload: false });
       } else {
         return dispatch({ type: action.setUsers, payload: users });
@@ -255,7 +255,6 @@ module.exports = {
   addProductComment,
   deleteProductComment,
   getProductDetails,
-  addCheckoutComment,
 
   addCartItem,
   deleteCartItem,
