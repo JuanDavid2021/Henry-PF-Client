@@ -6,6 +6,9 @@ import Profile from './components/Profile';
 import Shop from './components/Shop';
 import { CreationForm } from './components/CreationForm';
 import CartDetails from './components/CartDetails';
+import CartDetailsCheckout from './components/CartDetailsCheckout';
+import CartDetailsCheckoutDelibery from './components/CartDetailsCheckoutDelibery';
+import CartDetailCheckoutPaymentMethod from './components/CartDetailCheckoutPaymentMethod';
 
 
 
@@ -20,6 +23,9 @@ function App() {
         <Route exact path='/profile/:id' element={<Profile />} />
         <Route exact path='/creationForm' element={<CreationForm/>}/>
         <Route exact path='/cartDetails' element={<CartDetails/>}/>
+        <Route path='/cartDetailsCheckout' element={<CartDetailsCheckout/>}/>
+        <Route path='/cartDetailsCheckoutDelibery' element={<CartDetailsCheckoutDelibery/>}/>
+        <Route path='/cartDetailCheckoutPaymentMethod' element={<CartDetailCheckoutPaymentMethod/>}/>
       </Routes>
     </div>
   );
