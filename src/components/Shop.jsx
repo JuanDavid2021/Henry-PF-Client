@@ -55,13 +55,15 @@ function Shop() {
                 </select>
             </div>
             <Container>
-                <Row xs={1} md={2} className="g-4">
-                    {arrProducts.map((p) => (
+                <Row xs={1} md={2} xl={4} className="g-4">
+                    {arrProducts?.map((p) => (
                         <Card
                             key={p.id}
+                            id={p.id}
+                            precio={p.precio}
                             nombre={p.nombre}
                             presentacion={p.presentacion}
-                            precio={p.precio}
+                            stock={p.stock}
                             arrFotos={p.fotos}
                         />
                     ))}
