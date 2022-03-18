@@ -1,12 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SearchBar from './SearchBar'
 import Card from './Card'
-import arrProductos from './../dataSimulate';
+//import arrProductos from './../dataSimulate';
 import { Container, Row } from 'react-bootstrap'
 import img from '../img/logo2.png'
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../actions';
 
 
 function Shop() {
+
+    const dispatch = useDispatch()
+    useEffect(() => {
+      dispatch(getProducts())
+    }, [dispatch])
+    
+    const arrProductos = useSelector(state => state.products)
 
     const [inview, setInview] = useState(4)
 

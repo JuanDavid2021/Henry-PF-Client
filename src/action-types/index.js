@@ -1,37 +1,33 @@
-const reduxActions = {
-  gettingProducts: "gettingProducts",
-  setProducts: "setProducts",  
-  addProduct: "addProduct",//admin
-  deleteProduct: "deleteProduct",//admin
-  editProduct: "editProduct",//admin
+export const GETTING_PRODUCTS = "gettingProducts";
+export const SET_PRODUCTS = "setProducts";  
+export const ADD_PRODUCT = "addProduct";//admin
+export const DELETE_PRODUCT = "deleteProduct";//admin
+export const EDIT_PRODUCT = "editProduct";//admin
 
-  rateProduct: "rateProduct",
-  addProductComment: "addProductComment",
-  deleteProductComment: "deleteProductComment",//admin
+export const RATE_PRODUCT = "rateProduct";
+export const ADD_PRODUCT_COMMENT = "addProductComment";
+export const DELETE_PRODUCT_COMMENT = "deleteProductComment";//admin
 
-  filterProducts: "filterProducts",
-  filteringProducts: "filteringProducts",
+export const FILTER_PRODUCTS = "filterProducts";
+export const FILTERING_PRODUCTS = "filteringProducts";
 
-  gettingProductDetails: "gettingProductDetails",
-  setProductDetails: "setProductDetails",
-  setProductDetailsFront: "setProductDetailsFront",//solo si lo hacemos por front sin solicitar la api
+export const GETTING_PRODUCT_DETAILS = "gettingProductDetails";
+export const SET_PRODUCT_DETAILS = "setProductDetails";
+export const SET_PRODUCT_DETAILS_FRONT = "setProductDetailsFront";//solo si lo hacemos por front sin solicitar la api
 
-  addCategory: "addCategory",//admin
-  deleteCategory: "deleteCategory",//admin
+export const ADD_CATEGORY = "addCategory";//admin
+export const DELETE_CATEGORY = "deleteCategory";//admin
 
-  gettingUsers: "gettingUsers",
-  setUsers: "setUsers",//admin
-  deleteUser: "deleteUser",//admin
-  forcePasswordReset: "forcePasswordReset",//admin
-  getSales: "getSales",//admin
-  editSaleStatus: "editSaleStatus",//admin
+export const GETTING_USERS = "gettingUsers";
+export const SET_USERS = "setUsers";//admin
+export const DELETE_USER = "deleteUser";//admin
+export const FORCE_PASSWORD_RESET = "forcePasswordReset";//admin
+export const GET_SALES = "getSales";//admin
+export const EDIT_SALE_STATUS = "editSaleStatus";//admin
   
-  addCartItem: "addCartItem",
-  deleteCartItem: "deleteCartItem",
-  flushCart: "flushCart",  
+export const ADD_CART_ITEM = "addCartItem";
+export const DELETE_CART_ITEM = "deleteCartItem";
+export const FLUSH_CART = "flushCart";  
   
-  getComments: "getComments", 
-  postProduct: "POST_PRODUCT" 
-};
-
-export default reduxActions;
+export const GET_COMMENTS = "getComments"; 
+export const POST_PRODUCT = "POST_PRODUCT" 
