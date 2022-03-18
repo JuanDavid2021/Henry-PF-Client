@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import Shop from './components/Shop';
 import { CreationForm } from './components/CreationForm';
+import CartDetails from './components/CartDetails';
 
 
 
@@ -18,6 +19,7 @@ function App() {
         <Route exact path='/shop' element={<Shop />} />
         <Route exact path='/profile/:id' element={<Profile />} />
         <Route exact path='/creationForm' element={<CreationForm/>}/>
+        <Route exact path='/cartDetails' element={<CartDetails/>}/>
       </Routes>
     </div>
   );
