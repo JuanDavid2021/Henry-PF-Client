@@ -1,5 +1,5 @@
-const reduxActions = require("../action-types");
-import { orderProducts } from "../actions"
+import { ADD_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT, GETTING_PRODUCTS, SET_PRODUCTS, GETTING_PRODUCT_DETAILS, SET_PRODUCT_DETAILS, ADD_CART_ITEM, ADD_PRODUCT_COMMENT, ADD_CATEGORY, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT_COMMENT, DELETE_USER, EDIT_SALE_STATUS, FILTERING_PRODUCTS, FILTER_PRODUCTS, FLUSH_CART, FORCE_PASSWORD_RESET, GETTING_USERS, GET_COMMENTS, GET_SALES, POST_PRODUCT, RATE_PRODUCT, SET_PRODUCT_DETAILS_FRONT, SET_USERS } from './../action-types/index';
+
 const initialState = {
   user: [], //usuario actual usando la app
   gettingProducts: false,
@@ -16,7 +16,7 @@ const initialState = {
 
 function rootReducer(state = initialState, action) {
 
-  if (action.type === reduxActions.addProduct) {
+  if (action.type === ADD_PRODUCT) {
     //agrego el producto del arreglo una vez tenemos la confirmacion desde el back
     return {
       ...state,
@@ -24,7 +24,7 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  if (action.type === reduxActions.deleteProduct) {
+  if (action.type === DELETE_PRODUCT) {
     //borro el producto del arreglo una vez tenemos la confirmacion del back
     const newProducts = state.products.filter(
       (e) => e.id !== action.payload
@@ -35,7 +35,7 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  if (action.type === reduxActions.setProductDetailsFront) {
+  if (action.type === SET_PRODUCT_DETAILS_FRONT) {
     //selecciono producto del arreglo para mostrar los detalles
     const newProductDetail = state.products.find(
       (e) => e.id === action.payload
@@ -48,7 +48,7 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  if (action.type === reduxActions.editProduct) {
+  if (action.type === EDIT_PRODUCT) {
     //edito el producto del arreglo una vez tenemos la confirmacion del back
     const newProducts = state.products.map((e) => {
       if (e.id === action.payload.id) {
@@ -62,7 +62,7 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  if (action.type === reduxActions.setProducts) {
+  if (action.type === SET_PRODUCTS) {
     //cargo el arreglo con todos los productos obtenidos
     return {
       ...state,
@@ -71,7 +71,7 @@ function rootReducer(state = initialState, action) {
     };
   } 
 
-  if (action.type === reduxActions.gettingProducts) {
+  if (action.type === GETTING_PRODUCTS) {
     //cargo el arreglo con todos los productos obtenidos
     return {
       ...state,
@@ -79,7 +79,7 @@ function rootReducer(state = initialState, action) {
     };
   } 
 
-  if (action.type === reduxActions.setProductDetails) {
+  if (action.type === SET_PRODUCT_DETAILS) {
     //cargo el arreglo con todos los productos obtenidos
     return {
       ...state,
@@ -88,7 +88,7 @@ function rootReducer(state = initialState, action) {
     };
   } 
 
-  if (action.type === reduxActions.gettingProductDetails) {
+  if (action.type === GETTING_PRODUCT_DETAILS) {
     //cargo el arreglo con todos los productos obtenidos
     return {
       ...state,
@@ -96,7 +96,7 @@ function rootReducer(state = initialState, action) {
     };
   } 
 
-  if (action.type === reduxActions.rateProduct) {
+  if (action.type === RATE_PRODUCT) {
     //edito el score del producto del arreglo una vez tenemos la confirmacion del back
     const newProducts = state.products.map((e) => {
       if (e.id === action.payload.id) {
@@ -111,7 +111,7 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  if (action.type === reduxActions.setUsers) {
+  if (action.type === SET_USERS) {
     //cargo el arreglo con todos los usuarios obtenidos
     return {
       ...state,
@@ -120,7 +120,7 @@ function rootReducer(state = initialState, action) {
     };
   } 
 
-  if (action.type === reduxActions.gettingUsers) {
+  if (action.type === GETTING_USERS) {
     //cargo el arreglo con todos los productos obtenidos
     return {
       ...state,
@@ -129,7 +129,7 @@ function rootReducer(state = initialState, action) {
   } 
 
 
-  if (action.type === reduxActions.addCategory) {
+  if (action.type === ADD_CATEGORY) {
     //agrego categoria al arreglo una vez tenemos la confirmacion desde el back
     return {
       ...state,
@@ -137,7 +137,7 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  if (action.type === reduxActions.deleteCategory) {
+  if (action.type === DELETE_CATEGORY) {
     //agrego categoria al arreglo una vez tenemos la confirmacion desde el back
     const newCategories = state.categories.filter(
       (e) => e.id !== action.payload.id
@@ -148,7 +148,7 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  if (action.type === "ORDER_BY_SCORE") {
+/*   if (action.type === "ORDER_BY_SCORE") {
     const orderedRecipes = orderByScore(
       [...state.filterResult],
       action.payload
@@ -158,9 +158,9 @@ function rootReducer(state = initialState, action) {
       ...state,
       filterResult: orderedRecipes,
     };
-  }
+  } */
 
-  if (action.type === "SET_RECIPES_AND_FILTER") {
+  /*if (action.type === "SET_RECIPES_AND_FILTER") {
     if (action.payload.filter.title.length) {
       //aplico filtro de título
       action.payload.recipes = action.payload.recipes.filter((r) =>
@@ -211,7 +211,7 @@ function rootReducer(state = initialState, action) {
       ...state,
       recipeDetail: action.payload, //action.payload
     };
-  }
+  }*/
 
   return state;
 }
