@@ -1,5 +1,5 @@
 const reduxActions = require("../action-types");
-import { orderProducts } from "../actions"
+//import { orderProducts } from "../actions"
 const initialState = {
   user: [], //usuario actual usando la app
   gettingProducts: false,
@@ -148,7 +148,7 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  if (action.type === "ORDER_BY_SCORE") {
+ /*  if (action.type === "ORDER_BY_SCORE") {
     const orderedRecipes = orderByScore(
       [...state.filterResult],
       action.payload
@@ -158,7 +158,7 @@ function rootReducer(state = initialState, action) {
       ...state,
       filterResult: orderedRecipes,
     };
-  }
+  } */
 
   if (action.type === "SET_RECIPES_AND_FILTER") {
     if (action.payload.filter.title.length) {
@@ -177,14 +177,14 @@ function rootReducer(state = initialState, action) {
         );
       });
     }
-    const orderedRecipes = orderByAlpha(
+/*     const orderedRecipes = orderByAlpha(
       action.payload.recipes,
       action.payload.filter
-    );
-    return {
+    ); */
+/*     return {
       ...state,
       filterResult: orderedRecipes,
-    };
+    }; */
   }
 
   if (action.type === "SET_DIET_TYPES") {

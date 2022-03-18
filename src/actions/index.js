@@ -241,9 +241,9 @@ function flushCart() {
   };
 }
 
-function postProducts(payload){
+function postNewProducts(payload){
  return async function(dispatch){
-   const newProduct= await axios.post("/crear", payload)
+   const newProduct= await axios.post("api/product/create", payload)
    return newProduct
  }
 }
@@ -262,6 +262,7 @@ module.exports = {
   addProductComment,
   deleteProductComment,
   getProductDetails,
+  postNewProducts,
 
   addCartItem,
   deleteCartItem,
