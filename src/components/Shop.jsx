@@ -5,7 +5,7 @@ import Card from './Card'
 import { Container, Row } from 'react-bootstrap'
 import img from '../img/logo2.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts } from '../actions';
+import { getProducts,order,orderPrecio } from '../actions';
 
 
 function Shop() {
@@ -17,16 +17,16 @@ function Shop() {
     
     const arrProductos = useSelector(state => state.products)
 
-    const [inview, setInview] = useState(4)
-
-
+    const [inview, setInview] = useState(8)
+    const [orden,setOrden] = useState('')
+    
     let arrProducts = arrProductos?.slice(0, inview)
 
 
-    const handleChange = (e) => {
+    /* const handleChange = (e) => {
         e.preventDefault()
     }
-
+ */
     const showMoreItems = () => {
         setInview((value) => value + 4)
     }
@@ -35,6 +35,16 @@ function Shop() {
         setInview((value) => value - 4)
     }
 
+    const ordenamiento = (e)=>{  
+
+    if(e.target.value==="priceLower-Higher" || e.target.value==="priceHigher-Lower"){
+     dispatch(orderPrecio(e.target.value))
+     setOrden(e.target.value)}
+
+    else if(e.target.value === "A-Z" || e.target.value === "Z-A"){
+     dispatch(order(e.target.value))
+     setOrden(e.target.value)} 
+     }
 
 
     return (
@@ -56,12 +66,12 @@ function Shop() {
             </div>
             <div style={{ display: "flex", height: "38px", justifyContent: "space-evenly", marginTop: "30px", marginBottom: "30px" }}>
                 <SearchBar />
-                <select className="form-select" aria-label="Default select example" style={{ width: "15%" }}>
-                    <option selected>Organizar por</option>
-                    <option onChange={handleChange} value="A-Z">A a Z</option>
-                    <option onChange={handleChange} value="Z-A">Z a A</option>
-                    <option onChange={handleChange} value="priceLower-Higher">Precio (menor-mayor)</option>
-                    <option onChange={handleChange} value="priceHigher-Lower">Precio (mayor-menor)</option>
+                <select onChange={e=>ordenamiento(e)} className="form-select" aria-label="Default select example" style={{ width: "15%" }}>
+                    <option selected>Organize by</option>
+                    <option  value="A-Z">A to Z</option>
+                    <option  value="Z-A">Z to A</option>
+                    <option  value="priceLower-Higher">Price (lower-higher)</option>
+                    <option  value="priceHigher-Lower">Price (higher-lower)</option>
                 </select>
             </div>
             <Container>

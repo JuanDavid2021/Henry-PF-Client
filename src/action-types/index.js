@@ -31,3 +31,5 @@ export const FLUSH_CART = "flushCart";
   
 export const GET_COMMENTS = "getComments"; 
 export const POST_PRODUCT = "POST_PRODUCT" 
+export const ORDER_PRODUCTS = "orderProducts"
+export const ORDER_PRECIO = "orderPrecio"

@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT, GETTING_PRODUCTS, SET_PRODUCTS, GETTING_PRODUCT_DETAILS, SET_PRODUCT_DETAILS, ADD_CART_ITEM, ADD_PRODUCT_COMMENT, ADD_CATEGORY, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT_COMMENT, DELETE_USER, EDIT_SALE_STATUS, FILTERING_PRODUCTS, FILTER_PRODUCTS, FLUSH_CART, FORCE_PASSWORD_RESET, GETTING_USERS, GET_COMMENTS, GET_SALES, POST_PRODUCT, RATE_PRODUCT, SET_PRODUCT_DETAILS_FRONT, SET_USERS } from './../action-types/index';
+import { ADD_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT, GETTING_PRODUCTS, SET_PRODUCTS, GETTING_PRODUCT_DETAILS, SET_PRODUCT_DETAILS, ADD_CART_ITEM, ADD_PRODUCT_COMMENT, ADD_CATEGORY, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT_COMMENT, DELETE_USER, EDIT_SALE_STATUS, FILTERING_PRODUCTS, FILTER_PRODUCTS, FLUSH_CART, FORCE_PASSWORD_RESET, GETTING_USERS, GET_COMMENTS, GET_SALES, POST_PRODUCT, RATE_PRODUCT, SET_PRODUCT_DETAILS_FRONT, SET_USERS,ORDER_PRODUCTS,ORDER_PRECIO } from './../action-types/index';
 
 const initialState = {
   user: [], //usuario actual usando la app
@@ -147,6 +147,48 @@ function rootReducer(state = initialState, action) {
       categories: newCategories,
     };
   }
+
+  if(action.type===ORDER_PRODUCTS){
+    console.log(action.type)
+    let sortArray = action.payload ==="A-Z"?
+    state.products.sort(function(a,b){
+        {console.log(state.products)}
+      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return 1
+      if(b.nombre.toLowerCase()>a.nombre.toLowerCase()) return -1
+      return 0;
+    }) :
+    state.products.sort(function(a,b){
+      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return -1
+      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return  1
+      return 0;
+    })   
+    return{
+      ...state,
+      products: sortArray,
+    }
+
+  }
+
+  if(action.type===ORDER_PRECIO){
+    console.log(action.type)
+    let sortArrayPrecio = action.payload ==="priceLower-Higher"?
+    state.products.sort(function(a,b){
+      if(a.precio>b.precio) return 1
+      if(b.precio>a.precio) return -1
+      return 0;
+    }) :
+    
+    state.products.sort(function(a,b){
+      if(a.precio>b.precio) return -1
+      if(b.precio>a.precio) return  1
+      return 0;
+    })   
+    return{
+      ...state,
+      products: sortArrayPrecio
+    }
+  }
+
 
 /*   if (action.type === "ORDER_BY_SCORE") {
     const orderedRecipes = orderByScore(
