@@ -37,12 +37,12 @@ function NavBar() {
                             </div>
                             :
                             <div>
-                                <button className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
+                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                         1
                                         <span class="visually-hidden">unread messages</span>
                                     </span>
-                                </button>
+                                </Link>
                                 <button className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={handleLogin}>Log out</button>
                             </div>
                     }
