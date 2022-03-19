@@ -21,6 +21,7 @@ function Shop() {
     const showMoreItems = () => {
         setInview((value) => value + 4)
     }
+    
     const showLessItems = () => {
         setInview((value) => value - 4)
     }
@@ -47,11 +48,11 @@ function Shop() {
             <div style={{ display: "flex", height: "38px", justifyContent: "space-evenly", marginTop: "30px", marginBottom: "30px" }}>
                 <SearchBar />
                 <select className="form-select" aria-label="Default select example" style={{ width: "15%" }}>
-                    <option selected>Organize by</option>
-                    <option onChange={handleChange} value="A-Z">A to Z</option>
-                    <option onChange={handleChange} value="Z-A">Z to A</option>
-                    <option onChange={handleChange} value="priceLower-Higher">Price (lower-higher)</option>
-                    <option onChange={handleChange} value="priceHigher-Lower">Price (higher-lower)</option>
+                    <option selected>Organizar por</option>
+                    <option onChange={handleChange} value="A-Z">A a Z</option>
+                    <option onChange={handleChange} value="Z-A">Z a A</option>
+                    <option onChange={handleChange} value="priceLower-Higher">Precio (menor-mayor)</option>
+                    <option onChange={handleChange} value="priceHigher-Lower">Precio (mayor-menor)</option>
                 </select>
             </div>
             <Container>
@@ -70,18 +71,18 @@ function Shop() {
             <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
                 {
                     arrProductos.length <= arrProducts.length ?
-                        <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" disabled>Load More</button>
+                        <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" disabled>Ver mas</button>
                         :
-                        <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" onClick={showMoreItems}>Load More</button>
+                        <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" onClick={showMoreItems}>Ver mas</button>
                 }
                 {
                     arrProducts.length > 5 ?
                         <div>
-                            <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" onClick={showLessItems}>Load Less</button>
+                            <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" onClick={showLessItems}>Ver menos</button>
                         </div>
                         :
                         <div>
-                            <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" disabled>Load Less</button>
+                            <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" disabled>Ver menos</button>
                         </div>
                 }
             </div>
@@ -90,7 +91,6 @@ function Shop() {
                 <p className='text-light'>Copyright © 2022 Beef Shop, Todos los derechos reservados.</p>
             </div>
         </div>
-
     )
 }
 
