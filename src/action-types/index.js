@@ -11,6 +11,10 @@ export const DELETE_PRODUCT_COMMENT = "deleteProductComment";//admin
 export const FILTER_PRODUCTS = "filterProducts";
 export const FILTERING_PRODUCTS = "filteringProducts";
 
+export const ORDER_PRODUCTS_ALPHABETICAL = "orderProductsAlphabetical";
+export const ORDER_PRODUCTS_PRICE = "orderProductsPrice";
+
+
 export const GETTING_PRODUCT_DETAILS = "gettingProductDetails";
 export const SET_PRODUCT_DETAILS = "setProductDetails";
 export const SET_PRODUCT_DETAILS_FRONT = "setProductDetailsFront";//solo si lo hacemos por front sin solicitar la api
