@@ -198,7 +198,7 @@ function DetailProduct() {
             </Button>
           </Card.Footer>
           </Card>
-          </Container>
+          </Container> 
           
       </>
     );
