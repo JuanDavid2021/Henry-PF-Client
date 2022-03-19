@@ -17,7 +17,7 @@ function Shop() {
     
     const arrProductos = useSelector(state => state.products)
 
-    const [inview, setInview] = useState(8)
+    const [inview, setInview] = useState(12)
     const [orden,setOrden] = useState('')
     
     let arrProducts = arrProductos?.slice(0, inview)
@@ -28,11 +28,11 @@ function Shop() {
     }
  */
     const showMoreItems = () => {
-        setInview((value) => value + 4)
+        setInview((value) => value + 12)
     }
     
     const showLessItems = () => {
-        setInview((value) => value - 4)
+        setInview((value) => value - 12)
     }
 
     const ordenamiento = (e)=>{  
@@ -48,7 +48,7 @@ function Shop() {
 
 
     return (
-        <div>
+        <div style={{marginBottom: "30px"}}>
             <div style={{ width: "50%", height: "500px", margin: "auto", marginTop: "30px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
                 <div style={{ height: "100%" }} id="carouselExampleSlidesOnly" className="carousel slide img-thumbnail" data-bs-ride="carousel">
                     <div style={{ height: "100%" }} className="carousel-inner">
@@ -67,11 +67,11 @@ function Shop() {
             <div style={{ display: "flex", height: "38px", justifyContent: "space-evenly", marginTop: "30px", marginBottom: "30px" }}>
                 <SearchBar />
                 <select onChange={e=>ordenamiento(e)} className="form-select" aria-label="Default select example" style={{ width: "15%" }}>
-                    <option selected>Organize by</option>
-                    <option  value="A-Z">A to Z</option>
-                    <option  value="Z-A">Z to A</option>
-                    <option  value="priceLower-Higher">Price (lower-higher)</option>
-                    <option  value="priceHigher-Lower">Price (higher-lower)</option>
+                    <option selected>Organizar por</option>
+                    <option  value="A-Z">A a Z</option>
+                    <option  value="Z-A">Z a A</option>
+                    <option  value="priceLower-Higher">Precio (menor-mayor)</option>
+                    <option  value="priceHigher-Lower">Precio (mayor-menor)</option>
                 </select>
             </div>
             <Container>
@@ -97,7 +97,7 @@ function Shop() {
                         <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" onClick={showMoreItems}>Ver mas</button>
                 }
                 {
-                    arrProducts.length > 5 ?
+                    arrProducts.length > 13 ?
                         <div>
                             <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" onClick={showLessItems}>Ver menos</button>
                         </div>
@@ -106,10 +106,6 @@ function Shop() {
                             <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" disabled>Ver menos</button>
                         </div>
                 }
-            </div>
-            <div className="bg-dark" style={{ padding: "100px 0 100px 0", marginTop: "30px", display:"flex", alignItems:"baseline", justifyContent:"space-around" }}>
-                    <img src={img} alt="logo" style={{ width: "8%" }} />
-                <p className='text-light'>Copyright © 2022 Beef Shop, Todos los derechos reservados.</p>
             </div>
         </div>
     )
