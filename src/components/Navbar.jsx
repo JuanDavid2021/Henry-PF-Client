@@ -23,17 +23,17 @@ function NavBar() {
                 <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent" >
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="text-light text-decoration-none fw-light fs-5 mx-3 nav-link" to='/shop'>Shop</Link>
+                            <Link className="text-light text-decoration-none fw-light fs-5 mx-3 nav-link" to='/shop'>Tienda</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="text-light text-decoration-none fw-light fs-5 mx-3 nav-link" to="/about">About</Link>
+                            <Link className="text-light text-decoration-none fw-light fs-5 mx-3 nav-link" to="/about">Sobre nosotros</Link>
                         </li>
                     </ul>
                     {
                         user === false ?
                             <div>
-                                <button className="btn btn-primary text-light text-decoration-none fs-6" onClick={handleLogin} >Login</button>
-                                <button className="btn btn-success text-light text-decoration-none fs-6 mx-3">Register</button>
+                                <button className="btn btn-primary text-light text-decoration-none fs-6" onClick={handleLogin} >Ingresar</button>
+                                <button className="btn btn-success text-light text-decoration-none fs-6 mx-3">Registrate</button>
                             </div>
                             :
                             <div>
