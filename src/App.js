@@ -9,7 +9,7 @@ import CartDetails from './components/CartDetails';
 import CartDetailsCheckout from './components/CartDetailsCheckout';
 import CartDetailsCheckoutDelibery from './components/CartDetailsCheckoutDelibery';
 import CartDetailCheckoutPaymentMethod from './components/CartDetailCheckoutPaymentMethod';
-
+import DetailProduct from './components/DetailProduct';
 
 
 
@@ -21,6 +21,7 @@ function App() {
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/shop' element={<Shop />} />
         <Route exact path='/profile/:id' element={<Profile />} />
+        <Route exact path='/product/:id' element={<DetailProduct/>} />
         <Route exact path='/creationForm' element={<CreationForm/>}/>
         <Route exact path='/cartDetails' element={<CartDetails/>}/>
         <Route path='/cartDetailsCheckout' element={<CartDetailsCheckout/>}/>

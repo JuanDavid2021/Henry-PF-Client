@@ -29,7 +29,7 @@ function DetailProduct() {
 
   const [waiting, setWaiting] = useState(true);
 
-  let { productId } = useParams();
+  let { id } = useParams();
 
   const navigate = useNavigate();
 
@@ -49,18 +49,17 @@ function DetailProduct() {
   };
 
   useEffect(() => {
-    console.log(productId);
     if (
       (productDetails.id &&
-        productDetails.id.toString() !== productId.toString()) ||
+        productDetails.id.toString() !== id.toString()) ||
       productDetails.id === null
     ) {
-      dispatch(getProductDetails(productId));
+      dispatch(getProductDetails(id));
     } else {
       setWaiting(false);
     }
     return () => {};
-  }, [productId, productDetails, dispatch]);
+  }, [id, productDetails, dispatch]);
 
   const handleAddProductInCart = (e) => {
     const form = e.currentTarget;
