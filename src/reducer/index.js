@@ -173,14 +173,14 @@ function rootReducer(state = initialState, action) {
     console.log(action.type)
     let sortArrayPrecio = action.payload ==="priceLower-Higher"?
     state.products.sort(function(a,b){
-      if(a.precio>b.precio) return 1
-      if(b.precio>a.precio) return -1
+      if(Number(a.precio)>Number(b.precio)) return 1
+      if(Number(b.precio)>Number(a.precio)) return -1
       return 0;
     }) :
     
     state.products.sort(function(a,b){
-      if(a.precio>b.precio) return -1
-      if(b.precio>a.precio) return  1
+      if(Number(a.precio)>Number(b.precio)) return -1
+      if(Number(b.precio)>Number(a.precio)) return  1
       return 0;
     })   
     return{

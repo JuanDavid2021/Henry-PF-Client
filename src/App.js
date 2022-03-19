@@ -10,6 +10,7 @@ import CartDetailsCheckout from './components/CartDetailsCheckout';
 import CartDetailsCheckoutDelibery from './components/CartDetailsCheckoutDelibery';
 import CartDetailCheckoutPaymentMethod from './components/CartDetailCheckoutPaymentMethod';
 import Landin from './components/Landin';
+import Footer from './components/Footer';
 
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route path='/cartDetailsCheckoutDelibery' element={<CartDetailsCheckoutDelibery />} />
         <Route path='/cartDetailCheckoutPaymentMethod' element={<CartDetailCheckoutPaymentMethod />} />
       </Routes>
+      <Footer style={{zIndex:"0"}}/>
     </div>
   );
 }
