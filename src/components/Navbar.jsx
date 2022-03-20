@@ -3,9 +3,10 @@ import { RiShoppingCartLine } from 'react-icons/ri'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { Link } from 'react-router-dom'
 import img from '../img/logo2.png'
+import { useSelector } from 'react-redux'
 
 function NavBar() {
-
+    const itemsCart = useSelector(state => state.cart)
     const [user, setUser] = useState(false)
 
     const handleLogin = () => {
@@ -39,8 +40,8 @@ function NavBar() {
                             <div>
                                 <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        1
-                                        <span class="visually-hidden">unread messages</span>
+                                        {itemsCart?.length}
+                                        <span class="visually-hidden">{itemsCart?.length}</span>
                                     </span>
                                 </Link>
                                 <button className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={handleLogin}>Log out</button>
