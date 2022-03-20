@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Modal, Container, Row, Col, Carousel, Form, Stack } from 'react-bootstrap';
-import { RiShoppingCartLine } from 'react-icons/ri';
+import { RiShoppingCartLine, RiSearchEyeLine  } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
-const {addCartItem} = require('../actions');
+import { addCartItem } from '../actions';
 
-function DetailProductModal({id, show, stock, handleClose, nombreCap, presentacion, precio, arrFotos }) {
+function DetailProductModal({id, show, stock, handleClose, nombreCap, presentacion, precio, arrFotos, descripcion }) {
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
     id,
     arrFotos,
@@ -15,8 +15,12 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, presentaci
     peso: "",
     tipo_corte:"",
   })
+  console.log(id);
+  const handleDetailst = () => {
+    navigate(`/product/${id.toString()}`)
+  }
 
-  const [validated, setValidated] = useState(false);
+  //const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch()
 
@@ -37,9 +41,25 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, presentaci
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
+    }else if( stock === 0 || valoresDetalleProducto.tipo_corte === "" || valoresDetalleProducto.peso === "" ){
+      return
+    }else{
+      //setValidated(true);
+      dispatch(addCartItem(valoresDetalleProducto))
+      setConfirmModal(true)
     }
-    setValidated(true);
-    dispatch(addCartItem(valoresDetalleProducto))
+  }
+
+  const [confirmModal, setConfirmModal] = useState(false)
+
+  const handleCloseModal = () => {
+    //setValidated(true)
+    setValoresDetalleProducto({
+      ...valoresDetalleProducto,
+      peso: "",
+      tipo_corte:""
+    })
+    setConfirmModal(false)
   }
 
   return (
@@ -56,7 +76,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, presentaci
           <Modal.Title>{nombreCap}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Container>
+          <Container className="mb-2 p-0">
             <Row>
               <Col lg={12} xl={6} style={{ display: "flex", justifyContent:"center" }}>
                 <Carousel fade /* variant="dark" */ style={{ width: "10em" }}>
@@ -72,14 +92,14 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, presentaci
                   ))}
                 </Carousel>
               </Col>
-              <Col xl={6}>{presentacion}</Col>
+              <Col xl={6}>{descripcion}</Col>
             </Row>
             <Row>
               <Col>Precio por kg: $ {precio}</Col>
             </Row>
           </Container>
 
-          <Form noValidate validated={validated}>
+          <Form /* noValidate validated={validated} */>
             <Form.Group className="mb-3">
               <Form.Label>Cantidad</Form.Label>
               <Form.Control 
@@ -122,6 +142,9 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, presentaci
                   <Button variant="dark" onClick={handleViewCart}>
                     Ver Carrito <RiShoppingCartLine />
                   </Button>
+                  <Button variant="dark" onClick={ handleDetailst }>
+                    Ver más <RiSearchEyeLine />
+                  </Button>
               </Stack>
               {
                 stock === 0 
@@ -137,6 +160,27 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, presentaci
           <Button variant="secondary" onClick={handleClose}>
             Cerrar
           </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal 
+        show={confirmModal}
+        size="sm"
+        onHide={handleCloseModal}
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title>Modal title</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>Producto agregado con éxito.</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="dark" onClick={handleCloseModal}>Aceptar</Button>
         </Modal.Footer>
       </Modal>
     </>

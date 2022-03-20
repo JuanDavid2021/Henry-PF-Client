@@ -14,6 +14,7 @@ import DetailProduct from './components/DetailProduct';
 
 import Landin from './components/Landin';
 import Footer from './components/Footer';
+import DetailProduct from './components/DetailProduct';
 
 
 

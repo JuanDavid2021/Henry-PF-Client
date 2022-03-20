@@ -17,6 +17,41 @@ const initialState = {
 
 function rootReducer(state = initialState, action) {
 
+  if (action.type === ADD_CART_ITEM) {
+    //agrego un item al carrito, si ya se encuentra un item y es del mismo tipo de corte, lo suma
+    const addItemCartArray = state.cart
+    
+    const index = addItemCartArray.findIndex(e => e.id === action.payload.id && e.tipo_corte === action.payload.tipo_corte)
+    
+    if (index !== -1) {
+      let itemMod = addItemCartArray[index]
+      
+      itemMod = {
+        ...itemMod,
+        precio: Number(itemMod.precio) + Number(action.payload.precio)
+      }
+
+      addItemCartArray.splice(index,1,itemMod)
+    }else{
+      addItemCartArray.push(action.payload)
+    }
+
+    return {
+      ...state,
+      cart:  addItemCartArray 
+    }
+  }
+
+  if (action.type === DELETE_CART_ITEM) {
+    //elimino un item al carrito
+    const DeleteItemCartArray = state.cart
+
+    return {
+      ...state,
+      cart: DeleteItemCartArray.filter(e => !(e.id === action.payload.id && e.tipo_corte === action.payload.tipo_corte))
+    }
+  }
+
   if (action.type === ADD_PRODUCT) {
     //agrego el producto del arreglo una vez tenemos la confirmacion desde el back
     return {

@@ -83,7 +83,7 @@ function Shop() {
                             id={p.id}
                             precio={p.precio}
                             nombre={p.nombre}
-                            presentacion={p.presentacion}
+                            descripcion={p.descripcion}
                             stock={p.stock}
                             arrFotos={p.fotos}
                         />

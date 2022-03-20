@@ -1,7 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { RiMapPin2Line, RiTruckLine, RiMoneyDollarCircleLine, RiEyeLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 
 function CartDetailsCheckout() {
+
+  const [input, setInput] = useState({
+    nombre:"",
+    apellido:"",
+    direccion_despacho:"",
+    localidad:"",
+    telefono:"",
+    email:"",
+  })
+
+  const handleChangeInputs = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const [validated, setValidated] = useState(false);
+  const handleSubmit = (e) => {
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setValidated(true)
+  }
 
   return (
     <section className="py-5">
@@ -10,61 +37,83 @@ function CartDetailsCheckout() {
             <div className="col-lg-9">
               {/* header  */}
               <ul className="nav nav-pills flex-column flex-md-row nav-fill border-bottom border-primary">
-                <li className="nav-item"><a className="nav-link active" aria-current="page" href="#"> <i className="fas fa-map-marker-alt"></i>
-                    <p className="mb-0 pt-1">Dirección</p></a></li>
-                <li className="nav-item"><a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true"> <i className="fas fa-truck"></i>
-                    <p className="mb-0 pt-1">Método de envío</p></a></li>
-                <li className="nav-item"><a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true"> <i className="far fa-money-bill-alt"></i>
-                    <p className="mb-0 pt-1">Método de pago</p></a></li>
-                <li className="nav-item"><a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true"> <i className="far fa-eye"></i>
-                    <p className="mb-0 pt-1">Revisión del pedido</p></a></li>
+                <li className="nav-item">
+                  <a className="nav-link active" aria-current="page" href="noopener noreferrer">
+                    <RiMapPin2Line/>
+                    <p className="mb-0 pt-1">Dirección</p>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true"> 
+                    <RiTruckLine/>
+                    <p className="mb-0 pt-1">Método de envío</p>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
+                    <RiMoneyDollarCircleLine />
+                    <p className="mb-0 pt-1">Método de pago</p>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
+                    <RiEyeLine/>
+                    <p className="mb-0 pt-1">Revisión del pedido</p>
+                  </a>
+                </li>
               </ul>
               {/* datos de comprador */}
-              <form className="py-4" method="get" action="shop-checkout2.html">
+              <form onSubmit={handleSubmit} className="py-4 needs-validation" noValidate  validated={validated ? "true": "false"}>
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label className="form-label" htmlFor="firstname">Nombre</label>
-                    <input className="form-control" id="firstname" type="text" name="firstname"/>
+                    <input className="form-control" id="firstname" type="text" name="nombre" value={input.nombre} onChange={handleChangeInputs} required/>
+                    <div className="invalid-tooltip">
+                      mensaje
+                    </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label className="form-label" htmlFor="lastname">Apellido</label>
-                    <input className="form-control" id="lastname" type="text" name="lastname"/>
+                    <label className="form-label" htmlFor="apellido">Apellido</label>
+                    <input className="form-control" id="apellido" type="text" name="apellido" value={input.apellido} onChange={handleChangeInputs} required/>
+                    <div className="invalid-feedback">
+                      mensaje
+                    </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label className="form-label" htmlFor="street">Calle</label>
-                    <input className="form-control" id="street" type="text" name="street"/>
+                    <label className="form-label" htmlFor="direccion_despacho">Calle</label>
+                    <input className="form-control" id="direccion_despacho" type="text" name="direccion_despacho" value={input.direccion_despacho} onChange={handleChangeInputs} required/>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label className="form-label" htmlFor="country">Provincia / Estado</label>
-                    <input className="form-control" id="country" name="country" type="text"/>
+                    <label className="form-label" htmlFor="localidad">Localidad</label>
+                    <input className="form-control" id="localidad" name="localidad" type="text" value={input.localidad} onChange={handleChangeInputs} required/>
                   </div>
                 </div>
                 <div className="row mb-4">
                   <div className="col-md-6 mb-3 col-lg-3">
                     <label className="form-label" htmlFor="phone">Teléfono</label>
-                    <input className="form-control" id="phone" type="tel" name="phone"/>
+                    <input className="form-control" id="phone" type="tel" name="telefono" value={input.telefono} onChange={handleChangeInputs} required/>
                   </div>
                   <div className="col-md-6 mb-3 col-lg-3">
                     <label className="form-label" htmlFor="zip">Código Postal</label>
-                    <input className="form-control" id="zip" type="text" name="zip"/>
+                    <input className="form-control" id="zip" type="zip" name="zip"/>
                   </div>
                   <div className="col-md-6 mb-3">
                     <label className="form-label" htmlFor="email_account">Email</label>
-                    <input className="form-control" id="email_account" type="email" name="email_account"/>
+                    <input className="form-control" id="email_account" type="email" name="email" value={input.email} onChange={handleChangeInputs} required/>
                   </div>
                 </div>
                 {/* Navegacion */}
                 <div className="align-items-center bg-light px-4 py-3 text-center mb-5">
                   <div className="row">
                     <div className="col-md-6 text-md-start py-1">
-                    <Link to={"/cartDetails"} className="btn btn-secondary my-1">
-                      <i className="fas fa-angle-left me-1"></i> Volver al resumen
+                    <Link to={"/cartDetails"} className="btn btn-dark my-1">
+                      <RiArrowLeftSLine/> Volver al resumen
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1">
-                    <Link to={"/cartDetailsCheckoutDelibery"}>
-                      <button className="btn btn-primary my-1">Método de envío <i className="fas fa-angle-right ms-1"></i></button>
-                    </Link>
+                      <button className="btn btn-primary my-1" >Método de envío <RiArrowRightSLine/></button>
+                    {/* <Link to={"/cartDetailsCheckoutDelibery"}>
+                    </Link> */}
                   </div>
                   </div>
                 </div>
