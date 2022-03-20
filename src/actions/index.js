@@ -267,7 +267,7 @@ export function flushCart() {
 
 export function postProducts(payload){
  return async function(dispatch){
-   const newProduct= await axios.post("/crear", payload)
+   const newProduct= await axios.post("/api/product/create", payload)
    return newProduct
  }
 }
