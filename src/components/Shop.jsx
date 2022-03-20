@@ -6,10 +6,11 @@ import { Container, Row } from 'react-bootstrap'
 import img from '../img/logo2.png'
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts,order,orderPrecio } from '../actions';
+import {NotFound} from "./NotFound"
 
 
 function Shop() {
-
+  
     const dispatch = useDispatch()
     useEffect(() => {
       dispatch(getProducts())
@@ -76,7 +77,7 @@ function Shop() {
             </div>
             <Container>
                 <Row xs={1} md={2} xl={4} className="g-4">
-                    {arrProducts?.map((p) => (
+                    {console.log(arrProducts)? arrProducts.map((p) => (
                         <Card
                             key={p.id}
                             id={p.id}
@@ -86,7 +87,7 @@ function Shop() {
                             stock={p.stock}
                             arrFotos={p.fotos}
                         />
-                    ))}
+                    )):<NotFound/>}
                 </Row>
             </Container>
             <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>

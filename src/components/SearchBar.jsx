@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
+import {useDispatch} from "react-redux"
+import {searchProduct} from "../actions"
+
 
 function SearchBar() {
 
+    
     const [input, setInput] = useState("")
+
+    const dispatch = useDispatch()
 
     const handleChange = (e) => {
         e.preventDefault()
@@ -11,7 +17,7 @@ function SearchBar() {
 
     const handleClick = (e) => {
         e.preventDefault()
-        setInput('')
+        dispatch(searchProduct(input))
     }
 
 

@@ -33,3 +33,4 @@ export const GET_COMMENTS = "getComments";
 export const POST_PRODUCT = "POST_PRODUCT" 
 export const ORDER_PRODUCTS = "orderProducts"
 export const ORDER_PRECIO = "orderPrecio"
+export const SEARCH_PRODUCT = "searchProduct"
