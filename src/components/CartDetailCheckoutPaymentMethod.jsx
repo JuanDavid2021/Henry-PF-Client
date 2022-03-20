@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiTruckLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 
 function CartDetailCheckoutPaymentMethod() {
   return (
@@ -11,20 +12,28 @@ function CartDetailCheckoutPaymentMethod() {
             <ul className="nav nav-pills flex-column flex-md-row nav-fill border-bottom border-primary">
               <li className="nav-item">
                 <Link to={"/cartDetailsCheckout"} className="nav-link" aria-current="page"> 
-                  <i className="fas fa-map-marker-alt"/>
+                  <RiMapPin2Line/>
                   <p className="mb-0 pt-1">Dirección</p>
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to={"/cartDetailsCheckoutDelivery"} className="nav-link" aria-current="page"> 
-                  <i className="fas fa-map-marker-alt"/>
+                  <RiTruckLine/>
                   <p className="mb-0 pt-1">Método de envío</p>
                 </Link>
               </li>
-              <li className="nav-item"><a className="nav-link active" aria-current="page" href="#"> <i className="far fa-money-bill-alt"></i>
-                  <p className="mb-0 pt-1">Método de pago</p></a></li>
-              <li className="nav-item"><a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true"> <i className="far fa-eye"></i>
-                  <p className="mb-0 pt-1">Revisión del pedido</p></a></li>
+              <li className="nav-item">
+                <a className="nav-link active" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
+                  <RiMoneyDollarCircleLine/>
+                  <p className="mb-0 pt-1">Método de pago</p>
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
+                  <RiEyeLine/>
+                  <p className="mb-0 pt-1">Revisión del pedido</p>
+                </a>
+              </li>
             </ul>
             {/* forma de pago */}
             <form className="py-4" method="get" action="shop-checkout4.html">
@@ -42,12 +51,12 @@ function CartDetailCheckoutPaymentMethod() {
               <div className="align-items-center bg-light px-4 py-3 text-center mb-5">
                 <div className="row">
                   <div className="col-md-6 text-md-start py-1">
-                    <Link to={"/cartDetailsCheckoutDelibery"} className="btn btn-secondary my-1">
-                      <i className="fas fa-angle-left me-1"></i> Volver a Método de envío
+                    <Link to={"/cartDetailsCheckoutDelibery"} className="btn btn-dark my-1">
+                      <RiArrowLeftSLine/> Volver a Método de envío
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1">
-                    <button className="btn btn-primary my-1" >Revisión del pedido<i className="fas fa-angle-right ms-1"></i></button>
+                    <button className="btn btn-primary my-1" >Revisión del pedido<RiArrowRightSLine/></button>
                   </div>
                 </div>
               </div>
