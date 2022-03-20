@@ -73,7 +73,9 @@ function DetailProduct() {
     const alCarrito = {
       ...valoresDetalleProducto,
       id: productDetails.id,
-      precio: productDetails.precio
+      precio: productDetails.precio,
+      arrFotos: productDetails.fotos,
+      nombreCap: productDetails.nombre,
     };
     console.log(alCarrito)
     dispatch(addCartItem(alCarrito));

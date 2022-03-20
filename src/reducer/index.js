@@ -1,5 +1,35 @@
 import axios from 'axios';
-import { ADD_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT, GETTING_PRODUCTS, SET_PRODUCTS, GETTING_PRODUCT_DETAILS, SET_PRODUCT_DETAILS, ADD_CART_ITEM, ADD_PRODUCT_COMMENT, ADD_CATEGORY, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT_COMMENT, DELETE_USER, EDIT_SALE_STATUS, FILTERING_PRODUCTS, FILTER_PRODUCTS, FLUSH_CART, FORCE_PASSWORD_RESET, GETTING_USERS, GET_COMMENTS, GET_SALES, POST_PRODUCT, RATE_PRODUCT, SET_PRODUCT_DETAILS_FRONT, SET_USERS,ORDER_PRODUCTS,ORDER_PRECIO, SEARCH_PRODUCT } from './../action-types/index';
+import { 
+  ADD_PRODUCT, 
+  DELETE_PRODUCT, 
+  EDIT_PRODUCT, 
+  POST_PRODUCT, 
+  RATE_PRODUCT, 
+  SEARCH_PRODUCT, 
+  GETTING_PRODUCTS, 
+  SET_PRODUCTS, 
+  ORDER_PRODUCTS,
+  GETTING_PRODUCT_DETAILS, 
+  SET_PRODUCT_DETAILS, 
+  SET_PRODUCT_DETAILS_FRONT, 
+  ADD_CART_ITEM, 
+  DELETE_CART_ITEM, 
+  FLUSH_CART, 
+  ADD_PRODUCT_COMMENT, 
+  ADD_CATEGORY, 
+  DELETE_CATEGORY, 
+  DELETE_PRODUCT_COMMENT, 
+  SET_USERS,
+  DELETE_USER, 
+  GETTING_USERS, 
+  FILTER_PRODUCTS, 
+  FILTERING_PRODUCTS, 
+  FORCE_PASSWORD_RESET, 
+  GET_COMMENTS, 
+  GET_SALES, 
+  EDIT_SALE_STATUS, 
+  ORDER_PRECIO,
+} from './../action-types/index';
 
 const initialState = {
   user: [], //usuario actual usando la app
@@ -15,40 +45,24 @@ const initialState = {
   users: [],//lista de usuarios para borrar / forzar password
 };
 
+//establece el valor inicial del carrito. Si el usuario estuvo cargando productos, quedaran en el localStorage
+localStorage.getItem("cart")
+? initialState.cart = JSON.parse(localStorage.getItem("cart"))
+: initialState.cart = []
+
 function rootReducer(state = initialState, action) {
 
   if (action.type === ADD_CART_ITEM) {
-    //agrego un item al carrito, si ya se encuentra un item y es del mismo tipo de corte, lo suma
-    const addItemCartArray = state.cart
-    
-    const index = addItemCartArray.findIndex(e => e.id === action.payload.id && e.tipo_corte === action.payload.tipo_corte)
-    
-    if (index !== -1) {
-      let itemMod = addItemCartArray[index]
-      
-      itemMod = {
-        ...itemMod,
-        precio: Number(itemMod.precio) + Number(action.payload.precio)
-      }
-
-      addItemCartArray.splice(index,1,itemMod)
-    }else{
-      addItemCartArray.push(action.payload)
-    }
-
     return {
       ...state,
-      cart:  addItemCartArray 
+      cart: [...action.payload]
     }
   }
 
   if (action.type === DELETE_CART_ITEM) {
-    //elimino un item al carrito
-    const DeleteItemCartArray = state.cart
-
     return {
       ...state,
-      cart: DeleteItemCartArray.filter(e => !(e.id === action.payload.id && e.tipo_corte === action.payload.tipo_corte))
+      cart: [...action.payload]
     }
   }
 
