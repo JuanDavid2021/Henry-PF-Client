@@ -5,17 +5,16 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { addCartItem } from '../actions';
 
-function DetailProductModal({id, show, stock, handleClose, nombreCap, presentacion, precio, arrFotos, descripcion }) {
+function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, arrFotos, descripcion }) {
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
     id,
     arrFotos,
-    presentacion,
     nombreCap,
     precio,
-    peso: "",
+    peso:"",
     tipo_corte:"",
   })
-  console.log(id);
+  
   const handleDetailst = () => {
     navigate(`/product/${id.toString()}`)
   }
@@ -161,27 +160,24 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, presentaci
             Cerrar
           </Button>
         </Modal.Footer>
-      </Modal>
-      <Modal 
-        show={confirmModal}
-        size="sm"
-        onHide={handleCloseModal}
-        backdrop="static"
-        keyboard={false}
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header>
-          <Modal.Title>Modal title</Modal.Title>
-        </Modal.Header>
+        {/* modal confirmación */}
+        <Modal 
+          show={confirmModal}
+          size="sm"
+          onHide={handleCloseModal}
+          backdrop="static"
+          keyboard={false}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title><p style={{ textAlign: "center" }}>Producto agregado con éxito!</p></Modal.Title>
+          </Modal.Header>
 
-        <Modal.Body>
-          <p>Producto agregado con éxito.</p>
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="dark" onClick={handleCloseModal}>Aceptar</Button>
-        </Modal.Footer>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleCloseModal}>Aceptar</Button>
+          </Modal.Footer>
+        </Modal>
       </Modal>
     </>
   );
