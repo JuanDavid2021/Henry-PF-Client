@@ -29,7 +29,7 @@ function DetailProduct() {
 
   const [waiting, setWaiting] = useState(true);
 
-  let { productId } = useParams();
+  let { id } = useParams();
 
   const navigate = useNavigate();
 
@@ -49,18 +49,16 @@ function DetailProduct() {
   };
 
   useEffect(() => {
-    console.log(productId);
     if (
-      (productDetails.id &&
-        productDetails.id.toString() !== productId.toString()) ||
+      (productDetails.id && productDetails.id.toString() !== id.toString()) ||
       productDetails.id === null
     ) {
-      dispatch(getProductDetails(productId));
+      dispatch(getProductDetails(id));
     } else {
       setWaiting(false);
     }
     return () => {};
-  }, [productId, productDetails, dispatch]);
+  }, [id, productDetails, dispatch]);
 
   const handleAddProductInCart = (e) => {
     const form = e.currentTarget;
@@ -69,7 +67,13 @@ function DetailProduct() {
       e.stopPropagation();
     }
     setValidated(true);
-    dispatch(addCartItem(valoresDetalleProducto));
+    const alCarrito = {
+      ...valoresDetalleProducto,
+      id: productDetails.id,
+      precio: productDetails.precio
+    };
+    console.log(alCarrito)
+    dispatch(addCartItem(alCarrito));
   };
 
   if (waiting) {
@@ -84,12 +88,11 @@ function DetailProduct() {
     return (
       <>
         <Container className="mt-5">
-        <Card>
-          <Card.Header closeButton>
-            <Card.Title>{productDetails.nombre}</Card.Title>
-          </Card.Header>
-          <Card.Body>
-            
+          <Card>
+            <Card.Header closeButton>
+              <Card.Title>{productDetails.nombre}</Card.Title>
+            </Card.Header>
+            <Card.Body>
               <Row>
                 <Col
                   lg={6}
@@ -187,20 +190,24 @@ function DetailProduct() {
                 </Col>
               </Row>
               <Row>
-                <Card.Text>
-                  Aca van las reviews referidas al id { productDetails.id } de todos los usuarios
-                </Card.Text>
+                {productDetails.Reviews.length ? (
+                  productDetails.Reviews.map((review, i) => (
+                    <Card.Text key={i}>
+                      {review.evaluacion} {review.comentario}{" "}
+                    </Card.Text>
+                  ))
+                ) : (
+                  <h4>No existen Reviews</h4>
+                )}
               </Row>
-            
-          </Card.Body>
-          <Card.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Cerrar
-            </Button>
-          </Card.Footer>
+            </Card.Body>
+            <Card.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Cerrar
+              </Button>
+            </Card.Footer>
           </Card>
-          </Container>
-          
+        </Container>
       </>
     );
   }
