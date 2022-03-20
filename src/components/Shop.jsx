@@ -77,7 +77,7 @@ function Shop() {
             </div>
             <Container>
                 <Row xs={1} md={2} xl={4} className="g-4">
-                    {console.log(arrProducts)? arrProducts.map((p) => (
+                    {arrProducts?.map((p) => (
                         <Card
                             key={p.id}
                             id={p.id}
@@ -87,7 +87,7 @@ function Shop() {
                             stock={p.stock}
                             arrFotos={p.fotos}
                         />
-                    )):<NotFound/>}
+                    ))}
                 </Row>
             </Container>
             <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
