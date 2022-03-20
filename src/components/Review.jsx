@@ -23,15 +23,13 @@ function Review({ id, califications, toDispatch }) {
     return err;
   };
 
-  const handleRating = (value) => {
-    console.log(value);
+  const handleRating = (value) => {    
     rating === value ? setRating(0) : setRating(value);
   };
 
   const handleComment = (e) => {
     setError(validate(e.target.value))
     setComment(e.target.value)//.replace(/[^a-zA-Z]/gm,""));
-    console.log(error)
   };
 
   const sendReview = () => {
