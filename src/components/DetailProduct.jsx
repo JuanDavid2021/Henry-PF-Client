@@ -14,6 +14,7 @@ import { RiShoppingCartLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { getProductDetails, addCartItem } from "../actions";
+import Evaluation from "./Evaluation"
 
 function DetailProduct() {
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
@@ -190,10 +191,11 @@ function DetailProduct() {
                 </Col>
               </Row>
               <Row>
-                {productDetails.Reviews.length ? (
+               
+                {productDetails.Reviews.length ? (                  
                   productDetails.Reviews.map((review, i) => (
                     <Card.Text key={i}>
-                      {review.evaluacion} {review.comentario}{" "}
+                      <Evaluation ev={ review.evaluacion } cm={ review.comentario }/>
                     </Card.Text>
                   ))
                 ) : (
