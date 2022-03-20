@@ -9,7 +9,13 @@ import CartDetails from './components/CartDetails';
 import CartDetailsCheckout from './components/CartDetailsCheckout';
 import CartDetailsCheckoutDelibery from './components/CartDetailsCheckoutDelibery';
 import CartDetailCheckoutPaymentMethod from './components/CartDetailCheckoutPaymentMethod';
+
 import DetailProduct from './components/DetailProduct';
+
+import Landin from './components/Landin';
+import Footer from './components/Footer';
+
+
 
 
 
@@ -18,6 +24,7 @@ function App() {
     <div className="App">
       <NavBar />
       <Routes>
+        <Route exact path='/' element={<Landin />} />
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/shop' element={<Shop />} />
         <Route exact path='/profile/:id' element={<Profile />} />
@@ -28,6 +35,7 @@ function App() {
         <Route path='/cartDetailsCheckoutDelibery' element={<CartDetailsCheckoutDelibery/>}/>
         <Route path='/cartDetailCheckoutPaymentMethod' element={<CartDetailCheckoutPaymentMethod/>}/>
       </Routes>
+      <Footer style={{zIndex:"0"}}/>
     </div>
   );
 }

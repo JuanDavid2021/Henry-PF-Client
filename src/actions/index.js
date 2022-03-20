@@ -1,4 +1,4 @@
-import { ADD_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT, GETTING_PRODUCTS, SET_PRODUCTS, GETTING_PRODUCT_DETAILS, SET_PRODUCT_DETAILS, ADD_CART_ITEM, ADD_PRODUCT_COMMENT, ADD_CATEGORY, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT_COMMENT, DELETE_USER, EDIT_SALE_STATUS, FILTERING_PRODUCTS, FILTER_PRODUCTS, FLUSH_CART, FORCE_PASSWORD_RESET, GETTING_USERS, GET_COMMENTS, GET_SALES, POST_PRODUCT, RATE_PRODUCT, SET_PRODUCT_DETAILS_FRONT, SET_USERS } from './../action-types/index';
+import { ADD_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT, GETTING_PRODUCTS, SET_PRODUCTS, GETTING_PRODUCT_DETAILS, SET_PRODUCT_DETAILS, ADD_CART_ITEM, ADD_PRODUCT_COMMENT, ADD_CATEGORY, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT_COMMENT, DELETE_USER, EDIT_SALE_STATUS, FILTERING_PRODUCTS, FILTER_PRODUCTS, FLUSH_CART, FORCE_PASSWORD_RESET, GETTING_USERS, GET_COMMENTS, GET_SALES, POST_PRODUCT, RATE_PRODUCT, SET_PRODUCT_DETAILS_FRONT, SET_USERS,ORDER_PRODUCTS,ORDER_PRECIO, SEARCH_PRODUCT } from './../action-types/index';
 const axios = require("axios");
 
 //HELPERS...
@@ -19,6 +19,29 @@ function orderProducts(products, orderType) {
   }
   return products;
 }
+
+export const searchProduct =(producto)=>{
+    return async function(dispatch){
+      var busq=await axios("http://localhost:3001/api/product/all")
+        return dispatch({
+         type: SEARCH_PRODUCT,
+         payload: {busq, producto}
+        })
+    }
+  }
+
+export const order=(payload)=>{
+ return{
+  type: ORDER_PRODUCTS,
+  payload
+ }
+}
+export const orderPrecio=(payload)=>{
+  return{
+   type: ORDER_PRECIO,
+   payload
+  }
+ }
 
 async function apiGetAllUsers() {
   try {
