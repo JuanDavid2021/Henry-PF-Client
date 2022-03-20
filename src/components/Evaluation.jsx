@@ -7,36 +7,18 @@ function Evaluation({ ev, cm }) {
     <>
       <Row className="my-1">
         <Col sm="auto" md="auto" lg="auto">
-          <FaStar
+          {[1, 2, 3, 4, 5].map(icon => {
+            return (              
+              <FaStar                
+                key={ icon }
             className="mb-1"
             stroke-width="5"
             color="black"
-            fill={ev >= 1 ? "yellow" : "none"}
+            fill={ev >= icon ? "yellow" : "none"}            
           />
-          <FaStar
-            className="mb-1"
-            stroke-width="5"
-            color="black"
-            fill={ev >= 2 ? "yellow" : "none"}
-          />
-          <FaStar
-            className="mb-1"
-            stroke-width="5"
-            color="black"
-            fill={ev >= 3 ? "yellow" : "none"}
-          />
-          <FaStar
-            className="mb-1"
-            stroke-width="5"
-            color="black"
-            fill={ev >= 4 ? "yellow" : "none"}
-          />
-          <FaStar
-            className="mb-1"
-            stroke-width="5"
-            color="black"
-            fill={ev >= 5 ? "yellow" : "none"}
-          />
+            )
+          })
+          }          
         </Col>
         <Col>{cm}</Col>
       </Row>
