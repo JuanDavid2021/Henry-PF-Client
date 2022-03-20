@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Card as CardBootstrap, Col } from "react-bootstrap";
 import DetailProductModal from './DetailProductModal';
 
-function Card({id, nombre, stock, presentacion, precio, arrFotos }) {
+function Card({id, nombre, stock, presentacion, precio, arrFotos, descripcion }) {
   const nombreCap = nombre?.[0].toUpperCase() + nombre?.slice(1).toLowerCase();
   let randomPic = Math.floor(Math.random() * arrFotos?.length)
 
@@ -21,7 +21,7 @@ function Card({id, nombre, stock, presentacion, precio, arrFotos }) {
           <CardBootstrap.Title>{nombreCap}</CardBootstrap.Title>
           <CardBootstrap.Subtitle>$ {precio}/kg</CardBootstrap.Subtitle>
           <Col>
-            <CardBootstrap.Text>{presentacion}</CardBootstrap.Text>
+            <CardBootstrap.Text>{descripcion}</CardBootstrap.Text>
           </Col>
         </CardBootstrap.Body>
         <Col>
@@ -30,7 +30,7 @@ function Card({id, nombre, stock, presentacion, precio, arrFotos }) {
             </Button>
         </Col>
       </CardBootstrap>
-      <DetailProductModal id={id} nombreCap={nombreCap} stock={stock} precio={precio} presentacion={presentacion} arrFotos={arrFotos} show={show} handleClose={handleClose}/>
+      <DetailProductModal id={id} nombreCap={nombreCap} stock={stock} precio={precio} presentacion={presentacion} arrFotos={arrFotos} show={show} handleClose={handleClose} descripcion={descripcion}/>
     </Col>
   );
 }
