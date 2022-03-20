@@ -31,6 +31,7 @@ function CartDetails() {
                     <thead>
                       <tr className="text-sm">
                         <th className="border-gray-300 border-top py-3" colSpan="2">Producto</th>
+                        <th className="border-gray-300 border-top py-3">Presentación</th>
                         <th className="border-gray-300 border-top py-3">Cantidad</th>
                         <th className="border-gray-300 border-top py-3">Precio</th>
                         <th className="border-gray-300 border-top py-3">Descuento</th>
@@ -44,7 +45,8 @@ function CartDetails() {
                         arrCartProducts.map(p => (
                           <tr key={p.id+p.tipo_corte} className="text-sm">
                             <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={p.arrFotos[0]} alt={p.nombreCap} style={{minWidth: "50px"}} width="50"/></a></td>
-                            <td className="align-middle border-gray-300 py-3"><p>{p.nombreCap}</p></td>
+                            <td className="align-middle border-gray-300 py-3">{p.nombreCap}</td>
+                            <td className="align-middle border-gray-300 py-3">{p.tipo_corte}</td>
                             <td className="align-middle border-gray-300 py-3"> 
                               <input className="form-control" min={1} type="number" value={changeQuantity} onChange={handleChangeQuantity} style={{maxWidth: "3.5rem"}}/>
                             </td>
@@ -56,8 +58,6 @@ function CartDetails() {
                                 className="btn p-0" 
                                 type="button" 
                                 onClick={() => {
-                                  //const idAndTipoCorte = {id:p.id, tipo_corte:p.tipo_corte}
-                                  console.log("ID",p.id,"T-CORTE",p.tipo_corte);
                                   dispatch(deleteCartItem(p))
                                 }}
                               >
