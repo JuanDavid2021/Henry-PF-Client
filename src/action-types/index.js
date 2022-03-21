@@ -1,5 +1,6 @@
 export const GETTING_PRODUCTS = "gettingProducts";
 export const SET_PRODUCTS = "setProducts";  
+export const SET_FILTERED_PRODUCTS = "setFilteredProducts"
 export const ADD_PRODUCT = "addProduct";//admin
 export const DELETE_PRODUCT = "deleteProduct";//admin
 export const EDIT_PRODUCT = "editProduct";//admin
@@ -20,6 +21,7 @@ export const SET_PRODUCT_DETAILS = "setProductDetails";
 export const SET_PRODUCT_DETAILS_FRONT = "setProductDetailsFront";//solo si lo hacemos por front sin solicitar la api
 
 export const ADD_CATEGORY = "addCategory";//admin
+export const SET_CATEGORIES = "setCategories";
 export const DELETE_CATEGORY = "deleteCategory";//admin
 
 export const GETTING_USERS = "gettingUsers";
@@ -38,3 +40,5 @@ export const POST_PRODUCT = "POST_PRODUCT"
 export const ORDER_PRODUCTS = "orderProducts"
 export const ORDER_PRECIO = "orderPrecio"
 export const SEARCH_PRODUCT = "searchProduct"
+export const SEARCHING_PRODUCT = "searchingProduct"
+export const SEARCH_LOCAL_PRODUCT = "searchLocalProduct"

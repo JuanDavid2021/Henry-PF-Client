@@ -1,34 +1,123 @@
-import React, { useState } from 'react'
-import {useDispatch} from "react-redux"
-import {searchProduct} from "../actions"
-
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  InputGroup,
+  Button,
+  FormControl,
+} from "react-bootstrap";
+import { searchProduct, filterProducts } from "../actions";
 
 function SearchBar() {
+  const [input, setInput] = useState("");
+  const categories = useSelector((state) => state.categories);
+  const categoryFilterStatus = useSelector(
+    (state) => state.categoryFilterStatus
+  );
+  const searchFilterStatus = useSelector((state) => state.searchFilterStatus);
 
-    
-    const [input, setInput] = useState("")
+  const [filter, setFilter] = useState({
+    category: "all",
+    order: "",
+  });
 
-    const dispatch = useDispatch()
+  const setTheFilter = (e) => {
+    setFilter({
+      ...filter,
+      [e.target.name]: e.target.value,
+    });
+    dispatch(
+      filterProducts({
+        ...filter,
+        [e.target.name]: e.target.value,
+      })
+    );
+  };
 
-    const handleChange = (e) => {
-        e.preventDefault()
-        setInput(e.target.value)
-    }
+  const dispatch = useDispatch();
 
-    const handleClick = (e) => {
-        e.preventDefault()
-        dispatch(searchProduct(input))
-    }
+  const handleChange = (e) => {
+    e.preventDefault();
+    setInput(e.target.value);
+  };
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    dispatch(searchProduct(input));
+  };
 
-    return (
-        <div style={{ width: "100%" }}>
-            <div className="input-group mb-3">
-                <input type="text" onChange={handleChange} value={input} className="form-control" placeholder="Busqueda especifica" aria-label="Especial Search" aria-describedby="button-addon2" />
-                <button className="btn btn-dark" onClick={handleClick} type="button" id="button-addon2">Buscar</button>
-            </div>
-        </div>
-    )
+  return (
+    <div
+      style={{
+        display: "flex",
+        height: "38px",
+        justifyContent: "space-evenly",
+        marginTop: "30px",
+        marginBottom: "30px",
+      }}
+    >
+      <div style={{ width: "20%" }}>
+        <InputGroup className="mb-3">
+          <FormControl
+            isInvalid={!searchFilterStatus}
+            placeholder="Buscar por nombre"
+            aria-label="Recipient's username"
+            type="text"
+            id="search"
+            name="search"
+            aria-describedby="search-input"
+            value={input}
+            onChange={handleChange}
+          />
+          <Button
+            onClick={handleClick}
+            variant="dark outline-secondary"
+            id="search-input"
+          >
+            Buscar
+          </Button>
+        </InputGroup>
+      </div>
+      <Form.Select
+        isValid={categoryFilterStatus}
+        isInvalid={!categoryFilterStatus}
+        name="category"
+        onChange={(e) => setTheFilter(e)}
+        className={categoryFilterStatus ? "isValid" : "isInvalid"}
+        aria-label="Default select example"
+        style={{ width: "15%" }}
+      >
+        <option selected value="all">
+          Todas las carnes
+        </option>
+        {categories.map((e, i) => {
+          return (
+            <option key={i} value={e.id}>
+              Carne de {e.nombre}
+            </option>
+          );
+        })}
+      </Form.Select>
+      <Form.Select
+        name="order"
+        onChange={(e) => setTheFilter(e)}
+        className="form-select"
+        aria-label="Default select example"
+        style={{ width: "15%" }}
+      >
+        <option selected value="">
+          Ordenar por
+        </option>
+        <option value="A-Z">Nombre de A a Z</option>
+        <option value="Z-A">Nombre de Z a A</option>
+        <option value="priceLower-Higher">Baratos primero</option>
+        <option value="priceHigher-Lower">Caros primero</option>
+      </Form.Select>
+    </div>
+  );
 }
 
-export default SearchBar
+export default SearchBar;
