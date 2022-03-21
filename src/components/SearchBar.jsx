@@ -64,8 +64,8 @@ function SearchBar() {
       <div style={{ width: "20%" }}>
         <InputGroup className="mb-3">
           <FormControl
-                      isInvalid={!searchFilterStatus}
-                      isValid={searchFilterStatus}
+            isInvalid={!searchFilterStatus}
+                      
             placeholder="Buscar por nombre"
             aria-label="Recipient's username"
             type="text"
