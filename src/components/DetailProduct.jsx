@@ -164,9 +164,11 @@ function DetailProduct() {
                             <option selected value="" disabled>
                               Seleccione un tipo de corte
                             </option>
-                            <option value="Bloque">Bloque</option>
-                            <option value="Bife">Bife</option>
-                            <option value="Mariposa">Mariposa</option>
+                            {
+                              productDetails?.presentacion?.length > 0
+                              ? productDetails?.presentacion?.map(el => <option key={el} value={el}>{el}</option>) 
+                              : <option value="Unidad">Unidad</option>
+                            }
                           </Form.Control>
                         </Form.Group>
 

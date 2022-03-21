@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Button, Modal, Container, Row, Col, Carousel, Form, Stack } from 'react-bootstrap';
-import { RiShoppingCartLine, RiSearchEyeLine  } from 'react-icons/ri';
+import { RiShoppingCartLine, RiSearchEyeLine, RiShoppingCartFill } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { addCartItem } from '../actions';
 
-function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, arrFotos, descripcion }) {
+function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, arrFotos, presentacion }) {
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
     id,
     arrFotos,
@@ -18,8 +18,6 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
   const handleDetailst = () => {
     navigate(`/product/${id.toString()}`)
   }
-
-  //const [validated, setValidated] = useState(false);
 
   const dispatch = useDispatch()
 
@@ -43,7 +41,6 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
     }else if( stock === 0 || valoresDetalleProducto.tipo_corte === "" || valoresDetalleProducto.peso === "" ){
       return
     }else{
-      //setValidated(true);
       dispatch(addCartItem(valoresDetalleProducto))
       setConfirmModal(true)
     }
@@ -52,7 +49,6 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
   const [confirmModal, setConfirmModal] = useState(false)
 
   const handleCloseModal = () => {
-    //setValidated(true)
     setValoresDetalleProducto({
       ...valoresDetalleProducto,
       peso: "",
@@ -77,21 +73,21 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
         <Modal.Body>
           <Container className="mb-2 p-0">
             <Row>
-              <Col lg={12} xl={6} style={{ display: "flex", justifyContent:"center" }}>
-                <Carousel fade /* variant="dark" */ style={{ width: "10em" }}>
+              <Col style={{ display: "flex", justifyContent:"center" }}>
+                <Carousel fade variant="dark" style={{ width: "12em" }}>
                   {arrFotos?.map((el) => (
-                    <Carousel.Item style={{ width: "10em"}} key={el}>
+                    <Carousel.Item style={{ width: "12em"}} key={el}>
                       <img
                         className="d-block w-100"
                         src={el}
                         alt={el}
-                        style={{ height: "10em" }}
+                        style={{ height: "12em" }}
                       />
                     </Carousel.Item>
                   ))}
                 </Carousel>
               </Col>
-              <Col xl={6}>{descripcion}</Col>
+              {/* <Col xl={6}>{descripcion}</Col> */}
             </Row>
             <Row>
               <Col>Precio por kg: $ {precio}</Col>
@@ -117,7 +113,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Tipo de corte</Form.Label>
+              <Form.Label>Tipo de presentación</Form.Label>
               <Form.Control 
                 required 
                 as="select" 
@@ -126,11 +122,13 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
                 name="tipo_corte" 
                 value={valoresDetalleProducto.tipo_corte} 
               >
-                <option value="" disabled>Seleccione un tipo de corte</option>
-                <option value="Bloque">Bloque</option>
-                <option value="Bife">Bife</option>
-                <option value="Mariposa">Mariposa</option>
-              </Form.Control>  
+                <option value="" disabled>Seleccione un tipo de presentación</option>
+                {
+                  presentacion?.length > 0
+                  ? presentacion.map(el => <option key={el} value={el}>{el}</option>) 
+                  : <option value="Unidad">Unidad</option>
+                }
+              </Form.Control>
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -139,10 +137,10 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
                     Agregar al Carrito <RiShoppingCartLine />
                   </Button>
                   <Button variant="dark" onClick={handleViewCart}>
-                    Ver Carrito <RiShoppingCartLine />
+                    Ver Carrito <RiShoppingCartFill />
                   </Button>
                   <Button variant="dark" onClick={ handleDetailst }>
-                    Ver más <RiSearchEyeLine />
+                    Ver más detalles <RiSearchEyeLine />
                   </Button>
               </Stack>
               {
@@ -156,7 +154,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleClose}>
             Cerrar
           </Button>
         </Modal.Footer>
