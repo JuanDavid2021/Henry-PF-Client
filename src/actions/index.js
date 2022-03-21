@@ -5,8 +5,7 @@ import {
   POST_PRODUCT, 
   RATE_PRODUCT, 
   SEARCH_PRODUCT, 
-  SEARCHING_PRODUCT,
-  SEARCH_LOCAL_PRODUCT,
+  SEARCHING_PRODUCT, 
   GETTING_PRODUCTS, 
   SET_PRODUCTS, 
   SET_FILTERED_PRODUCTS,
@@ -52,13 +51,6 @@ function orderProducts(products, orderType) {
     });
   }
   return products;
-}
-
-export const searchLocalProduct = (input)=>{
-  return (dispatch) => {
-    dispatch({type:SEARCHING_PRODUCT, payload:true})
-    return dispatch({type:SEARCH_LOCAL_PRODUCT, payload:input})
-  }
 }
 
 export const searchProduct =(producto)=>{
