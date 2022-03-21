@@ -5,15 +5,13 @@ import Card from './Card'
 import { Container, Row, Col } from 'react-bootstrap'
 import img from '../img/logo2.png'
 import { useDispatch, useSelector } from 'react-redux';
+
 import { getProducts,order,orderPrecio,filterProducts } from '../actions';
 import {NotFound} from "./NotFound"
 
-
 function Shop() {
-  
+
     const dispatch = useDispatch()
-    
-    
     const arrProductos = useSelector(state => state.products)
     const filteredProducts = useSelector(state => state.filteredProducts)
     const filtering = useSelector(state => state.filteringProducts)
@@ -26,6 +24,7 @@ function Shop() {
 
     const [inview, setInview] = useState(12)
     const [orden, setOrden] = useState('')
+
     const [category, setCategory] = useState('')
 
     useEffect(() => {
@@ -36,6 +35,7 @@ function Shop() {
     let arrProducts = filteredProducts?.slice(0, inview)
 
 
+
     /* const handleChange = (e) => {
         e.preventDefault()
     }
@@ -43,11 +43,12 @@ function Shop() {
     const showMoreItems = () => {
         setInview((value) => value + 12)
     }
-    
+
     const showLessItems = () => {
         setInview((value) => value - 12)
     }    
     
+
 
     const setTheFilter = (e)=>{
         setFilter({
@@ -73,8 +74,9 @@ function Shop() {
     //  }
 
 
+
     return (
-        <div style={{marginBottom: "30px"}}>
+        <div style={{ marginBottom: "30px" }}>
             <div style={{ width: "50%", height: "500px", margin: "auto", marginTop: "30px", boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}>
                 <div style={{ height: "100%" }} id="carouselExampleSlidesOnly" className="carousel slide img-thumbnail" data-bs-ride="carousel">
                     <div style={{ height: "100%" }} className="carousel-inner">
@@ -90,6 +92,7 @@ function Shop() {
                     </div>
                 </div>
             </div>
+
             {/* <div style={{ display: "flex", height: "38px", justifyContent: "space-evenly", marginTop: "30px", marginBottom: "30px" }}> */}
                 <SearchBar />
                 {/* <select name="category" onChange={ e=>setTheFilter(e) } className="form-select" aria-label="Default select example" style={{ width: "15%" }}>
@@ -108,6 +111,7 @@ function Shop() {
                     <option  value="priceHigher-Lower">Precio (mayor-menor)</option>
                 </select>
             </div> */}
+
             <Container>
                 <Row v-if={arrProducts.length} xs={1} md={2} xl={4} className="g-4">
                     {arrProducts?.map((p) => (
