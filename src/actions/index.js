@@ -316,7 +316,7 @@ export function deleteCartItem(data) {
   
   let cartLocal = JSON.parse(localStorage.getItem("cart"))
 
-  const index = cartLocal.findIndex(e => !(e.id === data.id && e.tipo_corte === data.tipo_corte))
+  const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte))
 
   cartLocal.splice(index,1)
 
