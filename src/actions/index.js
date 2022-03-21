@@ -1,4 +1,37 @@
-import { ADD_PRODUCT, DELETE_PRODUCT, EDIT_PRODUCT, GETTING_PRODUCTS, SET_PRODUCTS, GETTING_PRODUCT_DETAILS, SET_PRODUCT_DETAILS, ADD_CART_ITEM, ADD_PRODUCT_COMMENT, ADD_CATEGORY, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT_COMMENT, DELETE_USER, EDIT_SALE_STATUS, FILTERING_PRODUCTS, FILTER_PRODUCTS, FLUSH_CART, FORCE_PASSWORD_RESET, GETTING_USERS, GET_COMMENTS, GET_SALES, POST_PRODUCT, RATE_PRODUCT, SET_PRODUCT_DETAILS_FRONT, SET_USERS,ORDER_PRODUCTS,ORDER_PRECIO, SEARCH_PRODUCT } from './../action-types/index';
+import {
+  ADD_PRODUCT, 
+  DELETE_PRODUCT, 
+  EDIT_PRODUCT, 
+  POST_PRODUCT, 
+  RATE_PRODUCT, 
+  SEARCH_PRODUCT, 
+  SEARCHING_PRODUCT, 
+  GETTING_PRODUCTS, 
+  SET_PRODUCTS, 
+  SET_FILTERED_PRODUCTS,
+  ORDER_PRODUCTS,
+  GETTING_PRODUCT_DETAILS, 
+  SET_PRODUCT_DETAILS, 
+  SET_PRODUCT_DETAILS_FRONT, 
+  ADD_CART_ITEM, 
+  DELETE_CART_ITEM, 
+  FLUSH_CART, 
+  ADD_PRODUCT_COMMENT, 
+  ADD_CATEGORY, 
+  SET_CATEGORIES,
+  DELETE_CATEGORY, 
+  DELETE_PRODUCT_COMMENT, 
+  SET_USERS,
+  DELETE_USER, 
+  GETTING_USERS, 
+  FILTER_PRODUCTS, 
+  FILTERING_PRODUCTS, 
+  FORCE_PASSWORD_RESET, 
+  GET_COMMENTS, 
+  GET_SALES, 
+  EDIT_SALE_STATUS, 
+  ORDER_PRECIO,
+} from './../action-types/index';
 const axios = require("axios");
 
 //HELPERS...
@@ -142,14 +175,25 @@ export function editProduct(data) {
   };
 }
 
+export function filterProducts(filter) {
+  return (dispatch)=>{   
+      dispatch({type:FILTER_PRODUCTS, payload:filter})    
+  }
+}
+
 export function getProducts() {
   return async (dispatch) => {
     try {
       dispatch({ type: GETTING_PRODUCTS, payload: true });
+      const categories = await apiGetAllCategories()
+      if (!categories.error) {
+        dispatch({ type: SET_CATEGORIES, payload:categories })
+      }            
       const products = await apiGetAllProducts();
       if (products.error) {
         return dispatch({ type: GETTING_PRODUCTS, payload: false });
-      } else {
+      } else {        
+        dispatch({ type:SET_FILTERED_PRODUCTS, payload:products.filter(e=>e.stock>0) })
         return dispatch({ type: SET_PRODUCTS, payload: products });
       }
     } catch (error) {
@@ -240,18 +284,48 @@ export function getUsers() {
 
 export function addCartItem(data) {
   return (dispatch) => {
+    const cartLocal =  localStorage.getItem("cart")
+    ? JSON.parse(localStorage.getItem("cart"))
+    : []
+
+    const index = cartLocal.findIndex(e => e.id === data.id && e.tipo_corte === data.tipo_corte)
+    
+    if (index !== -1) {
+      let itemMod = cartLocal[index]
+      
+      itemMod = {
+        ...itemMod,
+        precio: Number(itemMod.precio) + Number(data.precio)
+      }
+  
+      cartLocal.splice(index,1,itemMod)
+    }else{
+      cartLocal.push(data)
+    }
+  
+    localStorage.setItem("cart", JSON.stringify(cartLocal))
+
     dispatch({
       type: ADD_CART_ITEM,
-      payload: data,
+      payload: cartLocal,
     });
   };
 }
 
 export function deleteCartItem(data) {
+  
+  let cartLocal = JSON.parse(localStorage.getItem("cart"))
+
+  const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte))
+
+  cartLocal.splice(index,1)
+
+  localStorage.setItem("cart", JSON.stringify(cartLocal))
+
   return (dispatch) => {
     dispatch({
       type: DELETE_CART_ITEM,
-      payload: data,
+      payload: cartLocal,
     });
   };
 }

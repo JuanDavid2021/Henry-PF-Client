@@ -20,14 +20,12 @@ function Card({id, nombre, stock, presentacion, precio, arrFotos, descripcion })
         <CardBootstrap.Body>
           <CardBootstrap.Title>{nombreCap}</CardBootstrap.Title>
           <CardBootstrap.Subtitle>$ {precio}/kg</CardBootstrap.Subtitle>
-          <Col>
-            <CardBootstrap.Text>{descripcion}</CardBootstrap.Text>
-          </Col>
+          {/* s */}
         </CardBootstrap.Body>
         <Col>
-            <Button style={{ width: "100%" }} variant="dark" onClick={handleShow}>
-              Detalle
-            </Button>
+          <button className="bg-dark rounded-bottom text-light p-1" style={{ border: "none", width: "100%"}} onClick={handleShow}>
+            Detalle
+          </button>
         </Col>
       </CardBootstrap>
       <DetailProductModal id={id} nombreCap={nombreCap} stock={stock} precio={precio} presentacion={presentacion} arrFotos={arrFotos} show={show} handleClose={handleClose} descripcion={descripcion}/>
