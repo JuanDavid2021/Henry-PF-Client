@@ -5,7 +5,7 @@ import img from '../img/logo2.png'
 
 function Landin() {
     return (
-        <div className="bg-dark" style={{height:"800px", display:"flex", justifyContent:"center", alignItems:"center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)"}}>
+        <div className="bg-dark" style={{height:"100vh", display:"flex", justifyContent:"center", alignItems:"center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)"}}>
             <div className='bg-dark bg-opacity-75 p-5 rounded ' style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
                 <h1 class="text-center text-light fw-normal pd-2">Comprar carne de calidad nunca fue tan fácil</h1>
                 <h4 class="text-center text-light fw-light pd-2">garantizamos la mejor carne de calidad para tí a tan solo un click</h4>

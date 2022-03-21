@@ -266,8 +266,9 @@ export function flushCart() {
 }
 
 export function postProducts(payload){
+  console.log(payload)
  return async function(dispatch){
-   const newProduct= await axios.post("/api/product/create", payload)
+   const newProduct= await axios.post("http://localhost:3001/api/product/create", payload)
    return newProduct
  }
 }
