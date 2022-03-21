@@ -83,7 +83,7 @@ function Shop() {
 
       <Container>
         {arrProducts.length > 0 ? (
-          <Row xs={1} md={2} xl={4} className="g-4">
+          <Row xs={1} md={2} xl={4} className="g-4 mx-2 px-1">
             {arrProducts?.map((p) => (
               <Card
                 key={p.id}
@@ -98,7 +98,7 @@ function Shop() {
             ))}
           </Row>
         ) : (
-          <Row v-else className="mt-3">
+          <Row className="mt-3">
             <Col className="col-12 text-center">
               <h3>No se encuentran coincidencias, verifique el filtrado</h3>
             </Col>
