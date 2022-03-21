@@ -202,7 +202,7 @@ function rootReducer(state = initialState, action) {
     console.log(action.type)
     let sortArray = action.payload ==="A-Z"?
     state.products.sort(function(a,b){
-        {console.log(state.products)}
+        // {console.log(state.products)}
       if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return 1
       if(b.nombre.toLowerCase()>a.nombre.toLowerCase()) return -1
       return 0;
