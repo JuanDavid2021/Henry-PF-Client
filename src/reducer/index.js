@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { 
   ADD_PRODUCT, 
   DELETE_PRODUCT, 
@@ -7,7 +6,8 @@ import {
   RATE_PRODUCT, 
   SEARCH_PRODUCT, 
   GETTING_PRODUCTS, 
-  SET_PRODUCTS, 
+  SET_PRODUCTS,
+  SET_FILTERED_PRODUCTS,
   ORDER_PRODUCTS,
   GETTING_PRODUCT_DETAILS, 
   SET_PRODUCT_DETAILS, 
@@ -17,6 +17,7 @@ import {
   FLUSH_CART, 
   ADD_PRODUCT_COMMENT, 
   ADD_CATEGORY, 
+  SET_CATEGORIES,
   DELETE_CATEGORY, 
   DELETE_PRODUCT_COMMENT, 
   SET_USERS,
@@ -43,6 +44,8 @@ const initialState = {
 
   sales: [],//lista de ventas
   users: [],//lista de usuarios para borrar / forzar password
+  categoryFilterStatus: true,
+  searchFilterStatus: true
 };
 
 //establece el valor inicial del carrito. Si el usuario estuvo cargando productos, quedaran en el localStorage
@@ -72,6 +75,14 @@ function rootReducer(state = initialState, action) {
       ...state,
       products: [...state.products, action.payload],
     };
+  }
+
+  if (action.type === SET_CATEGORIES) {
+    //seteo categorias desde el back
+    return {
+      ...state,
+      categories:action.payload
+    }
   }
 
   if (action.type === DELETE_PRODUCT) {
@@ -120,6 +131,13 @@ function rootReducer(state = initialState, action) {
       gettingProducts: false
     };
   } 
+
+  if (action.type === SET_FILTERED_PRODUCTS) {
+    return {
+      ...state,
+      filteredProducts: action.payload
+    }
+  }
 
   if (action.type === GETTING_PRODUCTS) {
     //cargo el arreglo con todos los productos obtenidos
@@ -198,11 +216,53 @@ function rootReducer(state = initialState, action) {
     };
   }
 
+  if (action.type === FILTER_PRODUCTS) {
+    let categoryStatus = false
+    let filteredProducts=state.products.filter(e=>e.stock>0)
+    if (action.payload.category!=="all") {
+      filteredProducts = filteredProducts.filter(e => e.Categoria.includes(parseInt(action.payload.category)))
+      if (filteredProducts.length !== 0) {
+        categoryStatus = true
+      }      
+    } else {
+      categoryStatus = true
+    }  
+    if (action.payload.order==="A-Z") {
+      filteredProducts = filteredProducts.sort(function(a,b){       
+      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return 1
+      if(b.nombre.toLowerCase()>a.nombre.toLowerCase()) return -1
+      return 0;
+    })
+    } else if (action.payload.order === "Z-A") {
+      filteredProducts = filteredProducts.sort(function(a,b){
+      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return -1
+      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return  1
+      return 0;
+    })
+    } else if (action.payload.order === "priceLower-Higher") {
+      filteredProducts = filteredProducts.sort(function(a,b){       
+      if(Number(a.precio)>Number(b.precio)) return 1
+      if(Number(b.precio)>Number(a.precio)) return -1
+      return 0;
+    })
+    } else if (action.payload.order === "priceHigher-Lower") {
+      filteredProducts = filteredProducts.sort(function(a,b){       
+      if(Number(a.precio)>Number(b.precio)) return -1
+      if(Number(b.precio)>Number(a.precio)) return  1
+      return 0;
+    })
+    }
+    return {
+      ...state,
+      filteredProducts: filteredProducts,
+      categoryFilterStatus : categoryStatus      
+    }
+  }
+
   if(action.type===ORDER_PRODUCTS){
     console.log(action.type)
     let sortArray = action.payload ==="A-Z"?
-    state.products.sort(function(a,b){
-        {console.log(state.products)}
+    state.products.sort(function(a,b){    
       if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return 1
       if(b.nombre.toLowerCase()>a.nombre.toLowerCase()) return -1
       return 0;

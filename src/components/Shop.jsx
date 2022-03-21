@@ -2,26 +2,38 @@ import React, { useEffect, useState } from 'react'
 import SearchBar from './SearchBar'
 import Card from './Card'
 //import arrProductos from './../dataSimulate';
-import { Container, Row } from 'react-bootstrap'
+import { Container, Row, Col } from 'react-bootstrap'
 import img from '../img/logo2.png'
 import { useDispatch, useSelector } from 'react-redux';
-import { getProducts,order,orderPrecio } from '../actions';
+import { getProducts,order,orderPrecio,filterProducts } from '../actions';
 import {NotFound} from "./NotFound"
 
 
 function Shop() {
   
     const dispatch = useDispatch()
-    useEffect(() => {
-      dispatch(getProducts())
-    }, [dispatch])
+    
     
     const arrProductos = useSelector(state => state.products)
+    const filteredProducts = useSelector(state => state.filteredProducts)
+    const filtering = useSelector(state => state.filteringProducts)
+    const categories = useSelector(state => state.categories)
+    
+    const [filter, setFilter] = useState({
+        category: "all",
+        order:""
+    })
 
     const [inview, setInview] = useState(12)
-    const [orden,setOrden] = useState('')
+    const [orden, setOrden] = useState('')
+    const [category, setCategory] = useState('')
+
+    useEffect(() => {
+        if (!arrProductos.length) dispatch(getProducts())
+    }, [dispatch,arrProductos])
     
-    let arrProducts = arrProductos?.slice(0, inview)
+    
+    let arrProducts = filteredProducts?.slice(0, inview)
 
 
     /* const handleChange = (e) => {
@@ -34,18 +46,31 @@ function Shop() {
     
     const showLessItems = () => {
         setInview((value) => value - 12)
+    }    
+    
+
+    const setTheFilter = (e)=>{
+        setFilter({
+            ...filter,
+            [e.target.name]:e.target.value
+        })
+        dispatch(filterProducts({
+            ...filter,
+            [e.target.name]:e.target.value
+        }))
     }
+    
+    // const ordenamiento = (e)=>{  
 
-    const ordenamiento = (e)=>{  
+    // if(e.target.value==="priceLower-Higher" || e.target.value==="priceHigher-Lower"){
+    //  dispatch(orderPrecio(e.target.value))
+    //     setOrden(e.target.value)
+    // }
 
-    if(e.target.value==="priceLower-Higher" || e.target.value==="priceHigher-Lower"){
-     dispatch(orderPrecio(e.target.value))
-     setOrden(e.target.value)}
-
-    else if(e.target.value === "A-Z" || e.target.value === "Z-A"){
-     dispatch(order(e.target.value))
-     setOrden(e.target.value)} 
-     }
+    // else if(e.target.value === "A-Z" || e.target.value === "Z-A"){
+    //  dispatch(order(e.target.value))
+    //  setOrden(e.target.value)} 
+    //  }
 
 
     return (
@@ -65,18 +90,26 @@ function Shop() {
                     </div>
                 </div>
             </div>
-            <div style={{ display: "flex", height: "38px", justifyContent: "space-evenly", marginTop: "30px", marginBottom: "30px" }}>
+            {/* <div style={{ display: "flex", height: "38px", justifyContent: "space-evenly", marginTop: "30px", marginBottom: "30px" }}> */}
                 <SearchBar />
-                <select onChange={e=>ordenamiento(e)} className="form-select" aria-label="Default select example" style={{ width: "15%" }}>
-                    <option selected>Organizar por</option>
+                {/* <select name="category" onChange={ e=>setTheFilter(e) } className="form-select" aria-label="Default select example" style={{ width: "15%" }}>
+                    <option selected value="all">Todas las carnes</option>
+                    {
+                        categories.map((e, i) => {
+                        return (<option key={i} value={e.id}>Carne de {e.nombre}</option>)
+                        })
+                    }
+                </select>
+                <select name="order" onChange={ e=>setTheFilter(e) } className="form-select" aria-label="Default select example" style={{ width: "15%" }}>
+                    <option selected value="">Organizar por</option>
                     <option  value="A-Z">A a Z</option>
                     <option  value="Z-A">Z a A</option>
                     <option  value="priceLower-Higher">Precio (menor-mayor)</option>
                     <option  value="priceHigher-Lower">Precio (mayor-menor)</option>
                 </select>
-            </div>
+            </div> */}
             <Container>
-                <Row xs={1} md={2} xl={4} className="g-4">
+                <Row v-if={arrProducts.length} xs={1} md={2} xl={4} className="g-4">
                     {arrProducts?.map((p) => (
                         <Card
                             key={p.id}
@@ -89,10 +122,15 @@ function Shop() {
                         />
                     ))}
                 </Row>
+                <Row className="mt-3">
+                    <Col className="col-12 text-center">
+                        <h3>No se encuentran coincidencias, verifique el filtrado</h3>
+                    </Col>
+                </Row>
             </Container>
             <div style={{ display: "flex", justifyContent: "center", marginTop: "30px" }}>
                 {
-                    arrProductos.length <= arrProducts.length ?
+                    filteredProducts.length <= arrProducts.length ?
                         <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" disabled>Ver mas</button>
                         :
                         <button className="btn btn-dark text-light text-decoration-none fs-6 mx-3" onClick={showMoreItems}>Ver mas</button>

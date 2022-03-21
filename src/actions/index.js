@@ -5,8 +5,11 @@ import {
   POST_PRODUCT, 
   RATE_PRODUCT, 
   SEARCH_PRODUCT, 
+  SEARCHING_PRODUCT,
+  SEARCH_LOCAL_PRODUCT,
   GETTING_PRODUCTS, 
   SET_PRODUCTS, 
+  SET_FILTERED_PRODUCTS,
   ORDER_PRODUCTS,
   GETTING_PRODUCT_DETAILS, 
   SET_PRODUCT_DETAILS, 
@@ -16,6 +19,7 @@ import {
   FLUSH_CART, 
   ADD_PRODUCT_COMMENT, 
   ADD_CATEGORY, 
+  SET_CATEGORIES,
   DELETE_CATEGORY, 
   DELETE_PRODUCT_COMMENT, 
   SET_USERS,
@@ -48,6 +52,13 @@ function orderProducts(products, orderType) {
     });
   }
   return products;
+}
+
+export const searchLocalProduct = (input)=>{
+  return (dispatch) => {
+    dispatch({type:SEARCHING_PRODUCT, payload:true})
+    return dispatch({type:SEARCH_LOCAL_PRODUCT, payload:input})
+  }
 }
 
 export const searchProduct =(producto)=>{
@@ -172,14 +183,25 @@ export function editProduct(data) {
   };
 }
 
+export function filterProducts(filter) {
+  return (dispatch)=>{   
+      dispatch({type:FILTER_PRODUCTS, payload:filter})    
+  }
+}
+
 export function getProducts() {
   return async (dispatch) => {
     try {
       dispatch({ type: GETTING_PRODUCTS, payload: true });
+      const categories = await apiGetAllCategories()
+      if (!categories.error) {
+        dispatch({ type: SET_CATEGORIES, payload:categories })
+      }            
       const products = await apiGetAllProducts();
       if (products.error) {
         return dispatch({ type: GETTING_PRODUCTS, payload: false });
-      } else {
+      } else {        
+        dispatch({ type:SET_FILTERED_PRODUCTS, payload:products.filter(e=>e.stock>0) })
         return dispatch({ type: SET_PRODUCTS, payload: products });
       }
     } catch (error) {
