@@ -17,7 +17,7 @@ function SearchBar() {
   const categoryFilterStatus = useSelector(
     (state) => state.categoryFilterStatus
   );
-    const searchFilterStatus = useSelector((state) => state.searchFilterStatus);
+  const searchFilterStatus = useSelector((state) => state.searchFilterStatus);
 
   const [filter, setFilter] = useState({
     category: "all",
@@ -28,12 +28,13 @@ function SearchBar() {
     setFilter({
       ...filter,
       [e.target.name]: e.target.value,
+      input: input,
     });
     dispatch(
       filterProducts({
         ...filter,
-          [e.target.name]: e.target.value,
-        input:input
+        [e.target.name]: e.target.value,
+        input: input,
       })
     );
   };
@@ -48,8 +49,8 @@ function SearchBar() {
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(searchProduct(input));
-    };    
-    
+  };
+
   return (
     <div
       style={{
@@ -63,7 +64,8 @@ function SearchBar() {
       <div style={{ width: "20%" }}>
         <InputGroup className="mb-3">
           <FormControl
-            isInvalid={!searchFilterStatus}
+                      isInvalid={!searchFilterStatus}
+                      isValid={searchFilterStatus}
             placeholder="Buscar por nombre"
             aria-label="Recipient's username"
             type="text"
@@ -74,24 +76,15 @@ function SearchBar() {
             onChange={handleChange}
           />
           <Button
-            onClick={handleClick}
-            variant="dark outline-secondary"
-            id="search-input"
-          >
-            Buscar
-                  </Button>
-                  
-                  
-                  
+        onClick={setTheFilter}
+        variant="dark outline-secondary"
+        id="search-local-input"
+      >
+        Buscar
+      </Button>
         </InputGroup>
-          </div>
-          <Button
-            onClick={setTheFilter}
-            variant="dark outline-secondary"
-            id="search-local-input"
-          >
-            Buscar Local
-                  </Button>
+      </div>
+      
       <Form.Select
         isValid={categoryFilterStatus}
         isInvalid={!categoryFilterStatus}

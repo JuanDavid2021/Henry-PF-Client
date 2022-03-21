@@ -258,8 +258,8 @@ function rootReducer(state = initialState, action) {
     let searchStatus = false
     if (action.payload.input.length>0) {
       filteredProducts = filteredProducts.filter(p => p.nombre.toLowerCase().includes(action.payload.input.toLowerCase()))
-      if (filteredProducts.length ===0 ) {
-        searchStatus = false
+      if (filteredProducts.length !==0 ) {
+        searchStatus = true
       }
     } else {
       searchStatus = true
