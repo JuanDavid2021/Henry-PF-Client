@@ -17,7 +17,7 @@ function SearchBar() {
   const categoryFilterStatus = useSelector(
     (state) => state.categoryFilterStatus
   );
-  const searchFilterStatus = useSelector((state) => state.searchFilterStatus);
+    const searchFilterStatus = useSelector((state) => state.searchFilterStatus);
 
   const [filter, setFilter] = useState({
     category: "all",
@@ -32,7 +32,8 @@ function SearchBar() {
     dispatch(
       filterProducts({
         ...filter,
-        [e.target.name]: e.target.value,
+          [e.target.name]: e.target.value,
+        input:input
       })
     );
   };
@@ -47,8 +48,8 @@ function SearchBar() {
   const handleClick = (e) => {
     e.preventDefault();
     dispatch(searchProduct(input));
-  };
-
+    };    
+    
   return (
     <div
       style={{
@@ -78,9 +79,19 @@ function SearchBar() {
             id="search-input"
           >
             Buscar
-          </Button>
+                  </Button>
+                  
+                  
+                  
         </InputGroup>
-      </div>
+          </div>
+          <Button
+            onClick={setTheFilter}
+            variant="dark outline-secondary"
+            id="search-local-input"
+          >
+            Buscar Local
+                  </Button>
       <Form.Select
         isValid={categoryFilterStatus}
         isInvalid={!categoryFilterStatus}

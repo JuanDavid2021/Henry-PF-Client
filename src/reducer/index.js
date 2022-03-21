@@ -5,6 +5,7 @@ import {
   POST_PRODUCT, 
   RATE_PRODUCT, 
   SEARCH_PRODUCT, 
+  SEARCH_LOCAL_PRODUCT,
   GETTING_PRODUCTS, 
   SET_PRODUCTS,
   SET_FILTERED_PRODUCTS,
@@ -217,45 +218,57 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === FILTER_PRODUCTS) {
+    let filteredProducts=state.products.filter(e=>e.stock>0)    
+    
     let categoryStatus = false
-    let filteredProducts=state.products.filter(e=>e.stock>0)
-    if (action.payload.category!=="all") {
-      filteredProducts = filteredProducts.filter(e => e.Categoria.includes(parseInt(action.payload.category)))
-      if (filteredProducts.length !== 0) {
+      if (action.payload.category !== "all") {
+        filteredProducts = filteredProducts.filter(e => e.Categoria.find(i=>parseInt(i.id)===parseInt(action.payload.category)))
+        if (filteredProducts.length !== 0) {
+          categoryStatus = true
+        }
+      } else {
         categoryStatus = true
-      }      
+      }
+      if (action.payload.order === "A-Z") {
+        filteredProducts = filteredProducts.sort(function (a, b) {
+          if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1
+          if (b.nombre.toLowerCase() > a.nombre.toLowerCase()) return -1
+          return 0;
+        })
+      } else if (action.payload.order === "Z-A") {
+        filteredProducts = filteredProducts.sort(function (a, b) {
+          if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return -1
+          if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1
+          return 0;
+        })
+      } else if (action.payload.order === "priceLower-Higher") {
+        filteredProducts = filteredProducts.sort(function (a, b) {
+          if (Number(a.precio) > Number(b.precio)) return 1
+          if (Number(b.precio) > Number(a.precio)) return -1
+          return 0;
+        })
+      } else if (action.payload.order === "priceHigher-Lower") {
+        filteredProducts = filteredProducts.sort(function (a, b) {
+          if (Number(a.precio) > Number(b.precio)) return -1
+          if (Number(b.precio) > Number(a.precio)) return 1
+          return 0;
+        })
+      }
+    
+    let searchStatus = false
+    if (action.payload.input.length>0) {
+      filteredProducts = filteredProducts.filter(p => p.nombre.toLowerCase().includes(action.payload.input.toLowerCase()))
+      if (filteredProducts.length ===0 ) {
+        searchStatus = false
+      }
     } else {
-      categoryStatus = true
-    }  
-    if (action.payload.order==="A-Z") {
-      filteredProducts = filteredProducts.sort(function(a,b){       
-      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return 1
-      if(b.nombre.toLowerCase()>a.nombre.toLowerCase()) return -1
-      return 0;
-    })
-    } else if (action.payload.order === "Z-A") {
-      filteredProducts = filteredProducts.sort(function(a,b){
-      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return -1
-      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return  1
-      return 0;
-    })
-    } else if (action.payload.order === "priceLower-Higher") {
-      filteredProducts = filteredProducts.sort(function(a,b){       
-      if(Number(a.precio)>Number(b.precio)) return 1
-      if(Number(b.precio)>Number(a.precio)) return -1
-      return 0;
-    })
-    } else if (action.payload.order === "priceHigher-Lower") {
-      filteredProducts = filteredProducts.sort(function(a,b){       
-      if(Number(a.precio)>Number(b.precio)) return -1
-      if(Number(b.precio)>Number(a.precio)) return  1
-      return 0;
-    })
-    }
+      searchStatus = true
+    } 
     return {
       ...state,
       filteredProducts: filteredProducts,
-      categoryFilterStatus : categoryStatus      
+      categoryFilterStatus: categoryStatus, 
+      searchFilterStatus: searchStatus
     }
   }
 
@@ -310,7 +323,7 @@ function rootReducer(state = initialState, action) {
     }
   }
 
-
+  
 /*   if (action.type === "ORDER_BY_SCORE") {
     const orderedRecipes = orderByScore(
       [...state.filterResult],
