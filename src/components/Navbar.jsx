@@ -39,10 +39,14 @@ function NavBar() {
                             :
                             <div>
                                 <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                        {itemsCart?.length}
-                                        <span class="visually-hidden">{itemsCart?.length}</span>
-                                    </span>
+                                    {
+                                    itemsCart.length !== 0 ? 
+                                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {itemsCart?.length}
+                                            <span className="visually-hidden">{itemsCart?.length}</span>
+                                        </span> :
+                                        <span></span>
+                                    }
                                 </Link>
                                 <button className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={handleLogin}>Log out</button>
                             </div>
