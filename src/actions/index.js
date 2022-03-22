@@ -31,6 +31,7 @@ import {
   GET_SALES, 
   EDIT_SALE_STATUS, 
   ORDER_PRECIO,
+  SET_CART_ITEM,
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -310,6 +311,31 @@ export function addCartItem(data) {
       payload: cartLocal,
     });
   };
+}
+
+export function setCartItem(data) {
+  return (dispatch) => {
+    let cartLocal = JSON.parse(localStorage.getItem("cart"))
+    const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte))
+
+    if (index !== -1) {
+      let itemMod = cartLocal[index]
+      
+      itemMod = {
+        ...itemMod,
+        cantidad: data.cantidad
+      }
+  
+      cartLocal.splice(index,1,itemMod)
+    }
+    
+    localStorage.setItem("cart", JSON.stringify(cartLocal))
+
+    dispatch({
+      type: SET_CART_ITEM,
+      payload: cartLocal,
+    });
+  }
 }
 
 export function deleteCartItem(data) {
