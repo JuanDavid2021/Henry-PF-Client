@@ -26,13 +26,23 @@ function CartDetails() {
 
   const [changeQuantity, setChangeQuantity] = useState(obj)
 
+
   const handleChangeQuantity = (e) => {
     setChangeQuantity({
       ...changeQuantity,
       [e.target.name]: e.target.value
-
     })
-    console.log(changeQuantity)
+
+    let prod = arrCartProducts.filter(p => p.id + p.tipo_corte === e.target.name)
+
+    let producto = {
+      ...prod[0],
+      cantidad: e.target.value
+    }
+    dispatch(setCartItem(producto))
+    
+    console.log(producto)
+    // console.log(changeQuantity)
   }
 
   let arrSuma = []
@@ -45,8 +55,8 @@ function CartDetails() {
           <div className="col-lg-9">
             {/* Tabla de productos */}
             <form >
-              <div className="table-responsive">
-                <table className="table text-nowrap">
+              <div className="table-responsive ">
+                <table className="table text-nowrap ">
                   <thead  >
                     <tr className="text-sm ">
                       <th className="border-gray-300 border-top py-3" colSpan="2">Producto</th>
@@ -54,7 +64,7 @@ function CartDetails() {
                       <th className="border-gray-300 border-top py-3">Cantidad</th>
                       <th className="border-gray-300 border-top py-3">Precio</th>
                       <th className="border-gray-300 border-top py-3">Total</th>
-                      <th className="border-gray-300 border-top py-3">Opciones</th>
+                      <th className="border-gray-300 border-top py-3">Eliminar</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -73,21 +83,8 @@ function CartDetails() {
                               <td className="align-middle border-gray-300 py-3">${p.precio}</td>
                               <td className="align-middle border-gray-300 py-3">${(p.precioTotal * changeQuantity[p.id + p.tipo_corte])}</td>
                               <td className="align-middle border-gray-300 py-3">
-                                <button className="btn p-2" type="button" onClick={() => { dispatch(deleteCartItem(p)) }}>
-                                  <RiDeleteBin5Fill />
-                                </button>{"    "}
-                                <button className="btn p-2" type="button"
-                                  onClick={
-                                    () => {
-                                      let prod = {
-                                        ...p,
-                                        cantidad: changeQuantity[p.id + p.tipo_corte]
-                                      }
-                                      dispatch(setCartItem(prod))
-                                    }
-                                  }
-                                >
-                                  <IoReloadCircleSharp />
+                                <button className="btn mx-2" type="button" onClick={() => { dispatch(deleteCartItem(p)) }}>
+                                  <RiDeleteBin5Fill/>
                                 </button>
                               </td>
                             </tr>
@@ -176,4 +173,4 @@ function CartDetails() {
   )
 }
 
-export default CartDetails
+export default CartDetails;
