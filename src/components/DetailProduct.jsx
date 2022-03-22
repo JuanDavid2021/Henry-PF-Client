@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Modal,
   Button,
   Card,
   Container,
@@ -26,8 +27,10 @@ function DetailProduct() {
 
   const dispatch = useDispatch();
 
+  const [confirmModal, setConfirmModal] = useState(false)
+
   const productDetails = useSelector((state) => state.productDetails);
-  
+
   const [validated, setValidated] = useState(false);
 
   const [waiting, setWaiting] = useState(true);
@@ -36,7 +39,7 @@ function DetailProduct() {
 
   const navigate = useNavigate();
 
-  
+
   const handleChange = (e) => {
     setValoresDetalleProducto({
       ...valoresDetalleProducto,
@@ -45,9 +48,23 @@ function DetailProduct() {
     });
   };
 
+  const handleCloseModal = () => {
+    setValoresDetalleProducto({
+      ...valoresDetalleProducto,
+      peso: "",
+      tipo_corte:""
+    })
+    setConfirmModal(false)
+  }
+
+
   const handleClose = () => {
     navigate("/shop");
   };
+
+
+
+
 
   const handleViewCart = () => {
     navigate("/cartDetails");
@@ -62,7 +79,7 @@ function DetailProduct() {
     } else {
       setWaiting(false);
     }
-    return () => {};
+    return () => { };
   }, [id, productDetails, dispatch]);
 
   const handleAddProductInCart = (e) => {
@@ -71,6 +88,7 @@ function DetailProduct() {
       e.preventDefault();
       e.stopPropagation();
     }
+    setConfirmModal(true)
     setValidated(true);
     const alCarrito = {
       ...valoresDetalleProducto,
@@ -101,25 +119,25 @@ function DetailProduct() {
             </Card.Header>
             <Card.Body>
               <Row>
-                
+
                 <Col
                   lg={6}
                   xl={6}
-                  style={{ display: "flex" , flexDirection:"column"}}
+                  style={{ display: "flex", flexDirection: "column" }}
                 >
                   <Row style={{ display: "flex", justifyContent: "center" }}>
-                  <Carousel fade /* variant="dark" */ style={{ width: "10em" }}>
-                    {productDetails.fotos?.map((el) => (
-                      <Carousel.Item style={{ width: "10em" }} key={el}>
-                        <img
-                          className="d-block w-100"
-                          src={el}
-                          alt={el}
-                          style={{ height: "10em" }}
-                        />
-                      </Carousel.Item>
-                    ))}
-                  </Carousel>
+                    <Carousel fade /* variant="dark" */ style={{ width: "10em" }}>
+                      {productDetails.fotos?.map((el) => (
+                        <Carousel.Item style={{ width: "10em" }} key={el}>
+                          <img
+                            className="d-block w-100"
+                            src={el}
+                            alt={el}
+                            style={{ height: "10em" }}
+                          />
+                        </Carousel.Item>
+                      ))}
+                    </Carousel>
                   </Row>
 
                   <Row>
@@ -127,7 +145,7 @@ function DetailProduct() {
                   </Row>
                 </Col>
                 <Col lg={6} xl={6}>
-                  
+
                   <Row className="mb-2">
                     <Col>Precio por kg: ${productDetails.precio}</Col>
                   </Row>
@@ -168,8 +186,8 @@ function DetailProduct() {
                             </option>
                             {
                               productDetails?.presentacion?.length > 0
-                              ? productDetails?.presentacion?.map(el => <option key={el} value={el}>{el}</option>) 
-                              : <option value="Unidad">Unidad</option>
+                                ? productDetails?.presentacion?.map(el => <option key={el} value={el}>{el}</option>)
+                                : <option value="Unidad">Unidad</option>
                             }
                           </Form.Control>
                         </Form.Group>
@@ -192,35 +210,35 @@ function DetailProduct() {
               </Row>
               <Row >
                 <Col className="mb-2" sm="12" md="6" lg="6">
-                  <Button  className="col-12" variant="secondary" onClick={handleClose}>
-                    Seguir comprando <RiArrowGoBackFill/> 
-                    </Button>
-                </Col>                
+                  <Button className="col-12" variant="secondary" onClick={handleClose}>
+                    Seguir comprando <RiArrowGoBackFill />
+                  </Button>
+                </Col>
                 <Col className="mb-2" sm="12" md="6" lg="6">
-                  <Button     
+                  <Button
                     className="col-12"
-                              disabled={
-                                (productDetails.stock === 0 ||
-                                  valoresDetalleProducto.tipo_corte === "" ||
-                                  valoresDetalleProducto.peso === "") &&
-                                true
-                              }
-                              variant="dark"
-                              onClick={handleAddProductInCart}
-                            >
-                              Agregar al Carrito <RiShoppingCartLine />
-                            </Button>
+                    disabled={
+                      (productDetails.stock === 0 ||
+                        valoresDetalleProducto.tipo_corte === "" ||
+                        valoresDetalleProducto.peso === "") &&
+                      true
+                    }
+                    variant="dark"
+                    onClick={handleAddProductInCart}
+                  >
+                    Agregar al Carrito <RiShoppingCartLine />
+                  </Button>
                   {/* <Button className="col-12" variant="dark" onClick={handleViewCart}>
                     Ver Carrito <RiShoppingCartLine />
                   </Button> */}
                 </Col>
               </Row>
-              <Row style={{maxHeight:"100px"}}>
-               
-                {productDetails.Reviews.length ? (                  
+              <Row style={{ maxHeight: "100px" }}>
+
+                {productDetails.Reviews.length ? (
                   productDetails.Reviews.map((review, i) => (
                     <Card.Text key={i}>
-                      <Evaluation ev={ review.evaluacion } cm={ review.comentario }/>
+                      <Evaluation ev={review.evaluacion} cm={review.comentario} />
                     </Card.Text>
                   ))
                 ) : (
@@ -233,9 +251,26 @@ function DetailProduct() {
                 id={productDetails.id}
                 available="ver de donde sacar el dato para habilitar/no habilitar el comentario"
                 califications={["Pasable", "Regular", "Bueno", "Muy bueno", "Exelente"]}
-                toDispatch={ "aca va la funcion a despachar por el review" } />              
+                toDispatch={"aca va la funcion a despachar por el review"} />
             </Card.Footer>
           </Card>
+          <Modal
+            show={confirmModal}
+            size="sm"
+            onHide={handleCloseModal}
+            backdrop="static"
+            keyboard={false}
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header>
+              <Modal.Title><p style={{ textAlign: "center" }}>Producto agregado con éxito!</p></Modal.Title>
+            </Modal.Header>
+
+            <Modal.Footer>
+              <Button variant="primary" onClick={handleCloseModal}>Aceptar</Button>
+            </Modal.Footer>
+          </Modal>
         </Container>
       </>
     );
