@@ -32,6 +32,7 @@ export const GET_SALES = "getSales";//admin
 export const EDIT_SALE_STATUS = "editSaleStatus";//admin
   
 export const ADD_CART_ITEM = "addCartItem";
+export const SET_CART_ITEM = "setCartItem";
 export const DELETE_CART_ITEM = "deleteCartItem";
 export const FLUSH_CART = "flushCart";  
   

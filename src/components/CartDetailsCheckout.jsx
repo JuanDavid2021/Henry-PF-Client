@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { RiMapPin2Line, RiTruckLine, RiMoneyDollarCircleLine, RiEyeLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function CartDetailsCheckout() {
+  const user = useSelector((state) => state.user)
 
   const [input, setInput] = useState({
     nombre:"",
     apellido:"",
-    direccion_despacho:"",
+    direccion:"",
     localidad:"",
-    telefono:"",
-    email:"",
+    celular:"",
+    zip:"",
+    comentario:"",
   })
 
   const handleChangeInputs = (e) => {
@@ -28,6 +32,13 @@ function CartDetailsCheckout() {
       e.stopPropagation();
     }
     setValidated(true)
+  }
+
+  const navigate = useNavigate()
+
+  const handleChangeToDelibery = (e) => {
+    e.preventDefault()
+    navigate("/cartDetailsCheckoutDelibery")
   }
 
   return (
@@ -63,43 +74,43 @@ function CartDetailsCheckout() {
                 </li>
               </ul>
               {/* datos de comprador */}
-              <form onSubmit={handleSubmit} className="py-4 needs-validation" noValidate  validated={validated ? "true": "false"}>
+              <form onSubmit={handleSubmit} className="py-4 needs-validation" noValidate  validated={validated ? true : undefined}>
                 <div className="row">
                   <div className="col-md-6 mb-3">
                     <label className="form-label" htmlFor="firstname">Nombre</label>
-                    <input className="form-control" id="firstname" type="text" name="nombre" value={input.nombre} onChange={handleChangeInputs} required/>
+                    <input className="form-control" id="firstname" type="text" name="nombre" value={input.nombre} onChange={handleChangeInputs} required placeholder="Nombre de quien recibirá el pedido"/>
                     <div className="invalid-tooltip">
                       mensaje
                     </div>
                   </div>
                   <div className="col-md-6 mb-3">
                     <label className="form-label" htmlFor="apellido">Apellido</label>
-                    <input className="form-control" id="apellido" type="text" name="apellido" value={input.apellido} onChange={handleChangeInputs} required/>
+                    <input className="form-control" id="apellido" type="text" name="apellido" value={input.apellido} onChange={handleChangeInputs} required placeholder="Apellido de quien recibirá el pedido"/>
                     <div className="invalid-feedback">
                       mensaje
                     </div>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label className="form-label" htmlFor="direccion_despacho">Calle</label>
-                    <input className="form-control" id="direccion_despacho" type="text" name="direccion_despacho" value={input.direccion_despacho} onChange={handleChangeInputs} required/>
+                    <label className="form-label" htmlFor="direccion">Dirección</label>
+                    <input className="form-control" id="direccion" type="text" name="direccion" value={input.direccion} onChange={handleChangeInputs} required placeholder='Dirección de entregar del pedido'/>
                   </div>
                   <div className="col-md-6 mb-3">
                     <label className="form-label" htmlFor="localidad">Localidad</label>
-                    <input className="form-control" id="localidad" name="localidad" type="text" value={input.localidad} onChange={handleChangeInputs} required/>
+                    <input className="form-control" id="localidad" name="localidad" type="text" value={input.localidad} onChange={handleChangeInputs} required placeholder='Localidad de entregar del pedido'/>
                   </div>
                 </div>
                 <div className="row mb-4">
                   <div className="col-md-6 mb-3 col-lg-3">
                     <label className="form-label" htmlFor="phone">Teléfono</label>
-                    <input className="form-control" id="phone" type="tel" name="telefono" value={input.telefono} onChange={handleChangeInputs} required/>
+                    <input className="form-control" id="phone" type="tel" name="celular" value={input.celular} onChange={handleChangeInputs} required/>
                   </div>
                   <div className="col-md-6 mb-3 col-lg-3">
                     <label className="form-label" htmlFor="zip">Código Postal</label>
-                    <input className="form-control" id="zip" type="zip" name="zip"/>
+                    <input className="form-control" id="zip" type="zip" name="zip" value={input.zip} onChange={handleChangeInputs}/>
                   </div>
                   <div className="col-md-6 mb-3">
-                    <label className="form-label" htmlFor="email_account">Email</label>
-                    <input className="form-control" id="email_account" type="email" name="email" value={input.email} onChange={handleChangeInputs} required/>
+                    <label className="form-label" htmlFor="comentario">Comentario</label>
+                    <input className="form-control" id="comentario" type="text" name="comentario" value={input.comentario} onChange={handleChangeInputs} placeholder="Comentario que aporte detalles"/>
                   </div>
                 </div>
                 {/* Navegacion */}
@@ -110,11 +121,17 @@ function CartDetailsCheckout() {
                       <RiArrowLeftSLine/> Volver al resumen
                     </Link>
                   </div>
-                  <div className="col-md-6 text-md-end py-1">
-                      <button className="btn btn-primary my-1" >Método de envío <RiArrowRightSLine/></button>
-                    {/* <Link to={"/cartDetailsCheckoutDelibery"}>
-                    </Link> */}
-                  </div>
+                  {
+                    user?.length===0 
+                    ? <div className="col-md-6 text-md-end py-1">
+                        <button className="btn btn-success text-light text-decoration-none fs-6 mx-3">Registrate</button>
+                    </div>
+                    : <div className="col-md-6 text-md-end py-1">
+                        <button className="btn btn-primary my-1" onClick={handleChangeToDelibery} >Método de envío <RiArrowRightSLine/></button>
+                    </div>
+
+                  }
+                  
                   </div>
                 </div>
               </form>

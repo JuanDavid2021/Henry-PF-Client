@@ -3,23 +3,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RiDeleteBin5Fill, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 //import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { deleteCartItem } from '../actions';
+import { deleteCartItem, setCartItem } from '../actions';
+import { IoReloadCircleSharp } from "react-icons/io5";
 
 function CartDetails() {
 
   const dispatch = useDispatch();
   const arrCartProducts = useSelector(state => state.cart);
-
-  
-  let obj = {}
   
   useEffect(() => {
+    let obj = {}
     arrCartProducts.forEach((product) => {
-      obj[product.nombreCap + product.tipo_corte] = "1"
+     obj={...obj,
+        [product.id + product.tipo_corte]: product.cantidad
+      }
     })
-  }, [arrCartProducts])
+   setChangeQuantity(obj)
+  }, [])
   
-  const [changeQuantity, setChangeQuantity] = useState(obj)
+  const [changeQuantity, setChangeQuantity] = useState({})
   
   const handleChangeQuantity = (e) => {
     setChangeQuantity({
@@ -28,9 +30,7 @@ function CartDetails() {
     })
   }
 
-  const sumPrice = arrCartProducts?.map(el => el.precio).reduce((a, b) => Number(a) + Number(b), 0)
-
-
+  let arrSuma = []
 
   return (
     <section className="py-5">
@@ -48,44 +48,52 @@ function CartDetails() {
                       <th className="border-gray-300 border-top py-3">Presentación</th>
                       <th className="border-gray-300 border-top py-3">Cantidad</th>
                       <th className="border-gray-300 border-top py-3">Precio</th>
-                      <th className="border-gray-300 border-top py-3">Descuento</th>
                       <th className="border-gray-300 border-top py-3">Total</th>
-                      <th className="border-gray-300 border-top py-3"></th>
+                      <th className="border-gray-300 border-top py-3">Opciones</th>
                     </tr>
                   </thead>
                   <tbody>
                     {
                       arrCartProducts?.length &&
-                      arrCartProducts.map(p => (
-                        <tr key={p.id + p.tipo_corte} className="text-sm">
-                          <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={p.arrFotos[0]} alt={p.nombreCap} style={{ minWidth: "50px" }} width="50" /></a></td>
-                          <td className="align-middle border-gray-300 py-3">{p.nombreCap}</td>
-                          <td className="align-middle border-gray-300 py-3">{p.tipo_corte}</td>
-                          <td className="align-middle border-gray-300 py-3">
-                            <input className="form-control" min={1} type="number" name={p.nombreCap + p.tipo_corte} value={changeQuantity.nombreCap} onChange={handleChangeQuantity} defaultValue="1" style={{ maxWidth: "3.5rem" }} />
-                          </td>
-                          <td className="align-middle border-gray-300 py-3">{p.precio}</td>
-                          <td className="align-middle border-gray-300 py-3">$0.00</td>
-                          <td className="align-middle border-gray-300 py-3">{p.precio}</td>
-                          <td className="align-middle border-gray-300 py-3">
-                            <button
-                              className="btn p-0"
-                              type="button"
-                              onClick={() => {
-                                dispatch(deleteCartItem(p))
-                              }}
-                            >
-                              <RiDeleteBin5Fill />
-                            </button>
-                          </td>
-                        </tr>
-                      ))
+                      arrCartProducts.map(p => {
+                        arrSuma.push(p.precioTotal * changeQuantity[p.id + p.tipo_corte]);
+                        return (
+                          <tr key={p.id + p.tipo_corte} className="text-sm">
+                            <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={p.arrFotos[0]} alt={p.nombreCap} style={{ minWidth: "50px" }} width="50" /></a></td>
+                            <td className="align-middle border-gray-300 py-3">{p.nombreCap}</td>
+                            <td className="align-middle border-gray-300 py-3">{p.tipo_corte} - {p.peso} kg</td>
+                            <td className="align-middle border-gray-300 py-3">
+                              <input className="form-control" min={1} type="number" name={p.id + p.tipo_corte} value={changeQuantity[p.id + p.tipo_corte]} onChange={handleChangeQuantity}  style={{ maxWidth: "3.5rem" }} />
+                            </td>
+                            <td className="align-middle border-gray-300 py-3">${p.precio}</td>
+                            <td className="align-middle border-gray-300 py-3">${(p.precioTotal * changeQuantity[p.id + p.tipo_corte])}</td>
+                            <td className="align-middle border-gray-300 py-3">
+                              <button className="btn p-2" type="button" onClick={() => { dispatch(deleteCartItem(p))}}>
+                                <RiDeleteBin5Fill />
+                              </button>{"    "}
+                              <button className="btn p-2" type="button" 
+                                onClick={ 
+                                  () => {  
+                                    let prod = {
+                                      ...p,
+                                      cantidad: changeQuantity[p.id + p.tipo_corte]
+                                    }
+                                    dispatch(setCartItem(prod))
+                                  }
+                                }
+                              >
+                                <IoReloadCircleSharp />
+                              </button>
+                            </td>
+                          </tr>
+                        )}
+                      )
                     }
                   </tbody>
                   <tfoot>
                     <tr>
                       <th className="py-3 border-0" colSpan="5"> <span className="h4 text-gray-700 mb-0">Total</span></th>
-                      <th className="py-3 border-0 text-end" colSpan="2"> <span className="h4 text-gray-700 mb-0">$ {sumPrice}</span></th>
+                      <th className="py-3 border-0 text-end" colSpan="2"> <span className="h4 text-gray-700 mb-0">$ {arrSuma?.reduce((a, b) => Number(a) + Number(b), 0)}</span></th>
                     </tr>
                   </tfoot>
                 </table>
@@ -98,7 +106,6 @@ function CartDetails() {
                   </Link>
                 </div>
                 <div className="col-md-6 text-md-end py-1">
-                  <button className="btn btn-dark my-1"><i className="fas fa-sync-alt me-1"></i> Actualizar Carrito</button>
                   <Link to={"/cartDetailsCheckout"}>
                     <button className="btn btn-outline-primary my-1">Verificación <RiArrowRightSLine /></button>
                   </Link>
@@ -120,7 +127,7 @@ function CartDetails() {
                     <tbody className="text-sm">
                       <tr>
                         <th className="text-muted"> <span className="d-block py-1 fw-normal">Subtotal</span></th>
-                        <th> <span className="d-block py-1 fw-normal text-end">{sumPrice}</span></th>
+                        <th> <span className="d-block py-1 fw-normal text-end">$ {arrSuma?.reduce((a, b) => Number(a) + Number(b), 0)}</span></th>
                       </tr>
                       <tr>
                         <th className="text-muted"> <span className="d-block py-1 fw-normal">Envío</span></th>
@@ -132,7 +139,7 @@ function CartDetails() {
                       </tr>
                       <tr className="total">
                         <td className="py-3 border-bottom-0 text-muted"> <span className="lead fw-bold">Total</span></td>
-                        <th className="py-3 border-bottom-0"> <span className="lead fw-bold text-end">$ {sumPrice}</span></th>
+                        <th className="py-3 border-bottom-0"> <span className="lead fw-bold text-end">$ {arrSuma?.reduce((a, b) => Number(a) + Number(b), 0)}</span></th>
                       </tr>
                     </tbody>
                   </table>

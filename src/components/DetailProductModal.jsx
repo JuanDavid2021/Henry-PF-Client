@@ -13,6 +13,8 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
     precio,
     peso:"",
     tipo_corte:"",
+    precioTotal: "",
+    cantidad: 1
   })
   
   const handleDetailst = () => {
@@ -25,8 +27,10 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
     setValoresDetalleProducto({
       ...valoresDetalleProducto,
       [e.target.name]: e.target.value,
+      precioTotal: valoresDetalleProducto.peso * valoresDetalleProducto.precio,
     })
   }
+
   const navigate = useNavigate()
 
   const handleViewCart = () => {
