@@ -10,24 +10,29 @@ function CartDetails() {
 
   const dispatch = useDispatch();
   const arrCartProducts = useSelector(state => state.cart);
-  
+
+  let obj = {}
+
   useEffect(() => {
-    let obj = {}
     arrCartProducts.forEach((product) => {
-     obj={...obj,
-        [product.id + product.tipo_corte]: product.cantidad
+      obj = {
+        ...obj,
+        [product.id + product.tipo_corte]: product.cantidad.toString()
       }
     })
-   setChangeQuantity(obj)
-  }, [])
-  
-  const [changeQuantity, setChangeQuantity] = useState({})
-  
+    setChangeQuantity(obj)
+    console.log(obj)
+  }, [arrCartProducts])
+
+  const [changeQuantity, setChangeQuantity] = useState(obj)
+
   const handleChangeQuantity = (e) => {
     setChangeQuantity({
       ...changeQuantity,
       [e.target.name]: e.target.value
+
     })
+    console.log(changeQuantity)
   }
 
   let arrSuma = []
@@ -42,8 +47,8 @@ function CartDetails() {
             <form >
               <div className="table-responsive">
                 <table className="table text-nowrap">
-                  <thead>
-                    <tr className="text-sm">
+                  <thead  >
+                    <tr className="text-sm ">
                       <th className="border-gray-300 border-top py-3" colSpan="2">Producto</th>
                       <th className="border-gray-300 border-top py-3">Presentación</th>
                       <th className="border-gray-300 border-top py-3">Cantidad</th>
@@ -54,40 +59,44 @@ function CartDetails() {
                   </thead>
                   <tbody>
                     {
-                      arrCartProducts?.length &&
-                      arrCartProducts.map(p => {
-                        arrSuma.push(p.precioTotal * changeQuantity[p.id + p.tipo_corte]);
-                        return (
-                          <tr key={p.id + p.tipo_corte} className="text-sm">
-                            <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={p.arrFotos[0]} alt={p.nombreCap} style={{ minWidth: "50px" }} width="50" /></a></td>
-                            <td className="align-middle border-gray-300 py-3">{p.nombreCap}</td>
-                            <td className="align-middle border-gray-300 py-3">{p.tipo_corte} - {p.peso} kg</td>
-                            <td className="align-middle border-gray-300 py-3">
-                              <input className="form-control" min={1} type="number" name={p.id + p.tipo_corte} value={changeQuantity[p.id + p.tipo_corte]} onChange={handleChangeQuantity}  style={{ maxWidth: "3.5rem" }} />
-                            </td>
-                            <td className="align-middle border-gray-300 py-3">${p.precio}</td>
-                            <td className="align-middle border-gray-300 py-3">${(p.precioTotal * changeQuantity[p.id + p.tipo_corte])}</td>
-                            <td className="align-middle border-gray-300 py-3">
-                              <button className="btn p-2" type="button" onClick={() => { dispatch(deleteCartItem(p))}}>
-                                <RiDeleteBin5Fill />
-                              </button>{"    "}
-                              <button className="btn p-2" type="button" 
-                                onClick={ 
-                                  () => {  
-                                    let prod = {
-                                      ...p,
-                                      cantidad: changeQuantity[p.id + p.tipo_corte]
+                      arrCartProducts.length > 0 ?
+                        arrCartProducts.map(p => {
+                          arrSuma.push(p.precioTotal * changeQuantity[p.id + p.tipo_corte]);
+                          return (
+                            <tr key={p.id + p.tipo_corte} className="text-sm">
+                              <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={p.arrFotos[0]} alt={p.nombreCap} style={{ minWidth: "50px" }} width="50" /></a></td>
+                              <td className="align-middle border-gray-300 py-3">{p.nombreCap}</td>
+                              <td className="align-middle border-gray-300 py-3">{p.tipo_corte} - {p.peso} kg</td>
+                              <td className="align-middle border-gray-300 py-3">
+                                <input className="form-control" min={1} type="number" name={p.id + p.tipo_corte} value={changeQuantity[p.id + p.tipo_corte]} onChange={handleChangeQuantity} style={{ maxWidth: "3.5rem" }} />
+                              </td>
+                              <td className="align-middle border-gray-300 py-3">${p.precio}</td>
+                              <td className="align-middle border-gray-300 py-3">${(p.precioTotal * changeQuantity[p.id + p.tipo_corte])}</td>
+                              <td className="align-middle border-gray-300 py-3">
+                                <button className="btn p-2" type="button" onClick={() => { dispatch(deleteCartItem(p)) }}>
+                                  <RiDeleteBin5Fill />
+                                </button>{"    "}
+                                <button className="btn p-2" type="button"
+                                  onClick={
+                                    () => {
+                                      let prod = {
+                                        ...p,
+                                        cantidad: changeQuantity[p.id + p.tipo_corte]
+                                      }
+                                      dispatch(setCartItem(prod))
                                     }
-                                    dispatch(setCartItem(prod))
                                   }
-                                }
-                              >
-                                <IoReloadCircleSharp />
-                              </button>
-                            </td>
-                          </tr>
-                        )}
-                      )
+                                >
+                                  <IoReloadCircleSharp />
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        }
+                        )
+                        : <p className="lead text-center fs-3 fw-normal mt-3">
+                          No tiene productos en el carrito
+                        </p>
                     }
                   </tbody>
                   <tfoot>

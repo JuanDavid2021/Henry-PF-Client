@@ -66,8 +66,8 @@ function SearchBar() {
     return () => clearTimeout(timeout);
   }, [typing, dispatch, setTyping, categoryFilterStatus, filter]);
   return (
-    <Row className="mx-4 mt-3">
-      <Col sm="12" md="4" lg="4" className="mb-2">
+    <Row className="mx-4 mt-3 center justify-content-center">
+      <Col sm="12" md="4" lg="4" xl="3" className="mb-2">
         <InputGroup>
           <FormControl
             isInvalid={!searchFilterStatus}
@@ -99,7 +99,7 @@ function SearchBar() {
           )}
         </InputGroup>
       </Col>
-      <Col sm="12" md="4" lg="4" className="mb-2">
+      <Col sm="12" md="4" lg="4" xl="3" className="mb-2">
         <Form.Select
           isValid={categoryFilterStatus}
           isInvalid={!categoryFilterStatus}
@@ -120,7 +120,7 @@ function SearchBar() {
           })}
         </Form.Select>
       </Col>
-      <Col sm="12" md="4" lg="4" className="mb-2">
+      <Col sm="12" md="4" lg="4" xl="3" className="mb-2">
         <Form.Select
           name="order"
           onChange={(e) => setTheFilter(e)}
