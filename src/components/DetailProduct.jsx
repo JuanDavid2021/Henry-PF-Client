@@ -21,6 +21,7 @@ function DetailProduct() {
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
     peso: "",
     tipo_corte: "",
+    cantidad: 1
   });
 
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function DetailProduct() {
     setValoresDetalleProducto({
       ...valoresDetalleProducto,
       [e.target.name]: e.target.value,
+      precioTotal: valoresDetalleProducto.peso * productDetails.precio,
     });
   };
 
