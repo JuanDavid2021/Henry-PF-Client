@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import EditCard from "./EditCard";
 //import arrProductos from './../dataSimulate';
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card, Image, Carousel, Form } from "react-bootstrap";
 import img from "../img/logo2.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../actions";
 import { NotFound } from "./NotFound";
 import EditUpdateForm from "./EditUpdateForm"
+import EditDeleteProductForm from "./EditDeleteProductForm"
+import CreateProductForm from "./CreateProductForm"
+import { postProducts } from "../actions/index"
 
 function Products() {
   const dispatch = useDispatch();
@@ -23,6 +26,8 @@ function Products() {
     presentacion: [],
     Categoria:[]
   }
+  const [copiedProduct, setCopiedProduct] = useState(emptyProduct)
+
   const [editingProduct, setEditingProduct] = useState(emptyProduct)
 
   const [inview, setInview] = useState(12);
@@ -41,6 +46,11 @@ function Products() {
     setInview((value) => value - 12);
   };
 
+  function createProduct(product) {
+    console.log(product)
+    dispatch(postProducts(product))
+  }
+
   function setProduct(id) {    
     if (id.length>0) {
       setEditingProduct(arrProducts.find(p=>p.id===id))
@@ -49,21 +59,33 @@ function Products() {
     }    
   } 
 
+  function loadCopy(id) {
+    setEditingProduct(emptyProduct)
+    let productToCopy = { ...arrProducts.find(p => p.id === id) }
+    productToCopy.nombre=productToCopy.nombre+Math.floor(Math.random() * 100)    
+    setCopiedProduct(productToCopy)
+    window.scrollTo(0, 0)
+  }
+
   return (
-    <div className="mx-4 mb-5">   
-      <Row className="mt-2">
+    <div className="mx-4 mb-5">  
+    <SearchBar />   
+      <Row className="mx-4">
         <Col>
-          <EditUpdateForm product={ editingProduct } cancelFunction={setProduct} />
+          <CreateProductForm product={copiedProduct} createFunction={createProduct} />
+          {/* <EditUpdateForm product={ editingProduct } cancelFunction={setProduct} /> */}
         </Col>
       </Row>    
-       <SearchBar />     
-        {arrProducts.length > 0 ? (
-          <Row xs={1} md={2} xl={4} className="g-4 mx-4">
-            {arrProducts?.map((p) => (
-              <EditCard edit={ setProduct } product={p} key={p.id}
-              />
+           
+      {arrProducts.length > 0 ? (  
+        <Row className="mx-4">
+          <Col>
+            {arrProducts?.map((p,i) => (
+              <EditDeleteProductForm key={i} product={editingProduct} productToView={ p } copyFunction={loadCopy} selectProduct={ setProduct } cancelFunction={setProduct} />
+              
             ))}
-          </Row>
+            </Col>
+          </Row>          
         ) : (
           <Row className="mt-3">
             <Col className="col-12 text-center">
