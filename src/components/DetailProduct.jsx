@@ -95,7 +95,8 @@ function DetailProduct() {
       id: productDetails.id,
       precio: productDetails.precio,
       arrFotos: productDetails.fotos,
-      nombreCap: productDetails.nombre,
+      nombre: productDetails.nombre,
+      idItemFront:( productDetails.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso )
     };
     console.log(alCarrito)
     dispatch(addCartItem(alCarrito));

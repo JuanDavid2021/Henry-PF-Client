@@ -32,6 +32,7 @@ import {
   EDIT_SALE_STATUS, 
   ORDER_PRECIO,
   SET_CART_ITEM,
+  DELIVERY_CART_ITEMS,
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -289,14 +290,15 @@ export function addCartItem(data) {
     ? JSON.parse(localStorage.getItem("cart"))
     : []
 
-    const index = cartLocal.findIndex(e => e.id === data.id && e.tipo_corte === data.tipo_corte)
+    const index = cartLocal.findIndex(e => e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso)
     
     if (index !== -1) {
       let itemMod = cartLocal[index]
       
       itemMod = {
         ...itemMod,
-        precio: Number(itemMod.precio) + Number(data.precio)
+        precioTotal: itemMod.precio * itemMod.peso,
+        cantidad: Number(itemMod.cantidad) + 1
       }
   
       cartLocal.splice(index,1,itemMod)
@@ -316,7 +318,7 @@ export function addCartItem(data) {
 export function setCartItem(data) {
   return (dispatch) => {
     let cartLocal = JSON.parse(localStorage.getItem("cart"))
-    const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte))
+    const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso))
 
     if (index !== -1) {
       let itemMod = cartLocal[index]
@@ -342,7 +344,7 @@ export function deleteCartItem(data) {
   
   let cartLocal = JSON.parse(localStorage.getItem("cart"))
 
-  const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte))
+  const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso))
 
   cartLocal.splice(index,1)
 
@@ -354,6 +356,16 @@ export function deleteCartItem(data) {
       payload: cartLocal,
     });
   };
+}
+
+export function setDelivery(data) {
+  console.log("SET_DELIVERY", data);
+  return (dispatch) => {
+    dispatch({
+      type: DELIVERY_CART_ITEMS,
+      payload: data,
+    })
+  }
 }
 
 export function flushCart() {

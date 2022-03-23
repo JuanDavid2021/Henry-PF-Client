@@ -1,8 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiTruckLine, RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 
 function CartDetailsCheckoutDelibery() {
+  const navigate = useNavigate()
+
+  const handleNavigateCheckoutReview = (e) => {
+    navigate("/CartDetailsCheckoutReview")
+  }
   return (
     <section className="py-5">
       <div className="container py-4">
@@ -17,21 +22,21 @@ function CartDetailsCheckoutDelibery() {
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="noopener noreferrer" tabIndex="-1" aria-disabled="true"> 
+                <a className="nav-link active" href="noopener noreferrer" aria-disabled="false"> 
                   <RiTruckLine/>
                   <p className="mb-0 pt-1">Método de envío</p>
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
-                  <RiMoneyDollarCircleLine/>
-                  <p className="mb-0 pt-1">Método de pago</p>
+                  <RiEyeLine/>
+                  <p className="mb-0 pt-1">Revisión del pedido</p>
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
-                  <RiEyeLine/>
-                  <p className="mb-0 pt-1">Revisión del pedido</p>
+                  <RiMoneyDollarCircleLine/>
+                  <p className="mb-0 pt-1">Método de pago</p>
                 </a>
               </li>
             </ul>
@@ -64,9 +69,7 @@ function CartDetailsCheckoutDelibery() {
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1">
-                    <Link to={"/cartDetailCheckoutPaymentMethod"}>
-                      <button className="btn btn-primary my-1">Método de pago <RiArrowRightSLine/></button>
-                    </Link>
+                    <button className="btn btn-primary my-1" onClick={handleNavigateCheckoutReview}>Revisión del pedido <RiArrowRightSLine/></button>
                   </div>
                 </div>
               </div>

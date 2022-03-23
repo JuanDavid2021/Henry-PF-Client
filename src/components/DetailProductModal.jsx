@@ -9,12 +9,12 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
     id,
     arrFotos,
-    nombreCap,
+    nombre: nombreCap,
     precio,
     peso:"",
     tipo_corte:"",
     precioTotal: "",
-    cantidad: 1
+    cantidad: 1,
   })
   
   const handleDetailst = () => {
@@ -28,6 +28,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
       ...valoresDetalleProducto,
       [e.target.name]: e.target.value,
       precioTotal: valoresDetalleProducto.peso * valoresDetalleProducto.precio,
+      idItemFront:( valoresDetalleProducto.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso )
     })
   }
 
@@ -91,7 +92,6 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
                   ))}
                 </Carousel>
               </Col>
-              {/* <Col xl={6}>{descripcion}</Col> */}
             </Row>
             <Row>
               <Col>Precio por kg: $ {precio}</Col>

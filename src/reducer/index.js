@@ -32,16 +32,18 @@ import {
   EDIT_SALE_STATUS, 
   ORDER_PRECIO,
   SET_CART_ITEM,
+  DELIVERY_CART_ITEMS,
 } from './../action-types/index';
 
 const initialState = {
-  user: [], //usuario actual usando la app
+  user: ["algo"], //usuario actual usando la app
   gettingProducts: false,
   products: [],
   filteringProducts: false,  
   filteredProducts: [],
   productDetails: { id: null },
   cart: [],
+  despacho: null,
   categories: [],//[{id:XXX,name:'sadasd'},...]
 
   sales: [],//lista de ventas
@@ -56,6 +58,13 @@ localStorage.getItem("cart")
 : initialState.cart = []
 
 function rootReducer(state = initialState, action) {
+  if (action.type === DELIVERY_CART_ITEMS){
+    console.log("DELIVERY_CART_ITEMS REDUCER", action.payload);
+    return {
+      ...state,
+      despacho: action.payload
+    }
+  }
 
   if (action.type === ADD_CART_ITEM) {
     return {
