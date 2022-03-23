@@ -23,15 +23,15 @@ function CartDetailCheckoutPaymentMethod() {
                 </Link>
               </li>
               <li className="nav-item">
+                <Link to={"/cartDetailsCheckoutReview"} className="nav-link" aria-current="page">
+                  <RiEyeLine/>
+                  <p className="mb-0 pt-1">Revisión del pedido</p>
+                </Link>
+              </li>
+              <li className="nav-item">
                 <a className="nav-link active" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
                   <RiMoneyDollarCircleLine/>
                   <p className="mb-0 pt-1">Método de pago</p>
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
-                  <RiEyeLine/>
-                  <p className="mb-0 pt-1">Revisión del pedido</p>
                 </a>
               </li>
             </ul>
@@ -51,12 +51,12 @@ function CartDetailCheckoutPaymentMethod() {
               <div className="align-items-center bg-light px-4 py-3 text-center mb-5">
                 <div className="row">
                   <div className="col-md-6 text-md-start py-1">
-                    <Link to={"/cartDetailsCheckoutDelibery"} className="btn btn-dark my-1">
-                      <RiArrowLeftSLine/> Volver a Método de envío
+                    <Link to={"/cartDetailsCheckoutReview"} className="btn btn-dark my-1">
+                      <RiArrowLeftSLine/> Revisión del pedido
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1">
-                    <button className="btn btn-primary my-1" >Revisión del pedido<RiArrowRightSLine/></button>
+                    <button className="btn btn-primary my-1" >MercadoPago <RiArrowRightSLine/></button>
                   </div>
                 </div>
               </div>

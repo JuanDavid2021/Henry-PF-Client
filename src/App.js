@@ -7,7 +7,8 @@ import Shop from './components/Shop';
 import { CreationForm } from './components/CreationForm';
 import CartDetails from './components/CartDetails';
 import CartDetailsCheckout from './components/CartDetailsCheckout';
-import CartDetailsCheckoutDelibery from './components/CartDetailsCheckoutDelibery';
+import CartDetailsCheckoutDelivery from './components/CartDetailsCheckoutDelivery';
+import CartDetailsCheckoutReview from './components/CartDetailsCheckoutReview';
 import CartDetailCheckoutPaymentMethod from './components/CartDetailCheckoutPaymentMethod';
 import DetailProduct from './components/DetailProduct';
 import Products from "./components/Products"
@@ -30,8 +31,9 @@ function App() {
         <Route exact path='/creationForm' element={<CreationForm />} />
         <Route exact path='/cartDetails' element={<CartDetails/>}/>
         <Route path='/cartDetailsCheckout' element={<CartDetailsCheckout/>}/>
-        <Route path='/cartDetailsCheckoutDelibery' element={<CartDetailsCheckoutDelibery/>}/>
-        <Route path='/cartDetailCheckoutPaymentMethod' element={<CartDetailCheckoutPaymentMethod/>}/>
+        <Route path='/cartDetailsCheckoutDelivery' element={<CartDetailsCheckoutDelivery/>}/>
+        <Route path='/cartDetailsCheckoutReview' element={<CartDetailsCheckoutReview/>}/>
+        <Route path='/cartDetailsCheckoutPaymentMethod' element={<CartDetailCheckoutPaymentMethod/>}/>
       </Routes>
       <Footer style={{zIndex:"0"}}/>
     </div>
