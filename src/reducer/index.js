@@ -32,6 +32,7 @@ import {
   EDIT_SALE_STATUS, 
   ORDER_PRECIO,
   SET_CART_ITEM,
+  POST_PEDIDO,
 } from './../action-types/index';
 
 const initialState = {
@@ -61,6 +62,12 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       cart: [...action.payload]
+    }
+  }
+
+  if (action.type === POST_PEDIDO) {
+    return {
+      ...state
     }
   }
 

@@ -1,35 +1,36 @@
 import {
-  ADD_PRODUCT, 
-  DELETE_PRODUCT, 
-  EDIT_PRODUCT, 
-  POST_PRODUCT, 
-  RATE_PRODUCT, 
-  SEARCH_PRODUCT, 
-  SEARCHING_PRODUCT, 
-  GETTING_PRODUCTS, 
-  SET_PRODUCTS, 
+  POST_PEDIDO,
+  ADD_PRODUCT,
+  DELETE_PRODUCT,
+  EDIT_PRODUCT,
+  POST_PRODUCT,
+  RATE_PRODUCT,
+  SEARCH_PRODUCT,
+  SEARCHING_PRODUCT,
+  GETTING_PRODUCTS,
+  SET_PRODUCTS,
   SET_FILTERED_PRODUCTS,
   ORDER_PRODUCTS,
-  GETTING_PRODUCT_DETAILS, 
-  SET_PRODUCT_DETAILS, 
-  SET_PRODUCT_DETAILS_FRONT, 
-  ADD_CART_ITEM, 
-  DELETE_CART_ITEM, 
-  FLUSH_CART, 
-  ADD_PRODUCT_COMMENT, 
-  ADD_CATEGORY, 
+  GETTING_PRODUCT_DETAILS,
+  SET_PRODUCT_DETAILS,
+  SET_PRODUCT_DETAILS_FRONT,
+  ADD_CART_ITEM,
+  DELETE_CART_ITEM,
+  FLUSH_CART,
+  ADD_PRODUCT_COMMENT,
+  ADD_CATEGORY,
   SET_CATEGORIES,
-  DELETE_CATEGORY, 
-  DELETE_PRODUCT_COMMENT, 
+  DELETE_CATEGORY,
+  DELETE_PRODUCT_COMMENT,
   SET_USERS,
-  DELETE_USER, 
-  GETTING_USERS, 
-  FILTER_PRODUCTS, 
-  FILTERING_PRODUCTS, 
-  FORCE_PASSWORD_RESET, 
-  GET_COMMENTS, 
-  GET_SALES, 
-  EDIT_SALE_STATUS, 
+  DELETE_USER,
+  GETTING_USERS,
+  FILTER_PRODUCTS,
+  FILTERING_PRODUCTS,
+  FORCE_PASSWORD_RESET,
+  GET_COMMENTS,
+  GET_SALES,
+  EDIT_SALE_STATUS,
   ORDER_PRECIO,
   SET_CART_ITEM,
 } from './../action-types/index';
@@ -54,28 +55,28 @@ function orderProducts(products, orderType) {
   return products;
 }
 
-export const searchProduct =(producto)=>{
-    return async function(dispatch){
-      var busq=await axios("http://localhost:3001/api/product/all")
-        return dispatch({
-         type: SEARCH_PRODUCT,
-         payload: {busq, producto}
-        })
-    }
+export const searchProduct = (producto) => {
+  return async function (dispatch) {
+    var busq = await axios("http://localhost:3001/api/product/all")
+    return dispatch({
+      type: SEARCH_PRODUCT,
+      payload: { busq, producto }
+    })
   }
-
-export const order=(payload)=>{
- return{
-  type: ORDER_PRODUCTS,
-  payload
- }
 }
-export const orderPrecio=(payload)=>{
-  return{
-   type: ORDER_PRECIO,
-   payload
+
+export const order = (payload) => {
+  return {
+    type: ORDER_PRODUCTS,
+    payload
   }
- }
+}
+export const orderPrecio = (payload) => {
+  return {
+    type: ORDER_PRECIO,
+    payload
+  }
+}
 
 async function apiGetAllUsers() {
   try {
@@ -177,8 +178,8 @@ export function editProduct(data) {
 }
 
 export function filterProducts(filter) {
-  return (dispatch)=>{   
-      dispatch({type:FILTER_PRODUCTS, payload:filter})    
+  return (dispatch) => {
+    dispatch({ type: FILTER_PRODUCTS, payload: filter })
   }
 }
 
@@ -188,13 +189,13 @@ export function getProducts() {
       dispatch({ type: GETTING_PRODUCTS, payload: true });
       const categories = await apiGetAllCategories()
       if (!categories.error) {
-        dispatch({ type: SET_CATEGORIES, payload:categories })
-      }            
+        dispatch({ type: SET_CATEGORIES, payload: categories })
+      }
       const products = await apiGetAllProducts();
       if (products.error) {
         return dispatch({ type: GETTING_PRODUCTS, payload: false });
-      } else {        
-        dispatch({ type:SET_FILTERED_PRODUCTS, payload:products.filter(e=>e.stock>0) })
+      } else {
+        dispatch({ type: SET_FILTERED_PRODUCTS, payload: products.filter(e => e.stock > 0) })
         return dispatch({ type: SET_PRODUCTS, payload: products });
       }
     } catch (error) {
@@ -285,25 +286,25 @@ export function getUsers() {
 
 export function addCartItem(data) {
   return (dispatch) => {
-    const cartLocal =  localStorage.getItem("cart")
-    ? JSON.parse(localStorage.getItem("cart"))
-    : []
+    const cartLocal = localStorage.getItem("cart")
+      ? JSON.parse(localStorage.getItem("cart"))
+      : []
 
     const index = cartLocal.findIndex(e => e.id === data.id && e.tipo_corte === data.tipo_corte)
-    
+
     if (index !== -1) {
       let itemMod = cartLocal[index]
-      
+
       itemMod = {
         ...itemMod,
         precio: Number(itemMod.precio) + Number(data.precio)
       }
-  
-      cartLocal.splice(index,1,itemMod)
-    }else{
+
+      cartLocal.splice(index, 1, itemMod)
+    } else {
       cartLocal.push(data)
     }
-  
+
     localStorage.setItem("cart", JSON.stringify(cartLocal))
 
     dispatch({
@@ -320,15 +321,15 @@ export function setCartItem(data) {
 
     if (index !== -1) {
       let itemMod = cartLocal[index]
-      
+
       itemMod = {
         ...itemMod,
         cantidad: data.cantidad
       }
-  
-      cartLocal.splice(index,1,itemMod)
+
+      cartLocal.splice(index, 1, itemMod)
     }
-    
+
     localStorage.setItem("cart", JSON.stringify(cartLocal))
 
     dispatch({
@@ -339,12 +340,12 @@ export function setCartItem(data) {
 }
 
 export function deleteCartItem(data) {
-  
+
   let cartLocal = JSON.parse(localStorage.getItem("cart"))
 
   const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte))
 
-  cartLocal.splice(index,1)
+  cartLocal.splice(index, 1)
 
   localStorage.setItem("cart", JSON.stringify(cartLocal))
 
@@ -365,13 +366,21 @@ export function flushCart() {
   };
 }
 
-export function postProducts(payload){
+export function postProducts(payload) {
   console.log(payload)
- return async function(dispatch){
-   const newProduct= await axios.post("http://localhost:3001/api/product/create", payload)
-   return newProduct
- }
+  return async function (dispatch) {
+    const newProduct = await axios.post("http://localhost:3001/api/product/create", payload)
+    return newProduct
+  }
 }
+
+export function postPedido(payload) {
+  return async function () {
+    const newPedido = await axios.post("http://localhost:3001/api/pedido/create", payload)
+    return newPedido
+  }
+}
+
 
 //SALES...
 
