@@ -10,8 +10,7 @@ function CartDetailCheckoutPaymentMethod() {
   const carrito = useSelector(state => state.cart)
   const dispatch = useDispatch()
 
-  carrito.map((p)=> delete p.arrFotos)
-  carrito.map((p)=> delete p.idItemFront)
+
 
 
   const pedidos = {
@@ -29,7 +28,9 @@ function CartDetailCheckoutPaymentMethod() {
   useEffect(() => {
 
     dispatch(postPedido(pedidos))
-    console.log(carrito)
+
+    console.log(pedidos)
+
 
     // axios
     //   .get("http://localhost:3001/mercadopago")
