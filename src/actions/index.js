@@ -391,7 +391,7 @@ export function flushCart() {
 }
 
 
-export function postProducts(payload) {
+export function postProduct(payload) {
   
   return async function (dispatch) { 
     try {
@@ -403,6 +403,21 @@ export function postProducts(payload) {
      })
     }
    return newProduct  
+    } catch (error) {      
+      return {status:400, error:error}
+    }
+     
+ }
+}
+export function putProduct(payload) {
+  
+  return async function (dispatch) { 
+    try {
+      const newProduct = await axios.put("http://localhost:3001/api/product/update", payload)   
+   if (newProduct.status === 200) {
+     console.log(newProduct)
+    }
+   return newProduct   
     } catch (error) {      
       return {status:400, error:error}
     }
