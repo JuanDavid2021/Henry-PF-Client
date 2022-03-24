@@ -28,7 +28,9 @@ function CartDetailCheckoutPaymentMethod() {
   useEffect(() => {
 
     dispatch(postPedido(pedidos))
+
     console.log(pedidos)
+
 
     // axios
     //   .get("http://localhost:3001/mercadopago")
