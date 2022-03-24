@@ -72,12 +72,13 @@ function Products() {
 
   async function updateProduct(product) {    
     const updatedProduct = await dispatch(putProduct(product))
-    if (updatedProduct.status === 200) {
-      alert("CREADO EXITOSAMENTE")
+    if (updatedProduct.status === 200) {     
       setEditingProduct(emptyProduct)
       setConfirmModal(true)
     } else {
-      alert("ERROR CREANDO PRODUCTO",updatedProduct)
+      setErrorModal({
+        show: true,
+        data:updatedProduct.error.response.data.error})
     }    
   }
 

@@ -132,35 +132,22 @@ function EditDeleteProductForm({
     } else {
       alert(`Existen errores ${errors}`);
     }
-  };
-
-  // const handleCreate = (e) => {
-  //   e.preventDefault();
-  //   if (!Object.keys(errors).length) {
-  //     const finalProduct = {
-  //       ...input,
-  //       id: "",
-  //       presentacion: presentacion,
-  //       categoria: categorias.map((c) => c.id),
-  //       fotos: fotos,
-  //     };
-  //     createFunction(finalProduct);
-  //   } else {
-  //     alert(`Existen errores ${errors}`);
-  //   }
-  // };
+  };  
 
   const handleUpdate = (e) => {
-    //e.preventDefault();
-
-    const finalProduct = {
-      ...input,
-      presentacion: presentacion,
-      categoria: categorias,
-      fotos: fotos,
-    };
-    console.log(finalProduct)
-    updateFunction(finalProduct)
+    
+    if (!Object.keys(errors).length) {
+      const finalProduct = {
+        ...input,
+        presentacion: presentacion.map(p => p.id),        
+        categoria: categorias.map((c) => c.id),
+        fotos: fotos,
+      };    
+      console.log(finalProduct)
+      updateFunction(finalProduct)
+    } else {
+      alert(`Existen errores ${errors}`);
+    }
   };
 
   const setFoto = (e) => {
@@ -170,7 +157,7 @@ function EditDeleteProductForm({
   const handleCategories = (e) => {
     if (e.target.checked) {
       if (!categorias.find((c) => c === parseInt(e.target.value))) {
-        setCategrorias([...categorias, { id: parseInt(e.target.value) }]);
+        setCategrorias([...categorias, { id: parseInt(e.target.value ) }]);
       }
     } else {
       if (categorias.find((c) => c.id === parseInt(e.target.value))) {
@@ -452,7 +439,7 @@ function EditDeleteProductForm({
               <Col className="col-12 mb-2">
                 <Button
                   className="col-12"
-                  disabled={input.nombre.length < 3}
+                  disabled={input.nombre.length < 3 || Object.keys(errors)?.length }
                   onClick={input.id.length > 0 ? handleUpdate : handleCreate}
                 >
                   {input.id.length > 0 ? "Actualizar" : "Crear"}
