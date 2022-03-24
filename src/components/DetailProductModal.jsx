@@ -129,7 +129,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
                 <option value="" disabled>Seleccione un tipo de presentación</option>
                 {
                   presentacion?.length > 0
-                  ? presentacion.map(el => <option key={el} value={el}>{el}</option>) 
+                  ? presentacion.map(el => <option key={el.nombre} value={el.nombre}>{el.nombre}</option>) 
                   : <option value="Unidad">Unidad</option>
                 }
               </Form.Control>
