@@ -1,48 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiDeleteBin5Fill, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
-//import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { deleteCartItem, setCartItem } from '../actions';
-import { IoReloadCircleSharp } from "react-icons/io5";
+import { Modal, Button } from 'react-bootstrap';
 
 function CartDetails() {
-
-  const dispatch = useDispatch();
   const arrCartProducts = useSelector(state => state.cart);
 
-  let obj = {}
+  const [modal, setModal] = useState(false)
 
-  useEffect(() => {
-    arrCartProducts.forEach((product) => {
-      obj = {
-        ...obj,
-        [product.id + product.tipo_corte]: product.cantidad.toString()
-      }
-    })
-    setChangeQuantity(obj)
-    console.log(obj)
-  }, [arrCartProducts])
+  const navigate = useNavigate()
 
-  const [changeQuantity, setChangeQuantity] = useState(obj)
-
-
-  const handleChangeQuantity = (e) => {
-    setChangeQuantity({
-      ...changeQuantity,
-      [e.target.name]: e.target.value
-    })
-
-    let prod = arrCartProducts.filter(p => p.id + p.tipo_corte === e.target.name)
-
-    let producto = {
-      ...prod[0],
-      cantidad: e.target.value
+  const handleNavigateDelibery = (e) => {
+    e.preventDefault()
+    if (arrCartProducts.length > 0) {
+      navigate("/cartDetailsCheckout")
+    }else{
+      setModal(true)
     }
-    dispatch(setCartItem(producto))
-    
-    console.log(producto)
-    // console.log(changeQuantity)
+  }
+
+  const handleCloseModal = () => {
+    setModal(false)
   }
 
   let arrSuma = []
@@ -70,24 +51,11 @@ function CartDetails() {
                   <tbody>
                     {
                       arrCartProducts.length > 0 ?
-                        arrCartProducts.map(p => {
-                          arrSuma.push(p.precioTotal * changeQuantity[p.id + p.tipo_corte]);
+                      /* Mapeo de las filas de la tabla con los items del carrito */
+                        arrCartProducts.map((p) => {
+                          arrSuma.push(p.precioTotal * p.cantidad);
                           return (
-                            <tr key={p.id + p.tipo_corte} className="text-sm">
-                              <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={p.arrFotos[0]} alt={p.nombreCap} style={{ minWidth: "50px" }} width="50" /></a></td>
-                              <td className="align-middle border-gray-300 py-3">{p.nombreCap}</td>
-                              <td className="align-middle border-gray-300 py-3">{p.tipo_corte} - {p.peso} kg</td>
-                              <td className="align-middle border-gray-300 py-3">
-                                <input className="form-control" min={1} type="number" name={p.id + p.tipo_corte} value={changeQuantity[p.id + p.tipo_corte]} onChange={handleChangeQuantity} style={{ maxWidth: "3.5rem" }} />
-                              </td>
-                              <td className="align-middle border-gray-300 py-3">${p.precio}</td>
-                              <td className="align-middle border-gray-300 py-3">${(p.precioTotal * changeQuantity[p.id + p.tipo_corte])}</td>
-                              <td className="align-middle border-gray-300 py-3">
-                                <button className="btn mx-2" type="button" onClick={() => { dispatch(deleteCartItem(p)) }}>
-                                  <RiDeleteBin5Fill/>
-                                </button>
-                              </td>
-                            </tr>
+                            <TrItemCart key={p.idItemFront} el={p} inputRender={true}/>
                           )
                         }
                         )
@@ -113,11 +81,10 @@ function CartDetails() {
                 </div>
                 <div className="col-md-6 text-md-end py-1">
                   <Link to={"/cartDetailsCheckout"}>
-                    <button className="btn btn-outline-primary my-1">Verificación <RiArrowRightSLine /></button>
+                    <button className="btn btn-outline-primary my-1" onClick={handleNavigateDelibery}>Verificación <RiArrowRightSLine /></button>
                   </Link>
                 </div>
               </div>
-
             </form>
           </div>
           {/* Resumen */}
@@ -169,7 +136,78 @@ function CartDetails() {
           </div>
         </div>
       </div>
+      {/* Modal */}
+      <Modal 
+          show={modal}
+          size="sm"
+          onHide={handleCloseModal}
+          backdrop="static"
+          keyboard={false}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title><p style={{ textAlign: "center" }}>Error</p></Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>No posee productos en su carrito</p>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleCloseModal}>Aceptar</Button>
+          </Modal.Footer>
+        </Modal>
     </section>
+  )
+}
+
+export function TrItemCart({el, inputRender}) {
+  const dispatch = useDispatch()
+  const [changeQuantityItem, setChangeQuantityItem] = useState({
+    ...el,
+    cantidad: el?.cantidad
+  })
+
+  const handleChangeQuantityItem = (e) => {
+    setChangeQuantityItem({
+      ...changeQuantityItem,
+      cantidad: e.target.value
+    })
+    let elem = {
+      ...el,
+      cantidad: e.target.value
+    }
+    dispatch(setCartItem(elem))
+  }
+
+  return(
+  <tr className="text-sm">
+    <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={el.arrFotos[0]} alt={el.nombre} style={{ minWidth: "50px" }} width="50" /></a></td>
+    <td className="align-middle border-gray-300 py-3">{el.nombre}</td>
+    <td className="align-middle border-gray-300 py-3">{el.tipo_corte} - {el.peso} kg</td>
+    { 
+      inputRender
+
+      ?<td className="align-middle border-gray-300 py-3">
+        <input className="form-control" min={1} type="number" name={el.idItemFront} value={changeQuantityItem.cantidad} onChange={handleChangeQuantityItem} style={{ maxWidth: "3.5rem" }} />
+      </td>
+
+      :<td className="align-middle border-gray-300 py-3">{el.cantidad}</td>
+    }
+    <td className="align-middle border-gray-300 py-3">${el.precio}</td>
+    <td className="align-middle border-gray-300 py-3">${(el.precioTotal * changeQuantityItem.cantidad)}</td>
+    {
+      inputRender 
+
+      ?<td className="align-middle border-gray-300 py-3">
+        <button className="btn mx-2" type="button" onClick={() => { dispatch(deleteCartItem(el)) }}>
+          <RiDeleteBin5Fill/>
+        </button>
+      </td>
+
+      : null
+    }
+  </tr>
   )
 }
 

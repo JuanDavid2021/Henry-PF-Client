@@ -23,6 +23,7 @@ export const SET_PRODUCT_DETAILS_FRONT = "setProductDetailsFront";//solo si lo h
 export const ADD_CATEGORY = "addCategory";//admin
 export const SET_CATEGORIES = "setCategories";
 export const DELETE_CATEGORY = "deleteCategory";//admin
+export const DELIVERY_CART_ITEMS = "deliveryCartItems";
 
 export const GETTING_USERS = "gettingUsers";
 export const SET_USERS = "setUsers";//admin
