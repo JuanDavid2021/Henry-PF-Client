@@ -244,7 +244,7 @@ function EditDeleteProductForm({
               <p className="mb-1">
                 <b>Categorias: </b>
                 {productToView.Categoria?.map(ct=>ct.nombre+ ", ")}
-              </p>
+              </p> 
             </Col>
             <Col className="border-bottom" xs="12" sm="6">
               <p className="mb-1">

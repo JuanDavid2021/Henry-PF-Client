@@ -352,6 +352,6 @@ function CreateProductForm({ product, createFunction }) {
       </Col>
     </Row>
   );
-}
+} 
 
 export default CreateProductForm;

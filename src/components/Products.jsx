@@ -19,7 +19,7 @@ function Products() {
   const emptyProduct = {
     id: "",
     nombre: "",
-    descripcion: "",    
+    descripcion: "",   
     precio: "",
     stock: "", 
     fotos: [],
