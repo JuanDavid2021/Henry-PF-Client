@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import '../components/styles.css/CreationForm.css'
-import {postProducts} from "../actions/index"
+import {postProduct} from "../actions/index"
 
 
 
@@ -77,7 +77,7 @@ setInput({
   categoria:"",
   fotos:[] 
 })
-dispatch(postProducts(input))
+dispatch(postProduct(input))
 }
 
   return (
