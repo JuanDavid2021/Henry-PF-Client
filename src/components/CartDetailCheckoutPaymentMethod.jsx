@@ -9,6 +9,11 @@ function CartDetailCheckoutPaymentMethod() {
 
   const carrito = useSelector(state => state.cart)
   const dispatch = useDispatch()
+
+  carrito.map((p)=> delete p.arrFotos)
+  carrito.map((p)=> delete p.idItemFront)
+
+
   const pedidos = {
     direccion_despacho: "Union Street 266, St. Louis",
     status: "Creada",
@@ -24,6 +29,7 @@ function CartDetailCheckoutPaymentMethod() {
   useEffect(() => {
 
     dispatch(postPedido(pedidos))
+    console.log(carrito)
 
     // axios
     //   .get("http://localhost:3001/mercadopago")
