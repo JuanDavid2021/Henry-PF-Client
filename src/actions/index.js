@@ -406,7 +406,7 @@ export function putProduct(payload) {
    if (newProduct.status === 200) {
      console.log(newProduct)
     }
-   return newProduct  
+   return newProduct   
     } catch (error) {      
       return {status:400, error:error}
     }
