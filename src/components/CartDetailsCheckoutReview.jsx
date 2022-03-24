@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { RiMapPin2Line, RiTruckLine, RiEyeLine, RiMoneyDollarCircleLine, RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
-import { TrItemCart } from './CartDetails';
+import { TrItemCart, Resume } from './CartDetails';
 
 function CartDetailsCheckoutReview() {
   const arrCartProducts = useSelector(state => state.cart);
@@ -13,6 +13,10 @@ function CartDetailsCheckoutReview() {
   }
 
   let arrSuma = []
+
+  arrCartProducts.map((p) => arrSuma.push(p.precioTotal * p.cantidad))
+  
+  let suma = arrSuma?.reduce((a, b) => Number(a) + Number(b), 0)
 
   return (
     <section className="py-5">
@@ -63,7 +67,6 @@ function CartDetailsCheckoutReview() {
                     arrCartProducts.length > 0 ?
                     /* Mapeo de las filas de la tabla con los items del carrito */
                       arrCartProducts.map((p) => {
-                        arrSuma.push(p.precioTotal * p.cantidad);
                         return (
                           <TrItemCart key={p.idItemFront} el={p} inputRender={false}/>
                         )
@@ -77,7 +80,7 @@ function CartDetailsCheckoutReview() {
                 <tfoot>
                   <tr>
                     <th className="py-3 border-0" colSpan="5"> <span className="h4 text-gray-700 mb-0">Total</span></th>
-                    <th className="py-3 border-0 text-end" colSpan="2"> <span className="h4 text-gray-700 mb-0">$ {arrSuma?.reduce((a, b) => Number(a) + Number(b), 0)}</span></th>
+                    <th className="py-3 border-0 text-end" colSpan="2"> <span className="h4 text-gray-700 mb-0">$ {suma}</span></th>
                   </tr>
                 </tfoot>
               </table>
@@ -97,38 +100,7 @@ function CartDetailsCheckoutReview() {
               </div>
           </div>
           {/* Resumen */}
-          <div className="col-lg-3">
-            <div className="mb-5">
-              <div className="p-4 bg-gray-200">
-                <h3 className="text-uppercase mb-0">Order summary</h3>
-              </div>
-              <div className="bg-light py-4 px-3">
-                <p className="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
-                <div className="table-responsive">
-                  <table className="table mb-0">
-                    <tbody className="text-sm">
-                      <tr>
-                        <th className="text-muted"> <span className="d-block py-1 fw-normal">Order subtotal</span></th>
-                        <th> <span className="d-block py-1 fw-normal text-end">$446.00</span></th>
-                      </tr>
-                      <tr>
-                        <th className="text-muted"> <span className="d-block py-1 fw-normal">Shipping and handling</span></th>
-                        <th> <span className="d-block py-1 fw-normal text-end">$10.00</span></th>
-                      </tr>
-                      <tr>
-                        <th className="text-muted"> <span className="d-block py-1 fw-normal">Tax</span></th>
-                        <th> <span className="d-block py-1 fw-normal text-end">$0.00</span></th>
-                      </tr>
-                      <tr className="total">
-                        <td className="py-3 border-bottom-0 text-muted"> <span className="lead fw-bold">Total</span></td>
-                        <th className="py-3 border-bottom-0"> <span className="lead fw-bold text-end">$456.00</span></th>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Resume/>
         </div>
       </div>
     </section>

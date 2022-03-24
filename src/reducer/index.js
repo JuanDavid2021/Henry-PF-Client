@@ -34,7 +34,7 @@ import {
   SET_CART_ITEM,
   POST_PEDIDO,
   DELIVERY_CART_ITEMS,
-
+  ADD_ORDER_DATE,
 } from './../action-types/index';
 
 const initialState = {
@@ -61,10 +61,16 @@ localStorage.getItem("cart")
 
 function rootReducer(state = initialState, action) {
   if (action.type === DELIVERY_CART_ITEMS){
-    console.log("DELIVERY_CART_ITEMS REDUCER", action.payload);
     return {
       ...state,
       despacho: action.payload
+    }
+  }
+
+  if (action.type === ADD_ORDER_DATE) {
+    return {
+      ...state,
+      despacho: {...state.despacho, ...action.payload}
     }
   }
 

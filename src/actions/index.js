@@ -34,6 +34,7 @@ import {
   ORDER_PRECIO,
   SET_CART_ITEM,
   DELIVERY_CART_ITEMS,
+  ADD_ORDER_DATE,
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -358,6 +359,16 @@ export function deleteCartItem(data) {
       payload: cartLocal,
     });
   };
+}
+
+export function addOrderDate(data) {
+  console.log("data date",data);
+  return (dispatch) => {
+    dispatch({
+      type: ADD_ORDER_DATE,
+      payload: data,
+    })
+  }
 }
 
 export function setDelivery(data) {
