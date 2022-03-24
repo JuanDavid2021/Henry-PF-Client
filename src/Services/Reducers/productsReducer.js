@@ -55,7 +55,7 @@ export const productsSlice = createSlice({
       state.failed = true;
     },
     filterProductsSuccess: (state, action) => {
-      // nepundor: tal vez deberia actualizar la propiedad 'all'
+      // nepundir: tal vez deberia actualizar la propiedad 'all'
       state.filtered = action.payload;
       state.loading = false;
       state.failed = false;
@@ -77,15 +77,15 @@ export const productsSlice = createSlice({
     },
 
     // crear nuevo producto
-    postNewProductStart: (state) => {
+    createProductStart: (state) => {
       state.loading = true;
       state.failed = false;
     },
-    postNewProductFailure: (state) => {
+    createProductFailure: (state) => {
       state.loading = false;
       state.failed = true;
     },
-    postNewProductSuccess: (state, action) => {
+    createProductSuccess: (state, action) => {
       // nepundir: logica provisional
       state.all = [...state.all, action.payload];
       state.loading = false;
@@ -103,7 +103,7 @@ export const productsSlice = createSlice({
     },
     updateProductSuccess: (state, action) => {
       // nepundir: logica provisional
-      state.all = [...state.all, action.payload];
+      state.all = state.all.filter(product => product.id !== action.payload.id).concat(action.payload);
       state.loading = false;
       state.failed = false;
     },
@@ -140,9 +140,9 @@ export const {
   getProductByIdStart,
   getProductByIdFailure,
   getProductByIdSuccess,
-  postNewProductStart,
-  postNewProductFailure,
-  postNewProductSuccess,
+  createProductStart,
+  createProductFailure,
+  createProductSuccess,
   updateProductStart,
   updateProductFailure,
   updateProductSuccess,
