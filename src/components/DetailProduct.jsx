@@ -186,8 +186,8 @@ function DetailProduct() {
                               Seleccione un tipo de corte
                             </option>
                             {
-                              productDetails?.presentacion?.length > 0
-                                ? productDetails?.presentacion?.map(el => <option key={el} value={el}>{el}</option>)
+                              productDetails?.Presentacions?.length > 0
+                                ? productDetails?.Presentacions?.map(el => <option key={el.nombre} value={el.nombre}>{el.nombre}</option>)
                                 : <option value="Unidad">Unidad</option>
                             }
                           </Form.Control>

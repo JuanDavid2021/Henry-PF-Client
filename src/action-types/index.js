@@ -24,6 +24,7 @@ export const ADD_CATEGORY = "addCategory";//admin
 export const SET_CATEGORIES = "setCategories";
 export const DELETE_CATEGORY = "deleteCategory";//admin
 export const DELIVERY_CART_ITEMS = "deliveryCartItems";
+export const ADD_ORDER_DATE = "addOrderDate"
 
 export const GETTING_USERS = "gettingUsers";
 export const SET_USERS = "setUsers";//admin
