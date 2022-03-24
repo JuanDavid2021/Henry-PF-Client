@@ -23,7 +23,7 @@ function Products() {
     precio: "",
     stock: "", 
     fotos: [],
-    presentacion: [],
+    Presentacions: [],
     Categoria:[]
   }
   const [copiedProduct, setCopiedProduct] = useState(emptyProduct)
