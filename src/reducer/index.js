@@ -96,10 +96,11 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === ADD_PRODUCT) {
-    //agrego el producto del arreglo una vez tenemos la confirmacion desde el back
+    //agrego el producto del arreglo una vez tenemos la confirmacion desde el back        
     return {
       ...state,
-      products: state.products.push(action.payload),
+      products: [...state.products, action.payload],
+      filteredProducts:[action.payload,...state.filteredProducts]
     };
   }
 

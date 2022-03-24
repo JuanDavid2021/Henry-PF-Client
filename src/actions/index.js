@@ -380,16 +380,22 @@ export function flushCart() {
 }
 
 
-export function postProducts(payload){  
- return async function(dispatch){
-   const newProduct = await axios.post("http://localhost:3001/api/product/create", payload)
+export function postProducts(payload) {
+  
+  return async function (dispatch) { 
+    try {
+      const newProduct = await axios.post("http://localhost:3001/api/product/create", payload)   
    if (newProduct.status === 200) {
      dispatch({
        type: ADD_PRODUCT,
-       payload: newProduct.data
+       payload: { ...payload, id:newProduct.data.id, new:true }
      })
-   }
-   return newProduct
+    }
+   return newProduct  
+    } catch (error) {      
+      return {status:400, error:error}
+    }
+     
  }
 }
 
