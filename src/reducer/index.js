@@ -32,7 +32,9 @@ import {
   EDIT_SALE_STATUS, 
   ORDER_PRECIO,
   SET_CART_ITEM,
+  POST_PEDIDO,
   DELIVERY_CART_ITEMS,
+
 } from './../action-types/index';
 
 const initialState = {
@@ -73,6 +75,12 @@ function rootReducer(state = initialState, action) {
     }
   }
 
+  if (action.type === POST_PEDIDO) {
+    return {
+      ...state
+    }
+  }
+
   if (action.type === SET_CART_ITEM){
     return{
       ...state,
@@ -91,7 +99,7 @@ function rootReducer(state = initialState, action) {
     //agrego el producto del arreglo una vez tenemos la confirmacion desde el back
     return {
       ...state,
-      products: [...state.products, action.payload],
+      products: state.products.push(action.payload),
     };
   }
 

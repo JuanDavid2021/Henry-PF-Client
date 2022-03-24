@@ -19,11 +19,11 @@ function Products() {
   const emptyProduct = {
     id: "",
     nombre: "",
-    descripcion: "",    
+    descripcion: "",   
     precio: "",
     stock: "", 
     fotos: [],
-    presentacion: [],
+    Presentacions: [],
     Categoria:[]
   }
   const [copiedProduct, setCopiedProduct] = useState(emptyProduct)
@@ -46,9 +46,24 @@ function Products() {
     setInview((value) => value - 12);
   };
 
-  function createProduct(product) {
-    console.log(product)
-    dispatch(postProducts(product))
+  async function createProduct(product) {    
+    const createdProduct = await dispatch(postProducts(product))
+    if (createdProduct.status === 200) {
+      alert("CREADO EXITOSAMENTE")
+    } else {
+      alert("ERROR CREANDO PRODUCTO",createdProduct)
+    }
+    
+  }
+
+  async function updateProduct(product) {    
+    const createdProduct = await dispatch(postProducts(product))
+    if (createdProduct.status === 200) {
+      alert("CREADO EXITOSAMENTE")
+    } else {
+      alert("ERROR CREANDO PRODUCTO",createdProduct)
+    }
+    
   }
 
   function setProduct(id) {    
@@ -81,7 +96,7 @@ function Products() {
         <Row className="mx-4">
           <Col>
             {arrProducts?.map((p,i) => (
-              <EditDeleteProductForm key={i} product={editingProduct} productToView={ p } copyFunction={loadCopy} selectProduct={ setProduct } cancelFunction={setProduct} />
+              <EditDeleteProductForm key={i} product={editingProduct} productToView={p} copyFunction={loadCopy} updateFunction={ updateProduct } selectProduct={ setProduct } cancelFunction={setProduct} />
               
             ))}
             </Col>
