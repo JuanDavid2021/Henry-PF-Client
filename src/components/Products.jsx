@@ -10,7 +10,7 @@ import { NotFound } from "./NotFound";
 import EditUpdateForm from "./EditUpdateForm"
 import EditDeleteProductForm from "./EditDeleteProductForm"
 import CreateProductForm from "./CreateProductForm"
-import { postProducts } from "../actions/index"
+import { postProduct, putProduct } from "../actions/index"
 
 function Products() {
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ function Products() {
   };
 
   async function createProduct(product) {    
-    const createdProduct = await dispatch(postProducts(product))
+    const createdProduct = await dispatch(postProduct(product))
     if (createdProduct.status === 200) {      
       setConfirmModal(true)
       setCopiedProduct(emptyProduct)
@@ -71,13 +71,14 @@ function Products() {
   }
 
   async function updateProduct(product) {    
-    const createdProduct = await dispatch(postProducts(product))
-    if (createdProduct.status === 200) {
+    const updatedProduct = await dispatch(putProduct(product))
+    if (updatedProduct.status === 200) {
       alert("CREADO EXITOSAMENTE")
+      setEditingProduct(emptyProduct)
+      setConfirmModal(true)
     } else {
-      alert("ERROR CREANDO PRODUCTO",createdProduct)
-    }
-    
+      alert("ERROR CREANDO PRODUCTO",updatedProduct)
+    }    
   }
 
   function setProduct(id) {    
