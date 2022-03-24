@@ -91,7 +91,7 @@ function rootReducer(state = initialState, action) {
     //agrego el producto del arreglo una vez tenemos la confirmacion desde el back
     return {
       ...state,
-      products: [...state.products, action.payload],
+      products: state.products.push(action.payload),
     };
   }
 

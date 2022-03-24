@@ -39,7 +39,7 @@ function EditDeleteProductForm({
     precio: "",
     stock: "",
     fotos: [],
-    presentacion: [],
+    Presentacions: [],
     Categoria: [],
   },
   createFunction,
@@ -60,7 +60,7 @@ function EditDeleteProductForm({
     stock: product.stock || "",
   });
 
-  const [presentacion, setPresentacion] = useState(product.presentacion || []);
+  const [presentacion, setPresentacion] = useState(product.Presentacions || []);
 
   const [fotos, setFotos] = useState(product.fotos || []);
 
@@ -72,7 +72,7 @@ function EditDeleteProductForm({
     let pattern = /[0-9]+/;
     if (product && product?.id !== input.id) {
       setInput(product);
-      setPresentacion(product.presentacion);
+      setPresentacion(product.Presentacions);
       setFotos(product.fotos);
       setCategrorias(product.Categoria);
     }    
@@ -98,7 +98,7 @@ function EditDeleteProductForm({
       precio: product.precio,
       stock: product.stock,
     });
-    setPresentacion(product.presentacion);
+    setPresentacion(product.Presentacions);
     setFotos(product.fotos);
     setCategrorias(product.Categoria);
   }
@@ -123,7 +123,7 @@ function EditDeleteProductForm({
       const finalProduct = {
         ...input,
         id: "",
-        presentacion: presentacion,
+        presentacion: presentacion.map(p=> p.id),
         categoria: categorias.map((c) => c.id),
         fotos: fotos,
       };
@@ -243,13 +243,13 @@ function EditDeleteProductForm({
             <Col className="border-bottom" xs="12" sm="6">
               <p className="mb-1">
                 <b>Categorias: </b>
-                {productToView.Categoria.nombre}
-              </p>
+                {productToView.Categoria?.map(ct=>ct.nombre+ ", ")}
+              </p> 
             </Col>
             <Col className="border-bottom" xs="12" sm="6">
               <p className="mb-1">
                 <b>Tipo de corte: </b>
-                {productToView.presentacion.map((pr) => pr + ", ")}
+                {productToView.Presentacions.map(pr => pr.nombre + ", ")}
               </p>
             </Col>
           </Row>

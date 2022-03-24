@@ -33,7 +33,7 @@ function CreateProductForm({ product, createFunction }) {
     stock: product.stock || "",
   });
 
-  const [presentacion, setPresentacion] = useState(product.presentacion || []);
+  const [presentacion, setPresentacion] = useState(product.Presentacions || []);
 
   const [fotos, setFotos] = useState(product.fotos || []);
 
@@ -45,7 +45,7 @@ function CreateProductForm({ product, createFunction }) {
     let pattern = /[0-9]+/;
     if (product && product?.id !== input.id) {
       setInput(product);
-      setPresentacion(product.presentacion);
+      setPresentacion(product.Presentacions);
       setFotos(product.fotos);
       setCategrorias(product.Categoria);
       setErrors({ nombre: "Nombre inválido, no acepta números" });
@@ -96,8 +96,8 @@ function CreateProductForm({ product, createFunction }) {
       const finalProduct = {
         ...input,
         id: "",
-        presentacion: presentacion,
-        categoria: categorias.map((c) => c.id),
+        presentacion: presentacion.map(p=>p.id),
+        categoria: categorias.map(c => c.id),
         fotos: fotos,
       };
       createFunction(finalProduct);
@@ -352,6 +352,6 @@ function CreateProductForm({ product, createFunction }) {
       </Col>
     </Row>
   );
-}
+} 
 
 export default CreateProductForm;
