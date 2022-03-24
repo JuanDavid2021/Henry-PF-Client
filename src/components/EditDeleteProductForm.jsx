@@ -41,6 +41,7 @@ function EditDeleteProductForm({
     fotos: [],
     Presentacions: [],
     Categoria: [],
+    new:false
   },
   createFunction,
   updateFunction,
@@ -194,14 +195,15 @@ function EditDeleteProductForm({
     }
   };
 
-  if (product.id !== productToView.id && !createForm) {
+  if ((product.id !== productToView.id && !createForm) || product.id === "") {
     return (
       <Row
+        className={productToView.new ? "text-success": ""}
         style={{ borderTop: "2px solid", marginTop: "10px" }}
         key={productToView.id}
         onClick={() => selectProduct(productToView.id)}
       >
-        <Col className={"d-none d-lg-block"} lg="2">
+        <Col className={productToView.new ? "text-success border-start d-none d-lg-block": "d-none d-lg-block"}lg="2">
           <Carousel controls={false} indicators={false} variant="dark" fade>
             {productToView.fotos?.map((f, i) => (
               <Carousel.Item
@@ -219,7 +221,7 @@ function EditDeleteProductForm({
           </Carousel>
         </Col>
         <Col xs="12" sm="12" lg="10">
-          <Row>
+          <Row >
             <Col className="border-bottom" sm="6" xs="12">
               <p className="mb-1">
                 <b>Nombre: </b>
