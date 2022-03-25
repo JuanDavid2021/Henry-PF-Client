@@ -40,7 +40,7 @@ import {
 } from './../action-types/index';
 
 const initialState = {
-  user: ["algo"], //usuario actual usando la app
+  user: {nombre:"asd", email:"minnie.bator@funholding.com"}, //usuario actual usando la app
   gettingProducts: false,
   products: [],
   filteringProducts: false,  

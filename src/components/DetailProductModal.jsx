@@ -15,6 +15,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
     tipo_corte:"",
     precioTotal: "",
     cantidad: 1,
+    idItemFront:""
   })
   
   const handleDetailst = () => {
@@ -28,7 +29,6 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
       ...valoresDetalleProducto,
       [e.target.name]: e.target.value,
       precioTotal: valoresDetalleProducto.peso * valoresDetalleProducto.precio,
-      idItemFront:( valoresDetalleProducto.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso )
     })
   }
 
@@ -40,13 +40,17 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
 
   const handleAddProductInCart = (e) => {
     const form = e.currentTarget;
+    let itemToAdd = {
+      ...valoresDetalleProducto,
+      idItemFront:( valoresDetalleProducto.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso )
+    }
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
     }else if( stock === 0 || valoresDetalleProducto.tipo_corte === "" || valoresDetalleProducto.peso === "" ){
       return
     }else{
-      dispatch(addCartItem(valoresDetalleProducto))
+      dispatch(addCartItem(itemToAdd))
       setConfirmModal(true)
     }
   }

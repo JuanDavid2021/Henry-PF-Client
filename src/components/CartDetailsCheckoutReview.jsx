@@ -6,6 +6,7 @@ import { TrItemCart, Resume } from './CartDetails';
 
 function CartDetailsCheckoutReview() {
   const arrCartProducts = useSelector(state => state.cart);
+  const despacho = useSelector(state => state.despacho)
   const navigate = useNavigate()
 
   const handleNavigatePayment = (e) => {
@@ -32,7 +33,7 @@ function CartDetailsCheckoutReview() {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={"/cartDetailsCheckoutDelibery"} className="nav-link" aria-current="page">
+                <Link to={"/cartDetailsCheckoutDelivery"} className="nav-link" aria-current="page">
                   <RiTruckLine/>
                   <p className="mb-0 pt-1">Método de envío</p>
                 </Link>
@@ -84,13 +85,18 @@ function CartDetailsCheckoutReview() {
                   </tr>
                 </tfoot>
               </table>
+              <div>
+                <h5>
+                  Método de envío: {despacho.tipo_entrega.toUpperCase()}
+                </h5>
+              </div>
             </div>
             {/* Navegacion */}
               <div className="align-items-center bg-light px-4 py-3 text-center mb-5">
                 <div className="row">
                   <div className="col-md-6 text-md-start py-1">
                     <Link to={"/cartDetailsCheckoutDelivery"} className="btn btn-dark my-1">
-                      <RiArrowLeftSLine/> Volver a Direccón
+                      <RiArrowLeftSLine/> Volver a Dirección
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1">

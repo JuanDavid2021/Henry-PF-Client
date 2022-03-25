@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import NavBar from './components/Navbar';
 import Login from './components/Login';
 import Profile from './components/Profile';
@@ -17,8 +18,14 @@ import PagoDenied from "./components/PagoDenied"
 import Landin from './components/Landin';
 import Footer from './components/Footer';
 
-
 function App() {
+
+  const location = useLocation();
+  //console.log(location);
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <div className="App">
       <NavBar />
