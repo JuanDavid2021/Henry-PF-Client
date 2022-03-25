@@ -62,9 +62,11 @@ function CartDetails() {
                           )
                         }
                         )
-                        : <p className="lead text-center fs-3 fw-normal mt-3">
-                          No tiene productos en el carrito
-                        </p>
+                        : <tr className="lead text-center fs-3 fw-normal mt-3">
+                          <td>
+                            No tiene productos en el carrito
+                          </td>
+                        </tr>
                     }
                   </tbody>
                   <tfoot>
@@ -83,9 +85,7 @@ function CartDetails() {
                   </Link>
                 </div>
                 <div className="col-md-6 text-md-end py-1">
-                  <Link to={"/cartDetailsCheckout"}>
-                    <button className="btn btn-primary my-1" onClick={handleNavigateDelibery}>Verificación <RiArrowRightSLine /></button>
-                  </Link>
+                  <button className="btn btn-primary my-1" onClick={handleNavigateDelibery}>Verificación <RiArrowRightSLine /></button>
                 </div>
               </div>
             </form>
@@ -153,27 +153,13 @@ export function Resume() {
               </tr>
               <tr className="total">
                 <td className="py-3 border-bottom-0 text-muted"> <span className="lead fw-bold">Total</span></td>
-                <th className="py-3 border-bottom-0"> <span className="lead fw-bold text-end">$ {suma}</span></th>
+                <th className="py-3 border-bottom-0 text-end"> <span className="lead fw-bold text-end">$ {suma}</span></th>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
-{/*     <div className="mb-4">
-      <div className="p-4 bg-gray-200">
-        <h4 className="text-uppercase mb-0">Código de descuento</h4>
-      </div>
-      <div className="bg-light py-4 px-3">
-        <p className="text-muted">Si tiene un código de descuento, introdúzcalo en el cuadro a continuación.</p>
-        <form action="#">
-          <div className="input-group">
-            <input className="form-control" type="text" />
-            <button className="btn btn-primary" type="submit"><i className="fas fa-gift"></i></button>
-          </div>
-        </form>
-      </div>
-    </div> */}
   </div>
   )
 }

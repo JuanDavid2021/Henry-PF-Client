@@ -1,9 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { RiTruckLine, RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
-import { useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addOrderDate } from '../actions';
 import { Resume } from './CartDetails';
@@ -12,10 +10,14 @@ function CartDetailsCheckoutDelibery() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   
-  const f = new Date()
-  const mes = (f.getMonth() +1) < 9 ? "0" + (f.getMonth() +1) : (f.getMonth() +1)
-  const dia = (f.getDate() +1) < 9 ? "0" + (f.getDate() +1) : (f.getDate() +1)
-  const fecha = ( f.getFullYear() + "/" + mes + "/" + dia )
+  const fecha = new Date()
+  
+  const mes = ( fecha.getMonth() + 1) < 9 ? "0" + ( fecha.getMonth() + 1 ) : ( fecha.getMonth() + 1 )
+  const dia = ( fecha.getDate() ) < 9 ? "0" + ( fecha.getDate() ) : ( fecha.getDate() )
+  const fechaFormateada = ( dia + "/" + mes + "/" + fecha.getFullYear() )
+  
+  //para setear la fecha minima
+  const fechaMinInput = ( fecha.getFullYear() + "-" + mes + "-" + dia )
 
   const [checked, setChecked] = useState("")
   
@@ -23,18 +25,37 @@ function CartDetailsCheckoutDelibery() {
     f_pedido: fecha,
     f_requerida:"",
   })
-  
+
+  const actual = new Date();
+  const diaMs = 1000 * 60 * 60 * 24;
+  const suma = actual.getTime() + diaMs;
+  const maniana = new Date(suma);  
+
   const handleChangeDeliveryType = (e) => {
+    if (e.target.name === "express") {
+      setChecked(e.target.name)
+      setDay({...day, f_requerida: fecha})
+    }
+    if (e.target.name === "estandar") {
+      setChecked(e.target.name)
+      setDay({...day, f_requerida: maniana})
+    }
+    
     setChecked(e.target.name)
   }
   
   const handleChangeDate = (e) => {
+    let diaSelect = new Date(e.target.value)
+    const diaMs = 1000 * 60 * 60 * 24;
+    const suma = diaSelect.getTime() + diaMs;
+    const especifico = new Date(suma);
+    
     setDay({
       ...day,
-      f_requerida: e.target.value,
+      f_requerida: especifico,
     })
   }
-
+  
   const [modal, setModal] = useState({show:false, message:""})
 
   const handleNavigateCheckoutReview = (e) => {
@@ -43,8 +64,9 @@ function CartDetailsCheckoutDelibery() {
       ...day,
       tipo_entrega: checked
     }
+
     if (checked === ""){
-      setModal({show:true, message:""})
+      setModal({show:true})
     }else if ( day.f_requerida === "" && checked === "selectDate" ) {
       setModal({show:true, message:"Seleccione una fecha"})
       return
@@ -55,7 +77,7 @@ function CartDetailsCheckoutDelibery() {
   }
 
   const handleCloseModal = () => {
-    setModal({show:false, message:""})
+    setModal({show:false})
   }
 
   return (
@@ -143,7 +165,7 @@ function CartDetailsCheckoutDelibery() {
                         id="start" 
                         name="date" 
                         onChange={handleChangeDate}
-                        min={fecha}
+                        min={fechaMinInput}
                       />
                     </div>
                   </div>
@@ -154,7 +176,7 @@ function CartDetailsCheckoutDelibery() {
                 <div className="row">
                   <div className="col-md-6 text-md-start py-1">
                     <Link to={"/cartDetailsCheckout"} className="btn btn-dark my-1">
-                      <RiArrowLeftSLine/> Volver a Direccón
+                      <RiArrowLeftSLine/> Volver a Dirección
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1">
