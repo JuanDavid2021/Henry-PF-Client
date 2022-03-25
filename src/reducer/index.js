@@ -6,6 +6,7 @@ import {
   RATE_PRODUCT, 
   SEARCH_PRODUCT, 
   SEARCH_LOCAL_PRODUCT,
+  PAGAR_PEDIDO,
   GETTING_PRODUCTS, 
   SET_PRODUCTS,
   SET_FILTERED_PRODUCTS,
@@ -47,7 +48,8 @@ const initialState = {
   cart: [],
   despacho: null,
   categories: [],//[{id:XXX,name:'sadasd'},...]
-
+  pedido: {},
+  idPago: {},
   sales: [],//lista de ventas
   users: [],//lista de usuarios para borrar / forzar password
   categoryFilterStatus: true,
@@ -83,7 +85,16 @@ function rootReducer(state = initialState, action) {
 
   if (action.type === POST_PEDIDO) {
     return {
-      ...state
+      ...state,
+      pedido: action.payload
+    }
+  }
+
+  if (action.type === PAGAR_PEDIDO) {
+    console.log(action.payload)
+    return {
+      ...state,
+      idPago: action.payload
     }
   }
 

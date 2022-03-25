@@ -12,7 +12,8 @@ import CartDetailsCheckoutReview from './components/CartDetailsCheckoutReview';
 import CartDetailCheckoutPaymentMethod from './components/CartDetailCheckoutPaymentMethod';
 import DetailProduct from './components/DetailProduct';
 import Products from "./components/Products"
-
+import PagoSuccess from "./components/PagoSuccess"
+import PagoDenied from "./components/PagoDenied"
 import Landin from './components/Landin';
 import Footer from './components/Footer';
 
@@ -26,16 +27,19 @@ function App() {
         <Route exact path='/login' element={<Login />} />
         <Route exact path='/shop' element={<Shop />} />
         <Route exact path='/profile/:id' element={<Profile />} />
-        <Route exact path='/product/:id' element={<DetailProduct />} /> 
+        <Route exact path='/product/:id' element={<DetailProduct />} />
         <Route exact path='/products' element={<Products />} />
         <Route exact path='/creationForm' element={<CreationForm />} />
-        <Route exact path='/cartDetails' element={<CartDetails/>}/>
-        <Route path='/cartDetailsCheckout' element={<CartDetailsCheckout/>}/>
-        <Route path='/cartDetailsCheckoutDelivery' element={<CartDetailsCheckoutDelivery/>}/>
-        <Route path='/cartDetailsCheckoutReview' element={<CartDetailsCheckoutReview/>}/>
-        <Route path='/cartDetailsCheckoutPaymentMethod' element={<CartDetailCheckoutPaymentMethod/>}/>
+        <Route exact path='/cartDetails' element={<CartDetails />} />
+        <Route path='/cartDetailsCheckout' element={<CartDetailsCheckout />} />
+        <Route path='/cartDetailsCheckoutDelivery' element={<CartDetailsCheckoutDelivery />} />
+        <Route path='/cartDetailsCheckoutReview' element={<CartDetailsCheckoutReview />} />
+        <Route path='/cartDetailsCheckoutPaymentMethod' element={<CartDetailCheckoutPaymentMethod />} />
+        <Route exact path='/pagoaprobado' element={<PagoSuccess />} />
+        <Route exact path='/pagorechazado' element={<PagoDenied />} />
+
       </Routes>
-      <Footer style={{zIndex:"0"}}/>
+      <Footer style={{ zIndex: "0" }} />
     </div>
   );
 }
