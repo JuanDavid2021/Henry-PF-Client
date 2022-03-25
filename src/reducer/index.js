@@ -1,5 +1,6 @@
 import { 
   ADD_PRODUCT, 
+  PUT_PRODUCT,
   DELETE_PRODUCT, 
   EDIT_PRODUCT, 
   POST_PRODUCT, 
@@ -113,10 +114,34 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === ADD_PRODUCT) {
-    //agrego el producto del arreglo una vez tenemos la confirmacion desde el back
+    //agrego el producto del arreglo una vez tenemos la confirmacion desde el back        
     return {
       ...state,
-      products: state.products.push(action.payload),
+      products: [...state.products, action.payload],
+      filteredProducts:[action.payload,...state.filteredProducts]
+    };
+  }
+
+  if (action.type === PUT_PRODUCT) {
+    //agrego el producto del arreglo una vez tenemos la confirmacion desde el back 
+    
+    let newProducts = state.products.map(p => {
+      if (p.id === action.payload.id) {
+      return action.payload
+      }
+      return p
+    })
+   
+    let filteredProducts = state.filteredProducts.map(fp => {
+      if (fp.id === action.payload.id) {
+      return action.payload
+      }
+      return fp
+    })
+    return {
+      ...state,
+      products: newProducts,
+      filteredProducts: filteredProducts
     };
   }
 

@@ -1,6 +1,7 @@
 import {
   POST_PEDIDO,
   ADD_PRODUCT,
+  PUT_PRODUCT,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   POST_PRODUCT,
@@ -392,17 +393,44 @@ export function flushCart() {
 }
 
 
-export function postProducts(payload) {
-  return async function (dispatch) {
-    const newProduct = await axios.post("http://localhost:3001/api/product/create", payload)
-    if (newProduct.status === 200) {
-      dispatch({
-        type: ADD_PRODUCT,
-        payload: newProduct.data
-      })
+
+export function postProduct(payload) {
+  
+  return async function (dispatch) { 
+    try {
+      const newProduct = await axios.post("http://localhost:3001/api/product/create", payload)   
+   if (newProduct.status === 200) {
+     dispatch({
+       type: ADD_PRODUCT,
+       payload: { ...payload, id:newProduct.data.id, new:true }
+     })
     }
-    return newProduct
-  }
+   return newProduct  
+    } catch (error) {      
+      return {status:400, error:error}
+    }
+     
+ }
+}
+export function putProduct(payload) {
+  
+  return async function (dispatch) { 
+    try {
+      const newProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload)    
+      if (newProduct.status === 200) {  
+        console.log(newProduct.data)
+        dispatch({
+          type: PUT_PRODUCT,
+          payload: newProduct.data
+        })
+        }
+      return newProduct   
+    } catch (error) {      
+      return {status:400, error:error}
+    }
+     
+ }
+
 }
 
 export function postPedido(payload) {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import EditCard from "./EditCard";
 //import arrProductos from './../dataSimulate';
-import { Container, Row, Col, Card, Image, Carousel, Form } from "react-bootstrap";
+import { Container, Row, Col, Card, Image, Carousel, Form, Modal, Button } from "react-bootstrap";
 import img from "../img/logo2.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../actions";
@@ -10,7 +10,7 @@ import { NotFound } from "./NotFound";
 import EditUpdateForm from "./EditUpdateForm"
 import EditDeleteProductForm from "./EditDeleteProductForm"
 import CreateProductForm from "./CreateProductForm"
-import { postProducts } from "../actions/index"
+import { postProduct, putProduct } from "../actions/index"
 
 function Products() {
   const dispatch = useDispatch();
@@ -30,11 +30,21 @@ function Products() {
 
   const [editingProduct, setEditingProduct] = useState(emptyProduct)
 
+  const [errorModal, setErrorModal] = useState({ show: false })
+
   const [inview, setInview] = useState(12);
 
+  const [confirmModal, setConfirmModal] = useState(false)
   useEffect(() => {
-    if (!arrProductos.length) dispatch(getProducts());
-  }, [dispatch, arrProductos,editingProduct]);
+    let timeout = null
+    if (confirmModal) {
+      timeout = setTimeout(() => {        
+        setConfirmModal(false)
+      }, 500);
+    }
+      if (!arrProductos.length) dispatch(getProducts());
+    return () => clearTimeout(timeout)
+  }, [dispatch, arrProductos,editingProduct, confirmModal]);
 
   let arrProducts = filteredProducts?.slice(0, inview);
 
@@ -47,23 +57,29 @@ function Products() {
   };
 
   async function createProduct(product) {    
-    const createdProduct = await dispatch(postProducts(product))
-    if (createdProduct.status === 200) {
-      alert("CREADO EXITOSAMENTE")
+    const createdProduct = await dispatch(postProduct(product))
+    if (createdProduct.status === 200) {      
+      setConfirmModal(true)
+      setCopiedProduct(emptyProduct)
+      setEditingProduct(emptyProduct)
     } else {
-      alert("ERROR CREANDO PRODUCTO",createdProduct)
+      setErrorModal({
+        show: true,
+        data:createdProduct.error.response.data.error})      
     }
     
   }
 
   async function updateProduct(product) {    
-    const createdProduct = await dispatch(postProducts(product))
-    if (createdProduct.status === 200) {
-      alert("CREADO EXITOSAMENTE")
+    const updatedProduct = await dispatch(putProduct(product))
+    if (updatedProduct.status === 200) {     
+      setEditingProduct(emptyProduct)
+      setConfirmModal(true)
     } else {
-      alert("ERROR CREANDO PRODUCTO",createdProduct)
-    }
-    
+      setErrorModal({
+        show: true,
+        data:updatedProduct.error.response.data.error})
+    }    
   }
 
   function setProduct(id) {    
@@ -84,6 +100,33 @@ function Products() {
 
   return (
     <div className="mx-4 mb-5">  
+      <Modal 
+          show={confirmModal}
+          size="sm"
+          backdrop="static"
+          keyboard={false}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title><p style={{ textAlign: "center" }}>Producto creado con éxito!</p></Modal.Title>
+          </Modal.Header>          
+      </Modal>
+      <Modal 
+        show={errorModal.show}
+        onHide={()=>setErrorModal({show:false}) }
+        backdrop="static"
+        keyboard={false}
+        size="sm"        
+          centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Error en backend</Modal.Title>
+        </Modal.Header>
+          <Modal.Body>
+          {errorModal.data}
+        </Modal.Body>      
+        </Modal>
     <SearchBar />   
       <Row className="mx-4">
         <Col>
