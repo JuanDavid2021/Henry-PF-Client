@@ -1,11 +1,13 @@
 import { 
   ADD_PRODUCT, 
+  PUT_PRODUCT,
   DELETE_PRODUCT, 
   EDIT_PRODUCT, 
   POST_PRODUCT, 
   RATE_PRODUCT, 
   SEARCH_PRODUCT, 
   SEARCH_LOCAL_PRODUCT,
+  PAGAR_PEDIDO,
   GETTING_PRODUCTS, 
   SET_PRODUCTS,
   SET_FILTERED_PRODUCTS,
@@ -47,7 +49,8 @@ const initialState = {
   cart: [],
   despacho: null,
   categories: [],//[{id:XXX,name:'sadasd'},...]
-
+  pedido: {},
+  idPago: {},
   sales: [],//lista de ventas
   users: [],//lista de usuarios para borrar / forzar password
   categoryFilterStatus: true,
@@ -83,7 +86,16 @@ function rootReducer(state = initialState, action) {
 
   if (action.type === POST_PEDIDO) {
     return {
-      ...state
+      ...state,
+      pedido: action.payload
+    }
+  }
+
+  if (action.type === PAGAR_PEDIDO) {
+    console.log(action.payload)
+    return {
+      ...state,
+      idPago: action.payload
     }
   }
 
@@ -102,10 +114,34 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === ADD_PRODUCT) {
-    //agrego el producto del arreglo una vez tenemos la confirmacion desde el back
+    //agrego el producto del arreglo una vez tenemos la confirmacion desde el back        
     return {
       ...state,
-      products: state.products.push(action.payload),
+      products: [...state.products, action.payload],
+      filteredProducts:[action.payload,...state.filteredProducts]
+    };
+  }
+
+  if (action.type === PUT_PRODUCT) {
+    //agrego el producto del arreglo una vez tenemos la confirmacion desde el back 
+    
+    let newProducts = state.products.map(p => {
+      if (p.id === action.payload.id) {
+      return action.payload
+      }
+      return p
+    })
+   
+    let filteredProducts = state.filteredProducts.map(fp => {
+      if (fp.id === action.payload.id) {
+      return action.payload
+      }
+      return fp
+    })
+    return {
+      ...state,
+      products: newProducts,
+      filteredProducts: filteredProducts
     };
   }
 

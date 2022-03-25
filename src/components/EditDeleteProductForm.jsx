@@ -41,6 +41,7 @@ function EditDeleteProductForm({
     fotos: [],
     Presentacions: [],
     Categoria: [],
+    new:false
   },
   createFunction,
   updateFunction,
@@ -131,35 +132,22 @@ function EditDeleteProductForm({
     } else {
       alert(`Existen errores ${errors}`);
     }
-  };
-
-  // const handleCreate = (e) => {
-  //   e.preventDefault();
-  //   if (!Object.keys(errors).length) {
-  //     const finalProduct = {
-  //       ...input,
-  //       id: "",
-  //       presentacion: presentacion,
-  //       categoria: categorias.map((c) => c.id),
-  //       fotos: fotos,
-  //     };
-  //     createFunction(finalProduct);
-  //   } else {
-  //     alert(`Existen errores ${errors}`);
-  //   }
-  // };
+  };  
 
   const handleUpdate = (e) => {
-    //e.preventDefault();
-
-    const finalProduct = {
-      ...input,
-      presentacion: presentacion,
-      categoria: categorias,
-      fotos: fotos,
-    };
-    console.log(finalProduct)
-    updateFunction(finalProduct)
+    
+    if (!Object.keys(errors).length) {
+      const finalProduct = {
+        ...input,
+        presentacion: presentacion.map(p => p.id),        
+        categoria: categorias.map((c) => c.id),
+        fotos: fotos,
+      };    
+      console.log(finalProduct)
+      updateFunction(finalProduct)
+    } else {
+      alert(`Existen errores ${errors}`);
+    }
   };
 
   const setFoto = (e) => {
@@ -169,7 +157,7 @@ function EditDeleteProductForm({
   const handleCategories = (e) => {
     if (e.target.checked) {
       if (!categorias.find((c) => c === parseInt(e.target.value))) {
-        setCategrorias([...categorias, { id: parseInt(e.target.value) }]);
+        setCategrorias([...categorias, { id: parseInt(e.target.value ) }]);
       }
     } else {
       if (categorias.find((c) => c.id === parseInt(e.target.value))) {
@@ -194,14 +182,15 @@ function EditDeleteProductForm({
     }
   };
 
-  if (product.id !== productToView.id && !createForm) {
+  if ((product.id !== productToView.id && !createForm) || product.id === "") {
     return (
       <Row
+        className={productToView.new ? "text-success": ""}
         style={{ borderTop: "2px solid", marginTop: "10px" }}
         key={productToView.id}
         onClick={() => selectProduct(productToView.id)}
       >
-        <Col className={"d-none d-lg-block"} lg="2">
+        <Col className={productToView.new ? "text-success border-start d-none d-lg-block": "d-none d-lg-block"}lg="2">
           <Carousel controls={false} indicators={false} variant="dark" fade>
             {productToView.fotos?.map((f, i) => (
               <Carousel.Item
@@ -219,7 +208,7 @@ function EditDeleteProductForm({
           </Carousel>
         </Col>
         <Col xs="12" sm="12" lg="10">
-          <Row>
+          <Row >
             <Col className="border-bottom" sm="6" xs="12">
               <p className="mb-1">
                 <b>Nombre: </b>
@@ -450,7 +439,7 @@ function EditDeleteProductForm({
               <Col className="col-12 mb-2">
                 <Button
                   className="col-12"
-                  disabled={input.nombre.length < 3}
+                  disabled={input.nombre.length < 3 || Object.keys(errors)?.length }
                   onClick={input.id.length > 0 ? handleUpdate : handleCreate}
                 >
                   {input.id.length > 0 ? "Actualizar" : "Crear"}

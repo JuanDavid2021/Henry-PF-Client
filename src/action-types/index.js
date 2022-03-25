@@ -2,6 +2,7 @@ export const GETTING_PRODUCTS = "gettingProducts";
 export const SET_PRODUCTS = "setProducts";  
 export const SET_FILTERED_PRODUCTS = "setFilteredProducts"
 export const ADD_PRODUCT = "addProduct";//admin
+export const PUT_PRODUCT = "putProduct";//admin
 export const DELETE_PRODUCT = "deleteProduct";//admin
 export const EDIT_PRODUCT = "editProduct";//admin
 
@@ -38,6 +39,7 @@ export const SET_CART_ITEM = "setCartItem";
 export const DELETE_CART_ITEM = "deleteCartItem";
 export const FLUSH_CART = "flushCart";  
 export const POST_PEDIDO = "postPedido";
+export const PAGAR_PEDIDO = "pagarPedido";
   
 export const GET_COMMENTS = "getComments"; 
 export const POST_PRODUCT = "POST_PRODUCT" 

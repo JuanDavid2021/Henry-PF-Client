@@ -1,12 +1,14 @@
 import {
   POST_PEDIDO,
   ADD_PRODUCT,
+  PUT_PRODUCT,
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   POST_PRODUCT,
   RATE_PRODUCT,
   SEARCH_PRODUCT,
   SEARCHING_PRODUCT,
+  PAGAR_PEDIDO,
   GETTING_PRODUCTS,
   SET_PRODUCTS,
   SET_FILTERED_PRODUCTS,
@@ -294,7 +296,7 @@ export function addCartItem(data) {
 
 
     const index = cartLocal.findIndex(e => e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso)
-    
+
     if (index !== -1) {
       let itemMod = cartLocal[index]
 
@@ -362,7 +364,7 @@ export function deleteCartItem(data) {
 }
 
 export function addOrderDate(data) {
-  console.log("data date",data);
+  console.log("data date", data);
   return (dispatch) => {
     dispatch({
       type: ADD_ORDER_DATE,
@@ -391,23 +393,81 @@ export function flushCart() {
 }
 
 
-export function postProducts(payload){  
- return async function(dispatch){
-   const newProduct = await axios.post("http://localhost:3001/api/product/create", payload)
+
+export function postProduct(payload) {
+  
+  return async function (dispatch) { 
+    try {
+      const newProduct = await axios.post("http://localhost:3001/api/product/create", payload)   
    if (newProduct.status === 200) {
      dispatch({
        type: ADD_PRODUCT,
-       payload: newProduct.data
+       payload: { ...payload, id:newProduct.data.id, new:true }
      })
-   }
-   return newProduct
+    }
+   return newProduct  
+    } catch (error) {      
+      return {status:400, error:error}
+    }
+     
  }
+}
+export function putProduct(payload) {
+  
+  return async function (dispatch) { 
+    try {
+      const newProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload)    
+      if (newProduct.status === 200) {  
+        console.log(newProduct.data)
+        dispatch({
+          type: PUT_PRODUCT,
+          payload: newProduct.data
+        })
+        }
+      return newProduct   
+    } catch (error) {      
+      return {status:400, error:error}
+    }
+     
+ }
+
 }
 
 export function postPedido(payload) {
-  return async function () {
-    const newPedido = await axios.post("http://localhost:3001/api/pedido/create", payload)
-    return newPedido
+  return async function (dispatch) {
+    try {
+      const newPedido = await axios.post("http://localhost:3001/api/pedido/create", payload)
+      if (newPedido.status === 200) {
+        dispatch({
+          type: POST_PEDIDO,
+          payload: newPedido.data
+        })
+      }
+      return newPedido
+    } catch (error) {
+      console.log(error)
+
+
+    }
+  }
+}
+
+
+export function pagarPedido(payload) {
+  return async function (dispatch) {
+    try {
+      const pagoPedido = await axios.post("http://localhost:3001/api/mercadopago", payload)
+      if (pagoPedido.status === 200) {
+        dispatch({
+          type: PAGAR_PEDIDO,
+          payload: pagoPedido.data
+        })
+      }
+      return pagoPedido
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 }
 
