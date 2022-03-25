@@ -3,14 +3,16 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiTruckLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
-import { postPedido } from '../actions';
+import { postPedido, pagarPedido } from '../actions';
 import { Resume } from './CartDetails';
 
 function CartDetailCheckoutPaymentMethod() {
 
   const carrito = useSelector(state => state.cart)
-  const dispatch = useDispatch()
+  const idPedido = useSelector(state => state.idPago)
+  const pedidoBack = useSelector(state => state.pedido)
 
+  const dispatch = useDispatch()
 
 
 
@@ -19,7 +21,7 @@ function CartDetailCheckoutPaymentMethod() {
     status: "Creada",
     f_pedido: "02/11/2022",
     f_entrega: "02/11/2022",
-    UsuarioCorreo: "minnie.bator@funholding.com",
+    UsuarioCorreo: "minnie.lomeli@keyphase.com",
     ItemsPedidos: carrito
   }
 
@@ -27,10 +29,9 @@ function CartDetailCheckoutPaymentMethod() {
   // const [datos, setDatos] = useState("")
 
   useEffect(() => {
-
+    console.log(carrito)
     dispatch(postPedido(pedidos))
 
-    console.log(pedidos)
 
 
     // axios
@@ -43,25 +44,23 @@ function CartDetailCheckoutPaymentMethod() {
   }, [])
 
 
-  // useEffect(() => {
-  //   const script = document.createElement('script'); //Crea un elemento html script
+  const handlePago = (e) => {
+    dispatch(pagarPedido({
+      id: pedidoBack.id,
+      ItemsPedidos: pedidoBack.ItemsPedidos
+    }))
 
-  //   const attr_data_preference = document.createAttribute('data-preference-id') //Crea un nodo atribute
-  //   attr_data_preference.value = datos.id  //Le asigna como valor el id que devuelve MP
+  }
 
-  //   //Agrega atributos al elemento script
-  //   script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
-  //   script.setAttributeNode(attr_data_preference)
 
-  //   console.log(datos)
 
-  //   //Agrega el script como nodo hijo del elemento form
-  //   document.getElementById('form1').appendChild(script)
-  //   return () => {
-  //     //Elimina el script como nodo hijo del elemento form
-  //     document.getElementById('form1').removeChild(script);
-  //   }
-  // }, [datos])
+
+  //idPedido
+
+  const botonmagico = () => {
+    console.log(idPedido.sandbox_init_point)
+
+  }
 
   return (
     <section className="py-5">
@@ -84,7 +83,7 @@ function CartDetailCheckoutPaymentMethod() {
               </li>
               <li className="nav-item">
                 <Link to={"/cartDetailsCheckoutReview"} className="nav-link" aria-current="page">
-                  <RiEyeLine/>
+                  <RiEyeLine />
                   <p className="mb-0 pt-1">Revisión del pedido</p>
                 </Link>
               </li>
@@ -109,7 +108,7 @@ function CartDetailCheckoutPaymentMethod() {
                 <div className="col-md-6">
                   <div className="bg-light p-4 p-xl-5">
                     <div className="form-check d-flex align-items-center">
-                      <input className="form-check-input flex-shrink-0" id="payment1" type="radio" name="payment" />
+                      <input className="form-check-input flex-shrink-0" id="payment1" type="radio" name="payment" onClick={handlePago} />
                       <label className="cursor-pointer d-block ms-3" htmlFor="payment1"><span className="h4 d-block mb-1 text-uppercase">MercadoPago</span><span className="text-sm d-block mb-0 text-muted">Una vez que hagas clic en continuar, será redireccionado a MercadoPago</span></label>
                     </div>
                   </div>
@@ -121,18 +120,18 @@ function CartDetailCheckoutPaymentMethod() {
                   <div className="col-md-6 text-md-start py-1">
 
                     <Link to={"/cartDetailsCheckoutReview"} className="btn btn-dark my-1">
-                      <RiArrowLeftSLine/> Revisión del pedido
+                      <RiArrowLeftSLine /> Revisión del pedido
                     </Link>
                   </div>
-                  <div className="col-md-6 text-md-end py-1">
-                    <button className="btn btn-primary my-1" >Continuar <RiArrowRightSLine/></button>
+                  <div className="col-md-6 text-md-end py-1" id="form1">
+                    <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} target="_blank" type='button' disabled>Continuar <RiArrowRightSLine /></a>
                   </div>
                 </div>
               </div>
             </form>
           </div>
           {/* Resumen */}
-          <Resume/>
+          <Resume />
         </div>
       </div>
     </section>
