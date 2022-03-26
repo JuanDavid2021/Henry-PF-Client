@@ -15,8 +15,7 @@ function CartDetailsCheckout() {
   const [input, setInput] = useState({
     nombre: "",
     apellido: "",
-    email: "",
-    direccion: "",
+    direccion_despacho: "",
     localidad: "",
     celular: "",
     zip: "",
@@ -40,8 +39,6 @@ function CartDetailsCheckout() {
     }
     setValidate(true)
   }
-  
-  const regExEmail = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
 
   return (
     <section className="py-5">
@@ -77,7 +74,7 @@ function CartDetailsCheckout() {
               </ul>
             <Form className='py-4 row g-3 needs-validation' noValidate validated={validate} onSubmit={handleSubmit}>
               <Row className="mb-4">
-                <Form.Group as={Col} sm={3} className="col-sm-3 mb-3 col-lg-3" controlId="validationCustom01">
+                <Form.Group as={Col} md={6} className="col-md-6 mb-3" controlId="validationCustom01">
                   <Form.Label>Nombre</Form.Label>
                   <Form.Control 
                     type="text" 
@@ -90,7 +87,7 @@ function CartDetailsCheckout() {
                   />
                   <Form.Control.Feedback type="invalid">Ingrese un dato válido</Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} sm={3} className="col-sm-3 mb-3 col-lg-3" controlId="validationCustom01">
+                <Form.Group as={Col} md={6} className="col-md-6 mb-3" controlId="validationCustom01">
                   <Form.Label>Apellido</Form.Label>
                   <Form.Control 
                     type="text" 
@@ -103,25 +100,14 @@ function CartDetailsCheckout() {
                   />
                   <Form.Control.Feedback type="invalid">Ingrese un dato válido</Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} sm={3} md={6} mb={3} className="col-md-6 mb-3" controlId="validationCustom02">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control
-                    type="email" 
-                    name="email"
-                    pattern={[regExEmail]}
-                    value={input.email} 
-                    onChange={handleChangeInputs} placeholder="Email válido de quien recibirá el pedido"
-                    required
-                  />
-                  <Form.Control.Feedback type="invalid">Ingrese un dato válido</Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group as={Col} md={6} mb={3} className="col-md-6 mb-3" controlId="validationCustom03">
+                <Form.Group as={Col} md={6} className="col-md-6 mb-3" controlId="validationCustom03">
                   <Form.Label>Dirección</Form.Label>
                   <Form.Control
                     type="text" 
-                    name="direccion" 
-                    value={input.direccion} 
-                    onChange={handleChangeInputs} placeholder="Dirección de entregar del pedido"
+                    name="direccion_despacho" 
+                    value={input.direccion_despacho} 
+                    onChange={handleChangeInputs} 
+                    placeholder="Dirección de entregar del pedido"
                     required
                   />
                 <Form.Control.Feedback type="invalid">Ingrese un dato válido</Form.Control.Feedback>
@@ -147,6 +133,7 @@ function CartDetailsCheckout() {
                     name="celular" 
                     value={input.celular} 
                     onChange={handleChangeInputs}
+                    placeholder="Celular"
                     required
                   />
                 <Form.Control.Feedback type="invalid">Ingrese un dato válido</Form.Control.Feedback>
@@ -182,7 +169,7 @@ function CartDetailsCheckout() {
                   </Link>
                 </div>
                 {
-                  user?.length===0 
+                  user?.email?.length===0 
                   ? <div className="col-md-6 text-md-end py-1">
                       <button className="btn btn-success text-light text-decoration-none fs-6 mx-3">Registrate</button>
                   </div>

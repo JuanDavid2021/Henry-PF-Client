@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
+import { useLocation } from 'react-router';
 import { Route, Routes } from 'react-router-dom';
 import CartDetailCheckoutPaymentMethod from './components/CartDetailCheckoutPaymentMethod';
 import CartDetails from './components/CartDetails';
@@ -18,8 +19,14 @@ import Profile from './components/Profile';
 import Shop from './components/Shop';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 
-
 function App() {
+
+  const location = useLocation();
+  //console.log(location);
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
+
   return (
     <div className="App">
       <NavBar />
