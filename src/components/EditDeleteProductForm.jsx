@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { RiDeleteBin5Fill } from "react-icons/ri"
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
+import { FaCircle, FaEye, FaEyeSlash } from "react-icons/fa"
 import AddImageAlt from "../img/AddImageAlt.jpg";
 import {
   Row,
@@ -8,6 +11,8 @@ import {
   Form,  
   Button,  
   Carousel,
+  InputGroup,
+  FormControl
 } from "react-bootstrap";
 
 function validate(input) {
@@ -41,6 +46,8 @@ function EditDeleteProductForm({
     fotos: [],
     Presentacions: [],
     Categoria: [],
+    new: false,
+    activo:true
   },
   createFunction,
   updateFunction,
@@ -49,6 +56,13 @@ function EditDeleteProductForm({
   createForm = false,
   copyFunction
 }) {
+
+  const [settingFoto, setSettingFoto] = useState({
+    show: false,
+    name: "0",
+    placeholder: "Link de foto NºX",
+    value:""
+  })
   
   const [errors, setErrors] = useState({});
 
@@ -62,7 +76,9 @@ function EditDeleteProductForm({
 
   const [presentacion, setPresentacion] = useState(product.Presentacions || []);
 
-  const [fotos, setFotos] = useState(product.fotos || []);
+  const [foto0, setFoto0] = useState(product.fotos[0] );
+  const [foto1, setFoto1] = useState(product.fotos[1] );
+  const [foto2, setFoto2] = useState(product.fotos[2] );
 
   const storeCategories = useSelector((state) => state.categories);
 
@@ -72,8 +88,10 @@ function EditDeleteProductForm({
     let pattern = /[0-9]+/;
     if (product && product?.id !== input.id) {
       setInput(product);
-      setPresentacion(product.Presentacions);
-      setFotos(product.fotos);
+      setPresentacion(product.Presentacions);      
+      setFoto0(product.fotos[0] )
+      setFoto1(product.fotos[1] )
+      setFoto2(product.fotos[2] )
       setCategrorias(product.Categoria);
     }    
     if (input.stock < 0 || !pattern.test(input.stock)) {
@@ -87,8 +105,8 @@ function EditDeleteProductForm({
         ...input,
         precio: 1,
       });
-    }
-  }, [product, input, categorias]);
+    }    
+  }, [product, input, categorias,settingFoto,foto0,foto1,foto2]);
 
   function discardChanges() {
     setInput({
@@ -99,8 +117,25 @@ function EditDeleteProductForm({
       stock: product.stock,
     });
     setPresentacion(product.Presentacions);
-    setFotos(product.fotos);
+    setFoto0(product.fotos[0] || "")
+    setFoto1(product.fotos[1] || "")
+    setFoto2(product.fotos[2] || "")
     setCategrorias(product.Categoria);
+  }
+
+  const handleFotoChange = (e) => {
+    let foto = e.target.id
+    setSettingFoto({
+      ...settingFoto,
+      value:e.target.value
+    })
+    if (foto === "0") {
+      setFoto0(e.target.value)
+    } else if (foto === "1") {
+      setFoto1(e.target.value)
+    } else {
+      setFoto2(e.target.value)
+    }
   }
 
   const handleChangeString = (e) => {
@@ -125,51 +160,52 @@ function EditDeleteProductForm({
         id: "",
         presentacion: presentacion.map(p=> p.id),
         categoria: categorias.map((c) => c.id),
-        fotos: fotos,
+        fotos: [foto0,foto1,foto2],
       };
       createFunction(finalProduct);
     } else {
       alert(`Existen errores ${errors}`);
     }
-  };
-
-  // const handleCreate = (e) => {
-  //   e.preventDefault();
-  //   if (!Object.keys(errors).length) {
-  //     const finalProduct = {
-  //       ...input,
-  //       id: "",
-  //       presentacion: presentacion,
-  //       categoria: categorias.map((c) => c.id),
-  //       fotos: fotos,
-  //     };
-  //     createFunction(finalProduct);
-  //   } else {
-  //     alert(`Existen errores ${errors}`);
-  //   }
-  // };
+  };  
 
   const handleUpdate = (e) => {
-    //e.preventDefault();
-
-    const finalProduct = {
-      ...input,
-      presentacion: presentacion,
-      categoria: categorias,
-      fotos: fotos,
-    };
-    console.log(finalProduct)
-    updateFunction(finalProduct)
+    
+    if (!Object.keys(errors).length) {
+      const finalProduct = {
+        ...input,
+        presentacion: presentacion.map(p => p.id),        
+        categoria: categorias.map((c) => c.id),
+        fotos: [foto0,foto1,foto2],
+      };    
+      console.log(finalProduct)
+      updateFunction(finalProduct)
+    } else {
+      alert(`Existen errores ${errors}`);
+    }
   };
 
-  const setFoto = (e) => {
-    console.log("Seleccionar foto Nº " + e.target.id);
+  const selectFoto = (e) => {
+    let valueString = ""
+    let foto = e.target.id
+    if (foto === "0") {
+      valueString=foto0
+    } else if (foto === "1") {
+      valueString=foto1
+    } else {
+      valueString=foto2
+    }    
+    setSettingFoto({
+      show: true,
+      name: e.target.id,
+      placeholder: "Link de foto Nº " + e.target.id,
+      value : valueString || ""
+    })
   };
 
   const handleCategories = (e) => {
     if (e.target.checked) {
       if (!categorias.find((c) => c === parseInt(e.target.value))) {
-        setCategrorias([...categorias, { id: parseInt(e.target.value) }]);
+        setCategrorias([...categorias, { id: parseInt(e.target.value ) }]);
       }
     } else {
       if (categorias.find((c) => c.id === parseInt(e.target.value))) {
@@ -194,14 +230,15 @@ function EditDeleteProductForm({
     }
   };
 
-  if (product.id !== productToView.id && !createForm) {
+  if ((product.id !== productToView.id && !createForm) || product.id === "") {
     return (
       <Row
+        className={productToView.new ? "text-success": ""}
         style={{ borderTop: "2px solid", marginTop: "10px" }}
         key={productToView.id}
         onClick={() => selectProduct(productToView.id)}
       >
-        <Col className={"d-none d-lg-block"} lg="2">
+        <Col className={productToView.new ? "text-success border-start d-none d-lg-block": "d-none d-lg-block"}lg="2">
           <Carousel controls={false} indicators={false} variant="dark" fade>
             {productToView.fotos?.map((f, i) => (
               <Carousel.Item
@@ -219,20 +256,20 @@ function EditDeleteProductForm({
           </Carousel>
         </Col>
         <Col xs="12" sm="12" lg="10">
-          <Row>
-            <Col className="border-bottom" sm="6" xs="12">
+          <Row >
+            <Col className="border-bottom" md="6" sm="12" xs="12">
               <p className="mb-1">
                 <b>Nombre: </b>
-                {productToView.nombre}
+                {productToView.nombre} { productToView.activo?  <span className="text-success"><FaEye className="pb-1"/></span> : <span className="text-danger"><FaEyeSlash className="pb-1"/></span>}
               </p>
             </Col>
-            <Col className="border-bottom" sm="3" xs="6">
+            <Col className="border-bottom" md="3" sm="6" xs="6">
               <p className="mb-1">
-                <b>Stock: </b>
-                {productToView.stock}
+                <b>Stock: </b> 
+                {productToView.stock} { productToView.stock>productToView.stock_minimo? <span className="text-success"><FaCircle className="pb-1"/></span> : <span className="text-danger"><FaCircle className="pb-1"/></span>}
               </p>
             </Col>
-            <Col className="border-bottom" sm="3" xs="6">
+            <Col className="border-bottom" md="3" sm="6" xs="6">
               <p className="mb-1">
                 <b>Precio: $</b>
                 {productToView.precio}
@@ -271,28 +308,34 @@ function EditDeleteProductForm({
       <Row style={{ borderTop: "2px solid", marginTop: "10px" }}>
         <Col className="col-12">
           <Row>
-            <Col sm="6" xs="12">
+            <Col md="6" sm="12" xs="12">
               <Form.Group>
               <Form.Label
                 className={errors?.nombre?.length ? "mb-0 text-danger" : "mb-0"}
               >
-                {errors?.nombre?.length ? errors?.nombre : "Nombre"}
-              </Form.Label>
+                  {errors?.nombre?.length ? errors?.nombre : "Nombre"}
+                </Form.Label>
+                <InputGroup>
               <Form.Control
                 isInvalid={errors?.nombre?.length || ""}
                 type="text"
                 pattern="[a-zA-Z. ]{3,30}"
                 name="nombre"
                 placeholder="Nombre del producto"
-                aria-describedby="nombre"
+                aria-describedby="basic-addon2"
                 value={input.nombre}
                 onChange={handleChangeString}
-              />
+                /> 
+                  <InputGroup.Text id="basic-addon2">{ productToView.activo?  <span className="text-success"><FaEye className="pb-1"/></span> : <span className="text-danger"><FaEyeSlash className="pb-1"/></span>}</InputGroup.Text>
+                  </InputGroup>
             </Form.Group>
           </Col>
-          <Col sm="3" xs="6">
+          <Col md="3" sm="6" xs="6">
             <Form.Group>
-              <Form.Label className="mb-0">Stock</Form.Label>
+                <Form.Label className="mb-0">
+                  Stock 
+                </Form.Label>
+                <InputGroup>
               <Form.Control
                 isInvalid={errors?.stock?.length || ""}
                 type="number"
@@ -302,10 +345,12 @@ function EditDeleteProductForm({
                 aria-describedby="stock"
                 value={input.stock}
                 onChange={handleChangeString}
-              />
+                />
+                <InputGroup.Text className={ productToView.stock>productToView.stock_minimo? "text-success" : "text-danger"} id="basic-addon2"><FaCircle/></InputGroup.Text>
+                  </InputGroup>
             </Form.Group>
           </Col>
-          <Col sm="3" xs="6">
+          <Col md="3" sm="6" xs="6">
             <Form.Group>
               <Form.Label className="mb-0">Precio</Form.Label>
               <Form.Control
@@ -333,13 +378,14 @@ function EditDeleteProductForm({
             }}
           >
             <Image
-              src={fotos[0] || AddImageAlt}
+              src={foto0 || AddImageAlt}
               id="0"
               height="150"
               width="150"
               alt="Product foto 0"
-              onClick={setFoto}
-            />
+              onClick={(e)=>selectFoto(e)}
+              />
+              
           </Col>
           <Col
             xs="12"
@@ -352,13 +398,13 @@ function EditDeleteProductForm({
             }}
           >
             <Image
-              src={fotos[1] || AddImageAlt}
+              src={foto1 || AddImageAlt}
               id="1"
               height="150"
               width="150"
               fluid
               alt="Product foto 1"
-              onClick={setFoto}
+              onClick={(e)=>selectFoto(e)}
             />
           </Col>
           <Col
@@ -372,16 +418,30 @@ function EditDeleteProductForm({
             }}
           >
             <Image
-              src={fotos[2] || AddImageAlt}
+              src={foto2 || AddImageAlt}
               id="2"
               height="150"
               width="150"
               fluid
               alt="Product foto 2"
-              onClick={setFoto}
+              onClick={(e)=>selectFoto(e)}
             />
           </Col>
-        </Row>
+          </Row> 
+          <Row hidden={ !settingFoto.show }>
+            <Col className="col-12">
+              <Form.Group>
+                <Form.Label className="mb-0">Link Foto { settingFoto.name }</Form.Label>
+              <Form.Control                
+                as="textarea"
+                name={settingFoto.name}
+                placeholder={settingFoto.placeholder}
+                value={settingFoto.value}
+                onChange={(e)=>handleFotoChange(e) }
+                />
+                </Form.Group>
+            </Col>
+          </Row>
         <Row>
           <Col className="col-12 border-top">
             <Form.Group>
@@ -422,7 +482,7 @@ function EditDeleteProductForm({
           </Col>
         </Row>
         <Row>
-          <Col lg="10" sm="8" xs="12">
+          <Col lg="9" sm="8" xs="12">
             <Form.Group>
               <Form.Label
                 className={
@@ -445,24 +505,45 @@ function EditDeleteProductForm({
               />
             </Form.Group>
           </Col>
-          <Col lg="2" sm="4" xs="12">
+          <Col lg="3" sm="4" xs="12">
               <br />
               <Col className="col-12 mb-2">
-                <Button
+                <Row >
+                  <Col className="col-8">
+                    <Button
                   className="col-12"
-                  disabled={input.nombre.length < 3}
+                  disabled={input.nombre.length < 3 || Object.keys(errors)?.length }
                   onClick={input.id.length > 0 ? handleUpdate : handleCreate}
                 >
-                  {input.id.length > 0 ? "Actualizar" : "Crear"}
+                  {input.id.length > 0 ? "Aplicar" : "Crear"}
                 </Button>
+                  </Col>
+                  <Col className="col-4" style={{paddingRight:"0px"}}>
+                    <Button variant="warning" className="col-12">                     
+                      { productToView.activo? <AiFillEyeInvisible/>  : <AiFillEye/>}
+                  </Button>
+                  </Col>
+                </Row>
+                
               </Col>
-              <Col className="col-12">                 
-                  <Button
-                    className="col-12"                   
-                    onClick={input.id.length > 0 ? () => copyFunction(product.id) : ()=>discardChanges() }
-                  >
-                  {input.id.length > 0 ? "Copiar" : "Cancelar"}
-                  </Button>                
+              <Col className="col-12">  
+                <Row>
+                  <Col className="col-8" >
+                    <Button
+                           className="col-12"            
+                      onClick={input.id.length > 0 ? () => copyFunction(product.id) : ()=>discardChanges() }
+                    >
+                    {input.id.length > 0 ? "Copiar" : "Cancelar"}
+                  </Button>
+                  </Col>
+                  <Col className="col-4" style={{paddingRight:"0px"}}>
+                  <Button variant="danger" className="col-12">  
+                  <RiDeleteBin5Fill />
+                  </Button>
+                  </Col>
+                     
+                
+                </Row>
               </Col>
             </Col>
           </Row>

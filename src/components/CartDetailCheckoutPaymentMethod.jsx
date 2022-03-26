@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,10 +11,18 @@ function CartDetailCheckoutPaymentMethod() {
   const carrito = useSelector(state => state.cart)
   let idPedido = useSelector(state => state.idPago)
   const pedidoBack = useSelector(state => state.pedido)
-  const delivery = useSelector(state => state.despacho)
-
-
+  const despacho = useSelector(state => state.despacho)
+  const user = useSelector((state=> state.user))
+  
   const dispatch = useDispatch()
+
+  const carritoMod = carrito.forEach(el => {
+    el.peso = Number(el.peso)
+    delete el.idItemFront;
+  })
+
+  console.log("eliminado", carritoMod);
+
   // direccion_despacho: "Union Street 266, St. Louis",
   // status: "Creada",
   // f_pedido: "02/11/2022",
@@ -23,22 +31,40 @@ function CartDetailCheckoutPaymentMethod() {
   // ItemsPedidos: carrito
   
   const pedidos = {
-    direccion_despacho: delivery.direccion + ", " + delivery.localidad,
-    status: "Creada",
-    f_pedido: delivery.f_pedido,
-    f_entrega: "02/11/2022",
-    UsuarioCorreo: delivery.email,
+
+//     direccion_despacho: despacho.direccion + ", " + despacho.localidad,
+//     status: "Creada",
+//     f_pedido: despacho.f_pedido,
+//     f_entrega: "02/11/2022",
+//     UsuarioCorreo: despacho.email,
+
+    f_pedido: despacho.f_pedido,
+    f_requerida: despacho.f_requerida,
+    UsuarioCorreo: user.email,
+    status: "Created",
+    enviado_a: `${despacho.nombre} ${despacho.apellido}`,
+    direccion_despacho: `${despacho.direccion_despacho}-${despacho.localidad}-${despacho.zip}`,
+    comentario: despacho.comentario,
     ItemsPedidos: carrito
     
   }
 
+  console.log(pedidos)
+  // const [datos, setDatos] = useState("")
 
-  
 
   useEffect(() => {
     console.log(carrito)
     dispatch(postPedido(pedidos))
-    console.log(delivery)
+
+    // axios
+    //   .get("http://localhost:3001/mercadopago")
+    //   .then((data) => {
+    //     setDatos(data.data)
+    //     console.info('Contenido de data:', data)
+    //   })
+    //   .catch(err => console.error(err))
+
   }, [])
 
 
@@ -48,7 +74,6 @@ function CartDetailCheckoutPaymentMethod() {
       ItemsPedidos: pedidoBack.ItemsPedidos
     }))
   }
-
 
 
   //idPedido
@@ -84,14 +109,6 @@ function CartDetailCheckoutPaymentMethod() {
                   <p className="mb-0 pt-1">Método de pago</p>
                 </a>
               </li>
-
-              <li className="nav-item">
-                <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
-                  <RiEyeLine />
-                  <p className="mb-0 pt-1">Revisión del pedido</p>
-                </a>
-              </li>
-
             </ul>
             {/* forma de pago */}
             <form className="py-4">
@@ -99,7 +116,7 @@ function CartDetailCheckoutPaymentMethod() {
                 <div className="col-md-6">
                   <div className="bg-light p-4 p-xl-5">
                     <div className="form-check d-flex align-items-center">
-                      <input className="form-check-input flex-shrink-0" id="payment1" type="radio" name="payment" onClick={handlePago} />
+                      <input className="form-check-input flex-shrink-0" id="payment1" type="radio" name="payment" onClick={handlePago}/>
                       <label className="cursor-pointer d-block ms-3" htmlFor="payment1"><span className="h4 d-block mb-1 text-uppercase">MercadoPago</span><span className="text-sm d-block mb-0 text-muted">Una vez que hagas clic en continuar, será redireccionado a MercadoPago</span></label>
                     </div>
                   </div>
@@ -115,9 +132,7 @@ function CartDetailCheckoutPaymentMethod() {
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1" id="form1">
-                  
-                    <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} target="_blank" type='button' >Continuar <RiArrowRightSLine /></a>
-                  
+                    <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} target="_blank" type='button' disabled >Continuar <RiArrowRightSLine /></a>
                   </div>
                 </div>
               </div>

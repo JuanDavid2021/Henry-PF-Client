@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Card as CardBootstrap, Col } from "react-bootstrap";
+import { Card as CardBootstrap, Col } from "react-bootstrap";
 import DetailProductModal from './DetailProductModal';
 
 function Card({id, nombre, stock, presentacion, precio, arrFotos, descripcion }) {

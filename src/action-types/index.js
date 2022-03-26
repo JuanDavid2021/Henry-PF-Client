@@ -2,6 +2,7 @@ export const GETTING_PRODUCTS = "gettingProducts";
 export const SET_PRODUCTS = "setProducts";  
 export const SET_FILTERED_PRODUCTS = "setFilteredProducts"
 export const ADD_PRODUCT = "addProduct";//admin
+export const PUT_PRODUCT = "putProduct";//admin
 export const DELETE_PRODUCT = "deleteProduct";//admin
 export const EDIT_PRODUCT = "editProduct";//admin
 
