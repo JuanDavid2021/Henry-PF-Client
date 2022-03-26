@@ -1,46 +1,11 @@
-import { 
-  ADD_PRODUCT, 
-  PUT_PRODUCT,
-  DELETE_PRODUCT, 
-  EDIT_PRODUCT, 
-  POST_PRODUCT, 
-  RATE_PRODUCT, 
-  SEARCH_PRODUCT, 
-  SEARCH_LOCAL_PRODUCT,
-  PAGAR_PEDIDO,
-  GETTING_PRODUCTS, 
-  SET_PRODUCTS,
-  SET_FILTERED_PRODUCTS,
-  ORDER_PRODUCTS,
-  GETTING_PRODUCT_DETAILS, 
-  SET_PRODUCT_DETAILS, 
-  SET_PRODUCT_DETAILS_FRONT, 
-  ADD_CART_ITEM, 
-  DELETE_CART_ITEM, 
-  FLUSH_CART, 
-  ADD_PRODUCT_COMMENT, 
-  ADD_CATEGORY, 
-  SET_CATEGORIES,
-  DELETE_CATEGORY, 
-  DELETE_PRODUCT_COMMENT, 
-  SET_USERS,
-  DELETE_USER, 
-  GETTING_USERS, 
-  FILTER_PRODUCTS, 
-  FILTERING_PRODUCTS, 
-  FORCE_PASSWORD_RESET, 
-  GET_COMMENTS, 
-  GET_SALES, 
-  EDIT_SALE_STATUS, 
-  ORDER_PRECIO,
-  SET_CART_ITEM,
-  POST_PEDIDO,
-  DELIVERY_CART_ITEMS,
-  ADD_ORDER_DATE,
+import {
+  ADD_CART_ITEM, ADD_CATEGORY, ADD_ORDER_DATE, ADD_PRODUCT, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT, DELETE_USER, DELIVERY_CART_ITEMS, EDIT_PRODUCT, FILTER_PRODUCTS, GETTING_PRODUCTS, GETTING_PRODUCT_DETAILS, GETTING_USERS, ORDER_PRECIO, ORDER_PRODUCTS, PAGAR_PEDIDO, POST_PEDIDO, PUT_PRODUCT, RATE_PRODUCT,
+  SEARCH_PRODUCT, SET_CART_ITEM, SET_CATEGORIES, SET_FILTERED_PRODUCTS, SET_PRODUCTS, SET_PRODUCT_DETAILS,
+  SET_PRODUCT_DETAILS_FRONT, SET_USERS, UPDATE_USER
 } from './../action-types/index';
 
 const initialState = {
-  user: ["algo"], //usuario actual usando la app
+  user: { isAdmin: true }, //usuario actual usando la app
   gettingProducts: false,
   products: [],
   filteringProducts: false,  
@@ -59,58 +24,58 @@ const initialState = {
 
 //establece el valor inicial del carrito. Si el usuario estuvo cargando productos, quedaran en el localStorage
 localStorage.getItem("cart")
-? initialState.cart = JSON.parse(localStorage.getItem("cart"))
-: initialState.cart = []
+  ? initialState.cart = JSON.parse(localStorage.getItem("cart"))
+  : initialState.cart = [];
 
 function rootReducer(state = initialState, action) {
-  if (action.type === DELIVERY_CART_ITEMS){
+  if (action.type === DELIVERY_CART_ITEMS) {
     return {
       ...state,
       despacho: action.payload
-    }
+    };
   }
 
   if (action.type === ADD_ORDER_DATE) {
     return {
       ...state,
-      despacho: {...state.despacho, ...action.payload}
-    }
+      despacho: { ...state.despacho, ...action.payload }
+    };
   }
 
   if (action.type === ADD_CART_ITEM) {
     return {
       ...state,
       cart: [...action.payload]
-    }
+    };
   }
 
   if (action.type === POST_PEDIDO) {
     return {
       ...state,
       pedido: action.payload
-    }
+    };
   }
 
   if (action.type === PAGAR_PEDIDO) {
-    console.log(action.payload)
+    console.log(action.payload);
     return {
       ...state,
       idPago: action.payload
-    }
+    };
   }
 
-  if (action.type === SET_CART_ITEM){
-    return{
+  if (action.type === SET_CART_ITEM) {
+    return {
       ...state,
       cart: [...action.payload]
-    }
+    };
   }
 
   if (action.type === DELETE_CART_ITEM) {
     return {
       ...state,
       cart: [...action.payload]
-    }
+    };
   }
 
   if (action.type === ADD_PRODUCT) {
@@ -118,7 +83,7 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       products: [...state.products, action.payload],
-      filteredProducts:[action.payload,...state.filteredProducts]
+      filteredProducts: [action.payload, ...state.filteredProducts]
     };
   }
 
@@ -127,17 +92,17 @@ function rootReducer(state = initialState, action) {
     
     let newProducts = state.products.map(p => {
       if (p.id === action.payload.id) {
-      return action.payload
+        return action.payload;
       }
-      return p
-    })
+      return p;
+    });
    
     let filteredProducts = state.filteredProducts.map(fp => {
       if (fp.id === action.payload.id) {
-      return action.payload
+        return action.payload;
       }
-      return fp
-    })
+      return fp;
+    });
     return {
       ...state,
       products: newProducts,
@@ -149,8 +114,8 @@ function rootReducer(state = initialState, action) {
     //seteo categorias desde el back
     return {
       ...state,
-      categories:action.payload
-    }
+      categories: action.payload
+    };
   }
 
   if (action.type === DELETE_PRODUCT) {
@@ -204,7 +169,7 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       filteredProducts: action.payload
-    }
+    };
   }
 
   if (action.type === GETTING_PRODUCTS) {
@@ -236,8 +201,8 @@ function rootReducer(state = initialState, action) {
     //edito el score del producto del arreglo una vez tenemos la confirmacion del back
     const newProducts = state.products.map((e) => {
       if (e.id === action.payload.id) {
-        e.score = action.payload.score
-        return e
+        e.score = action.payload.score;
+        return e;
       }
       return e;
     });
@@ -251,7 +216,7 @@ function rootReducer(state = initialState, action) {
     //cargo el arreglo con todos los usuarios obtenidos
     return {
       ...state,
-      allUsers: action.payload,
+      users: action.payload,
       gettingUsers: false
     };
   } 
@@ -263,6 +228,20 @@ function rootReducer(state = initialState, action) {
       gettingUsers: action.payload
     };
   } 
+
+  if (action.type === UPDATE_USER) {
+    return {
+      ...state,
+      users: state.users.filter(u => u.correo !== action.payload.correo).concat(action.payload)
+    };
+  }
+
+  if (action.type === DELETE_USER) {
+    return {
+      ...state,
+      users: state.users.filter(u => u.correo !== action.payload)
+    };
+  }
 
 
   if (action.type === ADD_CATEGORY) {
@@ -285,123 +264,123 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === FILTER_PRODUCTS) {
-    let filteredProducts=state.products.filter(e=>e.stock>0)    
+    let filteredProducts = state.products.filter(e => e.stock > 0);    
     
-    let categoryStatus = false
-      if (action.payload.category !== "all") {
-        filteredProducts = filteredProducts.filter(e => e.Categoria.find(i=>parseInt(i.id)===parseInt(action.payload.category)))
-        if (filteredProducts.length !== 0) {
-          categoryStatus = true
-        }
-      } else {
-        categoryStatus = true
-      }
-      if (action.payload.order === "A-Z") {
-        filteredProducts = filteredProducts.sort(function (a, b) {
-          if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1
-          if (b.nombre.toLowerCase() > a.nombre.toLowerCase()) return -1
-          return 0;
-        })
-      } else if (action.payload.order === "Z-A") {
-        filteredProducts = filteredProducts.sort(function (a, b) {
-          if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return -1
-          if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1
-          return 0;
-        })
-      } else if (action.payload.order === "priceLower-Higher") {
-        filteredProducts = filteredProducts.sort(function (a, b) {
-          if (Number(a.precio) > Number(b.precio)) return 1
-          if (Number(b.precio) > Number(a.precio)) return -1
-          return 0;
-        })
-      } else if (action.payload.order === "priceHigher-Lower") {
-        filteredProducts = filteredProducts.sort(function (a, b) {
-          if (Number(a.precio) > Number(b.precio)) return -1
-          if (Number(b.precio) > Number(a.precio)) return 1
-          return 0;
-        })
-      }
-    
-    let searchStatus = false
-    if (action.payload.input.length>0) {
-      filteredProducts = filteredProducts.filter(p => p.nombre.toLowerCase().includes(action.payload.input.toLowerCase()))
-      if (filteredProducts.length !==0 ) {
-        searchStatus = true
+    let categoryStatus = false;
+    if (action.payload.category !== "all") {
+      filteredProducts = filteredProducts.filter(e => e.Categoria.find(i => parseInt(i.id) === parseInt(action.payload.category)));
+      if (filteredProducts.length !== 0) {
+        categoryStatus = true;
       }
     } else {
-      searchStatus = true
+      categoryStatus = true;
+    }
+    if (action.payload.order === "A-Z") {
+      filteredProducts = filteredProducts.sort(function (a, b) {
+        if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1;
+        if (b.nombre.toLowerCase() > a.nombre.toLowerCase()) return -1;
+        return 0;
+      });
+    } else if (action.payload.order === "Z-A") {
+      filteredProducts = filteredProducts.sort(function (a, b) {
+        if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return -1;
+        if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1;
+        return 0;
+      });
+    } else if (action.payload.order === "priceLower-Higher") {
+      filteredProducts = filteredProducts.sort(function (a, b) {
+        if (Number(a.precio) > Number(b.precio)) return 1;
+        if (Number(b.precio) > Number(a.precio)) return -1;
+        return 0;
+      });
+    } else if (action.payload.order === "priceHigher-Lower") {
+      filteredProducts = filteredProducts.sort(function (a, b) {
+        if (Number(a.precio) > Number(b.precio)) return -1;
+        if (Number(b.precio) > Number(a.precio)) return 1;
+        return 0;
+      });
+    }
+    
+    let searchStatus = false;
+    if (action.payload.input.length > 0) {
+      filteredProducts = filteredProducts.filter(p => p.nombre.toLowerCase().includes(action.payload.input.toLowerCase()));
+      if (filteredProducts.length !== 0) {
+        searchStatus = true;
+      }
+    } else {
+      searchStatus = true;
     } 
     return {
       ...state,
       filteredProducts: filteredProducts,
       categoryFilterStatus: categoryStatus, 
       searchFilterStatus: searchStatus
-    }
+    };
   }
 
-  if(action.type===ORDER_PRODUCTS){
-    console.log(action.type)
-    let sortArray = action.payload ==="A-Z"?
+  if (action.type === ORDER_PRODUCTS) {
+    console.log(action.type);
+    let sortArray = action.payload === "A-Z" ?
 
-    state.products.sort(function(a,b){    
+      state.products.sort(function (a, b) {    
 
-      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return 1
-      if(b.nombre.toLowerCase()>a.nombre.toLowerCase()) return -1
-      return 0;
-    }) :
-    state.products.sort(function(a,b){
-      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return -1
-      if(a.nombre.toLowerCase()>b.nombre.toLowerCase()) return  1
-      return 0;
-    })   
-    return{
-      ...state,
-      products: sortArray,
-    }
-
-  }
-
-  if(action.type===ORDER_PRECIO){
-    console.log(action.type)
-    let sortArrayPrecio = action.payload ==="priceLower-Higher"?
-    state.products.sort(function(a,b){
-      if(Number(a.precio)>Number(b.precio)) return 1
-      if(Number(b.precio)>Number(a.precio)) return -1
-      return 0;
-    }) :
-    
-    state.products.sort(function(a,b){
-      if(Number(a.precio)>Number(b.precio)) return -1
-      if(Number(b.precio)>Number(a.precio)) return  1
-      return 0;
-    })   
-    return{
-      ...state,
-      products: sortArrayPrecio
-    }
-  }
-  
-  if(action.type===SEARCH_PRODUCT){
-      const busqueda = action.payload.busq.data.filter(p=>p.nombre.toLowerCase().includes(action.payload.producto.toLowerCase()))
-      console.log(busqueda)
-      return{
-        ...state,
-        products: busqueda
-    }
-  }
-
-  
-/*   if (action.type === "ORDER_BY_SCORE") {
-    const orderedRecipes = orderByScore(
-      [...state.filterResult],
-      action.payload
-    );
-
+        if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1;
+        if (b.nombre.toLowerCase() > a.nombre.toLowerCase()) return -1;
+        return 0;
+      }) :
+      state.products.sort(function (a, b) {
+        if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return -1;
+        if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1;
+        return 0;
+      });   
     return {
       ...state,
-      filterResult: orderedRecipes,
+      products: sortArray,
     };
-  } */
+
+  }
+
+  if (action.type === ORDER_PRECIO) {
+    console.log(action.type);
+    let sortArrayPrecio = action.payload === "priceLower-Higher" ?
+      state.products.sort(function (a, b) {
+        if (Number(a.precio) > Number(b.precio)) return 1;
+        if (Number(b.precio) > Number(a.precio)) return -1;
+        return 0;
+      }) :
+    
+      state.products.sort(function (a, b) {
+        if (Number(a.precio) > Number(b.precio)) return -1;
+        if (Number(b.precio) > Number(a.precio)) return 1;
+        return 0;
+      });   
+    return {
+      ...state,
+      products: sortArrayPrecio
+    };
+  }
+  
+  if (action.type === SEARCH_PRODUCT) {
+    const busqueda = action.payload.busq.data.filter(p => p.nombre.toLowerCase().includes(action.payload.producto.toLowerCase()));
+    console.log(busqueda);
+    return {
+      ...state,
+      products: busqueda
+    };
+  }
+
+  
+  /*   if (action.type === "ORDER_BY_SCORE") {
+      const orderedRecipes = orderByScore(
+        [...state.filterResult],
+        action.payload
+      );
+  
+      return {
+        ...state,
+        filterResult: orderedRecipes,
+      };
+    } */
 
   /*if (action.type === "SET_RECIPES_AND_FILTER") {
     if (action.payload.filter.title.length) {
