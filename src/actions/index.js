@@ -5,6 +5,7 @@ import {
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   POST_PRODUCT,
+  LOADING,
   RATE_PRODUCT,
   SEARCH_PRODUCT,
   SEARCHING_PRODUCT,
@@ -39,6 +40,15 @@ import {
   ADD_ORDER_DATE,
 } from './../action-types/index';
 const axios = require("axios");
+
+
+//LOADING..
+export function loading(){
+  return {
+    type: LOADING
+  }
+}
+
 
 //HELPERS...
 
@@ -385,11 +395,15 @@ export function setDelivery(data) {
 
 export function flushCart() {
   return (dispatch) => {
+    let cartLocal = JSON.parse(localStorage.getItem("cart"))
+    cartLocal = []
+    localStorage.setItem("cart", JSON.stringify(cartLocal))
+
     dispatch({
       type: FLUSH_CART,
-      payload: null,
+      payload: cartLocal,
     });
-  };
+  }
 }
 
 
@@ -455,6 +469,7 @@ export function postPedido(payload) {
 
 export function pagarPedido(payload) {
   return async function (dispatch) {
+    dispatch(loading())
     try {
       const pagoPedido = await axios.post("http://localhost:3001/api/mercadopago", payload)
       if (pagoPedido.status === 200) {

@@ -48,3 +48,11 @@ export const ORDER_PRECIO = "orderPrecio"
 export const SEARCH_PRODUCT = "searchProduct"
 export const SEARCHING_PRODUCT = "searchingProduct"
 export const SEARCH_LOCAL_PRODUCT = "searchLocalProduct"
+
+
+
+
+
+
+
+export const LOADING = "loading";
