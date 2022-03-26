@@ -9,7 +9,7 @@ import { Resume } from './CartDetails';
 function CartDetailCheckoutPaymentMethod() {
 
   const carrito = useSelector(state => state.cart)
-  const idPedido = useSelector(state => state.idPago)
+  let idPedido = useSelector(state => state.idPago)
   const pedidoBack = useSelector(state => state.pedido)
   const despacho = useSelector(state => state.despacho)
   const user = useSelector((state=> state.user))
@@ -23,7 +23,21 @@ function CartDetailCheckoutPaymentMethod() {
 
   console.log("eliminado", carritoMod);
 
+  // direccion_despacho: "Union Street 266, St. Louis",
+  // status: "Creada",
+  // f_pedido: "02/11/2022",
+  // f_entrega: "02/11/2022",
+  // UsuarioCorreo: "minnie.lomeli@keyphase.com",
+  // ItemsPedidos: carrito
+  
   const pedidos = {
+
+//     direccion_despacho: despacho.direccion + ", " + despacho.localidad,
+//     status: "Creada",
+//     f_pedido: despacho.f_pedido,
+//     f_entrega: "02/11/2022",
+//     UsuarioCorreo: despacho.email,
+
     f_pedido: despacho.f_pedido,
     f_requerida: despacho.f_requerida,
     UsuarioCorreo: user.email,
@@ -32,10 +46,12 @@ function CartDetailCheckoutPaymentMethod() {
     direccion_despacho: `${despacho.direccion_despacho}-${despacho.localidad}-${despacho.zip}`,
     comentario: despacho.comentario,
     ItemsPedidos: carrito
+    
   }
 
   console.log(pedidos)
   // const [datos, setDatos] = useState("")
+
 
   useEffect(() => {
     console.log(carrito)
@@ -48,6 +64,7 @@ function CartDetailCheckoutPaymentMethod() {
     //     console.info('Contenido de data:', data)
     //   })
     //   .catch(err => console.error(err))
+
   }, [])
 
 
@@ -56,15 +73,10 @@ function CartDetailCheckoutPaymentMethod() {
       id: pedidoBack.id,
       ItemsPedidos: pedidoBack.ItemsPedidos
     }))
-
   }
+
 
   //idPedido
-
-  const botonmagico = () => {
-    console.log(idPedido.sandbox_init_point)
-
-  }
 
   return (
     <section className="py-5">
@@ -120,7 +132,7 @@ function CartDetailCheckoutPaymentMethod() {
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1" id="form1">
-                    <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} target="noopener noreferrer" type='button' disabled >Continuar <RiArrowRightSLine /></a>
+                    <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} target="_blank" type='button' disabled >Continuar <RiArrowRightSLine /></a>
                   </div>
                 </div>
               </div>
