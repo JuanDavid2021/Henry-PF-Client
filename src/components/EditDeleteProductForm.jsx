@@ -11,13 +11,13 @@ import {
   Form,  
   Button,  
   Carousel,
-  InputGroup,
-  FormControl
+  InputGroup 
 } from "react-bootstrap";
 
-function validate(input) {
+function validate(input,fotos) {
   let errors = {};
   let pattern = /[0-9]+/;
+  let patternURL =/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
   if (!input.nombre.length) {
     errors.nombre = "Nombre es requerido";
   } else if (pattern.test(input.nombre)) {
@@ -26,6 +26,27 @@ function validate(input) {
   if (!input.descripcion.length || input.descripcion.length < 5) {
     errors.descripcion = "Descripción es requerido, mínimo 5 caracteres";
   }
+  Object.Keys(fotos).forEach(f => {
+    if(!patternURL.test(fotos[f])){
+      let foto = "foto"+f
+      errors.foto = "Link inválido"
+    }
+  });
+  // if(fotos[0].length){
+  //   if(!patternURL.test(foto0)){
+  //   errors.foto0 = "Link inválido"  
+  //   }
+  // }
+  // if(fotos[1].length){
+  //   if(!patternURL.test(foto1)){
+  //   errors.foto1 = "Link inválido"  
+  //   }
+  // }
+  // if(fotos[2].length){
+  //   if(!patternURL.test(foto2)){
+  //   errors.foto2 = "Link inválido"  
+  //   }
+  // }
   // if (input.precio < 1 || !pattern.test(input.precio)) {
   //   errors.precio = 'El precio no puede ser menor que 1'
   // }
@@ -47,7 +68,8 @@ function EditDeleteProductForm({
     Presentacions: [],
     Categoria: [],
     new: false,
-    activo:true
+    activo:true,
+    stock_minimo:"0"
   },
   createFunction,
   updateFunction,
@@ -72,26 +94,23 @@ function EditDeleteProductForm({
     descripcion: product.descripcion || "",
     precio: product.precio || "",
     stock: product.stock || "",
+    stock_minimo: product.stock_minimo || ""
   });
 
   const [presentacion, setPresentacion] = useState(product.Presentacions || []);
 
-  const [foto0, setFoto0] = useState(product.fotos[0] );
-  const [foto1, setFoto1] = useState(product.fotos[1] );
-  const [foto2, setFoto2] = useState(product.fotos[2] );
-
+  const [fotos,setFotos] = useState([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])
   const storeCategories = useSelector((state) => state.categories);
 
   const [categorias, setCategrorias] = useState(product.Categoria || []);
 
   useEffect(() => {
     let pattern = /[0-9]+/;
+    
     if (product && product?.id !== input.id) {
       setInput(product);
-      setPresentacion(product.Presentacions);      
-      setFoto0(product.fotos[0] )
-      setFoto1(product.fotos[1] )
-      setFoto2(product.fotos[2] )
+      setPresentacion(product.Presentacions); 
+      setFotos([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])    
       setCategrorias(product.Categoria);
     }    
     if (input.stock < 0 || !pattern.test(input.stock)) {
@@ -105,8 +124,10 @@ function EditDeleteProductForm({
         ...input,
         precio: 1,
       });
-    }    
-  }, [product, input, categorias,settingFoto,foto0,foto1,foto2]);
+    }   
+     console.log(fotos)
+     console.log(errors)
+  }, [product, input, categorias,fotos,errors]);
 
   function discardChanges() {
     setInput({
@@ -115,27 +136,22 @@ function EditDeleteProductForm({
       descripcion: product.descripcion,
       precio: product.precio,
       stock: product.stock,
+      stock_minimo: product.stock_minimo
     });
-    setPresentacion(product.Presentacions);
-    setFoto0(product.fotos[0] || "")
-    setFoto1(product.fotos[1] || "")
-    setFoto2(product.fotos[2] || "")
+    setPresentacion(product.Presentacions);    
+    setFotos([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])        
     setCategrorias(product.Categoria);
   }
 
-  const handleFotoChange = (e) => {
-    let foto = e.target.id
+  const handleFotoChange = (e) => {       
     setSettingFoto({
       ...settingFoto,
       value:e.target.value
     })
-    if (foto === "0") {
-      setFoto0(e.target.value)
-    } else if (foto === "1") {
-      setFoto1(e.target.value)
-    } else {
-      setFoto2(e.target.value)
-    }
+    let newFotos=[...fotos]
+    newFotos[e.target.name] = e.target.value
+    setFotos(newFotos)
+    validate(input,newFotos)   
   }
 
   const handleChangeString = (e) => {
@@ -147,7 +163,7 @@ function EditDeleteProductForm({
       validate({
         ...input,
         [e.target.name]: e.target.value.replace(/<[^>]+>/g, ""),
-      })
+      }, fotos)
     );
   };
 
@@ -160,7 +176,7 @@ function EditDeleteProductForm({
         id: "",
         presentacion: presentacion.map(p=> p.id),
         categoria: categorias.map((c) => c.id),
-        fotos: [foto0,foto1,foto2],
+        fotos: fotos,
       };
       createFunction(finalProduct);
     } else {
@@ -175,7 +191,7 @@ function EditDeleteProductForm({
         ...input,
         presentacion: presentacion.map(p => p.id),        
         categoria: categorias.map((c) => c.id),
-        fotos: [foto0,foto1,foto2],
+        fotos: fotos,
       };    
       console.log(finalProduct)
       updateFunction(finalProduct)
@@ -184,21 +200,12 @@ function EditDeleteProductForm({
     }
   };
 
-  const selectFoto = (e) => {
-    let valueString = ""
-    let foto = e.target.id
-    if (foto === "0") {
-      valueString=foto0
-    } else if (foto === "1") {
-      valueString=foto1
-    } else {
-      valueString=foto2
-    }    
+  const selectFoto = (e) => {    
     setSettingFoto({
       show: true,
       name: e.target.id,
       placeholder: "Link de foto Nº " + e.target.id,
-      value : valueString || ""
+      value : fotos[parseInt(e.target.id)]
     })
   };
 
@@ -378,7 +385,7 @@ function EditDeleteProductForm({
             }}
           >
             <Image
-              src={foto0 || AddImageAlt}
+              src={fotos[0] || AddImageAlt}
               id="0"
               height="150"
               width="150"
@@ -398,7 +405,7 @@ function EditDeleteProductForm({
             }}
           >
             <Image
-              src={foto1 || AddImageAlt}
+              src={fotos[1] || AddImageAlt}
               id="1"
               height="150"
               width="150"
@@ -418,7 +425,7 @@ function EditDeleteProductForm({
             }}
           >
             <Image
-              src={foto2 || AddImageAlt}
+              src={fotos[2] || AddImageAlt}
               id="2"
               height="150"
               width="150"
