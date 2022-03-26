@@ -1,8 +1,54 @@
 import {
-  ADD_CART_ITEM, ADD_CATEGORY, ADD_ORDER_DATE, ADD_PRODUCT, ADD_PRODUCT_COMMENT, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT, DELETE_PRODUCT_COMMENT, DELETE_USER, DELIVERY_CART_ITEMS, EDIT_PRODUCT, FILTER_PRODUCTS, FLUSH_CART, GETTING_PRODUCTS, GETTING_PRODUCT_DETAILS, GETTING_USERS, ORDER_PRECIO, ORDER_PRODUCTS, PAGAR_PEDIDO, POST_PEDIDO, PUT_PRODUCT, RATE_PRODUCT,
-  SEARCH_PRODUCT, SET_CART_ITEM, SET_CATEGORIES, SET_FILTERED_PRODUCTS, SET_PRODUCTS, SET_PRODUCT_DETAILS, SET_USERS, UPDATE_USER
+  POST_PEDIDO,
+  ADD_PRODUCT,
+  PUT_PRODUCT,
+  DELETE_PRODUCT,
+  EDIT_PRODUCT,
+  POST_PRODUCT,
+  LOADING,
+  RATE_PRODUCT,
+  SEARCH_PRODUCT,
+  SEARCHING_PRODUCT,
+  PAGAR_PEDIDO,
+  GETTING_PRODUCTS,
+  SET_PRODUCTS,
+  SET_FILTERED_PRODUCTS,
+  ORDER_PRODUCTS,
+  GETTING_PRODUCT_DETAILS,
+  SET_PRODUCT_DETAILS,
+  SET_PRODUCT_DETAILS_FRONT,
+  ADD_CART_ITEM,
+  DELETE_CART_ITEM,
+  FLUSH_CART,
+  ADD_PRODUCT_COMMENT,
+  ADD_CATEGORY,
+  SET_CATEGORIES,
+  DELETE_CATEGORY,
+  DELETE_PRODUCT_COMMENT,
+  SET_USERS,
+  DELETE_USER,
+  GETTING_USERS,
+  FILTER_PRODUCTS,
+  FILTERING_PRODUCTS,
+  FORCE_PASSWORD_RESET,
+  GET_COMMENTS,
+  GET_SALES,
+  EDIT_SALE_STATUS,
+  ORDER_PRECIO,
+  SET_CART_ITEM,
+  DELIVERY_CART_ITEMS,
+  ADD_ORDER_DATE,
 } from './../action-types/index';
 const axios = require("axios");
+
+
+//LOADING..
+export function loading(){
+  return {
+    type: LOADING
+  }
+}
+
 
 //HELPERS...
 
@@ -395,11 +441,15 @@ export function setDelivery(data) {
 
 export function flushCart() {
   return (dispatch) => {
+    let cartLocal = JSON.parse(localStorage.getItem("cart"))
+    cartLocal = []
+    localStorage.setItem("cart", JSON.stringify(cartLocal))
+
     dispatch({
       type: FLUSH_CART,
-      payload: null,
+      payload: cartLocal,
     });
-  };
+  }
 }
 
 
@@ -465,6 +515,7 @@ export function postPedido(payload) {
 
 export function pagarPedido(payload) {
   return async function (dispatch) {
+    dispatch(loading())
     try {
       const pagoPedido = await axios.post("http://localhost:3001/api/mercadopago", payload);
       if (pagoPedido.status === 200) {

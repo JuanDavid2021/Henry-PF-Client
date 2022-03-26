@@ -1,14 +1,53 @@
+
+import { loading } from '../actions';
 import {
-  ADD_CART_ITEM, ADD_CATEGORY, ADD_ORDER_DATE, ADD_PRODUCT, DELETE_CART_ITEM, DELETE_CATEGORY, DELETE_PRODUCT, DELETE_USER, DELIVERY_CART_ITEMS, EDIT_PRODUCT, FILTER_PRODUCTS, GETTING_PRODUCTS, GETTING_PRODUCT_DETAILS, GETTING_USERS, ORDER_PRECIO, ORDER_PRODUCTS, PAGAR_PEDIDO, POST_PEDIDO, PUT_PRODUCT, RATE_PRODUCT,
-  SEARCH_PRODUCT, SET_CART_ITEM, SET_CATEGORIES, SET_FILTERED_PRODUCTS, SET_PRODUCTS, SET_PRODUCT_DETAILS,
-  SET_PRODUCT_DETAILS_FRONT, SET_USERS, UPDATE_USER
+  ADD_PRODUCT,
+  PUT_PRODUCT,
+  DELETE_PRODUCT,
+  EDIT_PRODUCT,
+  POST_PRODUCT,
+  RATE_PRODUCT,
+  SEARCH_PRODUCT,
+  SEARCH_LOCAL_PRODUCT,
+  PAGAR_PEDIDO,
+  GETTING_PRODUCTS,
+  SET_PRODUCTS,
+  SET_FILTERED_PRODUCTS,
+  ORDER_PRODUCTS,
+  GETTING_PRODUCT_DETAILS,
+  SET_PRODUCT_DETAILS,
+  SET_PRODUCT_DETAILS_FRONT,
+  ADD_CART_ITEM,
+  DELETE_CART_ITEM,
+  FLUSH_CART,
+  ADD_PRODUCT_COMMENT,
+  ADD_CATEGORY,
+  SET_CATEGORIES,
+  DELETE_CATEGORY,
+  DELETE_PRODUCT_COMMENT,
+  SET_USERS,
+  DELETE_USER,
+  GETTING_USERS,
+  FILTER_PRODUCTS,
+  FILTERING_PRODUCTS,
+  FORCE_PASSWORD_RESET,
+  GET_COMMENTS,
+  GET_SALES,
+  EDIT_SALE_STATUS,
+  ORDER_PRECIO,
+  SET_CART_ITEM,
+  POST_PEDIDO,
+  DELIVERY_CART_ITEMS,
+  ADD_ORDER_DATE,
+  LOADING,
 } from './../action-types/index';
 
 const initialState = {
-  user: { nombre: "asd", email: "minnie.bator@funholding.com", isAdmin: true }, //usuario actual usando la app
+  user: { nombre: "asd", email: "minnie.bator@funholding.com" }, //usuario actual usando la app
+
   gettingProducts: false,
   products: [],
-  filteringProducts: false,  
+  filteringProducts: false,
   filteredProducts: [],
   productDetails: { id: null },
   cart: [],
@@ -19,13 +58,17 @@ const initialState = {
   sales: [],//lista de ventas
   users: [],//lista de usuarios para borrar / forzar password
   categoryFilterStatus: true,
-  searchFilterStatus: true
+  searchFilterStatus: true,
+  loading: false
 };
 
 //establece el valor inicial del carrito. Si el usuario estuvo cargando productos, quedaran en el localStorage
 localStorage.getItem("cart")
   ? initialState.cart = JSON.parse(localStorage.getItem("cart"))
+
+
   : initialState.cart = [];
+
 
 function rootReducer(state = initialState, action) {
   if (action.type === DELIVERY_CART_ITEMS) {
@@ -39,7 +82,10 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       despacho: { ...state.despacho, ...action.payload }
+
+
     };
+
   }
 
   if (action.type === ADD_CART_ITEM) {
@@ -47,6 +93,13 @@ function rootReducer(state = initialState, action) {
       ...state,
       cart: [...action.payload]
     };
+  }
+
+  if (action.type === FLUSH_CART) {
+    return {
+      ...state,
+      cart: action.payload
+    }
   }
 
   if (action.type === POST_PEDIDO) {
@@ -57,11 +110,22 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === PAGAR_PEDIDO) {
-    console.log(action.payload);
+
+
+    console.log(state.loading)
     return {
       ...state,
-      idPago: action.payload
-    };
+      idPago: action.payload,
+      loading: false
+    }
+  }
+
+  if (action.type === LOADING) {
+    console.log(state.loading)
+    return {
+      ...state,
+      loading: true
+    }
   }
 
   if (action.type === SET_CART_ITEM) {
@@ -89,9 +153,10 @@ function rootReducer(state = initialState, action) {
 
   if (action.type === PUT_PRODUCT) {
     //agrego el producto del arreglo una vez tenemos la confirmacion desde el back 
-    
+
     let newProducts = state.products.map(p => {
       if (p.id === action.payload.id) {
+
         return action.payload;
       }
       return p;
@@ -100,6 +165,7 @@ function rootReducer(state = initialState, action) {
     let filteredProducts = state.filteredProducts.map(fp => {
       if (fp.id === action.payload.id) {
         return action.payload;
+
       }
       return fp;
     });
@@ -115,7 +181,9 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       categories: action.payload
+
     };
+
   }
 
   if (action.type === DELETE_PRODUCT) {
@@ -163,7 +231,7 @@ function rootReducer(state = initialState, action) {
       products: action.payload,
       gettingProducts: false
     };
-  } 
+  }
 
   if (action.type === SET_FILTERED_PRODUCTS) {
     return {
@@ -178,7 +246,7 @@ function rootReducer(state = initialState, action) {
       ...state,
       gettingProducts: action.payload
     };
-  } 
+  }
 
   if (action.type === SET_PRODUCT_DETAILS) {
     //cargo el arreglo con todos los productos obtenidos
@@ -187,7 +255,7 @@ function rootReducer(state = initialState, action) {
       productDetails: action.payload,
       gettingProducts: false
     };
-  } 
+  }
 
   if (action.type === GETTING_PRODUCT_DETAILS) {
     //cargo el arreglo con todos los productos obtenidos
@@ -195,7 +263,7 @@ function rootReducer(state = initialState, action) {
       ...state,
       gettingProductDetails: action.payload
     };
-  } 
+  }
 
   if (action.type === RATE_PRODUCT) {
     //edito el score del producto del arreglo una vez tenemos la confirmacion del back
@@ -219,7 +287,7 @@ function rootReducer(state = initialState, action) {
       users: action.payload,
       gettingUsers: false
     };
-  } 
+  }
 
   if (action.type === GETTING_USERS) {
     //cargo el arreglo con todos los productos obtenidos
@@ -227,7 +295,7 @@ function rootReducer(state = initialState, action) {
       ...state,
       gettingUsers: action.payload
     };
-  } 
+  }
 
   if (action.type === UPDATE_USER) {
     return {
@@ -264,6 +332,7 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === FILTER_PRODUCTS) {
+
     let filteredProducts = state.products.filter(e => e.stock > 0);    
     
     let categoryStatus = false;
@@ -310,15 +379,17 @@ function rootReducer(state = initialState, action) {
     } else {
       searchStatus = true;
     } 
+
     return {
       ...state,
       filteredProducts: filteredProducts,
-      categoryFilterStatus: categoryStatus, 
+      categoryFilterStatus: categoryStatus,
       searchFilterStatus: searchStatus
     };
   }
 
   if (action.type === ORDER_PRODUCTS) {
+
     console.log(action.type);
     let sortArray = action.payload === "A-Z" ?
 
@@ -333,6 +404,7 @@ function rootReducer(state = initialState, action) {
         if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1;
         return 0;
       });   
+
     return {
       ...state,
       products: sortArray,
@@ -341,6 +413,7 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === ORDER_PRECIO) {
+
     console.log(action.type);
     let sortArrayPrecio = action.payload === "priceLower-Higher" ?
       state.products.sort(function (a, b) {
@@ -370,6 +443,7 @@ function rootReducer(state = initialState, action) {
   }
 
   
+
   /*   if (action.type === "ORDER_BY_SCORE") {
       const orderedRecipes = orderByScore(
         [...state.filterResult],
