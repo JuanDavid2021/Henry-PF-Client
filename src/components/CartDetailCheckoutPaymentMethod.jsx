@@ -9,38 +9,36 @@ import { Resume } from './CartDetails';
 function CartDetailCheckoutPaymentMethod() {
 
   const carrito = useSelector(state => state.cart)
-  const idPedido = useSelector(state => state.idPago)
+  let idPedido = useSelector(state => state.idPago)
   const pedidoBack = useSelector(state => state.pedido)
+  const delivery = useSelector(state => state.despacho)
+
 
   const dispatch = useDispatch()
-
-
-
+  // direccion_despacho: "Union Street 266, St. Louis",
+  // status: "Creada",
+  // f_pedido: "02/11/2022",
+  // f_entrega: "02/11/2022",
+  // UsuarioCorreo: "minnie.lomeli@keyphase.com",
+  // ItemsPedidos: carrito
+  
   const pedidos = {
-    direccion_despacho: "Union Street 266, St. Louis",
+    direccion_despacho: delivery.direccion + ", " + delivery.localidad,
     status: "Creada",
-    f_pedido: "02/11/2022",
+    f_pedido: delivery.f_pedido,
     f_entrega: "02/11/2022",
-    UsuarioCorreo: "minnie.lomeli@keyphase.com",
+    UsuarioCorreo: delivery.email,
     ItemsPedidos: carrito
+    
   }
 
 
-  // const [datos, setDatos] = useState("")
+  
 
   useEffect(() => {
     console.log(carrito)
     dispatch(postPedido(pedidos))
-
-
-
-    // axios
-    //   .get("http://localhost:3001/mercadopago")
-    //   .then((data) => {
-    //     setDatos(data.data)
-    //     console.info('Contenido de data:', data)
-    //   })
-    //   .catch(err => console.error(err))
+    console.log(delivery)
   }, [])
 
 
@@ -49,18 +47,11 @@ function CartDetailCheckoutPaymentMethod() {
       id: pedidoBack.id,
       ItemsPedidos: pedidoBack.ItemsPedidos
     }))
-
   }
-
 
 
 
   //idPedido
-
-  const botonmagico = () => {
-    console.log(idPedido.sandbox_init_point)
-
-  }
 
   return (
     <section className="py-5">
@@ -124,7 +115,9 @@ function CartDetailCheckoutPaymentMethod() {
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1" id="form1">
-                    <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} target="_blank" type='button' disabled>Continuar <RiArrowRightSLine /></a>
+                  
+                    <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} target="_blank" type='button' >Continuar <RiArrowRightSLine /></a>
+                  
                   </div>
                 </div>
               </div>
