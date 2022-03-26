@@ -71,26 +71,26 @@ function orderProducts(products, orderType) {
 
 export const searchProduct = (producto) => {
   return async function (dispatch) {
-    var busq = await axios("http://localhost:3001/api/product/all")
+    var busq = await axios("http://localhost:3001/api/product/all");
     return dispatch({
       type: SEARCH_PRODUCT,
       payload: { busq, producto }
-    })
-  }
-}
+    });
+  };
+};
 
 export const order = (payload) => {
   return {
     type: ORDER_PRODUCTS,
     payload
-  }
-}
+  };
+};
 export const orderPrecio = (payload) => {
   return {
     type: ORDER_PRECIO,
     payload
-  }
-}
+  };
+};
 
 async function apiGetAllUsers() {
   try {
@@ -114,7 +114,7 @@ async function apiAddUser(data) {
 
 async function apiUpdateUser(data) {
   try {
-    const response = await axios.put(`http://localhost:3001/api/user/update`, { data });
+    const response = await axios.put(`http://localhost:3001/api/user/update/${data.correo}`, { data });
     return response.data;
   } catch (error) {
     let err = `error en FRONT /actions apiUpdateUser, ${error}`;
@@ -135,6 +135,26 @@ async function apiDeleteUser(id) {
 async function apiGetAllProducts() {
   try {
     const response = await axios.get(`http://localhost:3001/api/product/all`);
+    return response.data;
+  } catch (error) {
+    let err = `error en FRONT /actions apiGetAllProducts, ${error}`;
+    return { error: err };
+  }
+}
+
+async function apiDeleteProduct(id) {
+  try {
+    const response = await axios.delete(`http://localhost:3001/api/product/delete/${id}`);
+    return response.data;
+  } catch (error) {
+    let err = `error en FRONT /actions apiGetAllProducts, ${error}`;
+    return { error: err };
+  }
+}
+
+async function apiUpdateProduct(data) {
+  try {
+    const response = await axios.put(`http://localhost:3001/api/product/update/${data.id}`);
     return response.data;
   } catch (error) {
     let err = `error en FRONT /actions apiGetAllProducts, ${error}`;
@@ -173,43 +193,47 @@ export function addProduct(data) {
   };
 }
 
-export function deleteProduct(data) {
-  return (dispatch) => {
-    dispatch({
-      type: DELETE_PRODUCT,
-      payload: data,
-    });
+export function deleteProduct(id) {
+  return async (dispatch) => {
+    try {
+      await apiDeleteProduct(id);
+      dispatch({ type: DELETE_PRODUCT, payload: id });
+    } catch (e) {
+      console.log(e);
+    }
   };
 }
 
 export function editProduct(data) {
-  return (dispatch) => {
-    dispatch({
-      type: EDIT_PRODUCT,
-      payload: data,
-    });
+  return async (dispatch) => {
+    try {
+      const updated = await apiUpdateProduct(data);
+      dispatch({ type: EDIT_PRODUCT, payload: updated });
+    } catch (e) {
+      console.log(e);
+    }
   };
 }
 
 export function filterProducts(filter) {
   return (dispatch) => {
-    dispatch({ type: FILTER_PRODUCTS, payload: filter })
-  }
+    dispatch({ type: FILTER_PRODUCTS, payload: filter });
+  };
 }
 
 export function getProducts() {
   return async (dispatch) => {
     try {
       dispatch({ type: GETTING_PRODUCTS, payload: true });
-      const categories = await apiGetAllCategories()
+      const categories = await apiGetAllCategories();
       if (!categories.error) {
-        dispatch({ type: SET_CATEGORIES, payload: categories })
+        dispatch({ type: SET_CATEGORIES, payload: categories });
       }
       const products = await apiGetAllProducts();
       if (products.error) {
         return dispatch({ type: GETTING_PRODUCTS, payload: false });
       } else {
-        dispatch({ type: SET_FILTERED_PRODUCTS, payload: products.filter(e => e.stock > 0) })
+        dispatch({ type: SET_FILTERED_PRODUCTS, payload: products.filter(e => e.stock > 0) });
         return dispatch({ type: SET_PRODUCTS, payload: products });
       }
     } catch (error) {
@@ -296,32 +320,54 @@ export function getUsers() {
   };
 }
 
+export function deleteUser(id) {
+  return async (dispatch) => {
+    try {
+      await apiDeleteUser(id);
+      dispatch({ type: DELETE_USER, payload: id });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
+export function updateUser(data) {
+  return async (dispatch) => {
+    try {
+      const updated = await apiUpdateUser(data);
+      dispatch({ type: UPDATE_USER, payload: updated });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+}
+
 //CART
 
 export function addCartItem(data) {
   return (dispatch) => {
     const cartLocal = localStorage.getItem("cart")
       ? JSON.parse(localStorage.getItem("cart"))
-      : []
+      : [];
 
 
-    const index = cartLocal.findIndex(e => e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso)
+    const index = cartLocal.findIndex(e => e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso);
 
     if (index !== -1) {
-      let itemMod = cartLocal[index]
+      let itemMod = cartLocal[index];
 
       itemMod = {
         ...itemMod,
         precioTotal: itemMod.precio * itemMod.peso,
         cantidad: Number(itemMod.cantidad) + 1
-      }
+      };
 
-      cartLocal.splice(index, 1, itemMod)
+      cartLocal.splice(index, 1, itemMod);
     } else {
-      cartLocal.push(data)
+      cartLocal.push(data);
     }
 
-    localStorage.setItem("cart", JSON.stringify(cartLocal))
+    localStorage.setItem("cart", JSON.stringify(cartLocal));
 
     dispatch({
       type: ADD_CART_ITEM,
@@ -332,38 +378,38 @@ export function addCartItem(data) {
 
 export function setCartItem(data) {
   return (dispatch) => {
-    let cartLocal = JSON.parse(localStorage.getItem("cart"))
-    const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso))
+    let cartLocal = JSON.parse(localStorage.getItem("cart"));
+    const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso));
 
     if (index !== -1) {
-      let itemMod = cartLocal[index]
+      let itemMod = cartLocal[index];
 
       itemMod = {
         ...itemMod,
         cantidad: data.cantidad
-      }
+      };
 
-      cartLocal.splice(index, 1, itemMod)
+      cartLocal.splice(index, 1, itemMod);
     }
 
-    localStorage.setItem("cart", JSON.stringify(cartLocal))
+    localStorage.setItem("cart", JSON.stringify(cartLocal));
 
     dispatch({
       type: SET_CART_ITEM,
       payload: cartLocal,
     });
-  }
+  };
 }
 
 export function deleteCartItem(data) {
 
-  let cartLocal = JSON.parse(localStorage.getItem("cart"))
+  let cartLocal = JSON.parse(localStorage.getItem("cart"));
 
-  const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso))
+  const index = cartLocal.findIndex(e => (e.id === data.id && e.tipo_corte === data.tipo_corte && e.peso === data.peso));
 
-  cartLocal.splice(index, 1)
+  cartLocal.splice(index, 1);
 
-  localStorage.setItem("cart", JSON.stringify(cartLocal))
+  localStorage.setItem("cart", JSON.stringify(cartLocal));
 
   return (dispatch) => {
     dispatch({
@@ -379,8 +425,8 @@ export function addOrderDate(data) {
     dispatch({
       type: ADD_ORDER_DATE,
       payload: data,
-    })
-  }
+    });
+  };
 }
 
 export function setDelivery(data) {
@@ -389,8 +435,8 @@ export function setDelivery(data) {
     dispatch({
       type: DELIVERY_CART_ITEMS,
       payload: data,
-    })
-  }
+    });
+  };
 }
 
 export function flushCart() {
@@ -412,58 +458,58 @@ export function postProduct(payload) {
   
   return async function (dispatch) { 
     try {
-      const newProduct = await axios.post("http://localhost:3001/api/product/create", payload)   
-   if (newProduct.status === 200) {
-     dispatch({
-       type: ADD_PRODUCT,
-       payload: { ...payload, id:newProduct.data.id, new:true }
-     })
-    }
-   return newProduct  
+      const newProduct = await axios.post("http://localhost:3001/api/product/create", payload);   
+      if (newProduct.status === 200) {
+        dispatch({
+          type: ADD_PRODUCT,
+          payload: { ...payload, id: newProduct.data.id, new: true }
+        });
+      }
+      return newProduct;  
     } catch (error) {      
-      return {status:400, error:error}
+      return { status: 400, error: error };
     }
      
- }
+  };
 }
 export function putProduct(payload) {
   
   return async function (dispatch) { 
     try {
-      const newProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload)    
+      const newProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload);    
       if (newProduct.status === 200) {  
-        console.log(newProduct.data)
+        console.log(newProduct.data);
         dispatch({
           type: PUT_PRODUCT,
           payload: newProduct.data
-        })
-      }      
-      return newProduct  
+        });
+      }
+      return newProduct;   
     } catch (error) {      
-      return {status:400, error:error}
+      return { status: 400, error: error };
     }
      
- }
+  };
 
 }
 
 export function postPedido(payload) {
   return async function (dispatch) {
     try {
-      const newPedido = await axios.post("http://localhost:3001/api/pedido/create", payload)
+      const newPedido = await axios.post("http://localhost:3001/api/pedido/create", payload);
       if (newPedido.status === 200) {
         dispatch({
           type: POST_PEDIDO,
           payload: newPedido.data
-        })
+        });
       }
-      return newPedido
+      return newPedido;
     } catch (error) {
-      console.log(error)
+      console.log(error);
 
 
     }
-  }
+  };
 }
 
 
@@ -471,19 +517,19 @@ export function pagarPedido(payload) {
   return async function (dispatch) {
     dispatch(loading())
     try {
-      const pagoPedido = await axios.post("http://localhost:3001/api/mercadopago", payload)
+      const pagoPedido = await axios.post("http://localhost:3001/api/mercadopago", payload);
       if (pagoPedido.status === 200) {
         dispatch({
           type: PAGAR_PEDIDO,
           payload: pagoPedido.data
-        })
+        });
       }
-      return pagoPedido
+      return pagoPedido;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
 
-  }
+  };
 }
 
 
