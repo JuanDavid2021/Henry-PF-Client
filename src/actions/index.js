@@ -423,8 +423,8 @@ export function putProduct(payload) {
           type: PUT_PRODUCT,
           payload: newProduct.data
         })
-        }
-      return newProduct   
+      }      
+      return newProduct  
     } catch (error) {      
       return {status:400, error:error}
     }
