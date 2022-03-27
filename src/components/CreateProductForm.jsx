@@ -2,26 +2,46 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import AddImageAlt from "../img/AddImageAlt.jpg";
 import { Row, Col, Image, Form, Button } from "react-bootstrap";
-
-function validate(input) {
+function validate(input,fotos) {
   let errors = {};
   let pattern = /[0-9]+/;
-  if (!input.nombre.length) {
-    errors.nombre = "Nombre es requerido";
+  //let patternURL = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+  let patternIMGURL = /(https:)([/|.|~\w|-])*\.(?:jpg|gif|png)([/|.|,~\w|-])*/
+  if (!input.nombre.length || input.nombre.length<5) {
+    errors.nombre = "Requerido, minimo 5 caracteres";
   } else if (pattern.test(input.nombre)) {
-    errors.nombre = "Nombre inválido, no acepta números";
+    errors.nombre = "Inválido, no acepta números";
   }
   if (!input.descripcion.length || input.descripcion.length < 5) {
-    errors.descripcion = "Descripción es requerido, mínimo 5 caracteres";
-  }
-  // if (input.precio < 1 || !pattern.test(input.precio)) {
-  //   errors.precio = 'El precio no puede ser menor que 1'
-  // }
-  // if (input.stock < 0 || !pattern.test(input.stock)) {
-  //   errors.stock = 'El stock no puede ser negativo'
-  // }
+    errors.descripcion = "Requerido, mínimo 5 caracteres";
+  }    
+  fotos.forEach((f, i) => { 
+    if (f.length && !patternIMGURL.test(f)) {
+      errors["foto" + i] = "Link inválido"      
+    }
+  }); 
   return errors;
 }
+
+// function validate(input) {
+//   let errors = {};
+//   let pattern = /[0-9]+/;
+//   if (!input.nombre.length) {
+//     errors.nombre = "Nombre es requerido";
+//   } else if (pattern.test(input.nombre)) {
+//     errors.nombre = "Nombre inválido, no acepta números";
+//   }
+//   if (!input.descripcion.length || input.descripcion.length < 5) {
+//     errors.descripcion = "Descripción es requerido, mínimo 5 caracteres";
+//   }
+//   // if (input.precio < 1 || !pattern.test(input.precio)) {
+//   //   errors.precio = 'El precio no puede ser menor que 1'
+//   // }
+//   // if (input.stock < 0 || !pattern.test(input.stock)) {
+//   //   errors.stock = 'El stock no puede ser negativo'
+//   // }
+//   return errors;
+// }
 
 function CreateProductForm({ product, createFunction }) {
   const [errors, setErrors] = useState("");
@@ -35,18 +55,25 @@ function CreateProductForm({ product, createFunction }) {
 
   const [presentacion, setPresentacion] = useState(product.Presentacions || []);
 
-  const [fotos, setFotos] = useState(product.fotos || []);
+  const [fotos,setFotos] = useState([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])
 
   const storeCategories = useSelector((state) => state.categories);
 
   const [categorias, setCategrorias] = useState(product.Categoria || []);
+
+  const [settingFoto, setSettingFoto] = useState({
+    show: false,
+    name: "0",
+    placeholder: "Link de foto NºX",
+    value: ""    
+  })
 
   useEffect(() => {
     let pattern = /[0-9]+/;
     if (product && product?.id !== input.id) {
       setInput(product);
       setPresentacion(product.Presentacions);
-      setFotos(product.fotos);
+       setFotos([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])   
       setCategrorias(product.Categoria);
       setErrors({ nombre: "Nombre inválido, no acepta números" });
     }
@@ -77,6 +104,28 @@ function CreateProductForm({ product, createFunction }) {
     setCategrorias([]);
   }
 
+  const handleFotoChange = (e) => {       
+    setSettingFoto({
+      ...settingFoto,
+      value:e.target.value
+    })    
+    let newFotos=[...fotos]
+    newFotos[parseInt(e.target.name)] = e.target.value
+    setFotos(newFotos)    
+    setErrors(validate(input, newFotos));  
+  }
+
+  const selectFoto = (e) => {    
+    setSettingFoto({
+      show: true,
+      name: e.target.id,
+      placeholder: "Link de foto Nº " + e.target.id,
+      value : fotos[parseInt(e.target.id)]
+    })
+    setErrors(validate(input, fotos));  
+
+  };
+
   const handleChangeString = (e) => {
     setInput({
       ...input,
@@ -86,7 +135,7 @@ function CreateProductForm({ product, createFunction }) {
       validate({
         ...input,
         [e.target.name]: e.target.value.replace(/<[^>]+>/g, ""),
-      })
+      }, fotos)
     );
   };
   
@@ -96,10 +145,11 @@ function CreateProductForm({ product, createFunction }) {
       const finalProduct = {
         ...input,
         id: "",
-        presentacion: presentacion.map(p=>p.id),
-        categoria: categorias.map(c => c.id),
+        presentacion: presentacion.map(p => p.id),        
+        categoria: categorias.map((c) => c.id),
         fotos: fotos,
       };
+      console.log(finalProduct)
       createFunction(finalProduct);
     } else {
       alert(`Existen errores ${errors}`);
@@ -119,9 +169,7 @@ function CreateProductForm({ product, createFunction }) {
   //   updateFunction(finalProduct)
   // };
 
-  const setFoto = (e) => {
-    console.log("Seleccionar foto Nº " + e.target.id);
-  };
+ 
 
   const handleCategories = (e) => {
     if (e.target.checked) {
@@ -222,7 +270,7 @@ function CreateProductForm({ product, createFunction }) {
               height="150"
               width="150"
               alt="Product foto 0"
-              onClick={setFoto}
+              onClick={(e)=>selectFoto(e)}
             />
           </Col>
           <Col
@@ -242,7 +290,7 @@ function CreateProductForm({ product, createFunction }) {
               width="150"
               fluid
               alt="Product foto 1"
-              onClick={setFoto}
+              onClick={(e)=>selectFoto(e)}
             />
           </Col>
           <Col
@@ -262,10 +310,26 @@ function CreateProductForm({ product, createFunction }) {
               width="150"
               fluid
               alt="Product foto 2"
-              onClick={setFoto}
+              onClick={(e)=>selectFoto(e)}
             />
           </Col>
         </Row>
+        <Row hidden={ !settingFoto.show } className="mb-1">
+            <Col className="col-12">
+              <Form.Group>
+                <Form.Label
+                  className={errors["foto" + settingFoto.name]?.length ? "mb-0 text-danger" : "mb-0"} >Link Foto {settingFoto.name} {errors[`foto${settingFoto.name}`]?.length ? errors[`foto${settingFoto.name}`] : ""} </Form.Label>
+              <Form.Control                
+                  as="textarea"
+                isInvalid={errors[`foto${settingFoto.name}`]?.length || ""}
+                name={settingFoto.name}
+                placeholder={settingFoto.placeholder}
+                value={settingFoto.value}
+                onChange={(e)=>handleFotoChange(e) }
+                />
+                </Form.Group>
+            </Col>
+          </Row>
         <Row>
           <Col className="col-12 border-top">
             <Form.Group>

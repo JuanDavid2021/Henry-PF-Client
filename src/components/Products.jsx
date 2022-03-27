@@ -57,17 +57,16 @@ function Products() {
   };
 
   async function createProduct(product) {    
-    const createdProduct = await dispatch(postProduct(product))
-    if (createdProduct.status === 200) {      
+    const createdProduct = await dispatch(postProduct(product))    
+    if (createdProduct.status === 200) {       
       setConfirmModal(true)
       setCopiedProduct(emptyProduct)
       setEditingProduct(emptyProduct)
     } else {
       setErrorModal({
         show: true,
-        data:createdProduct.error.response.data.error})      
-    }
-    
+        data:createdProduct})      
+    }    
   }
 
   async function updateProduct(product) {    
