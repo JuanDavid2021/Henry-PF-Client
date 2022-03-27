@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiTruckLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 import { postPedido, pagarPedido } from '../actions';
@@ -23,7 +23,6 @@ function CartDetailCheckoutPaymentMethod() {
   })
 
   const pedidos = {
-
     f_pedido: despacho.f_pedido,
     f_requerida: despacho.f_requerida,
     UsuarioCorreo: user.email,
@@ -32,28 +31,44 @@ function CartDetailCheckoutPaymentMethod() {
     direccion_despacho: `${despacho.direccion_despacho}-${despacho.localidad}-${despacho.zip}`,
     comentario: despacho.comentario,
     ItemsPedidos: carrito
-
   }
 
-  console.log(pedidos)
   const [boton, setBoton] = useState(true)
-
-
+  const [segundos, setSegundos] = useState(300);
+  const [activo, setActivo] = useState(true)
 
 
   useEffect(() => {
-    console.log(carrito)
-    dispatch(postPedido(pedidos))
-    
-    // axios
-    //   .get("http://localhost:3001/mercadopago")
-    //   .then((data) => {
-    //     setDatos(data.data)
-    //     console.info('Contenido de data:', data)
-    //   })
-    //   .catch(err => console.error(err))
+    let intervalo = null
+    if (activo) {
+      intervalo = setInterval(() => {
+        setSegundos(segundos => segundos - 1);
+      }, 1000);
+    }
+    if (segundos === 0) {
+      reset()
+      navigate('/cartDetails')
+      clearInterval(intervalo);
+    }
+    return () => clearInterval(intervalo);
+  }, [activo, segundos])
 
-  }, [])
+
+  useEffect(() => {
+    console.log(pedidos)
+    dispatch(postPedido(pedidos))
+  }, [dispatch])
+
+  const navigate = useNavigate()
+
+
+
+
+  function reset() {
+    setSegundos(0);
+    setActivo(false);
+  }
+
 
 
   const handlePago = (e) => {
@@ -65,10 +80,19 @@ function CartDetailCheckoutPaymentMethod() {
   }
 
 
+  const contador = (second) => {
+    var minute = Math.floor((second / 60) % 60);
+    minute = (minute < 10) ? '0' + minute : minute;
+    var second = second % 60;
+    second = (second < 10) ? '0' + second : second;
+    return minute + ':' + second;
+  }
+
   //idPedido
 
   return (
     <section className="py-5">
+      <h2 className='fw-light text-danger fs-3 mb-3 text-center'>Desde ahora tiene {contador(segundos)} minutos para finalizar la compra</h2>
       <div className="container py-4">
         <div className="row gy-5">
           <div className="col-lg-9">
@@ -105,7 +129,7 @@ function CartDetailCheckoutPaymentMethod() {
                 <div className="col-md-6">
                   <div className="bg-light p-4 p-xl-5">
                     <div className="form-check d-flex align-items-center">
-                      <input className="form-check-input flex-shrink-0" id="payment1" type="radio" name="payment" onClick={handlePago}/>
+                      <input className="form-check-input flex-shrink-0" id="payment1" type="radio" name="payment" onClick={handlePago} />
                       <label className="cursor-pointer d-block ms-3" htmlFor="payment1"><span className="h4 d-block mb-1 text-uppercase">MercadoPago</span><span className="text-sm d-block mb-0 text-muted">Una vez que hagas clic en continuar, será redireccionado a MercadoPago</span></label>
                     </div>
                   </div>
