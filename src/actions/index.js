@@ -34,7 +34,9 @@ import {
   ORDER_PRECIO,
   SET_CART_ITEM,
   USERCREATE,
-  USERLOGIN
+  USERLOGIN,
+  USERLOGINOK,
+  USERLOGOUT
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -57,6 +59,25 @@ function orderProducts(products, orderType) {
   return products;
 }
 
+export function logoutuser(payload){
+
+ return function(dispatch){
+    return dispatch({
+      type: USERLOGOUT,
+      payload: payload
+    })
+ }
+}
+
+
+export const login=(payload)=>{
+  
+ return async function (dispatch){
+   return dispatch({
+     type: USERLOGINOK,
+     payload:payload
+   })
+ } }
 
 export const searchProduct =(producto)=>{
     return async function(dispatch){

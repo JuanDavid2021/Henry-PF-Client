@@ -33,12 +33,15 @@ import {
   ORDER_PRECIO,
   SET_CART_ITEM,
   USERLOGIN,
-  USERCREATE
+  USERCREATE,
+  USERLOGINOK,
+  USERLOGOUT
 } from './../action-types/index';
 
 const initialState = {
   user: [], //usuario actual usando la app
   userLogin:[],
+  userAuthenticated:"",
   gettingProducts: false,
   products: [],
   filteringProducts: false,  
@@ -89,21 +92,19 @@ function rootReducer(state = initialState, action) {
     }
   }
 
-  if(action.type===USERLOGIN){
-     if(action.payload.userEmail){
+  if(action.type===USERLOGINOK){
        return{
         ...state,
-        userLogin: action.payload,
-        user: action.payload.userEmail
+        userAuthenticated: action.payload,
        }
-     }
-     else{
-       return{
-         ...state,
-         userLogin: action.payload
-       }
-     }
   }
+
+  if(action.type===USERLOGOUT){
+    return{
+     ...state,
+     userAuthenticated: action.payload,
+    }
+}
 
   if (action.type === ADD_PRODUCT) {
     //agrego el producto del arreglo una vez tenemos la confirmacion desde el back

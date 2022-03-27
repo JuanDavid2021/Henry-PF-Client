@@ -2,8 +2,23 @@ import React,{Fragment, useState} from 'react'
 import {Link} from "react-router-dom"
 import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
+import {login} from "../actions/index"
+import {useDispatch} from "react-redux"
+
+export const userok = ()=>{
+  let user = true
+  return user
+}
+
+export const userf = ()=>{
+  let user = false
+  return user
+}
+
 
 export const LoginUser = ({setAuth}) => {
+
+    const dispatch= useDispatch()
 
     const [inputs, setInputs] = useState({
         correo:"",
@@ -41,7 +56,7 @@ export const LoginUser = ({setAuth}) => {
                 icon: "success",
                 timer:"2000",
              })
-             let user = true
+            dispatch(login("user_ok"))
          }else{
              setAuth(false)
              swal({
@@ -49,6 +64,7 @@ export const LoginUser = ({setAuth}) => {
                 icon: "alert",
                 timer:"2000",
              })
+            
          }
           
          
