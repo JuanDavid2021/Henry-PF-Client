@@ -56,11 +56,3 @@ export const USERLOGIN="userLogin"
 
 
 export const LOADING = "loading";
-
-export const POST_PRODUCT = "POST_PRODUCT"; 
-export const ORDER_PRODUCTS = "orderProducts";
-export const ORDER_PRECIO = "orderPrecio";
-export const SEARCH_PRODUCT = "searchProduct";
-export const SEARCHING_PRODUCT = "searchingProduct";
-export const SEARCH_LOCAL_PRODUCT = "searchLocalProduct";
-

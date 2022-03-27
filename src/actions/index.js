@@ -40,7 +40,7 @@ import {
   SET_CART_ITEM,
 
   USERCREATE,
-  USERLOGIN
+  USERLOGIN,
 
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
@@ -111,41 +111,41 @@ export const loginUser=(data)=>{
  })
 }}
 
-export const order=(payload)=>{
- return{
-  type: ORDER_PRODUCTS,
-  payload
- }
-}
-export const orderPrecio=(payload)=>{
-  return{
-   type: ORDER_PRECIO,
-   payload
-  }
- }
+// export const order=(payload)=>{
+//  return{
+//   type: ORDER_PRODUCTS,
+//   payload
+//  }
+// }
+// export const orderPrecio=(payload)=>{
+//   return{
+//    type: ORDER_PRECIO,
+//    payload
+//   }
+//  }
 
-export const searchProduct = (producto) => {
-  return async function (dispatch) {
-    var busq = await axios("http://localhost:3001/api/product/all");
-    return dispatch({
-      type: SEARCH_PRODUCT,
-      payload: { busq, producto }
-    });
-  };
-};
+// export const searchProduct = (producto) => {
+//   return async function (dispatch) {
+//     var busq = await axios("http://localhost:3001/api/product/all");
+//     return dispatch({
+//       type: SEARCH_PRODUCT,
+//       payload: { busq, producto }
+//     });
+//   };
+// };
 
-export const order = (payload) => {
-  return {
-    type: ORDER_PRODUCTS,
-    payload
-  };
-};
-export const orderPrecio = (payload) => {
-  return {
-    type: ORDER_PRECIO,
-    payload
-  };
-};
+// export const order = (payload) => {
+//   return {
+//     type: ORDER_PRODUCTS,
+//     payload
+//   };
+// };
+// export const orderPrecio = (payload) => {
+//   return {
+//     type: ORDER_PRECIO,
+//     payload
+//   };
+// };
 
 
 async function apiGetAllUsers() {
