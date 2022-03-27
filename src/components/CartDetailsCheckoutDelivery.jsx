@@ -14,7 +14,6 @@ function CartDetailsCheckoutDelibery() {
   
   const mes = ( fecha.getMonth() + 1) < 9 ? "0" + ( fecha.getMonth() + 1 ) : ( fecha.getMonth() + 1 )
   const dia = ( fecha.getDate() ) < 9 ? "0" + ( fecha.getDate() ) : ( fecha.getDate() )
-  const fechaFormateada = ( dia + "/" + mes + "/" + fecha.getFullYear() )
   
   //para setear la fecha minima
   const fechaMinInput = ( fecha.getFullYear() + "-" + mes + "-" + dia )
@@ -24,24 +23,41 @@ function CartDetailsCheckoutDelibery() {
   const [day, setDay] = useState({
     f_pedido: fecha,
     f_requerida:"",
+    tipo_entrega: ""
   })
+  //-----------------
 
   const actual = new Date();
   const diaMs = 1000 * 60 * 60 * 24;
   const suma = actual.getTime() + diaMs;
   const maniana = new Date(suma);  
-
+  
   const handleChangeDeliveryType = (e) => {
     if (e.target.name === "express") {
       setChecked(e.target.name)
-      setDay({...day, f_requerida: fecha})
+      setDay({...day, f_requerida: fecha, tipo_entrega: "express"})
+      setSpecificDayChecked("")
     }
     if (e.target.name === "estandar") {
       setChecked(e.target.name)
-      setDay({...day, f_requerida: maniana})
+      setDay({...day, f_requerida: maniana, tipo_entrega: "estandar"})
+      setSpecificDayChecked("")
     }
-    
-    setChecked(e.target.name)
+  }
+
+  //dia específico
+  const [specificDayChecked, setSpecificDayChecked] = useState("")
+  
+  const [specDay, setSpecDay] = useState({
+    f_pedido: fecha,
+    f_requerida:"",
+    tipo_entrega: ""
+  })
+  
+  const handleChangeDelivery = (e) => {
+    setSpecificDayChecked(e.target.name)
+    setSpecDay({...specDay, tipo_entrega: "selectDate"})
+    setChecked("")
   }
   
   const handleChangeDate = (e) => {
@@ -50,31 +66,29 @@ function CartDetailsCheckoutDelibery() {
     const suma = diaSelect.getTime() + diaMs;
     const especifico = new Date(suma);
     
-    setDay({
-      ...day,
-      f_requerida: especifico,
-    })
+    setSpecDay({...specDay, f_requerida: especifico, tipo_entrega: "selectDate"})
   }
+  //--------------------------
+
   
-  const [modal, setModal] = useState({show:false, message:""})
-
-  const handleNavigateCheckoutReview = (e) => {
-    e.preventDefault()
-    let typeAndDayOrder = {
-      ...day,
-      tipo_entrega: checked
-    }
-
-    if (checked === ""){
-      setModal({show:true})
-    }else if ( day.f_requerida === "" && checked === "selectDate" ) {
+  const handleNavigateCheckoutReview = () => {
+    if (specDay.tipo_entrega === "" && day.tipo_entrega === "") {
+      setModal({show:true, message:"Seleccione un tipo de envío."})
+    }else if ( specDay.tipo_entrega === "selectDate" && specDay.f_requerida === "" ) {
       setModal({show:true, message:"Seleccione una fecha"})
-      return
-    }else{
-      dispatch(addOrderDate(typeAndDayOrder))
+    }else if (day.tipo_entrega === "express") {
+      dispatch(addOrderDate(day))
+      navigate("/CartDetailsCheckoutReview")
+    } else if (day.tipo_entrega === "estandar") {
+      dispatch(addOrderDate(day))
+      navigate("/CartDetailsCheckoutReview")
+    } else {
+      dispatch(addOrderDate(specDay))
       navigate("/CartDetailsCheckoutReview")
     }
   }
+  
+  const [modal, setModal] = useState({show:false, message:""})
 
   const handleCloseModal = () => {
     setModal({show:false})
@@ -153,8 +167,8 @@ function CartDetailsCheckoutDelibery() {
                         id="delivery3" 
                         type="radio" 
                         name="selectDate" 
-                        checked={checked==="selectDate" ? true : false} 
-                        onChange={handleChangeDeliveryType}
+                        checked={specificDayChecked==="selectDate" ? true : false} 
+                        onChange={handleChangeDelivery}
                       />
                       <label className="cursor-pointer d-block ms-3" htmlFor="delivery3"><span className="h4 d-block mb-1 text-uppercase">Exacta</span><span className="text-sm d-block mb-0 text-muted">Entrega en una fecha posterior a la compra.</span></label>
                     </div>
@@ -204,7 +218,6 @@ function CartDetailsCheckoutDelibery() {
           <Modal.Title><p style={{ textAlign: "center" }}>Error</p></Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Seleccione un tipo de envío.</p>
           <p>{modal.message}</p>
         </Modal.Body>
 
