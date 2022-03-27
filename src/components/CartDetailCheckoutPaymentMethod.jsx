@@ -1,47 +1,135 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiTruckLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
+import { postPedido, pagarPedido } from '../actions';
+import { Resume } from './CartDetails';
 
 function CartDetailCheckoutPaymentMethod() {
+
+  const carrito = useSelector(state => state.cart)
+  let idPedido = useSelector(state => state.idPago)
+  const pedidoBack = useSelector(state => state.pedido)
+  const despacho = useSelector(state => state.despacho)
+  const user = useSelector((state => state.user))
+  const loading = useSelector((state => state.loading))
+
+
+  const dispatch = useDispatch()
+
+  const carritoMod = carrito.forEach(el => {
+    el.peso = Number(el.peso)
+    delete el.idItemFront;
+  })
+
+  const pedidos = {
+    f_pedido: despacho.f_pedido,
+    f_requerida: despacho.f_requerida,
+    UsuarioCorreo: user.email,
+    status: "Created",
+    enviado_a: `${despacho.nombre} ${despacho.apellido}`,
+    direccion_despacho: `${despacho.direccion_despacho}-${despacho.localidad}-${despacho.zip}`,
+    comentario: despacho.comentario,
+    ItemsPedidos: carrito
+  }
+
+  const [boton, setBoton] = useState(true)
+  const [segundos, setSegundos] = useState(300);
+  const [activo, setActivo] = useState(true)
+
+
+  useEffect(() => {
+    let intervalo = null
+    if (activo) {
+      intervalo = setInterval(() => {
+        setSegundos(segundos => segundos - 1);
+      }, 1000);
+    }
+    if (segundos === 0) {
+      reset()
+      navigate('/cartDetails')
+      clearInterval(intervalo);
+    }
+    return () => clearInterval(intervalo);
+  }, [activo, segundos])
+
+
+  useEffect(() => {
+    console.log(pedidos)
+    dispatch(postPedido(pedidos))
+  }, [dispatch])
+
+  const navigate = useNavigate()
+
+
+
+
+  function reset() {
+    setSegundos(0);
+    setActivo(false);
+  }
+
+
+
+  const handlePago = (e) => {
+    dispatch(pagarPedido({
+      id: pedidoBack.id,
+      ItemsPedidos: pedidoBack.ItemsPedidos
+    }))
+    setBoton(false)
+  }
+
+
+  const contador = (second) => {
+    var minute = Math.floor((second / 60) % 60);
+    minute = (minute < 10) ? '0' + minute : minute;
+    var second = second % 60;
+    second = (second < 10) ? '0' + second : second;
+    return minute + ':' + second;
+  }
+
+  //idPedido
+
   return (
     <section className="py-5">
+      <h2 className='fw-light text-danger fs-3 mb-3 text-center'>Desde ahora tiene {contador(segundos)} minutos para finalizar la compra</h2>
       <div className="container py-4">
         <div className="row gy-5">
           <div className="col-lg-9">
             {/* header */}
             <ul className="nav nav-pills flex-column flex-md-row nav-fill border-bottom border-primary">
               <li className="nav-item">
-                <Link to={"/cartDetailsCheckout"} className="nav-link" aria-current="page"> 
-                  <RiMapPin2Line/>
+                <Link to={"/cartDetailsCheckout"} className="nav-link" aria-current="page">
+                  <RiMapPin2Line />
                   <p className="mb-0 pt-1">Dirección</p>
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={"/cartDetailsCheckoutDelivery"} className="nav-link" aria-current="page"> 
-                  <RiTruckLine/>
+                <Link to={"/cartDetailsCheckoutDelivery"} className="nav-link" aria-current="page">
+                  <RiTruckLine />
                   <p className="mb-0 pt-1">Método de envío</p>
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
-                  <RiMoneyDollarCircleLine/>
-                  <p className="mb-0 pt-1">Método de pago</p>
-                </a>
+                <Link to={"/cartDetailsCheckoutReview"} className="nav-link" aria-current="page">
+                  <RiEyeLine />
+                  <p className="mb-0 pt-1">Revisión del pedido</p>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
-                  <RiEyeLine/>
-                  <p className="mb-0 pt-1">Revisión del pedido</p>
+                <a className="nav-link active" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
+                  <RiMoneyDollarCircleLine />
+                  <p className="mb-0 pt-1">Método de pago</p>
                 </a>
               </li>
             </ul>
             {/* forma de pago */}
-            <form className="py-4" method="get" action="shop-checkout4.html">
+            <form className="py-4">
               <div className="row mb-4 gy-4">
                 <div className="col-md-6">
                   <div className="bg-light p-4 p-xl-5">
                     <div className="form-check d-flex align-items-center">
-                      <input className="form-check-input flex-shrink-0" id="payment1" type="radio" name="payment"/>
+                      <input className="form-check-input flex-shrink-0" id="payment1" type="radio" name="payment" onClick={handlePago} />
                       <label className="cursor-pointer d-block ms-3" htmlFor="payment1"><span className="h4 d-block mb-1 text-uppercase">MercadoPago</span><span className="text-sm d-block mb-0 text-muted">Una vez que hagas clic en continuar, será redireccionado a MercadoPago</span></label>
                     </div>
                   </div>
@@ -51,64 +139,25 @@ function CartDetailCheckoutPaymentMethod() {
               <div className="align-items-center bg-light px-4 py-3 text-center mb-5">
                 <div className="row">
                   <div className="col-md-6 text-md-start py-1">
-                    <Link to={"/cartDetailsCheckoutDelibery"} className="btn btn-dark my-1">
-                      <RiArrowLeftSLine/> Volver a Método de envío
+
+                    <Link to={"/cartDetailsCheckoutReview"} className="btn btn-dark my-1">
+                      <RiArrowLeftSLine /> Revisión del pedido
                     </Link>
                   </div>
-                  <div className="col-md-6 text-md-end py-1">
-                    <button className="btn btn-primary my-1" >Revisión del pedido<RiArrowRightSLine/></button>
+                  <div className="col-md-6 text-md-end py-1" id="form1">
+
+                    {!loading && !boton ?
+                      <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} type='button'>Continuar <RiArrowRightSLine /></a>
+                      :
+                      <button className="btn btn-primary my-1" type='button' disabled >Continuar <RiArrowRightSLine /></button>
+                    }
                   </div>
                 </div>
               </div>
             </form>
           </div>
           {/* Resumen */}
-          <div className="col-lg-3">
-            <div className="mb-5">
-              <div className="p-4 bg-gray-200">
-                <h3 className="text-uppercase mb-0">Resumen</h3>
-              </div>
-              <div className="bg-light py-4 px-3">
-                <p className="text-muted">Los gastos de envío y adicionales se calculan en función de los valores que ha introducido.</p>
-                <div className="table-responsive">
-                  <table className="table mb-0">
-                    <tbody className="text-sm">
-                      <tr>
-                        <th className="text-muted"> <span className="d-block py-1 fw-normal">Subtotal</span></th>
-                        <th> <span className="d-block py-1 fw-normal text-end">$2000.00</span></th>
-                      </tr>
-                      <tr>
-                        <th className="text-muted"> <span className="d-block py-1 fw-normal">Envío</span></th>
-                        <th> <span className="d-block py-1 fw-normal text-end">$0.00</span></th>
-                      </tr>
-                      <tr>
-                        <th className="text-muted"> <span className="d-block py-1 fw-normal">IVA</span></th>
-                        <th> <span className="d-block py-1 fw-normal text-end">$0.00</span></th>
-                      </tr>
-                      <tr className="total">
-                        <td className="py-3 border-bottom-0 text-muted"> <span className="lead fw-bold">Total</span></td>
-                        <th className="py-3 border-bottom-0"> <span className="lead fw-bold text-end">$2000.00</span></th>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <div className="mb-4">
-              <div className="p-4 bg-gray-200">
-                <h4 className="text-uppercase mb-0">Código de descuento</h4>
-              </div>
-              <div className="bg-light py-4 px-3">
-                <p className="text-muted">Si tiene un código de descuento, introdúzcalo en el cuadro a continuación.</p>
-                <form action="#">
-                  <div className="input-group">
-                    <input className="form-control" type="text"/>
-                    <button className="btn btn-primary" type="submit"><i className="fas fa-gift"></i></button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
+          <Resume />
         </div>
       </div>
     </section>
