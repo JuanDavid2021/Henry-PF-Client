@@ -41,6 +41,7 @@ import {
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
   LOADING,
+  GET_PEDIDOS
 } from './../action-types/index';
 
 const initialState = {
@@ -55,6 +56,7 @@ const initialState = {
   despacho: null,
   categories: [],//[{id:XXX,name:'sadasd'},...]
   pedido: {},
+  pedidos: [],
   idPago: {},
   sales: [],//lista de ventas
   users: [],//lista de usuarios para borrar / forzar password

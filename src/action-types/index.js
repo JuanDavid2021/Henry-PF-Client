@@ -41,6 +41,7 @@ export const DELETE_CART_ITEM = "deleteCartItem";
 export const FLUSH_CART = "flushCart";  
 export const POST_PEDIDO = "postPedido";
 export const PAGAR_PEDIDO = "pagarPedido";
+export const GET_PEDIDOS = "pagarPedido";
   
 export const GET_COMMENTS = "getComments"; 
 
