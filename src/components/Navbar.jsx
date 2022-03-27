@@ -2,18 +2,26 @@ import React, { useState } from 'react'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router';
 import img from '../img/logo2.png'
 import { useSelector } from 'react-redux'
 import swal from "sweetalert"
 
 
 function NavBar({setAuth}) {
+    
+    const navigate = useNavigate();
+
     const itemsCart = useSelector(state => state.cart)
    // const [user, setUser] = useState(false)
 
     /* const handleLogin = () => {
         user ? setUser(false) : setUser(true)
     } */
+
+    const pedidos = () => {
+        navigate('/pedidos')
+      }
 
     const logout=(e)=>{
         e.preventDefault()
@@ -62,7 +70,8 @@ function NavBar({setAuth}) {
                                         <span></span>
                                     }
                                 </Link>
-                                <button className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={e=>logout(e)} /* onClick={handleLogin} */>Log out</button>
+                                <button className="btn btn-secondary text-light text-decoration-none fs-6 mx-3" onClick={pedidos}> Pedidos </button>
+                                <button className="btn btn-primary text-light text-decoration-none fs-6 mx-1" onClick={e=>logout(e)} /* onClick={handleLogin} */>Log out</button>
                             </div>
                     {/* } */}
                 </div>

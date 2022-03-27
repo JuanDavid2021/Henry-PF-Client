@@ -83,6 +83,11 @@ function Pedidos() {
                         </tr>
                     </tfoot>
                 </table>
+                <div className="col-md-6 text-md-start py-1">
+                  <Link to={"/shop"} className="btn btn-dark my-1">
+                    <RiArrowLeftSLine /> Tienda
+                  </Link>
+                </div>
             </div>
         </div>
     )
