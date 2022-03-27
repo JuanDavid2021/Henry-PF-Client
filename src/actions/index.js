@@ -1,3 +1,4 @@
+
 import {
   POST_PEDIDO,
   ADD_PRODUCT,
@@ -37,9 +38,14 @@ import {
   EDIT_SALE_STATUS,
   ORDER_PRECIO,
   SET_CART_ITEM,
+
+  USERCREATE,
+  USERLOGIN
+
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
   GET_PEDIDOS
+
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -71,6 +77,53 @@ function orderProducts(products, orderType) {
   return products;
 }
 
+
+
+export const searchProduct =(producto)=>{
+    return async function(dispatch){
+      var busq=await axios("http://localhost:3001/api/product/all")
+        return dispatch({
+         type: SEARCH_PRODUCT,
+         payload: {busq, producto}
+        })
+    }
+  }
+
+export const createUser=(payload)=>{
+ return async function(dispatch){
+   var create = await axios.post("http://localhost:3001/api/user/registro", payload)
+   console.log(create)
+   return create
+/*    return dispatch({
+     type: USERCREATE,
+     payload: create.data
+   }) */
+ }
+}
+
+export const loginUser=(data)=>{
+ return async function (dispatch){
+   var logUser= await axios.post("http://localhost:3001/api/user/login",data)
+   console.log(logUser)
+   return dispatch({
+     type:USERLOGIN,
+     payload: logUser.data
+ })
+}}
+
+export const order=(payload)=>{
+ return{
+  type: ORDER_PRODUCTS,
+  payload
+ }
+}
+export const orderPrecio=(payload)=>{
+  return{
+   type: ORDER_PRECIO,
+   payload
+  }
+ }
+
 export const searchProduct = (producto) => {
   return async function (dispatch) {
     var busq = await axios("http://localhost:3001/api/product/all");
@@ -94,6 +147,7 @@ export const orderPrecio = (payload) => {
   };
 };
 
+
 async function apiGetAllUsers() {
   try {
     const response = await axios.get(`http://localhost:3001/api/user/all`);
@@ -103,6 +157,8 @@ async function apiGetAllUsers() {
     return [];
   }
 }
+
+
 
 async function apiAddUser(data) {
   try {

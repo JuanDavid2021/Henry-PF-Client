@@ -4,14 +4,27 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { Link } from 'react-router-dom'
 import img from '../img/logo2.png'
 import { useSelector } from 'react-redux'
+import swal from "sweetalert"
 
-function NavBar() {
+
+function NavBar({setAuth}) {
     const itemsCart = useSelector(state => state.cart)
-    const [user, setUser] = useState(false)
+   // const [user, setUser] = useState(false)
 
-    const handleLogin = () => {
+    /* const handleLogin = () => {
         user ? setUser(false) : setUser(true)
-    }
+    } */
+
+    const logout=(e)=>{
+        e.preventDefault()
+        localStorage.removeItem("token")
+        setAuth(false)
+        swal({
+           text:"has cerrado la sesion",
+           icon: "success",
+           timer:"2000",
+        })
+        }
 
     return (
         <nav className="navbar navbar-expand-lg flex-column bg-dark">
@@ -29,14 +42,15 @@ function NavBar() {
                         <li className="nav-item">
                             <Link className="text-light text-decoration-none fw-light fs-5 mx-3 nav-link" to="/about">Sobre nosotros</Link>
                         </li>
+ 
                     </ul>
-                    {
-                        user === false ?
+                   {/*  {
+                        user === false ? */}
                             <div>
-                                <button className="btn btn-primary text-light text-decoration-none fs-6" onClick={handleLogin} >Ingresar</button>
-                                <button className="btn btn-success text-light text-decoration-none fs-6 mx-3">Registrate</button>
+                                <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none fs-6" /* onClick={handleLogin} */ >Ingresar</button></Link>
+                                <Link to="/register"><button className="btn btn-success text-light text-decoration-none fs-6 mx-3">Registrate</button></Link>
                             </div>
-                            :
+                            
                             <div>
                                 <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
                                     {
@@ -48,9 +62,9 @@ function NavBar() {
                                         <span></span>
                                     }
                                 </Link>
-                                <button className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={handleLogin}>Log out</button>
+                                <button className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={e=>logout(e)} /* onClick={handleLogin} */>Log out</button>
                             </div>
-                    }
+                    {/* } */}
                 </div>
             </div>
         </nav>
