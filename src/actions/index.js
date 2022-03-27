@@ -292,7 +292,7 @@ export function getProducts() {
       if (products.error) {
         return dispatch({ type: GETTING_PRODUCTS, payload: false });
       } else {
-        dispatch({ type: SET_FILTERED_PRODUCTS, payload: products.filter(e => e.stock > 0) });
+        dispatch({ type: SET_FILTERED_PRODUCTS, payload: products});
         return dispatch({ type: SET_PRODUCTS, payload: products });
       }
     } catch (error) {
