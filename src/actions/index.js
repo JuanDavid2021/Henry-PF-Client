@@ -44,14 +44,14 @@ import {
 
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
-  GET_PEDIDOS
-
+  GET_PEDIDOS,
+  GET_PEDIDO_ID
 } from './../action-types/index';
 const axios = require("axios");
 
 
 //LOADING..
-export function loading(){
+export function loading() {
   return {
     type: LOADING
   }
@@ -79,37 +79,38 @@ function orderProducts(products, orderType) {
 
 
 
-export const searchProduct =(producto)=>{
-    return async function(dispatch){
-      var busq=await axios("http://localhost:3001/api/product/all")
-        return dispatch({
-         type: SEARCH_PRODUCT,
-         payload: {busq, producto}
-        })
-    }
+export const searchProduct = (producto) => {
+  return async function (dispatch) {
+    var busq = await axios("http://localhost:3001/api/product/all")
+    return dispatch({
+      type: SEARCH_PRODUCT,
+      payload: { busq, producto }
+    })
   }
-
-export const createUser=(payload)=>{
- return async function(dispatch){
-   var create = await axios.post("http://localhost:3001/api/user/registro", payload)
-   console.log(create)
-   return create
-/*    return dispatch({
-     type: USERCREATE,
-     payload: create.data
-   }) */
- }
 }
 
-export const loginUser=(data)=>{
- return async function (dispatch){
-   var logUser= await axios.post("http://localhost:3001/api/user/login",data)
-   console.log(logUser)
-   return dispatch({
-     type:USERLOGIN,
-     payload: logUser.data
- })
-}}
+export const createUser = (payload) => {
+  return async function (dispatch) {
+    var create = await axios.post("http://localhost:3001/api/user/registro", payload)
+    console.log(create)
+    return create
+    /*    return dispatch({
+         type: USERCREATE,
+         payload: create.data
+       }) */
+  }
+}
+
+export const loginUser = (data) => {
+  return async function (dispatch) {
+    var logUser = await axios.post("http://localhost:3001/api/user/login", data)
+    console.log(logUser)
+    return dispatch({
+      type: USERLOGIN,
+      payload: logUser.data
+    })
+  }
+}
 
 // export const order=(payload)=>{
 //  return{
@@ -513,40 +514,40 @@ export function flushCart() {
 
 
 export function postProduct(payload) {
-  
-  return async function (dispatch) { 
+
+  return async function (dispatch) {
     try {
-      const newProduct = await axios.post("http://localhost:3001/api/product/create", payload);   
+      const newProduct = await axios.post("http://localhost:3001/api/product/create", payload);
       if (newProduct.status === 200) {
         dispatch({
           type: ADD_PRODUCT,
           payload: { ...payload, id: newProduct.data.id, new: true }
         });
       }
-      return newProduct;  
-    } catch (error) {      
+      return newProduct;
+    } catch (error) {
       return { status: 400, error: error };
     }
-     
+
   };
 }
 export function putProduct(payload) {
-  
-  return async function (dispatch) { 
+
+  return async function (dispatch) {
     try {
-      const newProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload);    
-      if (newProduct.status === 200) {  
+      const newProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload);
+      if (newProduct.status === 200) {
         console.log(newProduct.data);
         dispatch({
           type: PUT_PRODUCT,
           payload: newProduct.data
         });
       }
-      return newProduct;   
-    } catch (error) {      
+      return newProduct;
+    } catch (error) {
       return { status: 400, error: error };
     }
-     
+
   };
 
 }
@@ -590,17 +591,26 @@ export function pagarPedido(payload) {
   };
 }
 
-export function getPedidos() {
+export function getPedidos(payload) {
   return async function (dispatch) {
     try {
-      const pedidos = await axios.get("http://localhost:3001/api/pedido/all");
-      if (pedidos.status === 200) {
-        dispatch({
-          type: GET_PEDIDOS,
-          payload: pedidos.data
-        });
+      if (!payload) {
+        const pedidos = await axios.get("http://localhost:3001/api/pedido/all");
+        if (pedidos.status === 200) {
+          dispatch({
+            type: GET_PEDIDOS,
+            payload: pedidos.data
+          });
+        }
+      } else {
+        const pedido = await axios.get("http://localhost:3001/api/pedido/get/"+payload);
+        if (pedido.status === 200) {
+          dispatch({
+            type: GET_PEDIDO_ID,
+            payload: pedido.data
+          });
+        }
       }
-      return pedidos;
     } catch (error) {
       console.log(error);
     }

@@ -43,7 +43,8 @@ import {
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
   LOADING,
-  GET_PEDIDOS
+  GET_PEDIDOS,
+  GET_PEDIDO_ID
 } from './../action-types/index';
 
 // const initialState = {
@@ -70,6 +71,7 @@ const initialState = {
 
   userRegistred: [],
   pedido: {},
+  pedidoId: {},
   pedidos: [],
   idPago: {},
 
@@ -487,6 +489,13 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       pedidos: action.payload
+    };
+  }
+
+  if (action.type === GET_PEDIDO_ID) {
+    return {
+      ...state,
+      pedidoId: action.payload
     };
   }
 

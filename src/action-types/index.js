@@ -42,6 +42,8 @@ export const FLUSH_CART = "flushCart";
 export const POST_PEDIDO = "postPedido";
 export const PAGAR_PEDIDO = "pagarPedido";
 export const GET_PEDIDOS = "getPedidos";
+export const GET_PEDIDO_ID = "getPedidos";
+export const GET_PEDIDO_USER = "getPedidos";
   
 export const GET_COMMENTS = "getComments"; 
 
