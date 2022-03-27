@@ -39,6 +39,7 @@ import {
   SET_CART_ITEM,
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
+  GET_PEDIDOS
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -533,6 +534,23 @@ export function pagarPedido(payload) {
   };
 }
 
+export function getPedidos(payload) {
+  return async function (dispatch) {
+    try {
+      const pedidos = await axios.post("http://localhost:3001/api/pedido/all", payload);
+      if (pedidos.status === 200) {
+        dispatch({
+          type: GET_PEDIDOS,
+          payload: pedidos.data
+        });
+      }
+      return pedidos;
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+}
 
 //SALES...
 

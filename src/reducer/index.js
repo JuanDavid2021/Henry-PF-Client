@@ -445,7 +445,12 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  
+  if (action.type === GET_PEDIDOS) {     
+    return {
+      ...state,
+      pedidos: [...state.pedidos, action.payload],
+    };
+  }
 
   /*   if (action.type === "ORDER_BY_SCORE") {
       const orderedRecipes = orderByScore(
