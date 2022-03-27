@@ -61,7 +61,7 @@ export const LoginUser = ({setAuth}) => {
              setAuth(false)
              swal({
                 text: parseRes,
-                icon: "alert",
+                icon: "warning",
                 timer:"2000",
              })
             
@@ -125,11 +125,11 @@ export const LoginUser = ({setAuth}) => {
     <form onSubmit={onSubmitForm}>
         <input type="email" name="correo" value={correo} placeholder="correo..." className='form-control my-3' onChange={e=>onChange(e)}/>
         <input type="password" name="contraseña" value={contraseña} placeholder="contraseña..." className='form-control my-3'onChange={e=>onChange(e)}/>
-        <button className="btn btn-success btn-block">Submit</button>
+        <button className="btn btn-success btn-block" disabled={inputs.correo==="" || inputs.contraseña===""}>Submit</button>
 
     </form>
     
-    <Link to="/register">Registro</Link>
+    <h6>¿No estás registrado?</h6><Link to="/register">Registrate</Link>
 
     </Fragment> 
   )

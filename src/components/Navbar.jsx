@@ -13,7 +13,7 @@ function NavBar({setAuth}) {
     const dispatch = useDispatch()
     const itemsCart = useSelector(state => state.cart)
     const userLogin = useSelector(state=>state.userAuthenticated)
-    console.log(userLogin)
+    console.log(localStorage.token)
     
 
 /*      const handleLogin = () => {
@@ -51,7 +51,7 @@ function NavBar({setAuth}) {
  
                     </ul>
                    {
-                        userLogin ==="user_ok" ?
+                        (localStorage.token) ?
                         <div>
                         <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
                             {
@@ -80,6 +80,8 @@ function NavBar({setAuth}) {
                                 </Link>
                                 <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none fs-6" >Ingresar</button></Link>
                                 <Link to="/register"><button className="btn btn-success text-light text-decoration-none fs-6 mx-3" >Registrate</button></Link>
+
+
                             </div>
                       </div>
                        }

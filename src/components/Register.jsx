@@ -56,16 +56,17 @@ export const Register = ({setAuth}) => {
   }
 
   return (
-      <Fragment>
+      <Fragment >
     <h1 className='text-center my-2'>Registro</h1>
-    <form onSubmit={onSubmitForm}>
+    <form className="needs-validation" onSubmit={onSubmitForm}>
     <input type="text" name="nombre" placeholder="nombre..." className="form-control my-3" value={nombre} onChange={e=>onChange(e)} />
     <input type="text" name="apellido" placeholder="apellido..." className="form-control my-3" value={apellido} onChange={e=>onChange(e)}/>
     <input type="number" name="celular" placeholder="celular.." className="form-control my-3" value={celular} onChange={e=>onChange(e)}/>    
     <input type="text" name="direccion" placeholder="direccion.."className="form-control my-3" value={direccion} onChange={e=>onChange(e)}/>
     <input type="email" name="correo" placeholder="correo..."className="form-control my-3" value={correo} onChange={e=>onChange(e)}/>
     <input type="password" name="contraseña" placeholder="contraseña.."className="form-control my-3"value={contraseña} onChange={e=>onChange(e)}/>
-    <button disabled={inputs.nombre = "" || inputs.apellido ="" || inputs.celular ="" || inputs.direccion ="" || inputs.correo ="" || inputs.contraseña =""} className="btn btn-success btn-block" style={{display:"inline-flex"}}>Submit</button> <h6>¿Ya estás registrado?</h6><Link to="/loginuser">Login</Link>
+    <button className="btn btn-success btn-block" disabled={inputs.nombre==="" || inputs.apellido==="" || inputs.celular==="" || inputs.direccion==="" || inputs.correo==="" || inputs.contraseña===""}>Submit</button> 
+    <h6>¿Ya estás registrado?</h6><Link to="/loginuser">Login</Link>
     </form> 
     </Fragment>
   )
