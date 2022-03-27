@@ -521,7 +521,7 @@ export function postProduct(payload) {
       if (newProduct.status === 200) {
         dispatch({
           type: ADD_PRODUCT,
-          payload: { ...payload, id: newProduct.data.id, new: true }
+          payload: { ...newProduct.data, new: true }
         });
       }
       return newProduct;
