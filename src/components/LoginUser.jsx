@@ -41,6 +41,7 @@ export const LoginUser = ({setAuth}) => {
                 icon: "success",
                 timer:"2000",
              })
+             let user = true
          }else{
              setAuth(false)
              swal({
