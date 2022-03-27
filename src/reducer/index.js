@@ -64,6 +64,7 @@ const initialState = {
   products: [],
   filteringProducts: false,
   filteredProducts: [],
+  adminFilteredProducts :[],
   productDetails: { id: null },
   cart: [],
   despacho: null,
@@ -190,7 +191,7 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       products: [...state.products, action.payload],
-      filteredProducts: [action.payload, ...state.filteredProducts]
+      adminFilteredProducts: [action.payload, ...state.adminFilteredProducts]
     };
   }
 
@@ -205,7 +206,7 @@ function rootReducer(state = initialState, action) {
       return p;
     });
 
-    let filteredProducts = state.filteredProducts.map(fp => {
+    let filteredProducts = state.adminFilteredProducts.map(fp => {
       if (fp.id === action.payload.id) {
         return action.payload;
 
@@ -215,7 +216,7 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       products: newProducts,
-      filteredProducts: filteredProducts
+      adminFilteredProducts: filteredProducts
     };
   }
 
@@ -279,7 +280,8 @@ function rootReducer(state = initialState, action) {
   if (action.type === SET_FILTERED_PRODUCTS) {
     return {
       ...state,
-      filteredProducts: action.payload
+      filteredProducts: action.payload.filter(p => p.stock > 0),
+      adminFilteredProducts: action.payload
     };
   }
 
@@ -376,7 +378,7 @@ function rootReducer(state = initialState, action) {
 
   if (action.type === FILTER_PRODUCTS) {
 
-    let filteredProducts = state.products.filter(e => e.stock > 0);
+    let filteredProducts = [...state.products]//.filter(e => e.stock > 0);
 
     let categoryStatus = false;
     if (action.payload.category !== "all") {
@@ -422,10 +424,12 @@ function rootReducer(state = initialState, action) {
     } else {
       searchStatus = true;
     }
+    let userProducts = filteredProducts.filter(e => e.stock > 0) 
 
     return {
       ...state,
-      filteredProducts: filteredProducts,
+      filteredProducts: userProducts,
+      adminFilteredProducts:filteredProducts,
       categoryFilterStatus: categoryStatus,
       searchFilterStatus: searchStatus
     };

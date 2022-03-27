@@ -15,7 +15,7 @@ import { postProduct, putProduct } from "../actions/index"
 function Products() {
   const dispatch = useDispatch();
   const arrProductos = useSelector((state) => state.products);
-  const filteredProducts = useSelector((state) => state.filteredProducts);
+  const filteredProducts = useSelector((state) => state.adminFilteredProducts);
   const emptyProduct = {
     id: "",
     nombre: "",
