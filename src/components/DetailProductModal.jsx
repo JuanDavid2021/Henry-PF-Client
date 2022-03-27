@@ -15,7 +15,8 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
     tipo_corte:"",
     precioTotal: "",
     cantidad: 1,
-    idItemFront:""
+    idItemFront:"",
+    stock
   })
   
   const handleDetailst = () => {
