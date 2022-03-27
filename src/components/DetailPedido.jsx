@@ -14,7 +14,7 @@ import {
 import { RiShoppingCartLine, RiArrowGoBackFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductDetails, addCartItem } from "../actions";
+import { getProductDetails, addCartItem, getPedidos } from "../actions";
 import Evaluation from "./Evaluation"
 import Review from "./Review"
 
@@ -30,6 +30,7 @@ function DetailPedido() {
   const [confirmModal, setConfirmModal] = useState(false)
 
   const productDetails = useSelector((state) => state.productDetails);
+  const pedido = useSelector( state => state.pedidoId );
 
   const [validated, setValidated] = useState(false);
 
@@ -39,6 +40,11 @@ function DetailPedido() {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    dispatch(getPedidos(id));
+  }, [dispatch])
+
+  console.log(pedido.UsuarioCorreo)
 
   const handleChange = (e) => {
     setValoresDetalleProducto({
@@ -52,7 +58,7 @@ function DetailPedido() {
     setValoresDetalleProducto({
       ...valoresDetalleProducto,
       peso: "",
-      tipo_corte:""
+      tipo_corte: ""
     })
     setConfirmModal(false)
   }
@@ -96,7 +102,7 @@ function DetailPedido() {
       precio: productDetails.precio,
       arrFotos: productDetails.fotos,
       nombre: productDetails.nombre,
-      idItemFront:( productDetails.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso )
+      idItemFront: (productDetails.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso)
     };
     console.log(alCarrito)
     dispatch(addCartItem(alCarrito));
