@@ -18,6 +18,7 @@ import Products from "./components/Products";
 import Profile from './components/Profile';
 import Shop from './components/Shop';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
+import Pedidos from './components/Pedidos';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
         <Route exact path='/profile/:id' element={<Profile />} />
         <Route exact path='/product/:id' element={<DetailProduct />} />
         <Route exact path='/products' element={<Products />} />
+        <Route exact path='/pedidos' element={<Pedidos />} />
         <Route exact path='/creationForm' element={<CreationForm />} />
         <Route exact path='/cartDetails' element={<CartDetails />} />
         <Route path='/cartDetailsCheckout' element={<CartDetailsCheckout />} />
