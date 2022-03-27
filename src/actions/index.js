@@ -534,10 +534,10 @@ export function pagarPedido(payload) {
   };
 }
 
-export function getPedidos(payload) {
+export function getPedidos() {
   return async function (dispatch) {
     try {
-      const pedidos = await axios.post("http://localhost:3001/api/pedido/all", payload);
+      const pedidos = await axios.get("http://localhost:3001/api/pedido/all");
       if (pedidos.status === 200) {
         dispatch({
           type: GET_PEDIDOS,

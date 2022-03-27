@@ -448,7 +448,7 @@ function rootReducer(state = initialState, action) {
   if (action.type === GET_PEDIDOS) {     
     return {
       ...state,
-      pedidos: [...state.pedidos, action.payload],
+      pedidos: action.payload
     };
   }
 
