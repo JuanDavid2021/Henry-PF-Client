@@ -32,10 +32,13 @@ import {
   EDIT_SALE_STATUS, 
   ORDER_PRECIO,
   SET_CART_ITEM,
+  USERLOGIN,
+  USERCREATE
 } from './../action-types/index';
 
 const initialState = {
   user: [], //usuario actual usando la app
+  userLogin:[],
   gettingProducts: false,
   products: [],
   filteringProducts: false,  
@@ -43,7 +46,8 @@ const initialState = {
   productDetails: { id: null },
   cart: [],
   categories: [],//[{id:XXX,name:'sadasd'},...]
-
+  userRegistred:[],
+  
   sales: [],//lista de ventas
   users: [],//lista de usuarios para borrar / forzar password
   categoryFilterStatus: true,
@@ -76,6 +80,29 @@ function rootReducer(state = initialState, action) {
       ...state,
       cart: [...action.payload]
     }
+  }
+
+  if(action.type===USERCREATE){
+    return{
+      ...state,
+      userRegistred:[action.payload]
+    }
+  }
+
+  if(action.type===USERLOGIN){
+     if(action.payload.userEmail){
+       return{
+        ...state,
+        userLogin: action.payload,
+        user: action.payload.userEmail
+       }
+     }
+     else{
+       return{
+         ...state,
+         userLogin: action.payload
+       }
+     }
   }
 
   if (action.type === ADD_PRODUCT) {

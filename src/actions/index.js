@@ -1,3 +1,4 @@
+
 import {
   ADD_PRODUCT, 
   DELETE_PRODUCT, 
@@ -32,6 +33,8 @@ import {
   EDIT_SALE_STATUS, 
   ORDER_PRECIO,
   SET_CART_ITEM,
+  USERCREATE,
+  USERLOGIN
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -54,6 +57,7 @@ function orderProducts(products, orderType) {
   return products;
 }
 
+
 export const searchProduct =(producto)=>{
     return async function(dispatch){
       var busq=await axios("http://localhost:3001/api/product/all")
@@ -63,6 +67,28 @@ export const searchProduct =(producto)=>{
         })
     }
   }
+
+export const createUser=(payload)=>{
+ return async function(dispatch){
+   var create = await axios.post("http://localhost:3001/api/user/registro", payload)
+   console.log(create)
+   return create
+/*    return dispatch({
+     type: USERCREATE,
+     payload: create.data
+   }) */
+ }
+}
+
+export const loginUser=(data)=>{
+ return async function (dispatch){
+   var logUser= await axios.post("http://localhost:3001/api/user/login",data)
+   console.log(logUser)
+   return dispatch({
+     type:USERLOGIN,
+     payload: logUser.data
+ })
+}}
 
 export const order=(payload)=>{
  return{
@@ -86,6 +112,8 @@ async function apiGetAllUsers() {
     return [];
   }
 }
+
+
 
 async function apiAddUser(data) {
   try {
