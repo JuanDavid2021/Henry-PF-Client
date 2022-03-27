@@ -8,12 +8,16 @@ import { Modal, Button } from 'react-bootstrap';
 
 function Pedidos() {
     const pedidos = useSelector(state => state.pedidos);
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getPedidos());
     }, [dispatch])
+
+    const handleDetailPedido = (id) => {
+        navigate(`/pedido/${id}`)
+      }
 
     return (
         <div className='container'>
@@ -46,7 +50,7 @@ function Pedidos() {
                                                 {p.UsuarioCorreo}
                                             </td>
                                             <td>
-                                                <button className="btn btn-info text-light text-decoration-none fs-6 mx-2">Detalles</button>
+                                                <button className="btn btn-info text-light text-decoration-none fs-6 mx-2" onClick={() => handleDetailPedido(p.id)}>Detalles</button>
                                             </td>
                                             {(p.status === 'Creada') ? (<span></span>) : (
                                                 <div>

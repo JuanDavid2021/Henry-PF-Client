@@ -29,6 +29,7 @@ import Products from "./components/Products";
 import Shop from './components/Shop';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import Pedidos from './components/Pedidos';
+import DetailPedido from './components/DetailPedido';
 
 
 
@@ -86,6 +87,7 @@ import Pedidos from './components/Pedidos';
 
         <Route exact path='/products' element={<Products />} />
         <Route exact path='/pedidos' element={<Pedidos />} />
+        <Route exact path='/pedido/:id' element={<DetailPedido />} /> 
         <Route exact path='/creationForm' element={<CreationForm />} />
         <Route exact path='/cartDetails' element={<CartDetails />} />
         <Route path='/cartDetailsCheckout' element={<CartDetailsCheckout />} />
