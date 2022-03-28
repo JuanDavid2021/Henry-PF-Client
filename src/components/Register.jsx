@@ -42,7 +42,7 @@ export const Register = ({setAuth}) => {
             icon: "success",
             timer:"2000",
          })
-       dispatch(login("user_ok"))
+       dispatch(login({state: "user_ok", mail: correo}))
     } 
      
    
