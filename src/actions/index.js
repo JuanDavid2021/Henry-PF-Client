@@ -40,6 +40,7 @@ import {
   SET_CART_ITEM,
 
   USERCREATE,
+
   USERLOGIN,
   USERLOGINOK,
   USERLOGOUT
@@ -114,6 +115,23 @@ export const searchProduct = (producto) => {
     })
   }
 }
+export const loginUser=(data)=>{
+ return async function (dispatch){
+   var logUser= await axios.post("http://localhost:3001/api/user/login",data)
+   console.log(logUser)
+   return dispatch({
+     type:USERLOGIN,
+     payload: logUser.data
+ })
+}}
+
+export const order=(payload)=>{
+ return{
+  type: ORDER_PRODUCTS,
+  payload
+ }
+}
+
 
 export const createUser = (payload) => {
   return async function (dispatch) {
@@ -126,31 +144,6 @@ export const createUser = (payload) => {
        }) */
   }
 }
-
-export const loginUser = (data) => {
-  return async function (dispatch) {
-    var logUser = await axios.post("http://localhost:3001/api/user/login", data)
-    console.log(logUser)
-    return dispatch({
-      type: USERLOGIN,
-      payload: logUser.data
-    })
-  }
-}
-
-// export const order=(payload)=>{
-//  return{
-//   type: ORDER_PRODUCTS,
-//   payload
-//  }
-// }
-// export const orderPrecio=(payload)=>{
-//   return{
-//    type: ORDER_PRECIO,
-//    payload
-//   }
-//  }
-
 // export const searchProduct = (producto) => {
 //   return async function (dispatch) {
 //     var busq = await axios("http://localhost:3001/api/product/all");
@@ -161,18 +154,13 @@ export const loginUser = (data) => {
 //   };
 // };
 
-// export const order = (payload) => {
-//   return {
-//     type: ORDER_PRODUCTS,
-//     payload
-//   };
-// };
 // export const orderPrecio = (payload) => {
 //   return {
 //     type: ORDER_PRECIO,
 //     payload
 //   };
 // };
+
 
 
 async function apiGetAllUsers() {
