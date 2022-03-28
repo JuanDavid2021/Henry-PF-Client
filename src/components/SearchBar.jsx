@@ -40,6 +40,8 @@ function SearchBar() {
     );
   };
 
+  const [loaded, setLoaded] = useState(true)
+  
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -54,6 +56,16 @@ function SearchBar() {
   };
 
   useEffect(() => {
+    if (loaded) {
+      setLoaded(false);
+      setFilter({
+        category: "all",
+    order: "",
+    input: ""})
+      dispatch(filterProducts({
+        category: "all",
+    order: "",
+    input: "",}))}
     let timeout = null;
     if (typing) {
       timeout = setTimeout(() => {
@@ -64,7 +76,7 @@ function SearchBar() {
       }, 1000);
     }
     return () => clearTimeout(timeout);
-  }, [typing, dispatch, setTyping, categoryFilterStatus, filter]);
+  }, [typing, dispatch, setTyping, categoryFilterStatus, filter,loaded]);
   return (
     <Row className="mx-4 mt-3 center justify-content-center">
       <Col sm="12" md="4" lg="4" xl="3" className="mb-2">
