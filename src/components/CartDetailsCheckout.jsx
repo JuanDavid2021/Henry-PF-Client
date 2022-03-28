@@ -87,7 +87,7 @@ function CartDetailsCheckout() {
                   />
                   <Form.Control.Feedback type="invalid">Ingrese un dato válido</Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group as={Col} md={6} className="col-md-6 mb-3" controlId="validationCustom01">
+                <Form.Group as={Col} md={6} className="col-md-6 mb-3" controlId="validationCustom02">
                   <Form.Label>Apellido</Form.Label>
                   <Form.Control 
                     type="text" 
@@ -168,15 +168,9 @@ function CartDetailsCheckout() {
                     <RiArrowLeftSLine/> Volver al resumen
                   </Link>
                 </div>
-                {
-                  user?.email?.length===0 
-                  ? <div className="col-md-6 text-md-end py-1">
-                      <button className="btn btn-success text-light text-decoration-none fs-6 mx-3">Registrate</button>
-                  </div>
-                  : <div className="col-md-6 text-md-end py-1">
+                   <div className="col-md-6 text-md-end py-1">
                       <button className="btn btn-primary my-1" type="submit">Método de envío <RiArrowRightSLine/></button>
                   </div>
-                }
                 </div>
               </div>
             </Form>
