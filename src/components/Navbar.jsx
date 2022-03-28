@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { RiShoppingCartLine } from 'react-icons/ri'
-import { GiHamburgerMenu } from 'react-icons/gi'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { RiShoppingCartLine } from 'react-icons/ri';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import img from '../img/logo2.png'
-import { useDispatch, useSelector } from 'react-redux'
-import swal from "sweetalert"
-import {logoutuser, setPlatformUser} from "../actions/index"
+import { Link } from 'react-router-dom';
+import swal from "sweetalert";
+import { logoutuser, setPlatformUser } from "../actions/index";
+import img from '../img/logo2.png';
 
 
 function NavBar({setAuth}) {
@@ -20,6 +20,7 @@ function NavBar({setAuth}) {
 
     const itemsCart = useSelector(state => state.cart)
     const userLogin = useSelector(state=>state.userAuthenticated)
+    const currentUser = useSelector(state => state.user);
     console.log("hola", localStorage.token)
     console.log("hola33", localStorage.mail)
 
@@ -29,8 +30,8 @@ function NavBar({setAuth}) {
         user ? setUser(false) : setUser(true)
     }  */
 
-    const pedidos = () => {
-        navigate('/pedidos')
+    const dashboard = () => {
+        navigate('/dashboard')
       }
 
     const logout=(e)=>{
@@ -80,7 +81,7 @@ function NavBar({setAuth}) {
                             }
                         </Link>
                         <button className="btn btn-primary text-light text-decoration-none fs-6 position-relative mx-3" onClick={e=>logout(e)}>Log out</button>
-                        <button className="btn btn-secondary text-light text-decoration-none fs-6 position-relative" onClick={pedidos}>Pedidos</button>
+                        {currentUser.administrador && <button className="btn btn-secondary text-light text-decoration-none fs-6 position-relative" onClick={dashboard}>Dashboard</button>}
                       </div>
                        :   
                          <div>
