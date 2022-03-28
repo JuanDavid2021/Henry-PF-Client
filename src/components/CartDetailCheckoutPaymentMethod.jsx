@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiTruckLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 import { postPedido, pagarPedido } from '../actions';
@@ -9,39 +8,67 @@ import { Resume } from './CartDetails';
 function CartDetailCheckoutPaymentMethod() {
 
   const carrito = useSelector(state => state.cart)
-  const idPedido = useSelector(state => state.idPago)
+  let idPedido = useSelector(state => state.idPago)
   const pedidoBack = useSelector(state => state.pedido)
+  const despacho = useSelector(state => state.despacho)
+  const user = useSelector((state => state.user))
+  const loading = useSelector((state => state.loading))
+
 
   const dispatch = useDispatch()
 
-
+  const carritoMod = carrito.forEach(el => {
+    el.peso = Number(el.peso)
+    delete el.idItemFront;
+  })
 
   const pedidos = {
-    direccion_despacho: "Union Street 266, St. Louis",
-    status: "Creada",
-    f_pedido: "02/11/2022",
-    f_entrega: "02/11/2022",
-    UsuarioCorreo: "minnie.lomeli@keyphase.com",
+    f_pedido: despacho.f_pedido,
+    f_requerida: despacho.f_requerida,
+    UsuarioCorreo: localStorage.mail,
+    status: "Created",
+    enviado_a: `${despacho.nombre} ${despacho.apellido}`,
+    direccion_despacho: `${despacho.direccion_despacho}-${despacho.localidad}-${despacho.zip}`,
+    comentario: despacho.comentario,
     ItemsPedidos: carrito
   }
 
+  const [boton, setBoton] = useState(true)
+  const [segundos, setSegundos] = useState(300);
+  const [activo, setActivo] = useState(true)
 
-  // const [datos, setDatos] = useState("")
 
   useEffect(() => {
-    console.log(carrito)
+    let intervalo = null
+    if (activo) {
+      intervalo = setInterval(() => {
+        setSegundos(segundos => segundos - 1);
+      }, 1000);
+    }
+    if (segundos === 0) {
+      reset()
+      navigate('/cartDetails')
+      clearInterval(intervalo);
+    }
+    return () => clearInterval(intervalo);
+  }, [activo, segundos])
+
+
+  useEffect(() => {
+    console.log(pedidos)
     dispatch(postPedido(pedidos))
+  }, [dispatch])
+
+  const navigate = useNavigate()
 
 
 
-    // axios
-    //   .get("http://localhost:3001/mercadopago")
-    //   .then((data) => {
-    //     setDatos(data.data)
-    //     console.info('Contenido de data:', data)
-    //   })
-    //   .catch(err => console.error(err))
-  }, [])
+
+  function reset() {
+    setSegundos(0);
+    setActivo(false);
+  }
+
 
 
   const handlePago = (e) => {
@@ -49,21 +76,23 @@ function CartDetailCheckoutPaymentMethod() {
       id: pedidoBack.id,
       ItemsPedidos: pedidoBack.ItemsPedidos
     }))
-
+    setBoton(false)
   }
 
 
-
+  const contador = (second) => {
+    var minute = Math.floor((second / 60) % 60);
+    minute = (minute < 10) ? '0' + minute : minute;
+    var second = second % 60;
+    second = (second < 10) ? '0' + second : second;
+    return minute + ':' + second;
+  }
 
   //idPedido
 
-  const botonmagico = () => {
-    console.log(idPedido.sandbox_init_point)
-
-  }
-
   return (
     <section className="py-5">
+      <h2 className='fw-light text-danger fs-3 mb-3 text-center'>Desde ahora tiene {contador(segundos)} minutos para finalizar la compra</h2>
       <div className="container py-4">
         <div className="row gy-5">
           <div className="col-lg-9">
@@ -93,14 +122,6 @@ function CartDetailCheckoutPaymentMethod() {
                   <p className="mb-0 pt-1">Método de pago</p>
                 </a>
               </li>
-
-              <li className="nav-item">
-                <a className="nav-link disabled" href="noopener noreferrer" tabIndex="-1" aria-disabled="true">
-                  <RiEyeLine />
-                  <p className="mb-0 pt-1">Revisión del pedido</p>
-                </a>
-              </li>
-
             </ul>
             {/* forma de pago */}
             <form className="py-4">
@@ -124,7 +145,12 @@ function CartDetailCheckoutPaymentMethod() {
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1" id="form1">
-                    <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} target="_blank" type='button' disabled>Continuar <RiArrowRightSLine /></a>
+
+                    {!loading && !boton ?
+                      <a className="btn btn-primary my-1" href={idPedido.sandbox_init_point} type='button'>Continuar <RiArrowRightSLine /></a>
+                      :
+                      <button className="btn btn-primary my-1" type='button' disabled >Continuar <RiArrowRightSLine /></button>
+                    }
                   </div>
                 </div>
               </div>

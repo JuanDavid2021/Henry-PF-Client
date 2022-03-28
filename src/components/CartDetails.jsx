@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiDeleteBin5Fill, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 import { useNavigate } from 'react-router';
@@ -9,18 +9,60 @@ import { Modal, Button } from 'react-bootstrap';
 function CartDetails() {
   const arrCartProducts = useSelector(state => state.cart);
 
-  const [modal, setModal] = useState(false)
+  const [modal, setModal] = useState({ show: false, msg: "" })
+  const [user, setUser] = useState(false)
+
 
   const navigate = useNavigate()
 
+  const ifLogin = ()=>{
+    if (localStorage.token === undefined){
+      setUser(false)
+    } else {
+      setUser(true)
+    }
+
+  }
+
+  useEffect(()=>{
+    ifLogin()
+  },[localStorage.token])
+
+
+
   const handleNavigateDelibery = (e) => {
     e.preventDefault()
-    if (arrCartProducts.length > 0) {
-      navigate("/cartDetailsCheckout")
-    }else{
-      setModal(true)
+    if(!user){
+      setModal({
+        show: true,
+        msg: "Necesitas estar logueado o crearse una cuenta para continuar"
+      })
+    } else if (arrCartProducts.length > 0) {
+      let stock = false
+      arrCartProducts.forEach((p) => {
+        if (p.cantidad > p.stock) {
+          stock = true
+        }
+      })
+      if (stock) {
+        setModal({
+          show: true,
+          msg: "La cantidad supera el stock"
+        })
+      } else {
+        navigate("/cartDetailsCheckout")
+      }
+    } 
+     else {
+      setModal({
+        show: true,
+        msg: "No posee productos en su carrito"
+      })
     }
   }
+
+
+
 
   const handleCloseModal = () => {
     setModal(false)
@@ -29,7 +71,7 @@ function CartDetails() {
   let arrSuma = []
 
   arrCartProducts.map((p) => arrSuma.push(p.precioTotal * p.cantidad))
-  
+
   let suma = arrSuma?.reduce((a, b) => Number(a) + Number(b), 0)
 
   return (
@@ -55,16 +97,18 @@ function CartDetails() {
                   <tbody>
                     {
                       arrCartProducts.length > 0 ?
-                      /* Mapeo de las filas de la tabla con los items del carrito */
+                        /* Mapeo de las filas de la tabla con los items del carrito */
                         arrCartProducts.map((p) => {
                           return (
-                            <TrItemCart key={p.idItemFront} el={p} inputRender={true}/>
+                            <TrItemCart key={p.idItemFront} el={p} inputRender={true} />
                           )
                         }
                         )
-                        : <p className="lead text-center fs-3 fw-normal mt-3">
-                          No tiene productos en el carrito
-                        </p>
+                        : <tr className="lead text-center fs-3 fw-normal mt-3">
+                          <td>
+                            No tiene productos en el carrito
+                          </td>
+                        </tr>
                     }
                   </tbody>
                   <tfoot>
@@ -83,9 +127,7 @@ function CartDetails() {
                   </Link>
                 </div>
                 <div className="col-md-6 text-md-end py-1">
-                  <Link to={"/cartDetailsCheckout"}>
                     <button className="btn btn-primary my-1" onClick={handleNavigateDelibery}>Verificación <RiArrowRightSLine /></button>
-                  </Link>
                 </div>
               </div>
             </form>
@@ -95,8 +137,8 @@ function CartDetails() {
         </div>
       </div>
       {/* Modal */}
-      <Modal 
-        show={modal}
+      <Modal
+        show={modal.show}
         size="sm"
         onHide={handleCloseModal}
         backdrop="static"
@@ -107,9 +149,10 @@ function CartDetails() {
         <Modal.Header>
           <Modal.Title><p style={{ textAlign: "center" }}>Error</p></Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <p>No posee productos en su carrito</p>
-        </Modal.Body>
+            <Modal.Body>
+              <p>{modal.msg}</p>
+            </Modal.Body>
+    
 
         <Modal.Footer>
           <Button variant="primary" onClick={handleCloseModal}>Aceptar</Button>
@@ -125,60 +168,46 @@ export function Resume() {
   let arrSuma = []
 
   arrCartProducts.map((p) => arrSuma.push(p.precioTotal * p.cantidad))
-  
+
   let suma = arrSuma?.reduce((a, b) => Number(a) + Number(b), 0)
 
-  return(
-  <div className="col-lg-3">
-    <div className="mb-5">
-      <div className="p-4 bg-gray-200">
-        <h3 className="text-uppercase mb-0">Resumen</h3>
-      </div>
-      <div className="bg-light py-4 px-3">
-        <p className="text-muted">Los gastos de envío y adicionales se calculan en función de los valores que ha introducido.</p>
-        <div className="table-responsive">
-          <table className="table mb-0">
-            <tbody className="text-sm">
-              <tr>
-                <th className="text-muted"> <span className="d-block py-1 fw-normal">Subtotal</span></th>
-                <th> <span className="d-block py-1 fw-normal text-end">$ {suma}</span></th>
-              </tr>
-              <tr>
-                <th className="text-muted"> <span className="d-block py-1 fw-normal">Envío</span></th>
-                <th> <span className="d-block py-1 fw-normal text-end">$0.00</span></th>
-              </tr>
-              <tr>
-                <th className="text-muted"> <span className="d-block py-1 fw-normal">IVA</span></th>
-                <th> <span className="d-block py-1 fw-normal text-end">$0.00</span></th>
-              </tr>
-              <tr className="total">
-                <td className="py-3 border-bottom-0 text-muted"> <span className="lead fw-bold">Total</span></td>
-                <th className="py-3 border-bottom-0"> <span className="lead fw-bold text-end">$ {suma}</span></th>
-              </tr>
-            </tbody>
-          </table>
+  return (
+    <div className="col-lg-3">
+      <div className="mb-5">
+        <div className="p-4 bg-gray-200">
+          <h3 className="text-uppercase mb-0">Resumen</h3>
+        </div>
+        <div className="bg-light py-4 px-3">
+          <p className="text-muted">Los gastos de envío y adicionales se calculan en función de los valores que ha introducido.</p>
+          <div className="table-responsive">
+            <table className="table mb-0">
+              <tbody className="text-sm">
+                <tr>
+                  <th className="text-muted"> <span className="d-block py-1 fw-normal">Subtotal</span></th>
+                  <th> <span className="d-block py-1 fw-normal text-end">$ {suma}</span></th>
+                </tr>
+                <tr>
+                  <th className="text-muted"> <span className="d-block py-1 fw-normal">Envío</span></th>
+                  <th> <span className="d-block py-1 fw-normal text-end">$0.00</span></th>
+                </tr>
+                <tr>
+                  <th className="text-muted"> <span className="d-block py-1 fw-normal">IVA</span></th>
+                  <th> <span className="d-block py-1 fw-normal text-end">$0.00</span></th>
+                </tr>
+                <tr className="total">
+                  <td className="py-3 border-bottom-0 text-muted"> <span className="lead fw-bold">Total</span></td>
+                  <th className="py-3 border-bottom-0 text-end"> <span className="lead fw-bold text-end">$ {suma}</span></th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-{/*     <div className="mb-4">
-      <div className="p-4 bg-gray-200">
-        <h4 className="text-uppercase mb-0">Código de descuento</h4>
-      </div>
-      <div className="bg-light py-4 px-3">
-        <p className="text-muted">Si tiene un código de descuento, introdúzcalo en el cuadro a continuación.</p>
-        <form action="#">
-          <div className="input-group">
-            <input className="form-control" type="text" />
-            <button className="btn btn-primary" type="submit"><i className="fas fa-gift"></i></button>
-          </div>
-        </form>
-      </div>
-    </div> */}
-  </div>
   )
 }
 
-export function TrItemCart({el, inputRender}) {
+export function TrItemCart({ el, inputRender }) {
   const dispatch = useDispatch()
   const [changeQuantityItem, setChangeQuantityItem] = useState({
     ...el,
@@ -186,6 +215,7 @@ export function TrItemCart({el, inputRender}) {
   })
 
   const handleChangeQuantityItem = (e) => {
+
     setChangeQuantityItem({
       ...changeQuantityItem,
       cantidad: e.target.value
@@ -197,34 +227,34 @@ export function TrItemCart({el, inputRender}) {
     dispatch(setCartItem(elem))
   }
 
-  return(
-  <tr className="text-sm">
-    <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={el.arrFotos[0]} alt={el.nombre} style={{ minWidth: "50px" }} width="50" /></a></td>
-    <td className="align-middle border-gray-300 py-3">{el.nombre}</td>
-    <td className="align-middle border-gray-300 py-3">{el.tipo_corte} - {el.peso} kg</td>
-    { 
-      inputRender
+  return (
+    <tr className="text-sm">
+      <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={el.arrFotos[0]} alt={el.nombre} style={{ minWidth: "50px" }} width="50" /></a></td>
+      <td className="align-middle border-gray-300 py-3">{el.nombre}</td>
+      <td className="align-middle border-gray-300 py-3">{el.tipo_corte} - {el.peso} kg</td>
+      {
+        inputRender
 
-      ?<td className="align-middle border-gray-300 py-3">
-        <input className="form-control" min={1} type="number" name={el.idItemFront} value={changeQuantityItem.cantidad} onChange={handleChangeQuantityItem} style={{ maxWidth: "3.5rem" }} />
-      </td>
+          ? <td className="align-middle border-gray-300 py-3">
+            <input className="form-control" min={1} max={el.stock} type="number" name={el.idItemFront} value={changeQuantityItem.cantidad} onChange={handleChangeQuantityItem} style={{ maxWidth: "3.5rem", padding: "2px" }} />
+          </td>
 
-      :<td className="align-middle border-gray-300 py-3">{el.cantidad}</td>
-    }
-    <td className="align-middle border-gray-300 py-3">${el.precio}</td>
-    <td className="align-middle border-gray-300 py-3">${(el.precioTotal * changeQuantityItem.cantidad)}</td>
-    {
-      inputRender 
+          : <td className="align-middle border-gray-300 py-3">{el.cantidad}</td>
+      }
+      <td className="align-middle border-gray-300 py-3">${el.precio}</td>
+      <td className="align-middle border-gray-300 py-3">${(el.precioTotal * changeQuantityItem.cantidad)}</td>
+      {
+        inputRender
 
-      ?<td className="align-middle border-gray-300 py-3">
-        <button className="btn mx-2" type="button" onClick={() => { dispatch(deleteCartItem(el)) }}>
-          <RiDeleteBin5Fill/>
-        </button>
-      </td>
+          ? <td className="align-middle border-gray-300 py-3">
+            <button className="btn mx-2" type="button" onClick={() => { dispatch(deleteCartItem(el)) }}>
+              <RiDeleteBin5Fill />
+            </button>
+          </td>
 
-      : null
-    }
-  </tr>
+          : null
+      }
+    </tr>
   )
 }
 

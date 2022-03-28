@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { RiDeleteBin5Fill } from "react-icons/ri"
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
+import { FaCircle, FaEye, FaEyeSlash } from "react-icons/fa"
 import AddImageAlt from "../img/AddImageAlt.jpg";
 import {
   Row,
@@ -8,25 +11,28 @@ import {
   Form,  
   Button,  
   Carousel,
+  InputGroup 
 } from "react-bootstrap";
 
-function validate(input) {
+function validate(input,fotos) {
   let errors = {};
   let pattern = /[0-9]+/;
-  if (!input.nombre.length) {
-    errors.nombre = "Nombre es requerido";
+  //let patternURL = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+  let patternIMGURL = /(https:)([/|.|~\w|-])*\.(?:jpg|gif|png)([/|.|,~\w|-])*/
+  if (!input.nombre.length || input.nombre.length<5) {
+    errors.nombre = "Requerido, minimo 5 caracteres";
   } else if (pattern.test(input.nombre)) {
-    errors.nombre = "Nombre inválido, no acepta números";
+    errors.nombre = "Inválido, no acepta números";
   }
   if (!input.descripcion.length || input.descripcion.length < 5) {
-    errors.descripcion = "Descripción es requerido, mínimo 5 caracteres";
-  }
-  // if (input.precio < 1 || !pattern.test(input.precio)) {
-  //   errors.precio = 'El precio no puede ser menor que 1'
-  // }
-  // if (input.stock < 0 || !pattern.test(input.stock)) {
-  //   errors.stock = 'El stock no puede ser negativo'
-  // }
+    errors.descripcion = "Requerido, mínimo 5 caracteres";
+  }    
+  fotos.forEach((f, i) => { 
+    if (f.length && !patternIMGURL.test(f)) {
+      errors["foto" + i] = "Link inválido"      
+    }
+  }); 
+
   return errors;
 }
 
@@ -41,11 +47,15 @@ function EditDeleteProductForm({
     fotos: [],
     Presentacions: [],
     Categoria: [],
-    new:false
+    new: false,
+    activo:true,
+    stock_minimo:"0"
   },
   createFunction,
   updateFunction,
+  deleteFunction,
   cancelFunction,
+  toggleActiveFunction,
   selectProduct,
   createForm = false,
   copyFunction
@@ -59,22 +69,30 @@ function EditDeleteProductForm({
     descripcion: product.descripcion || "",
     precio: product.precio || "",
     stock: product.stock || "",
+    stock_minimo: product.stock_minimo || ""
   });
 
   const [presentacion, setPresentacion] = useState(product.Presentacions || []);
 
-  const [fotos, setFotos] = useState(product.fotos || []);
-
+  const [fotos,setFotos] = useState([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])
   const storeCategories = useSelector((state) => state.categories);
 
   const [categorias, setCategrorias] = useState(product.Categoria || []);
 
+  const [settingFoto, setSettingFoto] = useState({
+    show: false,
+    name: "0",
+    placeholder: "Link de foto NºX",
+    value: ""    
+  })
+
   useEffect(() => {
     let pattern = /[0-9]+/;
+    
     if (product && product?.id !== input.id) {
       setInput(product);
-      setPresentacion(product.Presentacions);
-      setFotos(product.fotos);
+      setPresentacion(product.Presentacions); 
+      setFotos([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])    
       setCategrorias(product.Categoria);
     }    
     if (input.stock < 0 || !pattern.test(input.stock)) {
@@ -88,8 +106,9 @@ function EditDeleteProductForm({
         ...input,
         precio: 1,
       });
-    }
-  }, [product, input, categorias]);
+    }   
+    
+  }, [product, input, categorias,fotos,errors]);
 
   function discardChanges() {
     setInput({
@@ -98,10 +117,22 @@ function EditDeleteProductForm({
       descripcion: product.descripcion,
       precio: product.precio,
       stock: product.stock,
+      stock_minimo: product.stock_minimo
     });
-    setPresentacion(product.Presentacions);
-    setFotos(product.fotos);
+    setPresentacion(product.Presentacions);    
+    setFotos([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])        
     setCategrorias(product.Categoria);
+  }
+
+  const handleFotoChange = (e) => {       
+    setSettingFoto({
+      ...settingFoto,
+      value:e.target.value
+    })    
+    let newFotos=[...fotos]
+    newFotos[parseInt(e.target.name)] = e.target.value
+    setFotos(newFotos)    
+    setErrors(validate(input, newFotos));  
   }
 
   const handleChangeString = (e) => {
@@ -113,7 +144,7 @@ function EditDeleteProductForm({
       validate({
         ...input,
         [e.target.name]: e.target.value.replace(/<[^>]+>/g, ""),
-      })
+      }, fotos)
     );
   };
 
@@ -124,7 +155,7 @@ function EditDeleteProductForm({
       const finalProduct = {
         ...input,
         id: "",
-        presentacion: presentacion.map(p=> p.id),
+        presentacion: presentacion.map(p => p.id),        
         categoria: categorias.map((c) => c.id),
         fotos: fotos,
       };
@@ -134,6 +165,38 @@ function EditDeleteProductForm({
     }
   };  
 
+  const handleToggleON = (e) => {
+    if (!Object.keys(errors).length) {
+      const finalProduct = {
+        ...input,
+        presentacion: presentacion.map(p => p.id),        
+        categoria: categorias.map((c) => c.id),
+        fotos: fotos,
+        activo:true
+      };    
+      //console.log(finalProduct)
+      toggleActiveFunction(finalProduct)
+    } else {
+      alert(`Existen errores ${errors}`);
+    }
+  }
+
+  const handleToggleOFF = (e) => {
+    if (!Object.keys(errors).length) {
+      const finalProduct = {
+        ...input,
+        presentacion: presentacion.map(p => p.id),        
+        categoria: categorias.map((c) => c.id),
+        fotos: fotos,
+        activo:false
+      };         
+      //console.log(finalProduct)
+      toggleActiveFunction(finalProduct)
+    } else {
+      alert(`Existen errores ${errors}`);
+    }
+  }
+
   const handleUpdate = (e) => {
     
     if (!Object.keys(errors).length) {
@@ -142,16 +205,22 @@ function EditDeleteProductForm({
         presentacion: presentacion.map(p => p.id),        
         categoria: categorias.map((c) => c.id),
         fotos: fotos,
-      };    
-      console.log(finalProduct)
+      };          
       updateFunction(finalProduct)
     } else {
       alert(`Existen errores ${errors}`);
     }
   };
 
-  const setFoto = (e) => {
-    console.log("Seleccionar foto Nº " + e.target.id);
+  const selectFoto = (e) => {    
+    setSettingFoto({
+      show: true,
+      name: e.target.id,
+      placeholder: "Link de foto Nº " + e.target.id,
+      value : fotos[parseInt(e.target.id)]
+    })
+    setErrors(validate(input, fotos));  
+
   };
 
   const handleCategories = (e) => {
@@ -209,19 +278,19 @@ function EditDeleteProductForm({
         </Col>
         <Col xs="12" sm="12" lg="10">
           <Row >
-            <Col className="border-bottom" sm="6" xs="12">
+            <Col className="border-bottom" md="6" sm="12" xs="12">
               <p className="mb-1">
                 <b>Nombre: </b>
-                {productToView.nombre}
+                {productToView.nombre} { productToView.activo?  <span className="text-success"><FaEye className="pb-1"/></span> : <span className="text-danger"><FaEyeSlash className="pb-1"/></span>}
               </p>
             </Col>
-            <Col className="border-bottom" sm="3" xs="6">
+            <Col className="border-bottom" md="3" sm="6" xs="6">
               <p className="mb-1">
-                <b>Stock: </b>
-                {productToView.stock}
+                <b>Stock: </b> 
+                {productToView.stock} { productToView.stock>productToView.stock_minimo? <span className="text-success"><FaCircle className="pb-1"/></span> : <span className="text-danger"><FaCircle className="pb-1"/></span>}
               </p>
             </Col>
-            <Col className="border-bottom" sm="3" xs="6">
+            <Col className="border-bottom" md="3" sm="6" xs="6">
               <p className="mb-1">
                 <b>Precio: $</b>
                 {productToView.precio}
@@ -260,28 +329,34 @@ function EditDeleteProductForm({
       <Row style={{ borderTop: "2px solid", marginTop: "10px" }}>
         <Col className="col-12">
           <Row>
-            <Col sm="6" xs="12">
+            <Col md="6" sm="12" xs="12">
               <Form.Group>
               <Form.Label
                 className={errors?.nombre?.length ? "mb-0 text-danger" : "mb-0"}
               >
-                {errors?.nombre?.length ? errors?.nombre : "Nombre"}
-              </Form.Label>
+                  {errors?.nombre?.length ? errors?.nombre : "Nombre"}
+                </Form.Label>
+                <InputGroup>
               <Form.Control
                 isInvalid={errors?.nombre?.length || ""}
                 type="text"
                 pattern="[a-zA-Z. ]{3,30}"
                 name="nombre"
                 placeholder="Nombre del producto"
-                aria-describedby="nombre"
+                aria-describedby="basic-addon2"
                 value={input.nombre}
                 onChange={handleChangeString}
-              />
+                /> 
+                  <InputGroup.Text id="basic-addon2">{ productToView.activo?  <span className="text-success"><FaEye className="pb-1"/></span> : <span className="text-danger"><FaEyeSlash className="pb-1"/></span>}</InputGroup.Text>
+                  </InputGroup>
             </Form.Group>
           </Col>
-          <Col sm="3" xs="6">
+          <Col md="3" sm="6" xs="6">
             <Form.Group>
-              <Form.Label className="mb-0">Stock</Form.Label>
+                <Form.Label className="mb-0">
+                  Stock 
+                </Form.Label>
+                <InputGroup>
               <Form.Control
                 isInvalid={errors?.stock?.length || ""}
                 type="number"
@@ -291,10 +366,12 @@ function EditDeleteProductForm({
                 aria-describedby="stock"
                 value={input.stock}
                 onChange={handleChangeString}
-              />
+                />
+                <InputGroup.Text className={ productToView.stock>productToView.stock_minimo? "text-success" : "text-danger"} id="basic-addon2"><FaCircle/></InputGroup.Text>
+                  </InputGroup>
             </Form.Group>
           </Col>
-          <Col sm="3" xs="6">
+          <Col md="3" sm="6" xs="6">
             <Form.Group>
               <Form.Label className="mb-0">Precio</Form.Label>
               <Form.Control
@@ -327,8 +404,9 @@ function EditDeleteProductForm({
               height="150"
               width="150"
               alt="Product foto 0"
-              onClick={setFoto}
-            />
+              onClick={(e)=>selectFoto(e)}
+              />
+              
           </Col>
           <Col
             xs="12"
@@ -347,7 +425,7 @@ function EditDeleteProductForm({
               width="150"
               fluid
               alt="Product foto 1"
-              onClick={setFoto}
+              onClick={(e)=>selectFoto(e)}
             />
           </Col>
           <Col
@@ -367,10 +445,26 @@ function EditDeleteProductForm({
               width="150"
               fluid
               alt="Product foto 2"
-              onClick={setFoto}
+              onClick={(e)=>selectFoto(e)}
             />
           </Col>
-        </Row>
+          </Row> 
+          <Row hidden={ !settingFoto.show } className="mb-1">
+            <Col className="col-12">
+              <Form.Group>
+                <Form.Label
+                  className={errors["foto" + settingFoto.name]?.length ? "mb-0 text-danger" : "mb-0"} >Link Foto {settingFoto.name} {errors[`foto${settingFoto.name}`]?.length ? errors[`foto${settingFoto.name}`] : ""} </Form.Label>
+              <Form.Control                
+                  as="textarea"
+                isInvalid={errors[`foto${settingFoto.name}`]?.length || ""}
+                name={settingFoto.name}
+                placeholder={settingFoto.placeholder}
+                value={settingFoto.value}
+                onChange={(e)=>handleFotoChange(e) }
+                />
+                </Form.Group>
+            </Col>
+          </Row>
         <Row>
           <Col className="col-12 border-top">
             <Form.Group>
@@ -411,7 +505,7 @@ function EditDeleteProductForm({
           </Col>
         </Row>
         <Row>
-          <Col lg="10" sm="8" xs="12">
+          <Col lg="9" sm="8" xs="12">
             <Form.Group>
               <Form.Label
                 className={
@@ -434,24 +528,45 @@ function EditDeleteProductForm({
               />
             </Form.Group>
           </Col>
-          <Col lg="2" sm="4" xs="12">
+          <Col lg="3" sm="4" xs="12">
               <br />
               <Col className="col-12 mb-2">
-                <Button
+                <Row >
+                  <Col className="col-8">
+                    <Button
                   className="col-12"
                   disabled={input.nombre.length < 3 || Object.keys(errors)?.length }
                   onClick={input.id.length > 0 ? handleUpdate : handleCreate}
                 >
-                  {input.id.length > 0 ? "Actualizar" : "Crear"}
+                  {input.id.length > 0 ? "Aplicar" : "Crear"}
                 </Button>
+                  </Col>
+                  <Col className="col-4" style={{paddingRight:"0px"}}>
+                    <Button disabled={ productToView.activo } variant="success" className="col-12" onClick={()=>handleToggleON(product)}>                     
+                      <FaEye className="pb-1"/>
+                  </Button>
+                  </Col>
+                </Row>
+                
               </Col>
-              <Col className="col-12">                 
-                  <Button
-                    className="col-12"                   
-                    onClick={input.id.length > 0 ? () => copyFunction(product.id) : ()=>discardChanges() }
-                  >
-                  {input.id.length > 0 ? "Copiar" : "Cancelar"}
-                  </Button>                
+              <Col className="col-12">  
+                <Row>
+                  <Col className="col-8" >
+                    <Button
+                           className="col-12"            
+                      onClick={input.id.length > 0 ? () => copyFunction(product.id) : ()=>discardChanges() }
+                    >
+                    {input.id.length > 0 ? "Copiar" : "Cancelar"}
+                  </Button>
+                  </Col>
+                  <Col className="col-4" style={{paddingRight:"0px"}}>
+                    <Button disabled={!productToView.activo} variant="danger" className="col-12" onClick={()=>handleToggleOFF(product)}>  
+                  <FaEyeSlash className="pb-1"/>
+                  </Button>
+                  </Col>
+                     
+                
+                </Row>
               </Col>
             </Col>
           </Row>

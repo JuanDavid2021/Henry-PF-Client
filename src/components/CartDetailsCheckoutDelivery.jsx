@@ -1,9 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { RiTruckLine, RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
-import { useState } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addOrderDate } from '../actions';
 import { Resume } from './CartDetails';
@@ -12,50 +10,88 @@ function CartDetailsCheckoutDelibery() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   
-  const f = new Date()
-  const mes = (f.getMonth() +1) < 9 ? "0" + (f.getMonth() +1) : (f.getMonth() +1)
-  const dia = (f.getDate() +1) < 9 ? "0" + (f.getDate() +1) : (f.getDate() +1)
-  const fecha = ( f.getFullYear() + "/" + mes + "/" + dia )
+  const fecha = new Date()
+  
+  const mes = ( fecha.getMonth() + 1) < 9 ? "0" + ( fecha.getMonth() + 1 ) : ( fecha.getMonth() + 1 )
+  const dia = ( fecha.getDate() ) < 9 ? "0" + ( fecha.getDate() ) : ( fecha.getDate() )
+  
+  //para setear la fecha minima
+  const fechaMinInput = ( fecha.getFullYear() + "-" + mes + "-" + dia )
 
   const [checked, setChecked] = useState("")
   
   const [day, setDay] = useState({
     f_pedido: fecha,
     f_requerida:"",
+    tipo_entrega: ""
   })
+  //-----------------
+
+  const actual = new Date();
+  const diaMs = 1000 * 60 * 60 * 24;
+  const suma = actual.getTime() + diaMs;
+  const maniana = new Date(suma);  
   
   const handleChangeDeliveryType = (e) => {
-    setChecked(e.target.name)
+    if (e.target.name === "express") {
+      setChecked(e.target.name)
+      setDay({...day, f_requerida: fecha, tipo_entrega: "express"})
+      setSpecificDayChecked("")
+    }
+    if (e.target.name === "estandar") {
+      setChecked(e.target.name)
+      setDay({...day, f_requerida: maniana, tipo_entrega: "estandar"})
+      setSpecificDayChecked("")
+    }
+  }
+
+  //dia específico
+  const [specificDayChecked, setSpecificDayChecked] = useState("")
+  
+  const [specDay, setSpecDay] = useState({
+    f_pedido: fecha,
+    f_requerida:"",
+    tipo_entrega: ""
+  })
+  
+  const handleChangeDelivery = (e) => {
+    setSpecificDayChecked(e.target.name)
+    setSpecDay({...specDay, tipo_entrega: "selectDate"})
+    setChecked("")
   }
   
   const handleChangeDate = (e) => {
-    setDay({
-      ...day,
-      f_requerida: e.target.value,
-    })
+    let diaSelect = new Date(e.target.value)
+    const diaMs = 1000 * 60 * 60 * 24;
+    const suma = diaSelect.getTime() + diaMs;
+    const especifico = new Date(suma);
+    
+    setSpecDay({...specDay, f_requerida: especifico, tipo_entrega: "selectDate"})
   }
+  //--------------------------
 
-  const [modal, setModal] = useState({show:false, message:""})
-
-  const handleNavigateCheckoutReview = (e) => {
-    e.preventDefault()
-    let typeAndDayOrder = {
-      ...day,
-      tipo_entrega: checked
-    }
-    if (checked === ""){
-      setModal({show:true, message:""})
-    }else if ( day.f_requerida === "" && checked === "selectDate" ) {
+  
+  const handleNavigateCheckoutReview = () => {
+    if (specDay.tipo_entrega === "" && day.tipo_entrega === "") {
+      setModal({show:true, message:"Seleccione un tipo de envío."})
+    }else if ( specDay.tipo_entrega === "selectDate" && specDay.f_requerida === "" ) {
       setModal({show:true, message:"Seleccione una fecha"})
-      return
-    }else{
-      dispatch(addOrderDate(typeAndDayOrder))
+    }else if (day.tipo_entrega === "express") {
+      dispatch(addOrderDate(day))
+      navigate("/CartDetailsCheckoutReview")
+    } else if (day.tipo_entrega === "estandar") {
+      dispatch(addOrderDate(day))
+      navigate("/CartDetailsCheckoutReview")
+    } else {
+      dispatch(addOrderDate(specDay))
       navigate("/CartDetailsCheckoutReview")
     }
   }
+  
+  const [modal, setModal] = useState({show:false, message:""})
 
   const handleCloseModal = () => {
-    setModal({show:false, message:""})
+    setModal({show:false})
   }
 
   return (
@@ -131,8 +167,8 @@ function CartDetailsCheckoutDelibery() {
                         id="delivery3" 
                         type="radio" 
                         name="selectDate" 
-                        checked={checked==="selectDate" ? true : false} 
-                        onChange={handleChangeDeliveryType}
+                        checked={specificDayChecked==="selectDate" ? true : false} 
+                        onChange={handleChangeDelivery}
                       />
                       <label className="cursor-pointer d-block ms-3" htmlFor="delivery3"><span className="h4 d-block mb-1 text-uppercase">Exacta</span><span className="text-sm d-block mb-0 text-muted">Entrega en una fecha posterior a la compra.</span></label>
                     </div>
@@ -143,7 +179,7 @@ function CartDetailsCheckoutDelibery() {
                         id="start" 
                         name="date" 
                         onChange={handleChangeDate}
-                        min={fecha}
+                        min={fechaMinInput}
                       />
                     </div>
                   </div>
@@ -154,7 +190,7 @@ function CartDetailsCheckoutDelibery() {
                 <div className="row">
                   <div className="col-md-6 text-md-start py-1">
                     <Link to={"/cartDetailsCheckout"} className="btn btn-dark my-1">
-                      <RiArrowLeftSLine/> Volver a Direccón
+                      <RiArrowLeftSLine/> Volver a Dirección
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1">
@@ -182,7 +218,6 @@ function CartDetailsCheckoutDelibery() {
           <Modal.Title><p style={{ textAlign: "center" }}>Error</p></Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Seleccione un tipo de envío.</p>
           <p>{modal.message}</p>
         </Modal.Body>
 
