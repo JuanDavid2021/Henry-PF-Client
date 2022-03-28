@@ -58,56 +58,80 @@ export const Register = ({setAuth}) => {
   }
 
   return (
-  <section className="py-3 bg-dark">
+  <section className="py-3 bg-dark" style={{ height: "80vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
     <div className="container">
       <div className="row gy-5 d-flex justify-content-center align-items-center">
         <div className="col-lg-8 col-xl-6">
-          <div className="card rounded-3 px-5 py-1">
-            <h1 className='text-center my-4'>Registro de usuario</h1>
+          <div className="alert align-middle bg-dark text-light bg-opacity-75">
+            <h2 className='text-center my-4'>Registro de usuario</h2>
             <form className="px-md-2 needs-validation" onSubmit={onSubmitForm}>
+              <div>
+                <label htmlFor="validationCustom01">Nombre</label>
+                <input 
+                  id="validationCustom01"
+                  type="text" 
+                  name="nombre" 
+                  placeholder="Nombre..." 
+                  className="form-control form-control" 
+                  value={nombre} onChange={e=>onChange(e)} 
+                />
+              </div>
+              <div className="mt-2">
+                <label htmlFor="validationCustom02">Apellido</label>
+                <input 
+                  id="validationCustom02"
+                  type="text" 
+                  name="apellido" 
+                  placeholder="Apellido..." 
+                  className="form-control form-control mb-3" 
+                  value={apellido} onChange={e=>onChange(e)}
+                />
+              </div>
+              <div className="mt-2">
+                <label htmlFor="validationCustom03">Teléfono</label>
+                <input 
+                  id="validationCustom03"
+                  type="number" 
+                  name="celular" 
+                  placeholder="Celular..." 
+                  className="form-control form-control mb-3" 
+                  value={celular} 
+                  onChange={e=>onChange(e)}
+                />    
+              </div>
+              <div className="mt-2">
+                <label htmlFor="validationCustom04">Dirección</label>
+                <input 
+                  id="validationCustom04"
+                  type="text" 
+                  name="direccion" 
+                  placeholder="Dirección..."
+                  className="form-control form-control mb-3" 
+                  value={direccion} 
+                  onChange={e=>onChange(e)}
+                />
+              </div>
+              <div className="mt-2">
+                <label htmlFor="validationCustom05">Email</label>
+                <input 
+                  id="validationCustom05"
+                  type="email" 
+                  name="correo" 
+                  placeholder="Correo..."
+                  className="form-control form-control mb-3" 
+                  value={correo} 
+                  onChange={e=>onChange(e)}
+                />
+              </div>
+              <div className="mt-2">
+                <label htmlFor="validationCustom06">Contraseña</label>
+              </div>
               <input 
-                type="text" 
-                name="nombre" 
-                placeholder="Nombre..." 
-                className="form-control form-control-lg" 
-                value={nombre} onChange={e=>onChange(e)} 
-              />
-              <input 
-                type="text" 
-                name="apellido" 
-                placeholder="Apellido..." 
-                className="form-control form-control-lg my-3" 
-                value={apellido} onChange={e=>onChange(e)}
-              />
-              <input 
-                type="number" 
-                name="celular" 
-                placeholder="Celular..." 
-                className="form-control form-control-lg my-3" 
-                value={celular} 
-                onChange={e=>onChange(e)}
-              />    
-              <input 
-                type="text" 
-                name="direccion" 
-                placeholder="Dirección..."
-                className="form-control form-control-lg my-3" 
-                value={direccion} 
-                onChange={e=>onChange(e)}
-              />
-              <input 
-                type="email" 
-                name="correo" 
-                placeholder="Correo..."
-                className="form-control form-control-lg my-3" 
-                value={correo} 
-                onChange={e=>onChange(e)}
-              />
-              <input 
+                id="validationCustom06"
                 type="password" 
                 name="contraseña" 
                 placeholder="Contraseña..."
-                className="form-control form-control-lg my-3"
+                className="form-control form-control mb-3"
                 value={contraseña} 
                 onChange={e=>onChange(e)}
               />
