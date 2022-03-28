@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import img from '../img/logo2.png'
 import { useDispatch, useSelector } from 'react-redux'
 import swal from "sweetalert"
-import {logoutuser} from "../actions/index"
+import {logoutuser, setPlatformUser} from "../actions/index"
 
 
 function NavBar({setAuth}) {
@@ -38,6 +38,7 @@ function NavBar({setAuth}) {
         localStorage.removeItem("token")
         localStorage.removeItem("mail")
         setAuth(false)
+        dispatch(setPlatformUser({administrador:false, nombre: "Invitado", email: "invitado@invitado.com"}))
         swal({
            text:"has cerrado la sesion",
            icon: "success",

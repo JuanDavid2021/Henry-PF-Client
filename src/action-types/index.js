@@ -34,6 +34,7 @@ export const UPDATE_USER = "updateUser";//admin
 export const FORCE_PASSWORD_RESET = "forcePasswordReset";//admin
 export const GET_SALES = "getSales";//admin
 export const EDIT_SALE_STATUS = "editSaleStatus";//admin
+export const SET_PLATFORM_USER = "setPlatformUser"
   
 export const ADD_CART_ITEM = "addCartItem";
 export const SET_CART_ITEM = "setCartItem";

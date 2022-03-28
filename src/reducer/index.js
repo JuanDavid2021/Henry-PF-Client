@@ -47,13 +47,13 @@ import {
   POST_PEDIDO,
   LOADING,
   GET_PEDIDOS,
-  GET_PEDIDO_ID
- 
+  GET_PEDIDO_ID,
+  SET_PLATFORM_USER
 } from './../action-types/index';
 
 
 const initialState = {
-  user: { nombre: "asd", email: "minnie.bator@funholding.com" }, //usuario actual usando la app
+  user: { administrador:false, nombre: "Invitado", email: "invitado@invitado.com" }, //usuario actual usando la app
   // user: [], //usuario actual usando la app
   userLogin:[],
   userAuthenticated:{},
@@ -105,6 +105,13 @@ function rootReducer(state = initialState, action) {
 
     };
 
+  }
+
+  if (action.type === SET_PLATFORM_USER) {
+    return {
+      ...state,
+      user:action.payload
+    }
   }
 
   if (action.type === ADD_CART_ITEM) {
