@@ -9,12 +9,14 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
     id,
     arrFotos,
-    nombreCap,
+    nombre: nombreCap,
     precio,
     peso:"",
     tipo_corte:"",
     precioTotal: "",
-    cantidad: 1
+    cantidad: 1,
+    idItemFront:"",
+    stock
   })
   
   const handleDetailst = () => {
@@ -39,13 +41,17 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
 
   const handleAddProductInCart = (e) => {
     const form = e.currentTarget;
+    let itemToAdd = {
+      ...valoresDetalleProducto,
+      idItemFront:( valoresDetalleProducto.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso )
+    }
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
     }else if( stock === 0 || valoresDetalleProducto.tipo_corte === "" || valoresDetalleProducto.peso === "" ){
       return
     }else{
-      dispatch(addCartItem(valoresDetalleProducto))
+      dispatch(addCartItem(itemToAdd))
       setConfirmModal(true)
     }
   }
@@ -91,7 +97,6 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
                   ))}
                 </Carousel>
               </Col>
-              {/* <Col xl={6}>{descripcion}</Col> */}
             </Row>
             <Row>
               <Col>Precio por kg: $ {precio}</Col>
@@ -129,7 +134,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
                 <option value="" disabled>Seleccione un tipo de presentación</option>
                 {
                   presentacion?.length > 0
-                  ? presentacion.map(el => <option key={el} value={el}>{el}</option>) 
+                  ? presentacion.map(el => <option key={el.nombre} value={el.nombre}>{el.nombre}</option>) 
                   : <option value="Unidad">Unidad</option>
                 }
               </Form.Control>

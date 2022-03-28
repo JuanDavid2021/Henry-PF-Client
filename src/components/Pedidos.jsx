@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { deleteCartItem, setCartItem } from '../actions';
 import { Modal, Button } from 'react-bootstrap';
 
-function CartDetails() {
+function Pedidos() {
   const arrCartProducts = useSelector(state => state.cart);
 
   const [modal, setModal] = useState({ show: false, msg: "" })
@@ -237,4 +237,4 @@ export function TrItemCart({ el, inputRender }) {
   )
 }
 
-export default CartDetails;
+export default Pedidos;

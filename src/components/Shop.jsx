@@ -91,7 +91,7 @@ function Shop() {
                 precio={p.precio}
                 nombre={p.nombre}
                 descripcion={p.descripcion}
-                presentacion={p.presentacion}
+                presentacion={p.Presentacions}
                 stock={p.stock}
                 arrFotos={p.fotos}
               />

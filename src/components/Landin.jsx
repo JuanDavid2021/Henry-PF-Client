@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import img from '../img/logo2.png'
 
 
+
 function Landin() {
     return (
         <div className="bg-dark" style={{height:"70vh", display:"flex", justifyContent:"center", alignItems:"center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)"}}>
