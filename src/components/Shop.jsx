@@ -5,7 +5,6 @@ import Card from "./Card";
 import { Container, Row, Col } from "react-bootstrap";
 import img from "../img/logo2.png";
 import { useDispatch, useSelector } from "react-redux";
-
 import { getProducts } from "../actions";
 import { NotFound } from "./NotFound";
 
@@ -32,7 +31,7 @@ function Shop() {
 
   return (
     <div style={{ marginBottom: "30px" }}>
-      <div
+      <Col xl={2} sm={1} className="carrusel"
         style={{
           width: "50%",
           height: "500px",
@@ -77,7 +76,7 @@ function Shop() {
             </div>
           </div>
         </div>
-      </div>
+      </Col>
 
       <SearchBar />
 
