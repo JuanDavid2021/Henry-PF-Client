@@ -86,7 +86,7 @@ function App() {
         {/* <Route exact path='/login' element={<Login />} /> */}
         {/*nepundir: provisional. renderizar unicamente si el usuario es admin. */}
         <Route exact path='/dashboard' element={
-          <ProtectedRoute isAllowed={currentUser.isAdmin}>
+          <ProtectedRoute isAllowed={currentUser.admin}>
             <AdminDashboard />
           </ProtectedRoute>
         } />
