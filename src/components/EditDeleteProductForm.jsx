@@ -69,7 +69,8 @@ function EditDeleteProductForm({
     descripcion: product.descripcion || "",
     precio: product.precio || "",
     stock: product.stock || "",
-    stock_minimo: product.stock_minimo || ""
+    stock_minimo: product.stock_minimo || "",
+    activo:product.activo || true,
   });
 
   const [presentacion, setPresentacion] = useState(product.Presentacions || []);
@@ -173,7 +174,8 @@ function EditDeleteProductForm({
         categoria: categorias.map((c) => c.id),
         fotos: fotos,
         activo:true
-      };    
+      };   
+      setInput({...input,activo:true})
       //console.log(finalProduct)
       toggleActiveFunction(finalProduct)
     } else {
@@ -191,6 +193,7 @@ function EditDeleteProductForm({
         activo:false
       };         
       //console.log(finalProduct)
+      setInput({...input,activo:false})
       toggleActiveFunction(finalProduct)
     } else {
       alert(`Existen errores ${errors}`);
