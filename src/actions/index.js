@@ -544,15 +544,14 @@ export function putProduct(payload) {
 
   return async function (dispatch) {
     try {
-      const newProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload);
-      if (newProduct.status === 200) {
-        console.log(newProduct.data);
+      const updatedProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload);      
+      if (updatedProduct.status === 200) {        
         dispatch({
           type: PUT_PRODUCT,
-          payload: newProduct.data
+          payload: updatedProduct.data
         });
       }
-      return newProduct;
+      return updatedProduct;
     } catch (error) {
       return { status: 400, error: error };
     }
