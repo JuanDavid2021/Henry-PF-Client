@@ -20,8 +20,8 @@ function NavBar({setAuth}) {
 
     const itemsCart = useSelector(state => state.cart)
     const userLogin = useSelector(state=>state.userAuthenticated)
-    console.log(localStorage.token)
-    
+    console.log("hola", localStorage.token)
+    console.log(userLogin)
 
 /*      const handleLogin = () => {
         user ? setUser(false) : setUser(true)
@@ -40,11 +40,11 @@ function NavBar({setAuth}) {
            icon: "success",
            timer:"2000",
         })
-        dispatch(logoutuser("user_out"))
+        dispatch(logoutuser({state: "user_out"}))
         }
 
     return (
-        <nav className="navbar navbar-expand-lg flex-column bg-dark">
+        <nav className="navbar navbar-expand-lg flex-column bg-dark sticky-top" >
             <div className="container-fluid">
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/" style={{ width: "3%" }}><img src={img} alt="logo" style={{ width: "100%" }} /></Link>
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/">Beef Shop</Link>
@@ -62,7 +62,7 @@ function NavBar({setAuth}) {
  
                     </ul>
                    {
-                        (localStorage.token) ?
+                        (localStorage.token !== undefined) ?
                         <div>
                         <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
                             {
@@ -74,7 +74,8 @@ function NavBar({setAuth}) {
                                 <span></span>
                             }
                         </Link>
-                        <button className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={e=>logout(e)}>Log out</button>
+                        <button className="btn btn-primary text-light text-decoration-none fs-6 position-relative mx-3" onClick={e=>logout(e)}>Log out</button>
+                        <button className="btn btn-secondary text-light text-decoration-none fs-6 position-relative" onClick={pedidos}>Pedidos</button>
                       </div>
                        :   
                          <div>
@@ -92,8 +93,6 @@ function NavBar({setAuth}) {
 
                                 <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none fs-6" >Ingresar</button></Link>
                                 <Link to="/register"><button className="btn btn-success text-light text-decoration-none fs-6 mx-3" >Registrate</button></Link>
-                                <button className="btn btn-secondary text-light text-decoration-none fs-6 mx-3" onClick={pedidos}> Pedidos </button>
-                                <button className="btn btn-primary text-light text-decoration-none fs-6 mx-1" onClick={e=>logout(e)} /* onClick={handleLogin} */>Log out</button>
 
                             </div>
                       </div>
