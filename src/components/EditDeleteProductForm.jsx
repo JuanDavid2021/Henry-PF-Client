@@ -53,7 +53,9 @@ function EditDeleteProductForm({
   },
   createFunction,
   updateFunction,
+  deleteFunction,
   cancelFunction,
+  toggleActiveFunction,
   selectProduct,
   createForm = false,
   copyFunction
@@ -162,6 +164,38 @@ function EditDeleteProductForm({
       alert(`Existen errores ${errors}`);
     }
   };  
+
+  const handleToggleON = (e) => {
+    if (!Object.keys(errors).length) {
+      const finalProduct = {
+        ...input,
+        presentacion: presentacion.map(p => p.id),        
+        categoria: categorias.map((c) => c.id),
+        fotos: fotos,
+        activo:true
+      };    
+      //console.log(finalProduct)
+      toggleActiveFunction(finalProduct)
+    } else {
+      alert(`Existen errores ${errors}`);
+    }
+  }
+
+  const handleToggleOFF = (e) => {
+    if (!Object.keys(errors).length) {
+      const finalProduct = {
+        ...input,
+        presentacion: presentacion.map(p => p.id),        
+        categoria: categorias.map((c) => c.id),
+        fotos: fotos,
+        activo:false
+      };         
+      //console.log(finalProduct)
+      toggleActiveFunction(finalProduct)
+    } else {
+      alert(`Existen errores ${errors}`);
+    }
+  }
 
   const handleUpdate = (e) => {
     
@@ -508,8 +542,8 @@ function EditDeleteProductForm({
                 </Button>
                   </Col>
                   <Col className="col-4" style={{paddingRight:"0px"}}>
-                    <Button variant="warning" className="col-12">                     
-                      { productToView.activo? <AiFillEyeInvisible/>  : <AiFillEye/>}
+                    <Button disabled={ productToView.activo } variant="success" className="col-12" onClick={()=>handleToggleON(product)}>                     
+                      <FaEye className="pb-1"/>
                   </Button>
                   </Col>
                 </Row>
@@ -526,8 +560,8 @@ function EditDeleteProductForm({
                   </Button>
                   </Col>
                   <Col className="col-4" style={{paddingRight:"0px"}}>
-                  <Button variant="danger" className="col-12">  
-                  <RiDeleteBin5Fill />
+                    <Button disabled={!productToView.activo} variant="danger" className="col-12" onClick={()=>handleToggleOFF(product)}>  
+                  <FaEyeSlash className="pb-1"/>
                   </Button>
                   </Col>
                      
