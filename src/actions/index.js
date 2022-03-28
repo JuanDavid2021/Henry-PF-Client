@@ -633,5 +633,22 @@ export function getPedidos(payload) {
   };
 }
 
+export function putPedidos(payload) {
+  return async function (dispatch) {
+    try {
+        const pedido = await axios.get("http://localhost:3001/api/pedido/update/"+payload);
+        if (pedido.status === 200) {
+          dispatch({
+            type: PUT_PEDIDO_STATE,
+            payload: pedido.data
+          });
+        }
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+}
+
 //SALES...
 
