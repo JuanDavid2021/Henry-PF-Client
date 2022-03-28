@@ -56,7 +56,7 @@ const initialState = {
   user: { nombre: "asd", email: "minnie.bator@funholding.com" }, //usuario actual usando la app
   // user: [], //usuario actual usando la app
   userLogin:[],
-  userAuthenticated:"",
+  userAuthenticated:{},
 
   gettingProducts: false,
   products: [],

@@ -21,6 +21,7 @@ function NavBar({setAuth}) {
     const itemsCart = useSelector(state => state.cart)
     const userLogin = useSelector(state=>state.userAuthenticated)
     console.log(localStorage.token)
+    console.log(userLogin)
     
 
 /*      const handleLogin = () => {
