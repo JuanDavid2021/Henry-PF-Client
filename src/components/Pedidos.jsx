@@ -10,10 +10,11 @@ function Pedidos() {
     const pedidos = useSelector(state => state.pedidos);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const currenuser = useSelector(store => store.user)
 
     useEffect(() => {
-        dispatch(getPedidos());
-    }, [dispatch])
+        dispatch(getPedidos(currenuser));
+    }, [dispatch,currenuser])
 
     const handleDetailPedido = (id) => {
         navigate(`/pedido/${id}`)

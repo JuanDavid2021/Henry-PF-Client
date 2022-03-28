@@ -610,8 +610,12 @@ export function pagarPedido(payload) {
 export function getPedidos(payload) {
   return async function (dispatch) {
     try {
-      if (!payload) {
-        const pedidos = await axios.get("http://localhost:3001/api/pedido/all");
+      if (typeof payload === 'object') {
+        const pedidos = await axios.get(`http://localhost:3001/api/pedido/all`, {
+          headers: {
+            token: payload.token
+          }
+        });
         if (pedidos.status === 200) {
           dispatch({
             type: GET_PEDIDOS,
