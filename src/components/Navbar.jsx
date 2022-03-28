@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RiShoppingCartLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,45 +9,50 @@ import { logoutuser, setPlatformUser } from "../actions/index";
 import img from '../img/logo2.png';
 
 
-function NavBar({setAuth}) {
+function NavBar({ setAuth }) {
 
 
     const dispatch = useDispatch()
 
-    
+
     const navigate = useNavigate();
 
 
     const itemsCart = useSelector(state => state.cart)
-    const userLogin = useSelector(state=>state.userAuthenticated)
+    const userLogin = useSelector(state => state.userAuthenticated)
     const currentUser = useSelector(state => state.user);
     console.log("hola", localStorage.token)
     console.log("hola33", localStorage.mail)
 
     console.log(userLogin)
 
-/*      const handleLogin = () => {
-        user ? setUser(false) : setUser(true)
-    }  */
+    useEffect(() => {
+        if (localStorage.mail === "beefshophenry@gmail.com") {
+            currentUser.administrador = true
+        }
+    }, [])
+    /*      const handleLogin = () => {
+            user ? setUser(false) : setUser(true)
+        }  */
 
     const dashboard = () => {
         navigate('/dashboard')
-      }
+    }
 
-    const logout=(e)=>{
+    const logout = (e) => {
         e.preventDefault()
         localStorage.removeItem("token")
         localStorage.removeItem("mail")
         localStorage.removeItem("loginData")
         setAuth(false)
-        dispatch(setPlatformUser({administrador:false, nombre: "Invitado", email: "invitado@invitado.com"}))
+        dispatch(setPlatformUser({ administrador: false, nombre: "Invitado", email: "invitado@invitado.com" }))
         swal({
-           text:"has cerrado la sesion",
-           icon: "success",
-           timer:"2000",
+            text: "has cerrado la sesion",
+            icon: "success",
+            timer: "2000",
         })
-        dispatch(logoutuser({state: "user_out"}))
-        }
+        dispatch(logoutuser({ state: "user_out" }))
+    }
 
     return (
         <nav className="navbar navbar-expand-lg flex-column bg-dark sticky-top" >
@@ -65,44 +70,44 @@ function NavBar({setAuth}) {
                         <li className="nav-item">
                             <Link className="text-light text-decoration-none fw-light fs-5 mx-3 nav-link" to="/about">Sobre nosotros</Link>
                         </li>
- 
+
                     </ul>
-                   {
+                    {
                         (localStorage.token !== undefined || localStorage.loginData !== undefined) ?
-                        <div>
-                        <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
-                            {
-                            itemsCart.length !== 0 ? 
-                                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {itemsCart?.length}
-                                    <span className="visually-hidden">{itemsCart?.length}</span>
-                                </span> :
-                                <span></span>
-                            }
-                        </Link>
-                        <button className="btn btn-primary text-light text-decoration-none fs-6 position-relative mx-3" onClick={e=>logout(e)}>Log out</button>
-                        {currentUser.administrador && <button className="btn btn-secondary text-light text-decoration-none fs-6 position-relative" onClick={dashboard}>Dashboard</button>}
-                      </div>
-                       :   
-                         <div>
                             <div>
-                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative" style={ {left:"-17px"}}>Carrito <RiShoppingCartLine />
+                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
                                     {
-                                    itemsCart.length !== 0 ? 
-                                        <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            {itemsCart?.length}
-                                            <span className="visually-hidden">{itemsCart?.length}</span>
-                                        </span> :
-                                        <span></span>
+                                        itemsCart.length !== 0 ?
+                                            <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                {itemsCart?.length}
+                                                <span className="visually-hidden">{itemsCart?.length}</span>
+                                            </span> :
+                                            <span></span>
                                     }
                                 </Link>
-
-                                <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none fs-6" >Ingresar</button></Link>
-                                <Link to="/register"><button className="btn btn-success text-light text-decoration-none fs-6 mx-3" >Registrate</button></Link>
-
+                                <button className="btn btn-primary text-light text-decoration-none fs-6 position-relative mx-3" onClick={e => logout(e)}>Log out</button>
+                                {currentUser.administrador && <button className="btn btn-secondary text-light text-decoration-none fs-6 position-relative" onClick={dashboard}>Dashboard</button>}
                             </div>
-                      </div>
-                       }
+                            :
+                            <div>
+                                <div>
+                                    <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative" style={{ left: "-17px" }}>Carrito <RiShoppingCartLine />
+                                        {
+                                            itemsCart.length !== 0 ?
+                                                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                    {itemsCart?.length}
+                                                    <span className="visually-hidden">{itemsCart?.length}</span>
+                                                </span> :
+                                                <span></span>
+                                        }
+                                    </Link>
+
+                                    <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none fs-6" >Ingresar</button></Link>
+                                    <Link to="/register"><button className="btn btn-success text-light text-decoration-none fs-6 mx-3" >Registrate</button></Link>
+
+                                </div>
+                            </div>
+                    }
                 </div>
             </div>
         </nav>
