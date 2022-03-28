@@ -255,9 +255,10 @@ function EditDeleteProductForm({
     return (
       <Row
         className={productToView.new ? "text-success": ""}
-        style={{ borderTop: "2px solid", marginTop: "10px" }}
+        style={{ borderTop: "2px solid", marginTop: "10px", cursor:"pointer" }}
         key={productToView.id}
         onClick={() => selectProduct(productToView.id)}
+        
       >
         <Col className={productToView.new ? "text-success border-start d-none d-lg-block": "d-none d-lg-block"}lg="2">
           <Carousel controls={false} indicators={false} variant="dark" fade>
