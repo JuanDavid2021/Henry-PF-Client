@@ -1,40 +1,21 @@
 import React, { useEffect, useState } from "react";
 import {
-  Modal,
   Button,
   Card,
   Container,
   Row,
   Col,
-  Carousel,
-  Form,
-  Stack,
-  Spinner,
 } from "react-bootstrap";
-import { RiShoppingCartLine, RiArrowGoBackFill } from "react-icons/ri";
+import { RiArrowGoBackFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductDetails, addCartItem, getPedidos } from "../actions";
-import Evaluation from "./Evaluation"
-import Review from "./Review"
+import { getPedidos } from "../actions";
 
 function DetailPedido() {
-  const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
-    peso: "",
-    tipo_corte: "",
-    cantidad: 1
-  });
 
   const dispatch = useDispatch();
 
-  const [confirmModal, setConfirmModal] = useState(false)
-
-  const productDetails = useSelector((state) => state.productDetails);
   const pedido = useSelector(state => state.pedidoId);
-
-  const [validated, setValidated] = useState(false);
-
-  const [waiting, setWaiting] = useState(true);
 
   let { id } = useParams();
 
@@ -44,71 +25,12 @@ function DetailPedido() {
     dispatch(getPedidos(id));
   }, [dispatch])
 
-  console.log(pedido.UsuarioCorreo)
-
-  const handleChange = (e) => {
-    setValoresDetalleProducto({
-      ...valoresDetalleProducto,
-      [e.target.name]: e.target.value,
-      precioTotal: valoresDetalleProducto.peso * productDetails.precio,
-    });
-  };
-
-  const handleCloseModal = () => {
-    setValoresDetalleProducto({
-      ...valoresDetalleProducto,
-      peso: "",
-      tipo_corte: ""
-    })
-    setConfirmModal(false)
-  }
-
-
   const handleClose = () => {
     navigate("/pedidos");
   };
 
-
-
-
-
-  const handleViewCart = () => {
-    navigate("/cartDetails");
-  };
-
-  useEffect(() => {
-    if (
-      (productDetails.id && productDetails.id.toString() !== id.toString()) ||
-      productDetails.id === null
-    ) {
-      dispatch(getProductDetails(id));
-    } else {
-      setWaiting(false);
-    }
-    return () => { };
-  }, [id, productDetails, dispatch]);
-
-  const handleAddProductInCart = (e) => {
-    const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    setConfirmModal(true)
-    setValidated(true);
-    const alCarrito = {
-      ...valoresDetalleProducto,
-      id: productDetails.id,
-      precio: productDetails.precio,
-      arrFotos: productDetails.fotos,
-      nombre: productDetails.nombre,
-      idItemFront: (productDetails.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso)
-    };
-    console.log(alCarrito)
-    dispatch(addCartItem(alCarrito));
-  };
-
   return (
+
     <>
       <Container className="my-2">
         <Card>
@@ -117,18 +39,52 @@ function DetailPedido() {
           </Card.Header>
           <Card.Body>
             <Row>
-
               <Col
                 lg={6}
                 xl={6}
                 style={{ display: "flex", flexDirection: "column" }}
               >
                 <Row style={{ display: "flex", justifyContent: "center" }}>
+                  <p><b>Fecha de pedido:</b> {pedido.f_pedido.substring(0, 10)}</p>
                 </Row>
-
-                <Row>
-                  <Col>{productDetails.descripcion}</Col>
+                <Row style={{ display: "flex", justifyContent: "center" }}>
+                  <p><b>Fecha requerido:</b> {pedido.f_requerida.substring(0, 10)}</p>
                 </Row>
+                <Row style={{ display: "flex", justifyContent: "center" }}>
+                  <p><b>Fecha despacho o cancelación:</b> </p>
+                </Row>
+                <Row style={{ display: "flex", justifyContent: "center" }}>
+                  <p><b>Usuario:</b> {pedido.Usuario.nombre + ' ' + pedido.Usuario.apellido}</p>
+                </Row>
+                <Row style={{ display: "flex", justifyContent: "center" }}>
+                  <p><b>Status:</b> {pedido.status}</p>
+                </Row>
+                <Row style={{ display: "flex", justifyContent: "center" }}>
+                  <p><b>Productos:</b></p>
+                </Row>
+                {
+                  pedido.ItemsPedidos.map((i, el) => (
+                    <>
+                      <span className="border border-dark pt-2 ps-2">
+                        <Row style={{ display: "flex", justifyContent: "center" }}>
+                          <p className="text-primary"><b>Producto {el + 1}</b></p>
+                        </Row>
+                        <Row style={{ display: "flex", justifyContent: "center" }}>
+                          <p>Nombre: {i.nombre}</p>
+                        </Row>
+                        <Row style={{ display: "flex", justifyContent: "center" }}>
+                          <p>Peso: {i.peso} kg</p>
+                        </Row>
+                        <Row style={{ display: "flex", justifyContent: "center" }}>
+                          <p>Tipo de corte: {i.tipo_corte}</p>
+                        </Row>
+                        <Row style={{ display: "flex", justifyContent: "center" }}>
+                          <p>Cantidad: {i.cantidad}</p>
+                        </Row>
+                      </span>
+                    </>
+                  ))
+                }
               </Col>
               <Col lg={6} xl={6}>
                 <Row className="mb-3 mt-3">
@@ -148,50 +104,9 @@ function DetailPedido() {
                   Pedidos <RiArrowGoBackFill />
                 </Button>
               </Col>
-              <Col className="mb-2" sm="12" md="6" lg="6">
-                {/* <Button className="col-12" variant="dark" onClick={handleViewCart}>
-                    Ver Carrito <RiShoppingCartLine />
-                  </Button> */}
-              </Col>
-            </Row>
-            <Row style={{ maxHeight: "100px" }}>
-
-              {productDetails.Reviews.length ? (
-                productDetails.Reviews.map((review, i) => (
-                  <Card.Text key={i}>
-                    <Evaluation ev={review.evaluacion} cm={review.comentario} />
-                  </Card.Text>
-                ))
-              ) : (
-                <h4>El usuario no ha hecho una Review</h4>
-              )}
             </Row>
           </Card.Body>
-          {/* <Card.Footer>
-            <Review
-              id={productDetails.id}
-              available="ver de donde sacar el dato para habilitar/no habilitar el comentario"
-              califications={["Pasable", "Regular", "Bueno", "Muy bueno", "Exelente"]}
-              toDispatch={"aca va la funcion a despachar por el review"} />
-          </Card.Footer> */}
         </Card>
-        <Modal
-          show={confirmModal}
-          size="sm"
-          onHide={handleCloseModal}
-          backdrop="static"
-          keyboard={false}
-          aria-labelledby="contained-modal-title-vcenter"
-          centered
-        >
-          <Modal.Header>
-            <Modal.Title><p style={{ textAlign: "center" }}>Producto agregado con éxito!</p></Modal.Title>
-          </Modal.Header>
-
-          <Modal.Footer>
-            <Button variant="primary" onClick={handleCloseModal}>Aceptar</Button>
-          </Modal.Footer>
-        </Modal>
       </Container>
     </>
   );

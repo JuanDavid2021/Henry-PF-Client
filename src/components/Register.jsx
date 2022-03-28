@@ -1,4 +1,4 @@
-import React,{Fragment, useState} from 'react'
+import React,{ useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {Link} from "react-router-dom"
 import swal from "sweetalert"
@@ -36,6 +36,7 @@ export const Register = ({setAuth}) => {
       
     if(parseRes.token){
         localStorage.setItem("token", parseRes.token)
+        localStorage.setItem("mail", correo)
         setAuth(true)
         swal({
             text:"Registro exitoso",
@@ -56,18 +57,71 @@ export const Register = ({setAuth}) => {
   }
 
   return (
-      <Fragment >
-    <h1 className='text-center my-2'>Registro</h1>
-    <form className="needs-validation" onSubmit={onSubmitForm}>
-    <input type="text" name="nombre" placeholder="nombre..." className="form-control my-3" value={nombre} onChange={e=>onChange(e)} />
-    <input type="text" name="apellido" placeholder="apellido..." className="form-control my-3" value={apellido} onChange={e=>onChange(e)}/>
-    <input type="number" name="celular" placeholder="celular.." className="form-control my-3" value={celular} onChange={e=>onChange(e)}/>    
-    <input type="text" name="direccion" placeholder="direccion.."className="form-control my-3" value={direccion} onChange={e=>onChange(e)}/>
-    <input type="email" name="correo" placeholder="correo..."className="form-control my-3" value={correo} onChange={e=>onChange(e)}/>
-    <input type="password" name="contraseña" placeholder="contraseña.."className="form-control my-3"value={contraseña} onChange={e=>onChange(e)}/>
-    <button className="btn btn-success btn-block" disabled={inputs.nombre==="" || inputs.apellido==="" || inputs.celular==="" || inputs.direccion==="" || inputs.correo==="" || inputs.contraseña===""}>Submit</button> 
-    <h6>¿Ya estás registrado?</h6><Link to="/loginuser">Login</Link>
-    </form> 
-    </Fragment>
+  <section className="py-3 bg-dark">
+    <div className="container">
+      <div className="row gy-5 d-flex justify-content-center align-items-center">
+        <div className="col-lg-8 col-xl-6">
+          <div className="card rounded-3 px-5 py-1">
+            <h1 className='text-center my-4'>Registro de usuario</h1>
+            <form className="px-md-2 needs-validation" onSubmit={onSubmitForm}>
+              <input 
+                type="text" 
+                name="nombre" 
+                placeholder="Nombre..." 
+                className="form-control form-control-lg" 
+                value={nombre} onChange={e=>onChange(e)} 
+              />
+              <input 
+                type="text" 
+                name="apellido" 
+                placeholder="Apellido..." 
+                className="form-control form-control-lg my-3" 
+                value={apellido} onChange={e=>onChange(e)}
+              />
+              <input 
+                type="number" 
+                name="celular" 
+                placeholder="Celular..." 
+                className="form-control form-control-lg my-3" 
+                value={celular} 
+                onChange={e=>onChange(e)}
+              />    
+              <input 
+                type="text" 
+                name="direccion" 
+                placeholder="Dirección..."
+                className="form-control form-control-lg my-3" 
+                value={direccion} 
+                onChange={e=>onChange(e)}
+              />
+              <input 
+                type="email" 
+                name="correo" 
+                placeholder="Correo..."
+                className="form-control form-control-lg my-3" 
+                value={correo} 
+                onChange={e=>onChange(e)}
+              />
+              <input 
+                type="password" 
+                name="contraseña" 
+                placeholder="Contraseña..."
+                className="form-control form-control-lg my-3"
+                value={contraseña} 
+                onChange={e=>onChange(e)}
+              />
+              <button 
+                className="btn btn-success my-3" 
+                disabled={inputs.nombre==="" || inputs.apellido==="" || inputs.celular==="" || inputs.direccion==="" || inputs.correo==="" || inputs.contraseña===""}
+              >
+                Registrate
+              </button>
+              <h5>¿Ya estás registrado? <Link to="/loginuser" style={{textDecoration:"none"}}>Ingresa aquí</Link></h5>
+            </form> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   )
 }
