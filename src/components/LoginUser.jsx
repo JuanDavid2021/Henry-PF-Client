@@ -74,7 +74,7 @@ export const LoginUser = ({setAuth}) => {
        }
 
        const handleFailure=(result)=>{
-        alert(result)
+        // alert(result)
        }
 
        const handleLogin= async(googleData)=>{

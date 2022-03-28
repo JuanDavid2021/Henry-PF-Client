@@ -1,5 +1,3 @@
-
-import { loading } from '../actions';
 import {
   ADD_PRODUCT,
   PUT_PRODUCT,
@@ -44,7 +42,6 @@ import {
 
   USERLOGOUT,
   
-  POST_PEDIDO,
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
   POST_PEDIDO,
@@ -57,7 +54,7 @@ import {
 
 const initialState = {
   user: { nombre: "asd", email: "minnie.bator@funholding.com" }, //usuario actual usando la app
-  user: [], //usuario actual usando la app
+  // user: [], //usuario actual usando la app
   userLogin:[],
   userAuthenticated:"",
 
@@ -177,7 +174,7 @@ function rootReducer(state = initialState, action) {
         ...state,
         userAuthenticated: action.payload,
        }
-
+  }
   if (action.type === USERLOGIN) {
     if (action.payload.userEmail) {
       return {
@@ -585,6 +582,6 @@ function rootReducer(state = initialState, action) {
   }*/
 
   return state;
-}}
+}
 
 export default rootReducer;
