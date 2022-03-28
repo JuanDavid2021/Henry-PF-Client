@@ -52,19 +52,6 @@ function Pedidos() {
                                             <td>
                                                 <button className="btn btn-info text-light text-decoration-none fs-6 mx-2" onClick={() => handleDetailPedido(p.id)}>Detalles</button>
                                             </td>
-                                            {(p.status === 'Creada') ? (<span></span>) : (
-                                                <div>
-                                                    <td>
-                                                        <button className="btn btn-warning text-light text-decoration-none fs-6 mx-2">Procesar</button>
-                                                    </td>
-                                                    <td>
-                                                        <button className="btn btn-danger text-light text-decoration-none fs-6 mx-2">Cancelar</button>
-                                                    </td>
-                                                </div>
-                                            )}
-                                            <td>
-                                                <button className="btn btn-success text-light text-decoration-none fs-6 mx-2">Despachar</button>
-                                            </td>
                                         </tr>
                                     )
                                 }
