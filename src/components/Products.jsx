@@ -81,8 +81,9 @@ function Products() {
     const createdProduct = await dispatch(postProduct(product))
     if (createdProduct.status === 200) {
       setConfirmModal(true)
-      setCopiedProduct(emptyProduct)
+      
       setEditingProduct(emptyProduct)
+      setCopiedProduct({...emptyProduct, id: "1"})
     } else {
       setErrorModal({
         show: true,
