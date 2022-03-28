@@ -2,6 +2,13 @@ import Config from '../../../Config/config.js';
 import { deactivateProductFailure, deactivateProductStart, deactivateProductSuccess } from '../../Reducers/productsReducer.js';
 
 
+/**
+ * 
+ * `ID`: id del producto a desactivar.
+ * 
+ */
+
+
 export const deactivateProduct = async (dispatch, productId) => {
   dispatch(deactivateProductStart());
 
@@ -12,5 +19,4 @@ export const deactivateProduct = async (dispatch, productId) => {
   } else {
     dispatch(deactivateProductFailure());
   }
-
 };

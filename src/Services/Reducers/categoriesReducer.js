@@ -26,15 +26,15 @@ export const categoriesSlice = createSlice({
     },
 
     // crear nueva categoria
-    postNewCategoryStart: (state) => {
+    createCategoryStart: (state) => {
       state.loading = true;
       state.failed = false;
     },
-    postNewCategoryFailure: (state) => {
+    createCategoryFailure: (state) => {
       state.loading = false;
       state.failed = true;
     },
-    postNewCategorySuccess: (state, action) => {
+    createCategorySuccess: (state, action) => {
       // nepundir: logica provisional
       state.all = [...state.all, action.payload];
       state.loading = false;
@@ -80,9 +80,9 @@ export const {
   getAllCategoriesStart,
   getAllCategoriesFailure,
   getAllCategoriesSuccess,
-  postNewCategoryStart,
-  postNewCategoryFailure,
-  postNewCategorySuccess,
+  createCategoryStart,
+  createCategoryFailure,
+  createCategorySuccess,
   updateCategoryStart,
   updateCategoryFailure,
   updateCategorySuccess,

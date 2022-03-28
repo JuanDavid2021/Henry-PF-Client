@@ -2,6 +2,13 @@ import Config from '../../../Config/config.js';
 import { getAllProductsFailure, getAllProductsStart, getAllProductsSuccess } from '../../Reducers/productsReducer.js';
 
 
+/**
+ * 
+ * Trae todos los productos de la base de datos.
+ * 
+ */
+
+
 export const getAllProducts = async (dispatch) => {
   dispatch(getAllProductsStart());
 
@@ -12,5 +19,4 @@ export const getAllProducts = async (dispatch) => {
   } else {
     dispatch(getAllProductsFailure());
   }
-
 };

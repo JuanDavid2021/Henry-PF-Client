@@ -1,4 +1,3 @@
-// handle user
 import { createSlice } from "@reduxjs/toolkit";
 
 
@@ -27,10 +26,23 @@ export const userSlice = createSlice({
       state.data = null;
       state.loading = false;
       state.failed = false;
+    },
+    registerStart: (state) => {
+      state.loading = true;
+      state.failed = false;
+    },
+    registerFailure: (state) => {
+      state.loading = false;
+      state.failed = true;
+    },
+    registerSuccess: (state, action) => {
+      state.data = action.payload;
+      state.loading = false;
+      state.failed = false;
     }
   }
 });
 
 
-export const { loginStart, loginFailure, loginSuccess, logout } = userSlice.actions;
+export const { loginStart, loginFailure, loginSuccess, logout, registerStart, registerFailure, registerSuccess } = userSlice.actions;
 export default userSlice.reducer;
