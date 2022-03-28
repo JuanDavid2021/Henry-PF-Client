@@ -48,7 +48,8 @@ import {
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
   GET_PEDIDOS,
-  GET_PEDIDO_ID
+  GET_PEDIDO_ID,
+  PUT_PEDIDO_STATE
 
 } from './../action-types/index';
 const axios = require("axios");

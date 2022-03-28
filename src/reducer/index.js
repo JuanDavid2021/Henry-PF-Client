@@ -48,7 +48,8 @@ import {
   LOADING,
   GET_PEDIDOS,
   GET_PEDIDO_ID,
-  SET_PLATFORM_USER
+  SET_PLATFORM_USER,
+  PUT_PEDIDO_STATE
 } from './../action-types/index';
 
 
