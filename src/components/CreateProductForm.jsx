@@ -71,9 +71,9 @@ function CreateProductForm({ product, createFunction }) {
   useEffect(() => {
     let pattern = /[0-9]+/;
     if (product && product?.id !== input.id) {
-      setInput(product);
+      setInput({ ...product, activo: true });
       setPresentacion(product.Presentacions);
-       setFotos([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])   
+      setFotos([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])   
       setCategrorias(product.Categoria);
       setErrors({ nombre: "Nombre inválido, no acepta números" });
     }
