@@ -2,8 +2,9 @@ import React, { Fragment, useState } from 'react'
 import { Link } from "react-router-dom"
 import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
-import { login } from "../actions/index"
+import { login, setPlatformUser } from "../actions/index"
 import { useDispatch } from "react-redux"
+import { SET_USERS } from '../action-types';
 
 export const userok = () => {
   let user = true
@@ -49,10 +50,11 @@ export const LoginUser = ({ setAuth }) => {
         });
 
       const parseRes = await response.json()
-
+        
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token)
         localStorage.setItem("mail", correo)
+        dispatch(setPlatformUser(parseRes))
         setAuth(true)
         swal({
           text: "login exitoso",

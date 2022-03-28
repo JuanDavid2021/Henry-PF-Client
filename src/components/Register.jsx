@@ -2,7 +2,7 @@ import React,{ useState } from 'react'
 import { useDispatch } from 'react-redux'
 import {Link} from "react-router-dom"
 import swal from "sweetalert"
-import {login} from "../actions/index"
+import {login,setPlatformUser} from "../actions/index"
 
 export const Register = ({setAuth}) => {
    
@@ -36,7 +36,8 @@ export const Register = ({setAuth}) => {
       
     if(parseRes.token){
         localStorage.setItem("token", parseRes.token)
-        localStorage.setItem("mail", correo)
+      localStorage.setItem("mail", correo)
+      dispatch(setPlatformUser(parseRes))
         setAuth(true)
         swal({
             text:"Registro exitoso",

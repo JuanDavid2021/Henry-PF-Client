@@ -6,6 +6,7 @@ import {
   DELETE_PRODUCT,
   EDIT_PRODUCT,
   POST_PRODUCT,
+  SET_PLATFORM_USER,
   LOADING,
   RATE_PRODUCT,
   UPDATE_USER,
@@ -287,6 +288,12 @@ export function filterProducts(filter) {
   return (dispatch) => {
     dispatch({ type: FILTER_PRODUCTS, payload: filter });
   };
+}
+
+export function setPlatformUser(user) {
+  return async (dispatch)=>{
+    return dispatch({type:SET_PLATFORM_USER, payload:user})
+  }
 }
 
 export function getProducts() {
