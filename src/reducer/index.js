@@ -40,26 +40,20 @@ import {
   USERLOGIN,
   USERCREATE,
   USERLOGINOK,
-  USERLOGOUT
-} from './../action-types/index';
-
-const initialState = {
-  user: [], //usuario actual usando la app
-  userLogin:[],
-<<<<<<< HEAD
-  userAuthenticated:"",
-=======
-  POST_PEDIDO,
+  USERLOGOUT,
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
+  POST_PEDIDO,
   LOADING,
   GET_PEDIDOS
+
 } from './../action-types/index';
 
 const initialState = {
   user: { nombre: "asd", email: "minnie.bator@funholding.com" }, //usuario actual usando la app
-
->>>>>>> 8e1f6eed93ba029383f6912aace306020e81ad90
+  user: [], //usuario actual usando la app
+  userLogin:[],
+  userAuthenticated:"",
   gettingProducts: false,
   products: [],
   filteringProducts: false,

@@ -40,18 +40,15 @@ import {
   SET_CART_ITEM,
 
   USERCREATE,
-<<<<<<< HEAD
+
   USERLOGIN,
   USERLOGINOK,
-  USERLOGOUT
-=======
-  USERLOGIN
+  USERLOGOUT,
 
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
   GET_PEDIDOS
 
->>>>>>> 8e1f6eed93ba029383f6912aace306020e81ad90
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -142,29 +139,7 @@ export const order=(payload)=>{
   payload
  }
 }
-export const orderPrecio=(payload)=>{
-  return{
-   type: ORDER_PRECIO,
-   payload
-  }
- }
 
-export const searchProduct = (producto) => {
-  return async function (dispatch) {
-    var busq = await axios("http://localhost:3001/api/product/all");
-    return dispatch({
-      type: SEARCH_PRODUCT,
-      payload: { busq, producto }
-    });
-  };
-};
-
-export const order = (payload) => {
-  return {
-    type: ORDER_PRODUCTS,
-    payload
-  };
-};
 export const orderPrecio = (payload) => {
   return {
     type: ORDER_PRECIO,
