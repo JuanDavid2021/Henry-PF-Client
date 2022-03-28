@@ -36,6 +36,7 @@ export const Register = ({setAuth}) => {
       
     if(parseRes.token){
         localStorage.setItem("token", parseRes.token)
+        localStorage.setItem("mail", correo)
         setAuth(true)
         swal({
             text:"Registro exitoso",
