@@ -50,6 +50,7 @@ export const LoginUser = ({ setAuth }) => {
         });
 
       const parseRes = await response.json()
+      console.log(parseRes)
 
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token)
@@ -141,7 +142,7 @@ export const LoginUser = ({ setAuth }) => {
                   </GoogleLogin>
                 )}
             </div>
-            <form onSubmit={onSubmitForm} className="mt-3">
+            <form  className="mt-3">
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Correo</label>
                 <input type="email" name="correo" id="exampleInputEmail1" aria-describedby="emailHelp" value={correo} placeholder="correo..." className='form-control' onChange={e => onChange(e)} />
@@ -152,7 +153,7 @@ export const LoginUser = ({ setAuth }) => {
               </div>
             </form>
               <div className="mb-3">
-                <button className="btn btn-success btn-block" disabled={inputs.correo === "" || inputs.contraseña === ""}>Submit</button>
+                <button onClick={onSubmitForm} className="btn btn-success btn-block" disabled={inputs.correo === "" || inputs.contraseña === ""}>Submit</button>
               </div>
             <div className='d-flex justify-content-center align-items-center'>
 
