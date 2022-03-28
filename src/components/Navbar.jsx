@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router';
 import img from '../img/logo2.png'
 import { useDispatch, useSelector } from 'react-redux'
 import swal from "sweetalert"
@@ -10,7 +11,13 @@ import {logoutuser} from "../actions/index"
 
 function NavBar({setAuth}) {
 
+
     const dispatch = useDispatch()
+
+    
+    const navigate = useNavigate();
+
+
     const itemsCart = useSelector(state => state.cart)
     const userLogin = useSelector(state=>state.userAuthenticated)
     console.log(localStorage.token)
@@ -19,6 +26,10 @@ function NavBar({setAuth}) {
 /*      const handleLogin = () => {
         user ? setUser(false) : setUser(true)
     }  */
+
+    const pedidos = () => {
+        navigate('/pedidos')
+      }
 
     const logout=(e)=>{
         e.preventDefault()
@@ -78,9 +89,11 @@ function NavBar({setAuth}) {
                                         <span></span>
                                     }
                                 </Link>
+
                                 <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none fs-6" >Ingresar</button></Link>
                                 <Link to="/register"><button className="btn btn-success text-light text-decoration-none fs-6 mx-3" >Registrate</button></Link>
-
+                                <button className="btn btn-secondary text-light text-decoration-none fs-6 mx-3" onClick={pedidos}> Pedidos </button>
+                                <button className="btn btn-primary text-light text-decoration-none fs-6 mx-1" onClick={e=>logout(e)} /* onClick={handleLogin} */>Log out</button>
 
                             </div>
                       </div>
