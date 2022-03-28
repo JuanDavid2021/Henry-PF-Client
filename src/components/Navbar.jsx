@@ -14,7 +14,7 @@ function NavBar() {
     }
 
     return (
-        <nav className="navbar navbar-expand-lg flex-column bg-dark">
+        <nav className="navbar navbar-expand-lg flex-column bg-dark sticky-top" >
             <div className="container-fluid">
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/" style={{ width: "3%" }}><img src={img} alt="logo" style={{ width: "100%" }} /></Link>
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/">Beef Shop</Link>
