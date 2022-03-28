@@ -523,6 +523,19 @@ function rootReducer(state = initialState, action) {
     };
   }
 
+  if (action.type === PUT_PEDIDO_STATE) {
+    //agrego el producto del arreglo una vez tenemos la confirmacion desde el back 
+
+    let newState = state.pedidos.map(p => {
+      if (p.id === action.payload.id) {
+
+        return action.payload;
+      }
+      return p;
+    });
+
+  }
+
   /*   if (action.type === "ORDER_BY_SCORE") {
       const orderedRecipes = orderByScore(
         [...state.filterResult],
