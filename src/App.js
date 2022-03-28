@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 import { CreationForm } from './components/CreationForm';
 
-import React, { useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useLocation } from 'react-router';
 import CartDetailCheckoutPaymentMethod from './components/CartDetailCheckoutPaymentMethod';
 
@@ -27,6 +27,7 @@ import PagoSuccess from "./components/PagoSuccess";
 import Products from "./components/Products";
 // import Profile from './components/Profile';
 import Shop from './components/Shop';
+
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import Pedidos from './components/Pedidos';
 import DetailPedido from './components/DetailPedido';
@@ -78,11 +79,13 @@ import DetailPedido from './components/DetailPedido';
         <Route exact path='/shop' element={<Shop />} /> 
         <Route exact path='/product/:id' element={<DetailProduct />} /> 
 
+
         {/* <Route exact path='/login' element={<Login />} /> */}
         {/*nepundir: provisional. renderizar unicamente si el usuario es admin. */}
         <Route exact path='/dashboard' element={<AdminDashboard />} />
         <Route exact path='/shop' element={<Shop />} />
         {/* <Route exact path='/profile/:id' element={<Profile />} /> */}
+
         <Route exact path='/product/:id' element={<DetailProduct />} />
 
         <Route exact path='/products' element={<Products />} />

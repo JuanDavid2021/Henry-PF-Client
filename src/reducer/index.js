@@ -39,26 +39,27 @@ import {
   SET_CART_ITEM,
   USERLOGIN,
   USERCREATE,
+
+  USERLOGINOK,
+
+  USERLOGOUT,
+  
   POST_PEDIDO,
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
+  POST_PEDIDO,
   LOADING,
   GET_PEDIDOS,
   GET_PEDIDO_ID
+ 
 } from './../action-types/index';
 
-// const initialState = {
-//   user: [], //usuario actual usando la app
-//   userLogin:[],
-//   POST_PEDIDO,
-//   DELIVERY_CART_ITEMS,
-//   ADD_ORDER_DATE,
-//   LOADING,
-//   GET_PEDIDOS
-// } from './../action-types/index';
 
 const initialState = {
   user: { nombre: "asd", email: "minnie.bator@funholding.com" }, //usuario actual usando la app
+  user: [], //usuario actual usando la app
+  userLogin:[],
+  userAuthenticated:"",
 
   gettingProducts: false,
   products: [],
@@ -170,6 +171,13 @@ function rootReducer(state = initialState, action) {
     }
   }
 
+
+  if(action.type===USERLOGINOK){
+       return{
+        ...state,
+        userAuthenticated: action.payload,
+       }
+
   if (action.type === USERLOGIN) {
     if (action.payload.userEmail) {
       return {
@@ -184,7 +192,15 @@ function rootReducer(state = initialState, action) {
         userLogin: action.payload
       }
     }
+
   }
+
+  if(action.type===USERLOGOUT){
+    return{
+     ...state,
+     userAuthenticated: action.payload,
+    }
+}
 
   if (action.type === ADD_PRODUCT) {
     //agrego el producto del arreglo una vez tenemos la confirmacion desde el back        
@@ -569,6 +585,6 @@ function rootReducer(state = initialState, action) {
   }*/
 
   return state;
-}
+}}
 
 export default rootReducer;

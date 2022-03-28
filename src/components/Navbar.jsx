@@ -4,20 +4,28 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router';
 import img from '../img/logo2.png'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import swal from "sweetalert"
+import {logoutuser} from "../actions/index"
 
 
 function NavBar({setAuth}) {
+
+
+    const dispatch = useDispatch()
+
     
     const navigate = useNavigate();
 
-    const itemsCart = useSelector(state => state.cart)
-   // const [user, setUser] = useState(false)
 
-    /* const handleLogin = () => {
+    const itemsCart = useSelector(state => state.cart)
+    const userLogin = useSelector(state=>state.userAuthenticated)
+    console.log(localStorage.token)
+    
+
+/*      const handleLogin = () => {
         user ? setUser(false) : setUser(true)
-    } */
+    }  */
 
     const pedidos = () => {
         navigate('/pedidos')
@@ -32,6 +40,7 @@ function NavBar({setAuth}) {
            icon: "success",
            timer:"2000",
         })
+        dispatch(logoutuser("user_out"))
         }
 
     return (
@@ -52,15 +61,25 @@ function NavBar({setAuth}) {
                         </li>
  
                     </ul>
-                   {/*  {
-                        user === false ? */}
+                   {
+                        (localStorage.token) ?
+                        <div>
+                        <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
+                            {
+                            itemsCart.length !== 0 ? 
+                                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {itemsCart?.length}
+                                    <span className="visually-hidden">{itemsCart?.length}</span>
+                                </span> :
+                                <span></span>
+                            }
+                        </Link>
+                        <button className="btn btn-primary text-light text-decoration-none fs-6 mx-3" onClick={e=>logout(e)}>Log out</button>
+                      </div>
+                       :   
+                         <div>
                             <div>
-                                <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none fs-6" /* onClick={handleLogin} */ >Ingresar</button></Link>
-                                <Link to="/register"><button className="btn btn-success text-light text-decoration-none fs-6 mx-3">Registrate</button></Link>
-                            </div>
-                            
-                            <div>
-                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
+                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative" style={ {left:"-17px"}}>Carrito <RiShoppingCartLine />
                                     {
                                     itemsCart.length !== 0 ? 
                                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -70,10 +89,15 @@ function NavBar({setAuth}) {
                                         <span></span>
                                     }
                                 </Link>
+
+                                <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none fs-6" >Ingresar</button></Link>
+                                <Link to="/register"><button className="btn btn-success text-light text-decoration-none fs-6 mx-3" >Registrate</button></Link>
                                 <button className="btn btn-secondary text-light text-decoration-none fs-6 mx-3" onClick={pedidos}> Pedidos </button>
                                 <button className="btn btn-primary text-light text-decoration-none fs-6 mx-1" onClick={e=>logout(e)} /* onClick={handleLogin} */>Log out</button>
+
                             </div>
-                    {/* } */}
+                      </div>
+                       }
                 </div>
             </div>
         </nav>

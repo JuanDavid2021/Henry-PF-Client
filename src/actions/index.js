@@ -40,12 +40,20 @@ import {
   SET_CART_ITEM,
 
   USERCREATE,
-  USERLOGIN,
 
+  USERLOGIN,
+  USERLOGINOK,
+  USERLOGOUT
+  USERLOGIN
+  DELIVERY_CART_ITEMS,
+  ADD_ORDER_DATE,
+  GET_PEDIDOS
+  USERLOGIN,
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
   GET_PEDIDOS,
   GET_PEDIDO_ID
+
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -77,6 +85,25 @@ function orderProducts(products, orderType) {
   return products;
 }
 
+export function logoutuser(payload){
+
+ return function(dispatch){
+    return dispatch({
+      type: USERLOGOUT,
+      payload: payload
+    })
+ }
+}
+
+
+export const login=(payload)=>{
+  
+ return async function (dispatch){
+   return dispatch({
+     type: USERLOGINOK,
+     payload:payload
+   })
+ } }
 
 
 export const searchProduct = (producto) => {
@@ -88,6 +115,23 @@ export const searchProduct = (producto) => {
     })
   }
 }
+export const loginUser=(data)=>{
+ return async function (dispatch){
+   var logUser= await axios.post("http://localhost:3001/api/user/login",data)
+   console.log(logUser)
+   return dispatch({
+     type:USERLOGIN,
+     payload: logUser.data
+ })
+}}
+
+export const order=(payload)=>{
+ return{
+  type: ORDER_PRODUCTS,
+  payload
+ }
+}
+
 
 export const createUser = (payload) => {
   return async function (dispatch) {
@@ -100,31 +144,6 @@ export const createUser = (payload) => {
        }) */
   }
 }
-
-export const loginUser = (data) => {
-  return async function (dispatch) {
-    var logUser = await axios.post("http://localhost:3001/api/user/login", data)
-    console.log(logUser)
-    return dispatch({
-      type: USERLOGIN,
-      payload: logUser.data
-    })
-  }
-}
-
-// export const order=(payload)=>{
-//  return{
-//   type: ORDER_PRODUCTS,
-//   payload
-//  }
-// }
-// export const orderPrecio=(payload)=>{
-//   return{
-//    type: ORDER_PRECIO,
-//    payload
-//   }
-//  }
-
 // export const searchProduct = (producto) => {
 //   return async function (dispatch) {
 //     var busq = await axios("http://localhost:3001/api/product/all");
@@ -135,18 +154,13 @@ export const loginUser = (data) => {
 //   };
 // };
 
-// export const order = (payload) => {
-//   return {
-//     type: ORDER_PRODUCTS,
-//     payload
-//   };
-// };
 // export const orderPrecio = (payload) => {
 //   return {
 //     type: ORDER_PRECIO,
 //     payload
 //   };
 // };
+
 
 
 async function apiGetAllUsers() {
