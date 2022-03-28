@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { RiDeleteBin5Fill, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 import { useNavigate } from 'react-router';
@@ -10,12 +10,34 @@ function CartDetails() {
   const arrCartProducts = useSelector(state => state.cart);
 
   const [modal, setModal] = useState({ show: false, msg: "" })
+  const [user, setUser] = useState(false)
+
 
   const navigate = useNavigate()
 
+  const ifLogin = ()=>{
+    if (localStorage.token === undefined){
+      setUser(false)
+    } else {
+      setUser(true)
+    }
+
+  }
+
+  useEffect(()=>{
+    ifLogin()
+  },[localStorage.token])
+
+
+
   const handleNavigateDelibery = (e) => {
     e.preventDefault()
-    if (arrCartProducts.length > 0) {
+    if(!user){
+      setModal({
+        show: true,
+        msg: "Necesitas estar logueado o crearse una cuenta para continuar"
+      })
+    } else if (arrCartProducts.length > 0) {
       let stock = false
       arrCartProducts.forEach((p) => {
         if (p.cantidad > p.stock) {
@@ -30,7 +52,8 @@ function CartDetails() {
       } else {
         navigate("/cartDetailsCheckout")
       }
-    } else {
+    } 
+     else {
       setModal({
         show: true,
         msg: "No posee productos en su carrito"
@@ -104,9 +127,7 @@ function CartDetails() {
                   </Link>
                 </div>
                 <div className="col-md-6 text-md-end py-1">
-                  {
                     <button className="btn btn-primary my-1" onClick={handleNavigateDelibery}>Verificación <RiArrowRightSLine /></button>
-                  }
                 </div>
               </div>
             </form>

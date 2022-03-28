@@ -50,13 +50,14 @@ export const LoginUser = ({setAuth}) => {
         
          if (parseRes.token){
              localStorage.setItem("token", parseRes.token)
+             localStorage.setItem("mail", correo)
              setAuth(true)
              swal({
                 text:"login exitoso",
                 icon: "success",
                 timer:"2000",
              })
-            dispatch(login("user_ok"))
+            dispatch(login({state: "user_ok", mail: correo}))
          }else{
              setAuth(false)
              swal({

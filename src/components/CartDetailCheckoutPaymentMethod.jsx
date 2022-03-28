@@ -25,7 +25,7 @@ function CartDetailCheckoutPaymentMethod() {
   const pedidos = {
     f_pedido: despacho.f_pedido,
     f_requerida: despacho.f_requerida,
-    UsuarioCorreo: user.email,
+    UsuarioCorreo: localStorage.mail,
     status: "Created",
     enviado_a: `${despacho.nombre} ${despacho.apellido}`,
     direccion_despacho: `${despacho.direccion_despacho}-${despacho.localidad}-${despacho.zip}`,

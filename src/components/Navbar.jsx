@@ -21,6 +21,8 @@ function NavBar({setAuth}) {
     const itemsCart = useSelector(state => state.cart)
     const userLogin = useSelector(state=>state.userAuthenticated)
     console.log("hola", localStorage.token)
+    console.log("hola33", localStorage.mail)
+
     console.log(userLogin)
 
 /*      const handleLogin = () => {
@@ -34,6 +36,7 @@ function NavBar({setAuth}) {
     const logout=(e)=>{
         e.preventDefault()
         localStorage.removeItem("token")
+        localStorage.removeItem("mail")
         setAuth(false)
         swal({
            text:"has cerrado la sesion",
