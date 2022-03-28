@@ -41,15 +41,20 @@ export const DELETE_CART_ITEM = "deleteCartItem";
 export const FLUSH_CART = "flushCart";  
 export const POST_PEDIDO = "postPedido";
 export const PAGAR_PEDIDO = "pagarPedido";
+export const GET_PEDIDOS = "getPedidos";
+export const GET_PEDIDO_ID = "getPedidosId";
+export const GET_PEDIDO_USER = "getPedido";
   
 export const GET_COMMENTS = "getComments"; 
 
+export const POST_PRODUCT = "POST_PRODUCT" 
+export const ORDER_PRODUCTS = "orderProducts"
+export const ORDER_PRECIO = "orderPrecio"
+export const SEARCH_PRODUCT = "searchProduct"
+export const SEARCHING_PRODUCT = "searchingProduct"
+export const SEARCH_LOCAL_PRODUCT = "searchLocalProduct"
+export const USERCREATE = "userCreate"
+export const USERLOGIN="userLogin"
+
+
 export const LOADING = "loading";
-
-export const POST_PRODUCT = "POST_PRODUCT"; 
-export const ORDER_PRODUCTS = "orderProducts";
-export const ORDER_PRECIO = "orderPrecio";
-export const SEARCH_PRODUCT = "searchProduct";
-export const SEARCHING_PRODUCT = "searchingProduct";
-export const SEARCH_LOCAL_PRODUCT = "searchLocalProduct";
-

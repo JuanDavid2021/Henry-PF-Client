@@ -15,7 +15,7 @@ import { postProduct, putProduct } from "../actions/index"
 function Products() {
   const dispatch = useDispatch();
   const arrProductos = useSelector((state) => state.products);
-  const filteredProducts = useSelector((state) => state.filteredProducts);
+  const filteredProducts = useSelector((state) => state.adminFilteredProducts);
   const emptyProduct = {
     id: "",
     nombre: "",
@@ -57,17 +57,16 @@ function Products() {
   };
 
   async function createProduct(product) {    
-    const createdProduct = await dispatch(postProduct(product))
-    if (createdProduct.status === 200) {      
+    const createdProduct = await dispatch(postProduct(product))    
+    if (createdProduct.status === 200) {       
       setConfirmModal(true)
       setCopiedProduct(emptyProduct)
       setEditingProduct(emptyProduct)
     } else {
       setErrorModal({
         show: true,
-        data:createdProduct.error.response.data.error})      
-    }
-    
+        data:createdProduct})      
+    }    
   }
 
   async function updateProduct(product) {    

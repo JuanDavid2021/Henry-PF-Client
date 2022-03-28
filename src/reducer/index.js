@@ -37,11 +37,25 @@ import {
   EDIT_SALE_STATUS,
   ORDER_PRECIO,
   SET_CART_ITEM,
+  USERLOGIN,
+  USERCREATE,
   POST_PEDIDO,
   DELIVERY_CART_ITEMS,
   ADD_ORDER_DATE,
   LOADING,
+  GET_PEDIDOS,
+  GET_PEDIDO_ID
 } from './../action-types/index';
+
+// const initialState = {
+//   user: [], //usuario actual usando la app
+//   userLogin:[],
+//   POST_PEDIDO,
+//   DELIVERY_CART_ITEMS,
+//   ADD_ORDER_DATE,
+//   LOADING,
+//   GET_PEDIDOS
+// } from './../action-types/index';
 
 const initialState = {
   user: { nombre: "asd", email: "minnie.bator@funholding.com" }, //usuario actual usando la app
@@ -50,12 +64,18 @@ const initialState = {
   products: [],
   filteringProducts: false,
   filteredProducts: [],
+  adminFilteredProducts :[],
   productDetails: { id: null },
   cart: [],
   despacho: null,
   categories: [],//[{id:XXX,name:'sadasd'},...]
+
+  userRegistred: [],
   pedido: {},
+  pedidoId: {},
+  pedidos: [],
   idPago: {},
+
   sales: [],//lista de ventas
   users: [],//lista de usuarios para borrar / forzar password
   categoryFilterStatus: true,
@@ -143,12 +163,35 @@ function rootReducer(state = initialState, action) {
     };
   }
 
+  if (action.type === USERCREATE) {
+    return {
+      ...state,
+      userRegistred: [action.payload]
+    }
+  }
+
+  if (action.type === USERLOGIN) {
+    if (action.payload.userEmail) {
+      return {
+        ...state,
+        userLogin: action.payload,
+        user: action.payload.userEmail
+      }
+    }
+    else {
+      return {
+        ...state,
+        userLogin: action.payload
+      }
+    }
+  }
+
   if (action.type === ADD_PRODUCT) {
     //agrego el producto del arreglo una vez tenemos la confirmacion desde el back        
     return {
       ...state,
       products: [...state.products, action.payload],
-      filteredProducts: [action.payload, ...state.filteredProducts]
+      adminFilteredProducts: [action.payload, ...state.adminFilteredProducts]
     };
   }
 
@@ -162,8 +205,8 @@ function rootReducer(state = initialState, action) {
       }
       return p;
     });
-   
-    let filteredProducts = state.filteredProducts.map(fp => {
+
+    let filteredProducts = state.adminFilteredProducts.map(fp => {
       if (fp.id === action.payload.id) {
         return action.payload;
 
@@ -173,7 +216,7 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       products: newProducts,
-      filteredProducts: filteredProducts
+      adminFilteredProducts: filteredProducts
     };
   }
 
@@ -237,7 +280,8 @@ function rootReducer(state = initialState, action) {
   if (action.type === SET_FILTERED_PRODUCTS) {
     return {
       ...state,
-      filteredProducts: action.payload
+      filteredProducts: action.payload.filter(p => p.stock > 0),
+      adminFilteredProducts: action.payload
     };
   }
 
@@ -334,8 +378,8 @@ function rootReducer(state = initialState, action) {
 
   if (action.type === FILTER_PRODUCTS) {
 
-    let filteredProducts = state.products.filter(e => e.stock > 0);    
-    
+    let filteredProducts = [...state.products]//.filter(e => e.stock > 0);
+
     let categoryStatus = false;
     if (action.payload.category !== "all") {
       filteredProducts = filteredProducts.filter(e => e.Categoria.find(i => parseInt(i.id) === parseInt(action.payload.category)));
@@ -370,7 +414,7 @@ function rootReducer(state = initialState, action) {
         return 0;
       });
     }
-    
+
     let searchStatus = false;
     if (action.payload.input.length > 0) {
       filteredProducts = filteredProducts.filter(p => p.nombre.toLowerCase().includes(action.payload.input.toLowerCase()));
@@ -379,11 +423,13 @@ function rootReducer(state = initialState, action) {
       }
     } else {
       searchStatus = true;
-    } 
+    }
+    let userProducts = filteredProducts.filter(e => e.stock > 0) 
 
     return {
       ...state,
-      filteredProducts: filteredProducts,
+      filteredProducts: userProducts,
+      adminFilteredProducts:filteredProducts,
       categoryFilterStatus: categoryStatus,
       searchFilterStatus: searchStatus
     };
@@ -394,7 +440,7 @@ function rootReducer(state = initialState, action) {
     console.log(action.type);
     let sortArray = action.payload === "A-Z" ?
 
-      state.products.sort(function (a, b) {    
+      state.products.sort(function (a, b) {
 
         if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1;
         if (b.nombre.toLowerCase() > a.nombre.toLowerCase()) return -1;
@@ -404,7 +450,7 @@ function rootReducer(state = initialState, action) {
         if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return -1;
         if (a.nombre.toLowerCase() > b.nombre.toLowerCase()) return 1;
         return 0;
-      });   
+      });
 
     return {
       ...state,
@@ -422,18 +468,18 @@ function rootReducer(state = initialState, action) {
         if (Number(b.precio) > Number(a.precio)) return -1;
         return 0;
       }) :
-    
+
       state.products.sort(function (a, b) {
         if (Number(a.precio) > Number(b.precio)) return -1;
         if (Number(b.precio) > Number(a.precio)) return 1;
         return 0;
-      });   
+      });
     return {
       ...state,
       products: sortArrayPrecio
     };
   }
-  
+
   if (action.type === SEARCH_PRODUCT) {
     const busqueda = action.payload.busq.data.filter(p => p.nombre.toLowerCase().includes(action.payload.producto.toLowerCase()));
     console.log(busqueda);
@@ -443,7 +489,19 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  
+  if (action.type === GET_PEDIDOS) {
+    return {
+      ...state,
+      pedidos: action.payload
+    };
+  }
+
+  if (action.type === GET_PEDIDO_ID) {
+    return {
+      ...state,
+      pedidoId: action.payload
+    };
+  }
 
   /*   if (action.type === "ORDER_BY_SCORE") {
       const orderedRecipes = orderByScore(
