@@ -37,6 +37,7 @@ function NavBar({setAuth}) {
         e.preventDefault()
         localStorage.removeItem("token")
         localStorage.removeItem("mail")
+        localStorage.removeItem("loginData")
         setAuth(false)
         dispatch(setPlatformUser({administrador:false, nombre: "Invitado", email: "invitado@invitado.com"}))
         swal({
@@ -66,7 +67,7 @@ function NavBar({setAuth}) {
  
                     </ul>
                    {
-                        (localStorage.token !== undefined) ?
+                        (localStorage.token !== undefined || localStorage.loginData !== undefined) ?
                         <div>
                         <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
                             {

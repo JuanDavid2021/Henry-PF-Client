@@ -26,7 +26,7 @@ export const LoginUser = ({ setAuth }) => {
     contraseña: ""
   })
 
-  const [loginData, setLoginData] = useState(
+  var [loginData, setLoginData] = useState(
     localStorage.getItem('loginData')
       ? JSON.parse(localStorage.getItem(loginData)) : null
   )
@@ -79,11 +79,12 @@ export const LoginUser = ({ setAuth }) => {
   }
 
   const handleFailure = (result) => {
-    // alert(result)
+    alert(result)
   }
 
   const handleLogin = async (googleData) => {
-    const res = await fetch('/api/google-login', {
+    
+     const res = await fetch("/api/user/google-login", {
       method: 'POST',
       body: JSON.stringify({
         token: googleData.tokenId
@@ -96,7 +97,7 @@ export const LoginUser = ({ setAuth }) => {
     const data = await res.json();
 
     setLoginData(data)
-    localStorage.setItem('loginData', JSON.stringify(data))
+    localStorage.setItem('loginData', JSON.stringify(data)) 
   }
 
   const handleLogout = () => {
@@ -104,7 +105,14 @@ export const LoginUser = ({ setAuth }) => {
     setLoginData(null)
   }
 
-
+  const loginGoogle =()=>{
+      setAuth(true)
+      swal({
+        text: "login exitoso",
+        icon: "success",
+        timer: "2000",
+      })
+  }
   return (
     <Fragment>
       <h1 className='text-center my-2'>LoginUser</h1>
@@ -114,11 +122,14 @@ export const LoginUser = ({ setAuth }) => {
           <div>
             {
               loginData ? (
-                <div>
-                  <h3> Hola {loginData.email}</h3>
-                  <button onClick={handleLogout}>Logout</button>
+               <div>
+                    <div>
+                      <h3> Hola {loginData.email}</h3>
+                      <button onClick={handleLogout}>Logout</button>
+                    </div>
+                  {loginGoogle()}
                 </div>
-              ) :
+              ) :(
                 <GoogleLogin
                   clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                   buttonText="Log In"
@@ -127,7 +138,7 @@ export const LoginUser = ({ setAuth }) => {
                   cookiePolicy={'single_host_origin'}
                 >
                 </GoogleLogin>
-            }
+              )}
           </div>
           <form onSubmit={onSubmitForm}>
             <div className="mb-3">
