@@ -5,6 +5,7 @@ import {
   Container,
   Row,
   Col,
+  Spinner
 } from "react-bootstrap";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +15,7 @@ import { getPedidos } from "../actions";
 function DetailPedido() {
 
   const dispatch = useDispatch();
+  const [waiting, setWaiting] = useState(true);
 
   const pedido = useSelector(state => state.pedidoId);
 
@@ -30,8 +32,11 @@ function DetailPedido() {
   };
 
   return (
-
-    <>
+    (!pedido.UsuarioCorreo) ? (<>
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    </>) : (<>
       <Container className="my-2">
         <Card>
           <Card.Header closeButton>
@@ -108,7 +113,7 @@ function DetailPedido() {
           </Card.Body>
         </Card>
       </Container>
-    </>
+    </>)
   );
 }
 
