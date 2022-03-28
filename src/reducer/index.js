@@ -49,7 +49,8 @@ import {
   GET_PEDIDOS,
   GET_PEDIDO_ID,
   SET_PLATFORM_USER,
-  PUT_PEDIDO_STATE
+  PUT_PEDIDO_STATE,
+  PUT_CATEGORY
 } from './../action-types/index';
 
 
@@ -237,7 +238,8 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       products: newProducts,
-      adminFilteredProducts: filteredProducts
+      adminFilteredProducts: filteredProducts,
+      filteredProducts:filteredProducts.filter(p=>(p.stock>0 && p.activo))
     };
   }
 
@@ -246,9 +248,21 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       categories: action.payload
-
     };
+  }
 
+  if (action.type === PUT_CATEGORY) {
+    //seteo categorias desde el back
+    const updatedCategories = state.categories.map(c => {
+      if (c.id === action.payload.id) {
+        return action.payload
+      }
+      return c
+    })
+    return {
+      ...state,
+      categories: updatedCategories
+    };
   }
 
   if (action.type === DELETE_PRODUCT) {
@@ -301,7 +315,7 @@ function rootReducer(state = initialState, action) {
   if (action.type === SET_FILTERED_PRODUCTS) {
     return {
       ...state,
-      filteredProducts: action.payload.filter(p => p.stock > 0),
+      filteredProducts: action.payload.filter(p => (p.stock > 0 && p.activo)),
       adminFilteredProducts: action.payload
     };
   }
@@ -445,7 +459,7 @@ function rootReducer(state = initialState, action) {
     } else {
       searchStatus = true;
     }
-    let userProducts = filteredProducts.filter(e => e.stock > 0) 
+    let userProducts = filteredProducts.filter(e => (e.stock>0 && e.activo)) 
 
     return {
       ...state,

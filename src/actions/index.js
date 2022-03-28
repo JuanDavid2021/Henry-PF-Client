@@ -49,7 +49,8 @@ import {
   ADD_ORDER_DATE,
   GET_PEDIDOS,
   GET_PEDIDO_ID,
-  PUT_PEDIDO_STATE
+  PUT_PEDIDO_STATE,
+  PUT_CATEGORY
 
 } from './../action-types/index';
 const axios = require("axios");
@@ -252,6 +253,16 @@ async function apiGetAllCategories() {
   }
 }
 
+async function apiPutCategories(id) {
+  try {
+    const response = await axios.put(`http://localhost:3001/api/category/update/${id}`);
+    return response.data;
+  } catch (error) {
+    let err = `error en /actions apiGetAllCategories, ${error}`;
+    return { error: err };
+  }
+}
+
 //PRODUCT...
 
 export function addProduct(data) {
@@ -341,6 +352,32 @@ export function addCategory(data) {
       payload: data,
     });
   };
+}
+
+export function getAllCategories() {
+  return async (dispatch) => {
+    try {
+      const allCategories = apiGetAllCategories
+    if (!allCategories.error) {
+        dispatch({ type: SET_CATEGORIES, payload: allCategories });
+      }
+    } catch (error) {
+      console.log(error)
+    }    
+  }
+}
+
+export function putCategory(payload) {
+  return async (dispatch) => {
+    try {     
+      const newCategorie = await apiPutCategories(payload.id)
+      if (!newCategorie.error) {
+       dispatch({ type: PUT_CATEGORY, payload: payload });       
+      }      
+    } catch (error) {
+      console.log(error)
+    }    
+  }
 }
 
 export function deleteCategory(data) {

@@ -22,6 +22,7 @@ export const SET_PRODUCT_DETAILS = "setProductDetails";
 export const SET_PRODUCT_DETAILS_FRONT = "setProductDetailsFront";//solo si lo hacemos por front sin solicitar la api
 
 export const ADD_CATEGORY = "addCategory";//admin
+export const PUT_CATEGORY = "putCategory";//admin
 export const SET_CATEGORIES = "setCategories";
 export const DELETE_CATEGORY = "deleteCategory";//admin
 export const DELIVERY_CART_ITEMS = "deliveryCartItems";
