@@ -17,42 +17,22 @@ import {
 function validate(input,fotos) {
   let errors = {};
   let pattern = /[0-9]+/;
-  let patternURL =/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
-  if (!input.nombre.length) {
-    errors.nombre = "Nombre es requerido";
+  //let patternURL = /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+  let patternIMGURL = /(https:)([/|.|~\w|-])*\.(?:jpg|gif|png)([/|.|,~\w|-])*/
+  if (!input.nombre.length || input.nombre.length<5) {
+    errors.nombre = "Requerido, minimo 5 caracteres";
   } else if (pattern.test(input.nombre)) {
-    errors.nombre = "Nombre inválido, no acepta números";
+    errors.nombre = "Inválido, no acepta números";
   }
   if (!input.descripcion.length || input.descripcion.length < 5) {
-    errors.descripcion = "Descripción es requerido, mínimo 5 caracteres";
-  }
-  Object.Keys(fotos).forEach(f => {
-    if(!patternURL.test(fotos[f])){
-      let foto = "foto"+f
-      errors.foto = "Link inválido"
+    errors.descripcion = "Requerido, mínimo 5 caracteres";
+  }    
+  fotos.forEach((f, i) => { 
+    if (f.length && !patternIMGURL.test(f)) {
+      errors["foto" + i] = "Link inválido"      
     }
-  });
-  // if(fotos[0].length){
-  //   if(!patternURL.test(foto0)){
-  //   errors.foto0 = "Link inválido"  
-  //   }
-  // }
-  // if(fotos[1].length){
-  //   if(!patternURL.test(foto1)){
-  //   errors.foto1 = "Link inválido"  
-  //   }
-  // }
-  // if(fotos[2].length){
-  //   if(!patternURL.test(foto2)){
-  //   errors.foto2 = "Link inválido"  
-  //   }
-  // }
-  // if (input.precio < 1 || !pattern.test(input.precio)) {
-  //   errors.precio = 'El precio no puede ser menor que 1'
-  // }
-  // if (input.stock < 0 || !pattern.test(input.stock)) {
-  //   errors.stock = 'El stock no puede ser negativo'
-  // }
+  }); 
+
   return errors;
 }
 
@@ -78,13 +58,6 @@ function EditDeleteProductForm({
   createForm = false,
   copyFunction
 }) {
-
-  const [settingFoto, setSettingFoto] = useState({
-    show: false,
-    name: "0",
-    placeholder: "Link de foto NºX",
-    value:""
-  })
   
   const [errors, setErrors] = useState({});
 
@@ -103,6 +76,13 @@ function EditDeleteProductForm({
   const storeCategories = useSelector((state) => state.categories);
 
   const [categorias, setCategrorias] = useState(product.Categoria || []);
+
+  const [settingFoto, setSettingFoto] = useState({
+    show: false,
+    name: "0",
+    placeholder: "Link de foto NºX",
+    value: ""    
+  })
 
   useEffect(() => {
     let pattern = /[0-9]+/;
@@ -125,8 +105,7 @@ function EditDeleteProductForm({
         precio: 1,
       });
     }   
-     console.log(fotos)
-     console.log(errors)
+    
   }, [product, input, categorias,fotos,errors]);
 
   function discardChanges() {
@@ -147,11 +126,11 @@ function EditDeleteProductForm({
     setSettingFoto({
       ...settingFoto,
       value:e.target.value
-    })
+    })    
     let newFotos=[...fotos]
-    newFotos[e.target.name] = e.target.value
-    setFotos(newFotos)
-    validate(input,newFotos)   
+    newFotos[parseInt(e.target.name)] = e.target.value
+    setFotos(newFotos)    
+    setErrors(validate(input, newFotos));  
   }
 
   const handleChangeString = (e) => {
@@ -174,7 +153,7 @@ function EditDeleteProductForm({
       const finalProduct = {
         ...input,
         id: "",
-        presentacion: presentacion.map(p=> p.id),
+        presentacion: presentacion.map(p => p.id),        
         categoria: categorias.map((c) => c.id),
         fotos: fotos,
       };
@@ -192,8 +171,7 @@ function EditDeleteProductForm({
         presentacion: presentacion.map(p => p.id),        
         categoria: categorias.map((c) => c.id),
         fotos: fotos,
-      };    
-      console.log(finalProduct)
+      };          
       updateFunction(finalProduct)
     } else {
       alert(`Existen errores ${errors}`);
@@ -207,6 +185,8 @@ function EditDeleteProductForm({
       placeholder: "Link de foto Nº " + e.target.id,
       value : fotos[parseInt(e.target.id)]
     })
+    setErrors(validate(input, fotos));  
+
   };
 
   const handleCategories = (e) => {
@@ -435,12 +415,14 @@ function EditDeleteProductForm({
             />
           </Col>
           </Row> 
-          <Row hidden={ !settingFoto.show }>
+          <Row hidden={ !settingFoto.show } className="mb-1">
             <Col className="col-12">
               <Form.Group>
-                <Form.Label className="mb-0">Link Foto { settingFoto.name }</Form.Label>
+                <Form.Label
+                  className={errors["foto" + settingFoto.name]?.length ? "mb-0 text-danger" : "mb-0"} >Link Foto {settingFoto.name} {errors[`foto${settingFoto.name}`]?.length ? errors[`foto${settingFoto.name}`] : ""} </Form.Label>
               <Form.Control                
-                as="textarea"
+                  as="textarea"
+                isInvalid={errors[`foto${settingFoto.name}`]?.length || ""}
                 name={settingFoto.name}
                 placeholder={settingFoto.placeholder}
                 value={settingFoto.value}

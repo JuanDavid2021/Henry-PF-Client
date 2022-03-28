@@ -41,7 +41,9 @@ export const DELETE_CART_ITEM = "deleteCartItem";
 export const FLUSH_CART = "flushCart";  
 export const POST_PEDIDO = "postPedido";
 export const PAGAR_PEDIDO = "pagarPedido";
-export const GET_PEDIDOS = "pagarPedido";
+export const GET_PEDIDOS = "getPedidos";
+export const GET_PEDIDO_ID = "getPedidosId";
+export const GET_PEDIDO_USER = "getPedido";
   
 export const GET_COMMENTS = "getComments"; 
 
@@ -53,13 +55,14 @@ export const SEARCHING_PRODUCT = "searchingProduct"
 export const SEARCH_LOCAL_PRODUCT = "searchLocalProduct"
 export const USERCREATE = "userCreate"
 export const USERLOGIN="userLogin"
-<<<<<<< HEAD
+
 export const USERLOGINOK="userLoginoK"
 export const USERLOGOUT = "userLogout"
-=======
+
 
 
 export const LOADING = "loading";
+
 
 export const POST_PRODUCT = "POST_PRODUCT"; 
 export const ORDER_PRODUCTS = "orderProducts";
@@ -68,4 +71,4 @@ export const SEARCH_PRODUCT = "searchProduct";
 export const SEARCHING_PRODUCT = "searchingProduct";
 export const SEARCH_LOCAL_PRODUCT = "searchLocalProduct";
 
->>>>>>> 8e1f6eed93ba029383f6912aace306020e81ad90
+
