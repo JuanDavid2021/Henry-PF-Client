@@ -1,11 +1,12 @@
 {
   "name": "client",
+  "proxy": "http://127.0.0.1:3001",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.9.0",
     "@popperjs/core": "^2.11.4",
-    "@sweetalert/with-react": "^0.1.1",
+    
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.1",
     "@testing-library/user-event": "^12.2.2",
