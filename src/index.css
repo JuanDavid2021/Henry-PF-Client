@@ -13,3 +13,32 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@media (max-width: 426px) {
+  .carousel-item-shop>div>img {
+    max-height: 146px;
+    width:70%;
+  }
+  .carrusel{
+    height:146px!important;
+    width:70%!important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel-item-shop>div>img {
+      max-height: 325px;
+  }
+  .carrusel{
+    height:325px!important;
+  }
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+  .carousel-item-shop>div>img {
+      max-height: 250px;
+  }
+  .carrusel{
+    height:250px!important;
+  }
+}

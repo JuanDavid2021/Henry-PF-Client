@@ -92,7 +92,7 @@ function NavBar({ setAuth }) {
                                             <span></span>
                                     }
                                 </Link>
-                                <button className="btn btn-primary text-light mx-2" onClick={e => logout(e)}>Log out</button>
+                                <button className="btn btn-primary text-light mx-2" onClick={e => logout(e)}>Salir</button>
                                 {currentUser.administrador ? 
                                 <button className="btn btn-secondary text-light" onClick={dashboard}>Dashboard</button> 
                                 :
