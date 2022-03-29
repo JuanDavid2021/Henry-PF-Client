@@ -15,7 +15,7 @@ function Card({id, nombre, stock, presentacion, precio, arrFotos, descripcion })
     <Col xs={12} sm={12} md={6} lg={4} >
       <CardBootstrap style={{ height: "100%"}}>
         <Col style={{ display:"flex", justifyContent:"center" }}>
-          <CardBootstrap.Img variant="top" style={{ height: "12em", width: "12em" , alignItems: "center" }} src={arrFotos && arrFotos[randomPic]} />
+          <CardBootstrap.Img variant="top" style={{ height: "12em", width: "12em" , alignItems: "center" }} src={arrFotos && arrFotos[0]} />
         </Col>
         <CardBootstrap.Body>
           <CardBootstrap.Title>{nombreCap}</CardBootstrap.Title>
