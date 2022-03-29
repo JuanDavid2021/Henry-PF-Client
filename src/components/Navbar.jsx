@@ -83,7 +83,7 @@ function NavBar({ setAuth }) {
                     {
                         (localStorage.token !== undefined || localStorage.loginData !== undefined) ?
                             <div className="flex-column py-2">
-                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none">Carrito <RiShoppingCartLine />
+                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none position-relative">Carrito <RiShoppingCartLine />
                                     {
                                         itemsCart.length !== 0 ?
                                             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -97,7 +97,7 @@ function NavBar({ setAuth }) {
                                 {currentUser.administrador ? 
                                 <button className="btn btn-secondary text-light" onClick={dashboard}>Dashboard</button> 
                                 :
-                                <button className="btn btn-secondary text-light text-center" onClick={toProfile}>Mi perfil <CgProfile size={20} style={{marginBottom: "3px"}}/> </button> 
+                                <button className="btn btn-secondary text-light" onClick={toProfile}>Mi perfil <CgProfile size={20} style={{marginBottom: "3px"}}/> </button> 
                                 }
                             </div>
                             :
