@@ -41,7 +41,7 @@ import {
   SET_CART_ITEM,
 
   USERCREATE,
-
+  LOGINFORGOT,
   USERLOGIN,
   USERLOGINOK,
   USERLOGOUT,
@@ -93,6 +93,10 @@ export function logoutuser(payload){
  }
 }
 
+export const loginforgot = async(payload)=>{
+ const forgot = await axios("http://localhost/3001/api/user/forgot")
+ return forgot 
+}
 
 export const login=(payload)=>{
   

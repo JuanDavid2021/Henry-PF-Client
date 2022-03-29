@@ -4,7 +4,7 @@ import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
 import { login, setPlatformUser } from "../actions/index"
 import { useDispatch } from "react-redux"
-import { SET_USERS } from '../action-types';
+
 
 export const userok = () => {
   let user = true

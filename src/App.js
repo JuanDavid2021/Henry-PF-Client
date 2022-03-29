@@ -13,6 +13,7 @@ import DetailPedido from './components/DetailPedido';
 import DetailProduct from './components/DetailProduct';
 import Footer from './components/Footer';
 import Landin from './components/Landin';
+import { LoginForgot } from './components/LoginForgot';
 import { LoginUser } from './components/LoginUser';
 // import Login from './components/Login';
 import NavBar from './components/Navbar';
@@ -88,9 +89,9 @@ function App() {
         {/* <Route exact path='/profile/:id' element={<Profile />} /> */}
 
         <Route exact path='/product/:id' element={<DetailProduct />} />
-
-        // <Route exact path='/products' element={<Products />} />
-        // <Route exact path='/pedidos' element={<Pedidos />} />
+        <Route exact path ='/login/forgot' element={<LoginForgot/>} />
+        <Route exact path='/products' element={<Products />} />
+        <Route exact path='/pedidos' element={<Pedidos />} />
         <Route exact path='/pedido/:id' element={<DetailPedido />} /> 
         <Route exact path='/creationForm' element={<CreationForm />} />
         <Route exact path='/cartDetails' element={<CartDetails />} />

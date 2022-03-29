@@ -61,6 +61,7 @@ export const USERLOGIN="userLogin";
 export const USERLOGINOK="userLoginoK"
 export const USERLOGOUT = "userLogout"
 export const LOADING = "loading";
+export const LOGINFORGOT = "loginForgot"
 
 
 
