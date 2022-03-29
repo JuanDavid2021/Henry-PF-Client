@@ -102,7 +102,7 @@ function App() {
         <Route exact path='/pagoaprobado' element={<PagoSuccess />} />
         <Route exact path='/pagorechazado' element={<PagoDenied />} />
 
-        <Route exact path='/profile' element={<UserInterface />} />
+        <Route exact path='/profile' element={isAuthenticated ? (<UserInterface/>) : (<Navigate to="/loginuser" />)} />
 
 
       </Routes>
