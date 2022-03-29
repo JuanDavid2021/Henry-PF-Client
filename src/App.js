@@ -23,6 +23,7 @@ import Products from "./components/Products";
 import { Register } from "./components/Register";
 // import Profile from './components/Profile';
 import Shop from './components/Shop';
+import UserInterface from './components/UserInterface';
 import ProtectedRoute from './Middleware/ProtectedRoute';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 
@@ -99,6 +100,9 @@ function App() {
         <Route path='/cartDetailsCheckoutPaymentMethod' element={<CartDetailCheckoutPaymentMethod />} />
         <Route exact path='/pagoaprobado' element={<PagoSuccess />} />
         <Route exact path='/pagorechazado' element={<PagoDenied />} />
+
+        <Route exact path='/profile' element={<UserInterface />} />
+
 
       </Routes>
       <Footer />

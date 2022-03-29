@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RiShoppingCartLine } from 'react-icons/ri';
+import { CgProfile } from 'react-icons/cg';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -38,6 +39,11 @@ function NavBar({ setAuth }) {
     const dashboard = () => {
         navigate('/dashboard')
     }
+
+    const toProfile = () => {
+        navigate('/profile')
+    }
+    
 
     const logout = (e) => {
         e.preventDefault()
@@ -88,7 +94,11 @@ function NavBar({ setAuth }) {
                                     }
                                 </Link>
                                 <button className="btn btn-primary text-light mx-2" onClick={e => logout(e)}>Log out</button>
-                                {currentUser.administrador && <button className="btn btn-secondary text-light" onClick={dashboard}>Dashboard</button>}
+                                {currentUser.administrador ? 
+                                <button className="btn btn-secondary text-light" onClick={dashboard}>Dashboard</button> 
+                                :
+                                <button className="btn btn-secondary text-light text-center" onClick={toProfile}>Mi perfil <CgProfile size={20} style={{marginBottom: "3px"}}/> </button> 
+                                }
                             </div>
                             :
                             <div>
