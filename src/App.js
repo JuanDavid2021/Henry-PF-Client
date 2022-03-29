@@ -1,4 +1,3 @@
-
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
@@ -26,12 +25,6 @@ import { Register } from "./components/Register";
 import Shop from './components/Shop';
 import ProtectedRoute from './Middleware/ProtectedRoute';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
-
-
-
-
-
-
 
 function App() {
 
@@ -70,7 +63,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div >
       <NavBar setAuth={setAuth} />
       <Routes>
         <Route exact path='/' element={<Landin />} />
@@ -108,7 +101,7 @@ function App() {
         <Route exact path='/pagorechazado' element={<PagoDenied />} />
 
       </Routes>
-      <Footer style={{ zIndex: "0" }} />
+      <Footer />
     </div>
   );
 }

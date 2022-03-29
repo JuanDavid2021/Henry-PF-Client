@@ -55,9 +55,11 @@ function NavBar({ setAuth }) {
     }
 
     return (
-        <nav className="navbar navbar-expand-lg flex-column bg-dark sticky-top" >
-            <div className="container-fluid">
-                <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/" style={{ width: "3%" }}><img src={img} alt="logo" style={{ width: "100%" }} /></Link>
+        <nav className="navbar navbar-expand-lg bg-dark sticky-top" style={{ height: "10vh" }}>
+            <div className="container-fluid" style={{ background: "#212529 "}}>
+                <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/" style={{ width: "5vh" }}>
+                    <img src={img} alt="logo" style={{ width: "100%" }} />
+                </Link>
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/">Beef Shop</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon btn-outline-light" type="button"><GiHamburgerMenu /></span>
@@ -65,17 +67,17 @@ function NavBar({ setAuth }) {
                 <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent" >
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="text-light text-decoration-none fw-light fs-5 mx-3 nav-link" to='/shop'>Tienda</Link>
+                            <Link className="text-light text-decoration-none py-0 fw-light fs-5 mx-2 nav-link" to='/shop'>Tienda</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="text-light text-decoration-none fw-light fs-5 mx-3 nav-link" to="/about">Sobre nosotros</Link>
+                            <Link className="text-light text-decoration-none py-0 fw-light fs-5 mx-2 nav-link" to="/about">Sobre nosotros</Link>
                         </li>
 
                     </ul>
                     {
                         (localStorage.token !== undefined || localStorage.loginData !== undefined) ?
-                            <div>
-                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative">Carrito <RiShoppingCartLine />
+                            <div className="flex-column py-2">
+                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none">Carrito <RiShoppingCartLine />
                                     {
                                         itemsCart.length !== 0 ?
                                             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -85,13 +87,13 @@ function NavBar({ setAuth }) {
                                             <span></span>
                                     }
                                 </Link>
-                                <button className="btn btn-primary text-light text-decoration-none fs-6 position-relative mx-3" onClick={e => logout(e)}>Log out</button>
-                                {currentUser.administrador && <button className="btn btn-secondary text-light text-decoration-none fs-6 position-relative" onClick={dashboard}>Dashboard</button>}
+                                <button className="btn btn-primary text-light mx-2" onClick={e => logout(e)}>Log out</button>
+                                {currentUser.administrador && <button className="btn btn-secondary text-light" onClick={dashboard}>Dashboard</button>}
                             </div>
                             :
                             <div>
-                                <div>
-                                    <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none fs-6 position-relative" style={{ left: "-17px" }}>Carrito <RiShoppingCartLine />
+                                <div className="flex-column py-2">
+                                    <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none" >Carrito <RiShoppingCartLine />
                                         {
                                             itemsCart.length !== 0 ?
                                                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -102,8 +104,8 @@ function NavBar({ setAuth }) {
                                         }
                                     </Link>
 
-                                    <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none fs-6" >Ingresar</button></Link>
-                                    <Link to="/register"><button className="btn btn-success text-light text-decoration-none fs-6 mx-3" >Registrate</button></Link>
+                                    <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none  mx-2" >Ingresar</button></Link>
+                                    <Link to="/register"><button className="btn btn-success text-light text-decoration-none" >Registrate</button></Link>
 
                                 </div>
                             </div>
