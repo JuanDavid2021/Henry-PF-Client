@@ -27,6 +27,7 @@ import Shop from './components/Shop';
 import UserInterface from './components/UserInterface';
 import ProtectedRoute from './Middleware/ProtectedRoute';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
+import {LoginReset} from "./components/LoginReset"
 
 function App() {
 
@@ -90,6 +91,7 @@ function App() {
 
         <Route exact path='/product/:id' element={<DetailProduct />} />
         <Route exact path ='/login/forgot' element={<LoginForgot/>} />
+        <Route exact path ='/login/reset' element={<LoginReset/>}/>
         <Route exact path='/products' element={<Products />} />
         <Route exact path='/pedidos' element={<Pedidos />} />
         <Route exact path='/pedido/:id' element={<DetailPedido />} /> 

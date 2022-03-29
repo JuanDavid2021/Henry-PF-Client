@@ -94,9 +94,18 @@ export function logoutuser(payload){
 }
 
 export const loginforgot = async(payload)=>{
- const forgot = await axios("http://localhost/3001/api/user/forgot")
+ console.log(payload)  
+ const forgot = await axios.post("http://localhost:3001/api/user/forgot", payload)
  return forgot 
 }
+
+export const loginreset=async(payload)=>{
+  
+const url = window.location.href;  
+const reset = await axios.post("http://localhost:3001/api/user/reset", payload, { headers: { reset: url }})
+return reset 
+}
+
 
 export const login=(payload)=>{
   
