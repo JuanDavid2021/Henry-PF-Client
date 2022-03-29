@@ -77,78 +77,81 @@ function SearchBar() {
     }
     return () => clearTimeout(timeout);
   }, [typing, dispatch, setTyping, categoryFilterStatus, filter,loaded]);
+
   return (
-    <Row className="mx-4 mt-3 center justify-content-center">
-      <Col sm="12" md="4" lg="4" xl="3" className="mb-2">
-        <InputGroup>
-          <FormControl
-            isInvalid={!searchFilterStatus}
-            placeholder="Buscar por nombre..."
-            aria-label="Recipient's username"
-            type="text"
-            id="search"
-            name="input"
-            aria-describedby="search-input"
-            value={filter.input}
-            onChange={handleChange}
-          />
-          {typing ? (
-            <Button
-              onClick={setTheFilter}
-              variant="dark outline-secondary"
-              id="search-local-input"
-            >
-              <Spinner
-                as="span"
-                animation="border"
-                size="sm"
-                role="status"
-                aria-hidden="true"
-              />
-            </Button>
-          ) : (
-            ""
-          )}
-        </InputGroup>
-      </Col>
-      <Col sm="12" md="4" lg="4" xl="3" className="mb-2">
-        <Form.Select
-          isValid={categoryFilterStatus}
-          isInvalid={!categoryFilterStatus}
-          name="category"
-          onChange={(e) => setTheFilter(e)}
-          className={categoryFilterStatus ? "isValid" : "isInvalid"}
-          aria-label="Default select example"
-        >
-          <option selected value="all">
-            Todas las carnes
-          </option>
-          {categories.map((e, i) => {
-            return (
-              <option key={i} value={e.id}>
-                Carne de {e.nombre}
-              </option>
-            );
-          })}
-        </Form.Select>
-      </Col>
-      <Col sm="12" md="4" lg="4" xl="3" className="mb-2">
-        <Form.Select
-          name="order"
-          onChange={(e) => setTheFilter(e)}
-          className="form-select"
-          aria-label="Default select example"
-        >
-          <option selected value="">
-            Ordenar por
-          </option>
-          <option value="A-Z">Nombre de A a Z</option>
-          <option value="Z-A">Nombre de Z a A</option>
-          <option value="priceLower-Higher">Baratos primero</option>
-          <option value="priceHigher-Lower">Caros primero</option>
-        </Form.Select>
-      </Col>
-    </Row>
+    <div className="container px-0">
+      <Row className="mx-4 mt-3">
+        <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
+          <InputGroup>
+            <FormControl
+              isInvalid={!searchFilterStatus}
+              placeholder="Buscar por nombre..."
+              aria-label="Recipient's username"
+              type="text"
+              id="search"
+              name="input"
+              aria-describedby="search-input"
+              value={filter.input}
+              onChange={handleChange}
+            />
+            {typing ? (
+              <Button
+                onClick={setTheFilter}
+                variant="dark outline-secondary"
+                id="search-local-input"
+              >
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                />
+              </Button>
+            ) : (
+              ""
+            )}
+          </InputGroup>
+        </Col>
+        <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
+          <Form.Select
+            isValid={categoryFilterStatus}
+            isInvalid={!categoryFilterStatus}
+            name="category"
+            onChange={(e) => setTheFilter(e)}
+            className={categoryFilterStatus ? "isValid" : "isInvalid"}
+            aria-label="Default select example"
+          >
+            <option selected value="all">
+              Todas las carnes
+            </option>
+            {categories.map((e, i) => {
+              return (
+                <option key={i} value={e.id}>
+                  Carne de {e.nombre}
+                </option>
+              );
+            })}
+          </Form.Select>
+        </Col>
+        <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
+          <Form.Select
+            name="order"
+            onChange={(e) => setTheFilter(e)}
+            className="form-select"
+            aria-label="Default select example"
+          >
+            <option selected value="">
+              Ordenar por
+            </option>
+            <option value="A-Z">Nombre de A a Z</option>
+            <option value="Z-A">Nombre de Z a A</option>
+            <option value="priceLower-Higher">Baratos primero</option>
+            <option value="priceHigher-Lower">Caros primero</option>
+          </Form.Select>
+        </Col>
+      </Row>
+    </div>
   );
 }
 

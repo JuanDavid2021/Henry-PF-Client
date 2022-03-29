@@ -190,10 +190,6 @@ export function Resume() {
                   <th className="text-muted"> <span className="d-block py-1 fw-normal">Envío</span></th>
                   <th> <span className="d-block py-1 fw-normal text-end">$0.00</span></th>
                 </tr>
-                <tr>
-                  <th className="text-muted"> <span className="d-block py-1 fw-normal">IVA</span></th>
-                  <th> <span className="d-block py-1 fw-normal text-end">$0.00</span></th>
-                </tr>
                 <tr className="total">
                   <td className="py-3 border-bottom-0 text-muted"> <span className="lead fw-bold">Total</span></td>
                   <th className="py-3 border-bottom-0 text-end"> <span className="lead fw-bold text-end">$ {suma}</span></th>
