@@ -29,8 +29,12 @@ function NavBar({ setAuth }) {
 
     useEffect(() => {
         if (localStorage.mail === "beefshophenry@gmail.com") {
-            currentUser.administrador = true
-        }
+            currentUser.token= localStorage.token;
+            currentUser.administrador= true;
+            console.log(currentUser)
+        } 
+        currentUser.token= localStorage.token;
+        console.log(currentUser)
     }, [])
     /*      const handleLogin = () => {
             user ? setUser(false) : setUser(true)
