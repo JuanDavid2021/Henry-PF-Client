@@ -7,9 +7,9 @@ function UserInterface() {
     const pedidos = useSelector(state => state.pedidos)
     const currentuser = useSelector(state => state.user)
 
-    useEffect(()=>{
+    useEffect(async ()=>{
         console.log(currentuser)
-        dispatch(getPedidos(currentuser))
+        await dispatch(getPedidos(currentuser))
         console.log(pedidos)
     },[dispatch])
 
