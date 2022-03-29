@@ -20,21 +20,16 @@ function NavBar({ setAuth }) {
 
 
     const itemsCart = useSelector(state => state.cart)
-    const userLogin = useSelector(state => state.userAuthenticated)
     const currentUser = useSelector(state => state.user);
-    console.log("hola", localStorage.token)
-    console.log("hola33", localStorage.mail)
 
-    console.log(userLogin)
 
     useEffect(() => {
-        if (localStorage.mail === "beefshophenry@gmail.com") {
-            currentUser.token= localStorage.token;
+        if (currentUser.email === "beefshophenry@gmail.com") {
             currentUser.administrador= true;
             console.log(currentUser)
-        } 
-        currentUser.token= localStorage.token;
-        console.log(currentUser)
+        } else {
+            currentUser.administrador= false;
+        }
     }, [])
     /*      const handleLogin = () => {
             user ? setUser(false) : setUser(true)
