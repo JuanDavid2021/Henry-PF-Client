@@ -55,7 +55,7 @@ import {
 
 
 const initialState = {
-  user: { administrador:false, nombre: "Invitado", email: "invitado@invitado.com" }, //usuario actual usando la app
+  user: { administrador:false, nombre: "Invitado", email: localStorage.mail, token: localStorage.token }, //usuario actual usando la app
   // user: [], //usuario actual usando la app
   userLogin:[],
   userAuthenticated:{},
