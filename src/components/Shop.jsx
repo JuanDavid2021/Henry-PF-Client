@@ -33,6 +33,7 @@ function Shop() {
   return (
     <div style={{ marginBottom: "30px" }}>
       <CarouselShop />
+      
       <SearchBar />
 
       <Container>
