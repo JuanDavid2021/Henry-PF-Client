@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
 import { login, setPlatformUser } from "../actions/index"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 
 export const userok = () => {
@@ -32,6 +32,8 @@ export const LoginUser = ({ setAuth }) => {
   )
 
   const { correo, contraseña } = inputs
+
+  const currentUser = useSelector(state => state.user)
 
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value })
@@ -62,6 +64,12 @@ export const LoginUser = ({ setAuth }) => {
           timer: "2000",
         })
         dispatch(login({ state: "user_ok", mail: correo }))
+        if (correo === "beefshophenry@gmail.com") {
+          currentUser.administrador= true;
+          console.log(currentUser)
+      } else {
+          currentUser.administrador= false;
+      }
       } else {
         setAuth(false)
         swal({
