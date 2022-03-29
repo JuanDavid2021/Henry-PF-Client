@@ -10,17 +10,17 @@ import { useDispatch } from "react-redux"
 export const LoginForgot = () => {
 
 const dispatch=useDispatch()
-const [input, setInput] = useState("")
+const [correo, setCorreo] = useState("")
 
 
 const handleChange = (e)=>{
-setInput(e.target.value)
+setCorreo(e.target.value)
     
 }
 
 const handleSubmit =(e)=>{
 e.preventDefault()
-dispatch(loginforgot(input))
+dispatch(loginforgot(correo))
 }
 
   return (
@@ -33,11 +33,11 @@ dispatch(loginforgot(input))
             <form  className="mt-3">
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Correo electrónico</label>
-                <input type="email" name="correo" id="exampleInputEmail1" aria-describedby="emailHelp" value={input} placeholder="correo..." className='form-control' onChange={e => handleChange(e)} />
+                <input type="email" name="correo" id="exampleInputEmail1" aria-describedby="emailHelp" value={correo} placeholder="correo..." className='form-control' onChange={e => handleChange(e)} />
               </div>
             </form>
               <div className="mb-3">
-                <button onClick={(e)=>handleSubmit(e)} className="btn btn-success btn-block" disabled={input.correo === ""}>Solicitar Nueva Contraseña</button>
+                <button onClick={(e)=>handleSubmit(e)} className="btn btn-success btn-block" disabled={correo === ""}>Solicitar Nueva Contraseña</button>
               </div>
             <div className='d-flex justify-content-center align-items-center'>
 
