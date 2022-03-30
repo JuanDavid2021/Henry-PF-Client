@@ -59,6 +59,25 @@ function NavBar({ setAuth }) {
         dispatch(logoutuser({ state: "user_out" }))
     }
 
+    document.addEventListener("scroll", () => {
+       let navcontent = document.getElementById("navbarSupportedContent")
+       navcontent.classList.remove("show")
+    })
+
+    useEffect(()=>{
+        var ignoreClickOnMeElement = document.getElementById("navbarSupportedContent");
+
+        document.addEventListener("click", (evt) => {
+            
+            if(evt.target.nodeName !== "A" && evt.target.nodeName !== "BUTTON"  && evt.target.nodeName !== "IMG"){
+                var isClickInsideElement = ignoreClickOnMeElement.contains(evt.target);
+                if (!isClickInsideElement) {
+                    ignoreClickOnMeElement.classList?.remove("show")
+                }
+            }
+        })
+    },[])
+
     return (
         <nav className="navbar navbar-expand-lg bg-dark sticky-top" style={{ height: "10vh" }}>
             <div className="container-fluid" style={{ background: "#212529 "}}>
@@ -66,7 +85,7 @@ function NavBar({ setAuth }) {
                     <img src={img} alt="logo" style={{ width: "100%" }} />
                 </Link>
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/">Beef Shop</Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="btnHamburger">
                     <span className="navbar-toggler-icon btn-outline-light" type="button"><GiHamburgerMenu /></span>
                 </button>
                 <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent" >
@@ -82,7 +101,7 @@ function NavBar({ setAuth }) {
                     {
                         (localStorage.token !== undefined || localStorage.loginData !== undefined) ?
                             <div className="flex-column py-2">
-                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none position-relative">Carrito <RiShoppingCartLine />
+                                <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none position-relative mx-2">Carrito <RiShoppingCartLine />
                                     {
                                         itemsCart.length !== 0 ?
                                             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -94,15 +113,15 @@ function NavBar({ setAuth }) {
                                 </Link>
                                 <button className="btn btn-primary text-light mx-2" onClick={e => logout(e)}>Salir</button>
                                 {currentUser.administrador ? 
-                                <button className="btn btn-secondary text-light" onClick={dashboard}>Dashboard</button> 
+                                <button className="btn btn-secondary text-light mx-2" onClick={dashboard}>Dashboard</button> 
                                 :
-                                <button className="btn btn-secondary text-light" onClick={toProfile}>Mi perfil <CgProfile size={20} style={{marginBottom: "3px"}}/> </button> 
+                                <button className="btn btn-secondary text-light mx-2" onClick={toProfile}>Mi perfil <CgProfile size={20} style={{marginBottom: "3px"}}/> </button> 
                                 }
                             </div>
                             :
                             <div>
                                 <div className="flex-column py-2">
-                                    <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none position-relative" >Carrito <RiShoppingCartLine />
+                                    <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none position-relative mx-2" >Carrito <RiShoppingCartLine />
                                         {
                                             itemsCart.length !== 0 ?
                                                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -113,8 +132,8 @@ function NavBar({ setAuth }) {
                                         }
                                     </Link>
 
-                                    <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none  mx-2" >Ingresar</button></Link>
-                                    <Link to="/register"><button className="btn btn-success text-light text-decoration-none" >Registrate</button></Link>
+                                    <Link to="/loginuser"><button className="btn btn-primary text-light text-decoration-none mx-2" >Ingresar</button></Link>
+                                    <Link to="/register"><button className="btn btn-success text-light text-decoration-none mx-2" >Registrate</button></Link>
 
                                 </div>
                             </div>
