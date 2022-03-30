@@ -94,7 +94,7 @@ function DetailProduct() {
       ...valoresDetalleProducto,
       id: productDetails.id,
       precio: productDetails.precio,
-      arrFotos: productDetails.fotos,
+      arrFotos: productDetails?.fotos?.filter( e=> e.length > 0 ),
       nombre: productDetails.nombre,
       idItemFront:( productDetails.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso )
     };
@@ -128,7 +128,7 @@ function DetailProduct() {
                 >
                   <Row style={{ display: "flex", justifyContent: "center" }}>
                     <Carousel fade /* variant="dark" */ style={{ width: "10em" }}>
-                      {productDetails.fotos?.map((el) => (
+                      {productDetails?.fotos?.filter( e => e.length > 0 ).map((el) => (
                         <Carousel.Item style={{ width: "10em" }} key={el}>
                           <img
                             className="d-block w-100"
