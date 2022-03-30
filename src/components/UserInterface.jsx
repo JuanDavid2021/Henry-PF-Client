@@ -27,7 +27,7 @@ function UserInterface() {
             <div style={{ minHeight: "700px", display: "flex", justifyContent: "center", backgroundSize: "cover" }}>
                 <div style={{ width: "80%", marginTop: "70px", marginBottom: "30px" }}><h3>Compras</h3>
                     {pedidos.pedidos?.length ?
-                        pedidos?.pedidos?.map((p) => {
+                        pedidos?.pedidos?.filter(p => p.status !== "Created" ).map((p) => {
                             return (
                                 <Card text="dark" bg-opacity="75%" style={{ marginTop: "30px" }}>
                                     <Card.Header as="h5" className="fw-normal">{p.ItemsPedidos.map(p => p.nombre).join(" || ").substring(0, 95) + "..."}</Card.Header>
