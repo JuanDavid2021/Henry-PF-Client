@@ -1,10 +1,9 @@
-import React, { Fragment, useState } from 'react'
+import React, {  useState } from 'react'
 import { Link } from "react-router-dom"
 import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
 import { login, setPlatformUser } from "../actions/index"
 import { useDispatch, useSelector } from "react-redux"
-
 
 export const userok = () => {
   let user = true
@@ -15,7 +14,6 @@ export const userf = () => {
   let user = false
   return user
 }
-
 
 export const LoginUser = ({ setAuth }) => {
 
@@ -121,13 +119,13 @@ export const LoginUser = ({ setAuth }) => {
       timer: "2000",
     })
   }
+
   return (
-    <div className="bg-dark" style={{ height: "700px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
-      <div className='alert align-middle bg-dark text-light bg-opacity-75' style={{ display: "flex", height: "450px", width:"20%", flexDirection: "column", alignItems: "center" }}>
-        <h1 className='text-center my-2'>Ingresar</h1>
+    <div className="bg-dark" style={{ height: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
+      <div className='alert align-middle bg-dark text-light bg-opacity-75 mb-0 mx-3' style={{ display: "flex", height: "450px", flexDirection: "column", justifyContent: "center" }}>
+        <h1 className='text-center mb-3'>Ingresar</h1>
         <div className=" d-flex justify-content-center">
           <div className='' style={{ width: "100%" }}>
-
             <div>
               {
                 loginData ? (
@@ -141,27 +139,26 @@ export const LoginUser = ({ setAuth }) => {
                 ) : (
                   <GoogleLogin
                     clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-                    buttonText="Log In"
+                    buttonText="Continuar con Google"
                     onSuccess={handleLogin}
                     onFailure={handleFailure}
                     cookiePolicy={'single_host_origin'}
-                  >
-                  </GoogleLogin>
+                  />
                 )}
             </div>
             <form  className="mt-3">
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Correo</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Correo</label>
                 <input type="email" name="correo" id="exampleInputEmail1" aria-describedby="emailHelp" value={correo} placeholder="correo..." className='form-control' onChange={e => onChange(e)} />
               </div>
               <div className="mb-3">
-                <label for="exampleInputPassword1" className="form-label" >Contraseña</label>
+                <label htmlFor="exampleInputPassword1" className="form-label" >Contraseña</label>
                 <input type="password" name="contraseña" value={contraseña} placeholder="contraseña..." id="exampleInputPassword1" className='form-control' onChange={e => onChange(e)} />
               </div>
             </form>
-              <div className="mb-3">
-                <button onClick={onSubmitForm} className="btn btn-success btn-block" disabled={inputs.correo === "" || inputs.contraseña === ""}>Submit</button>
-              </div>
+            <div className="mb-3">
+              <button onClick={onSubmitForm} className="btn btn-success btn-block" disabled={inputs.correo === "" || inputs.contraseña === ""}>Submit</button>
+            </div>
             <div className='d-flex justify-content-center align-items-center'>
 
               <h6 className='fs-5 align-self-center'>¿No estás registrado?</h6><Link className="fs-5 mb-2 ms-2 text-decoration-none fw-normal" to="/register">Registrate</Link>
