@@ -4,7 +4,8 @@ import DetailProductModal from './DetailProductModal';
 
 function Card({id, nombre, stock, presentacion, precio, arrFotos, descripcion }) {
   const nombreCap = nombre?.[0].toUpperCase() + nombre?.slice(1).toLowerCase();
-  let randomPic = Math.floor(Math.random() * arrFotos?.length)
+  const pics = arrFotos.filter(el => el.length > 0)
+  let randomPic = Math.floor(Math.random() * pics?.length)
 
   const [show, setShow] = useState(false);
 
@@ -15,7 +16,7 @@ function Card({id, nombre, stock, presentacion, precio, arrFotos, descripcion })
     <Col xs={12} sm={12} md={6} lg={4} >
       <CardBootstrap style={{ height: "100%"}}>
         <Col style={{ display:"flex", justifyContent:"center" }}>
-          <CardBootstrap.Img variant="top" style={{ height: "12em", width: "12em" , alignItems: "center" }} src={arrFotos && arrFotos[0]} />
+          <CardBootstrap.Img variant="top" style={{ height: "12em", width: "12em" , alignItems: "center" }} src={pics && pics[randomPic]} />
         </Col>
         <CardBootstrap.Body>
           <CardBootstrap.Title>{nombreCap}</CardBootstrap.Title>
@@ -28,7 +29,7 @@ function Card({id, nombre, stock, presentacion, precio, arrFotos, descripcion })
           </button>
         </Col>
       </CardBootstrap>
-      <DetailProductModal id={id} nombreCap={nombreCap} stock={stock} precio={precio} presentacion={presentacion} arrFotos={arrFotos} show={show} handleClose={handleClose} descripcion={descripcion}/>
+      <DetailProductModal id={id} nombreCap={nombreCap} stock={stock} precio={precio} presentacion={presentacion} arrFotos={pics} show={show} handleClose={handleClose} descripcion={descripcion}/>
     </Col>
   );
 }
