@@ -102,7 +102,7 @@ function NavBar({ setAuth }) {
                             :
                             <div>
                                 <div className="flex-column py-2">
-                                    <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none" >Carrito <RiShoppingCartLine />
+                                    <Link to="/cartDetails" className="btn btn-outline-success text-decoration-none position-relative" >Carrito <RiShoppingCartLine />
                                         {
                                             itemsCart.length !== 0 ?
                                                 <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
