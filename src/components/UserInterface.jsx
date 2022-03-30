@@ -24,8 +24,8 @@ function UserInterface() {
 
 
 
-            <div style={{ height: "700px", display: "flex", justifyContent: "center", backgroundSize: "cover" }}>
-                <div style={{ width: "80%", marginTop: "70px" }}><h3>Compras</h3>
+            <div style={{ minHeight: "700px", display: "flex", justifyContent: "center", backgroundSize: "cover" }}>
+                <div style={{ width: "80%", marginTop: "70px", marginBottom: "30px" }}><h3>Compras</h3>
                     {pedidos.pedidos?.length ?
                         pedidos?.pedidos?.map((p) => {
                             return (
@@ -33,7 +33,7 @@ function UserInterface() {
                                     <Card.Header as="h5" className="fw-normal">{p.ItemsPedidos.map(p => p.nombre).join(" || ").substring(0, 95) + "..."}</Card.Header>
                                     <Card.Body style={{ display: "flex", alignItems: "center" }}>
                                         <Card.Body>
-                                            {p.status === "Approbed" ?
+                                            {p.status === "Approbed" || "Aprobada" ?
                                                 <div style={{ display: "flex" }}>
                                                     <Card.Title style={{ marginRight: "4px" }}>Estado:</Card.Title>
                                                     <Card.Title className='text-success'> {p.status}</Card.Title>
@@ -58,8 +58,8 @@ function UserInterface() {
                                 </Card>
                             )
 
-                        }) : <div>
-                            no hay epdidos
+                        }) : <div className="lead text-center fs-3 fw-normal mt-3">
+                            no tiene ningun pedido realizado
                         </div>
 
 
