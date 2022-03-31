@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
-import { addCartItem, flushCart, login, setPlatformUser } from "../actions/index"
+import { actCart, addCartItem, flushCart, login, setPlatformUser } from "../actions/index"
 import { useDispatch, useSelector } from "react-redux"
 
 export const userok = () => {
@@ -61,8 +61,9 @@ export const LoginUser = ({ setAuth }) => {
         console.log("aaaaaaaaaaaaaaa", finalRes)
         dispatch(setPlatformUser(finalRes))
         if (finalRes.shoppingCart) {
-            const carrito = JSON.parse(parseRes.shoppingCart)
-            dispatch(addCartItem(carrito))
+            const carrito = parseRes.shoppingCart.map((p)=>JSON.parse(p))
+            console.log(carrito)
+            dispatch(actCart(carrito))
         }
 
         setAuth(true)

@@ -59,7 +59,7 @@ function NavBar({ setAuth }) {
             }
             )
             apiUpdateUser({ correo: currentUser.email, shoppingCart: shoppingCart })
-            dispatch(flushCart([]))
+            dispatch(flushCart())
         }
         localStorage.removeItem("token")
         localStorage.removeItem("mail")
