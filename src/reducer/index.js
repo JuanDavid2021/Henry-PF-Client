@@ -50,7 +50,8 @@ import {
   GET_PEDIDO_ID,
   SET_PLATFORM_USER,
   PUT_PEDIDO_STATE,
-  PUT_CATEGORY
+  PUT_CATEGORY,
+  ACT_CART
 } from './../action-types/index';
 
 
@@ -127,6 +128,13 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       cart: action.payload
+    }
+  }
+
+  if(action.type === ACT_CART) {
+    return {
+      ...state,
+      cart: state.cart.concat(action.payload)
     }
   }
 

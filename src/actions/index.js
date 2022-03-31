@@ -39,7 +39,7 @@ import {
   EDIT_SALE_STATUS,
   ORDER_PRECIO,
   SET_CART_ITEM,
-
+  ACT_CART,
   USERCREATE,
   LOGINFORGOT,
   USERLOGIN,
@@ -83,27 +83,28 @@ function orderProducts(products, orderType) {
   return products;
 }
 
-export function logoutuser(payload){
+export function logoutuser(payload) {
 
- return function(dispatch){
+  return function (dispatch) {
     return dispatch({
       type: USERLOGOUT,
       payload: payload
     })
- }
+  }
 }
 
 
 
 
-export const login=(payload)=>{
-  
- return async function (dispatch){
-   return dispatch({
-     type: USERLOGINOK,
-     payload:payload
-   })
- } }
+export const login = (payload) => {
+
+  return async function (dispatch) {
+    return dispatch({
+      type: USERLOGINOK,
+      payload: payload
+    })
+  }
+}
 
 
 export const searchProduct = (producto) => {
@@ -115,21 +116,22 @@ export const searchProduct = (producto) => {
     })
   }
 }
-export const loginUser=(data)=>{
- return async function (dispatch){
-   var logUser= await axios.post("http://localhost:3001/api/user/login",data)
-   console.log(logUser)
-   return dispatch({
-     type:USERLOGIN,
-     payload: logUser.data
- })
-}}
+export const loginUser = (data) => {
+  return async function (dispatch) {
+    var logUser = await axios.post("http://localhost:3001/api/user/login", data)
+    console.log(logUser)
+    return dispatch({
+      type: USERLOGIN,
+      payload: logUser.data
+    })
+  }
+}
 
-export const order=(payload)=>{
- return{
-  type: ORDER_PRODUCTS,
-  payload
- }
+export const order = (payload) => {
+  return {
+    type: ORDER_PRODUCTS,
+    payload
+  }
 }
 
 
@@ -257,18 +259,18 @@ async function apiGetAllCategories() {
 
 async function apiPutCategory(data) {
   try {
-    const response = await axios.put(`http://localhost:3001/api/category/${data.id}`, data);    
+    const response = await axios.put(`http://localhost:3001/api/category/${data.id}`, data);
     return response;
-  } catch (error) {    
+  } catch (error) {
     return error
   }
 }
 
 async function apiAddCategory(data) {
   try {
-    const response = await axios.post(`http://localhost:3001/api/category/new`, data);    
+    const response = await axios.post(`http://localhost:3001/api/category/new`, data);
     return response;
-  } catch (error) {    
+  } catch (error) {
     return error
   }
 }
@@ -313,8 +315,8 @@ export function filterProducts(filter) {
 }
 
 export function setPlatformUser(user) {
-  return async (dispatch)=>{
-    return dispatch({type:SET_PLATFORM_USER, payload:user})
+  return async (dispatch) => {
+    return dispatch({ type: SET_PLATFORM_USER, payload: user })
   }
 }
 
@@ -330,7 +332,7 @@ export function getProducts() {
       if (products.error) {
         return dispatch({ type: GETTING_PRODUCTS, payload: false });
       } else {
-        dispatch({ type: SET_FILTERED_PRODUCTS, payload: products});
+        dispatch({ type: SET_FILTERED_PRODUCTS, payload: products });
         return dispatch({ type: SET_PRODUCTS, payload: products });
       }
     } catch (error) {
@@ -359,42 +361,42 @@ export function getAllCategories() {
   return async (dispatch) => {
     try {
       const allCategories = apiGetAllCategories
-    if (!allCategories.error) {
+      if (!allCategories.error) {
         dispatch({ type: SET_CATEGORIES, payload: allCategories });
       }
     } catch (error) {
       console.log(error)
-    }    
+    }
   }
 }
 
 export function putCategory(payload) {
   return async (dispatch) => {
-    try {     
+    try {
       const editedCategory = await apiPutCategory(payload)
       if (editedCategory.status === 200) {
         dispatch({ type: PUT_CATEGORY, payload: payload })
-      }      
-      return editedCategory            
+      }
+      return editedCategory
     } catch (error) {
       console.log(error)
       return error
-    }    
+    }
   }
 }
 
 export function addCategory(payload) {
   return async (dispatch) => {
-    try {     
-      const createdCategory = await apiAddCategory(payload)     
+    try {
+      const createdCategory = await apiAddCategory(payload)
       if (createdCategory.status === 200) {
-        dispatch({ type: ADD_CATEGORY, payload:createdCategory.data })
+        dispatch({ type: ADD_CATEGORY, payload: createdCategory.data })
       }
-      return createdCategory          
+      return createdCategory
     } catch (error) {
       console.log(error)
       return error
-    }    
+    }
   }
 }
 
@@ -583,6 +585,17 @@ export function flushCart() {
   }
 }
 
+export function actCart(payload) {
+  return (dispatch) => {
+    let cartLocal = JSON.parse(localStorage.getItem("cart"));
+    const cartLocal2 = cartLocal.concat(payload)
+    localStorage.setItem("cart", JSON.stringify(cartLocal2));
+    dispatch({
+      type: ACT_CART,
+      payload
+    })
+  }
+}
 
 
 export function postProduct(payload) {
@@ -607,8 +620,8 @@ export function putProduct(payload) {
 
   return async function (dispatch) {
     try {
-      const updatedProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload);      
-      if (updatedProduct.status === 200) {        
+      const updatedProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload);
+      if (updatedProduct.status === 200) {
         dispatch({
           type: PUT_PRODUCT,
           payload: updatedProduct.data
@@ -678,7 +691,7 @@ export function getPedidos(payload) {
           });
         }
       } else {
-        const pedido = await axios.get("http://localhost:3001/api/pedido/get/"+payload);
+        const pedido = await axios.get("http://localhost:3001/api/pedido/get/" + payload);
         if (pedido.status === 200) {
           dispatch({
             type: GET_PEDIDO_ID,
@@ -696,13 +709,13 @@ export function getPedidos(payload) {
 export function putPedidos(payload) {
   return async function (dispatch) {
     try {
-        const pedido = await axios.get("http://localhost:3001/api/pedido/update/"+payload);
-        if (pedido.status === 200) {
-          dispatch({
-            type: PUT_PEDIDO_STATE,
-            payload: pedido.data
-          });
-        }
+      const pedido = await axios.get("http://localhost:3001/api/pedido/update/" + payload);
+      if (pedido.status === 200) {
+        dispatch({
+          type: PUT_PEDIDO_STATE,
+          payload: pedido.data
+        });
+      }
     } catch (error) {
       console.log(error);
     }
