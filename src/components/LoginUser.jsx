@@ -58,11 +58,9 @@ export const LoginUser = ({ setAuth }) => {
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token)
         localStorage.setItem("mail", correo)
-        console.log("aaaaaaaaaaaaaaa", finalRes)
         dispatch(setPlatformUser(finalRes))
         if (finalRes.shoppingCart) {
             const carrito = parseRes.shoppingCart.map((p)=>JSON.parse(p))
-            console.log(carrito)
             dispatch(actCart(carrito))
         }
 
