@@ -27,7 +27,7 @@ setInput({
 
 const handleSubmit =(e)=>{
 e.preventDefault()
-dispatch(loginreset(input, url.slice(27).toString()))
+dispatch(loginreset(input))
 navigate("/login")
 }
 

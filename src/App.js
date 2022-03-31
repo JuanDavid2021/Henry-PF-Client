@@ -92,7 +92,7 @@ function App() {
 
         <Route exact path='/product/:id' element={<DetailProduct />} />
         <Route exact path ='/login/forgot' element={<LoginForgot/>} />
-        <Route exact path ='/login/reset' element={<LoginReset/>}/>
+        <Route path ='/login/reset/:token' element={<LoginReset/>}/>
         <Route exact path='/products' element={<Products />} />
         <Route exact path='/pedidos' element={<Pedidos />} />
         <Route exact path='/pedido/:id' element={<DetailPedido />} /> 
