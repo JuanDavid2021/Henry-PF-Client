@@ -1,78 +1,149 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllCategories, putCategory } from "../actions"
+import { getAllCategories, putCategory, addCategory } from "../actions";
 import { Row, Col, Form, Button } from "react-bootstrap";
+import { FaTrash, FaEyeSlash, FaEye } from "react-icons/fa"
+
+function validate(toTest, toCompare) {
+  let error = "";  
+    
+  var pattern = new RegExp(/^[A-Za-z0-9\s]+$/g);
+  
+  if (!pattern.test(toTest)) {
+    error = "Solo acepta números y letras";
+  } else if (toTest.length < 3 || toTest.length > 20) {
+    error = "Debe contener de 3 a 20 caracteres"
+  }
+  for (let i = 0; i < toCompare.length; i++) {
+    if (toCompare[i].nombre.toLowerCase() === toTest.toLowerCase()) {
+      error = "Ya existe otra categoría con ese nombre"
+      break
+    }    
+  }  
+    console.log(error);
+
+  return error;    
+}
 
 function EditCategory() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const storeCategories = useSelector((state) => state.categories);
-  const [inputs, setInputs] = useState([])
-  const [editing, setEditing] = useState({ id: null, nombre: null })
-  const [errors, setErrors] = useState('')
+  const [input, setInput] = useState({ id: 0, nombre: "", activo:true });
+  const [editing, setEditing] = useState({ id: 0, nombre: "", activo:true });
+  const [errors, setErrors] = useState("");
   useEffect(() => {
-    if (!storeCategories.length) dispatch(getAllCategories)
-    if (storeCategories.length !== inputs.length) {
-      setInputs([...storeCategories])
-    } 
-  }, [storeCategories, dispatch, inputs])
-  function validate(inputs) {
-    let errors = {}
-    let pattern = /[0-9]/
-    for (let i = 0; i < inputs.length; i++) {
-      errors[i] = ""
-      if (!inputs[i].nombre.length) {
-        
-      }
-      if (!pattern.test(inputs[i].nombre)) {
-        errors[i]+="Solo acepta letras"
-      }
-      if(!errors[i].length) delete errors[i]
+    if (!storeCategories.length) dispatch(getAllCategories);
+  }, [storeCategories, dispatch]);
+
+  function selectToEdit(e) {
+    let id = parseInt(e.target.value);
+    setErrors("")
+    if (id !== 0) {      
+      let cat = storeCategories.find(
+        (sC) => sC.id === parseInt(e.target.value)
+      );      
+      setEditing(cat);
+      setInput(cat);   
+    } else {      
+      setEditing({ id: 0, nombre: "", activo:true });
+      setInput({ id: 0, nombre: "", activo:true });      
     }
-    console.log(errors)
   }
-  
-  function putModifiedCategory(c) {
-    
-  }
-  function handleChangeString(e) {
-    let newValues = [...inputs]
-    newValues.map(c => {
-      if (c.id === parseInt(e.target.name)) {
-        c.nombre = e.target.value
-        return c
+
+  async function put(item) {    
+    if (item.id === 0) {      
+      const result = await dispatch(addCategory(item))
+      if (result.status === 200) {
+        console.log(result.data)
+        setEditing(result.data)
+        setInput(result.data)
       }
-      return c
-    })
-    setInputs(newValues)
-    validate(newValues)
+    } else {      
+      const result = await dispatch(putCategory(item))
+      if (result.status === 200) {
+        setEditing(item)
+        setInput(item)
+      }
+    }
+  }
+ 
+  function toggle(item) {
+    item.activo = !item.activo
+    put(item)
+  }
+
+  function handleChangeString(e) {
+    let variable = e.target.value;    
+    setInput({
+      ...input,
+      nombre: variable,
+    })   
+    setErrors(validate(variable, storeCategories));       
   }
 
   return (
-    <>
-      {inputs?.map((c, i) => (
-              <Row>
+    <Row className="mx-4 mb-2 border-top">
+      <Col className="col-12">
+        <Row className="mb-2">
+          <Col className="col-12 mb-0">{ errors.length>0 ? <Form.Label className="text-danger">{errors}</Form.Label> : <Form.Label>Categorías: </Form.Label> }</Col>
           <Col className="col-10">
-            <Form.Group>
-              <Form.Label className="mb-0 col-2">ID: {c.id}</Form.Label>
-              {editing.id === c.id ?
-                <Form.Control
-                  className="col-8"
-                  isInvalid={errors[c.id]?.length || ""}
-                  type="text"
-                  name={c.id}
-                  placeholder={`Categoria ${c.id}`}
-                  value={inputs.find(ci => ci.id === c.id).nombre}
-                  onChange={handleChangeString}
-                /> : c.nombre}
-            </Form.Group>
+              <Form.Select
+              onChange={(e) => selectToEdit(e)}
+              value={ editing.id }
+                aria-label="Default select example"
+              >
+                <option selected value={0}>
+                  Crear nueva
+                </option>
+                {storeCategories?.map((c, i) => (
+                  <option key={i} value={c.id}>
+                    {c.nombre}
+                  </option>
+                ))}
+              </Form.Select>
+           
           </Col>
-          {editing.id===c.id ? <Button onClick={()=>putCategory(c)}>Aplicar</Button> : <Button onClick={()=>setEditing(c)}>Editar</Button>}
-          <Col>
+          <Col className="col-2">            
+            <Button disabled={input.id === 0} variant={input.activo? "success" : "danger" } className="col-12" onClick={() => toggle(input)}>{ input.activo ? <FaEye className="pb-1"/> : <FaEyeSlash className="pb-1"/> }</Button>  
           </Col>
         </Row>
-            ))}      
-    </>
-  )
+        <Row>
+          <Col className="col-8">
+            <Form.Control
+              className="col-12"
+              isInvalid={errors.length}
+              type="text"
+              name={input.id}
+              placeholder={ editing.id !== 0 ? editing.nombre : `Crear Categoria` }
+              value={input.nombre}
+              onChange={(e) => handleChangeString(e)}
+              trim
+            />
+          </Col>
+          <Col>
+            {input.id === 0
+              ?
+              <Button
+              disabled={errors.length}
+              className="col-12"
+              onClick={() => put(input)}
+            >
+             Crear
+              </Button>
+              :             
+              <Button
+              disabled={errors.length || input.nombre===editing.nombre}
+              className="col-12"
+              onClick={() => put(input)}
+            >
+              Aplicar
+              </Button>
+            }            
+          </Col>
+        </Row>
+      </Col>
+    </Row>
+  );
 }
 
-export default EditCategory
+export default EditCategory;

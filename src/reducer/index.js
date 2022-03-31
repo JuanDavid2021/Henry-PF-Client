@@ -258,7 +258,7 @@ function rootReducer(state = initialState, action) {
         return action.payload
       }
       return c
-    })
+    })  
     return {
       ...state,
       categories: updatedCategories

@@ -266,13 +266,21 @@ async function apiGetAllCategories() {
   }
 }
 
-async function apiPutCategories(id) {
+async function apiPutCategory(data) {
   try {
-    const response = await axios.put(`http://localhost:3001/api/category/update/${id}`);
-    return response.data;
-  } catch (error) {
-    let err = `error en /actions apiGetAllCategories, ${error}`;
-    return { error: err };
+    const response = await axios.put(`http://localhost:3001/api/category/${data.id}`, data);    
+    return response;
+  } catch (error) {    
+    return error
+  }
+}
+
+async function apiAddCategory(data) {
+  try {
+    const response = await axios.post(`http://localhost:3001/api/category/new`, data);    
+    return response;
+  } catch (error) {    
+    return error
   }
 }
 
@@ -358,15 +366,6 @@ export function getProductDetails(id) {
   };
 }
 
-export function addCategory(data) {
-  return (dispatch) => {
-    dispatch({
-      type: ADD_CATEGORY,
-      payload: data,
-    });
-  };
-}
-
 export function getAllCategories() {
   return async (dispatch) => {
     try {
@@ -383,12 +382,29 @@ export function getAllCategories() {
 export function putCategory(payload) {
   return async (dispatch) => {
     try {     
-      const newCategorie = await apiPutCategories(payload.id)
-      if (!newCategorie.error) {
-       dispatch({ type: PUT_CATEGORY, payload: payload });       
+      const editedCategory = await apiPutCategory(payload)
+      if (editedCategory.status === 200) {
+        dispatch({ type: PUT_CATEGORY, payload: payload })
       }      
+      return editedCategory            
     } catch (error) {
       console.log(error)
+      return error
+    }    
+  }
+}
+
+export function addCategory(payload) {
+  return async (dispatch) => {
+    try {     
+      const createdCategory = await apiAddCategory(payload)     
+      if (createdCategory.status === 200) {
+        dispatch({ type: ADD_CATEGORY, payload:createdCategory.data })
+      }
+      return createdCategory          
+    } catch (error) {
+      console.log(error)
+      return error
     }    
   }
 }
