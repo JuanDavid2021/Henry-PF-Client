@@ -4,6 +4,7 @@ import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
 import { login, setPlatformUser,loginforgot } from "../actions/index"
 import { useDispatch } from "react-redux"
+import axios from "axios"
 
 
 
@@ -16,19 +17,35 @@ const [input, setInput] = useState({
 const navigate = useNavigate()
 
 const handleChange = (e)=>{
+e.preventDefault()  
 setInput({...input, [e.target.name]: e.target.value})
  
 }
 
-const handleSubmit =(e)=>{
+const handleSubmit =async(e)=>{
 e.preventDefault()
-dispatch(loginforgot(input))
-navigate("/shop")   
+const forgot = await axios.post("http://localhost:3001/api/user/forgot", input)
+
+if(forgot.data.linkUser){
+  swal({
+    text: "revisa la bandeja de entrada de tu correo",
+    icon: "success",
+    timer: "2000",
+  })  
+  navigate("/shop") 
+} else{
+  swal({
+    text: "usuario no se encuentra registrado",
+    icon: "warning",
+    timer: "2000",
+  }) 
+  navigate("/login/forgot") 
+}  
 }
 
   return (
     <div className="bg-dark" style={{ height: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
-      <div className='alert align-middle bg-dark text-light bg-opacity-75' style={{ display: "flex", height: "45vh", width:"20%", flexDirection: "column", alignItems: "center" }}>
+      <div className='alert align-middle bg-dark text-light bg-opacity-75' style={{ display: "flex", height: "30vh", width:"20%", flexDirection: "column", alignItems: "center" }}>
 
         <div className=" d-flex justify-content-center">
           <div className='' style={{ width: "100%" }}>
