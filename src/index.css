@@ -14,18 +14,18 @@ code {
     monospace;
 }
 
-@media (max-width: 426px) {
+@media (min-width: 1440px) {
   .carousel-item-shop>div>img {
-    max-height: 146px;
-    width:70%;
+      max-height: 400px;
+      width:40rem!important;
   }
   .carrusel{
-    height:146px!important;
-    width:70%!important;
+    height:400px!important;
+    width:40rem!important;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1024px) and (max-width: 1439px) {
   .carousel-item-shop>div>img {
       max-height: 325px;
   }
@@ -36,9 +36,20 @@ code {
 
 @media (min-width: 426px) and (max-width: 768px) {
   .carousel-item-shop>div>img {
-      max-height: 250px;
+    max-height: 250px;
   }
   .carrusel{
     height:250px!important;
+  }
+}
+
+@media (max-width: 426px) {
+  .carousel-item-shop>div>img {
+    max-height: 146px;
+    width:70%;
+  }
+  .carrusel{
+    height:146px!important;
+    width:70%!important;
   }
 }
