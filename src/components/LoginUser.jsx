@@ -1,8 +1,8 @@
-import React, {  useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
-import { login, setPlatformUser } from "../actions/index"
+import { addCartItem, flushCart, login, setPlatformUser } from "../actions/index"
 import { useDispatch, useSelector } from "react-redux"
 
 export const userok = () => {
@@ -32,6 +32,9 @@ export const LoginUser = ({ setAuth }) => {
   const { correo, contraseña } = inputs
 
   const currentUser = useSelector(state => state.user)
+  const cart = useSelector(state => state.cart)
+
+
 
   const onChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value })
@@ -50,11 +53,23 @@ export const LoginUser = ({ setAuth }) => {
         });
 
       const parseRes = await response.json()
+      const finalRes = { ...parseRes, email: correo }
+      // shoppingCart: JSON.parse(parseRes.shoppingCart)
 
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token)
         localStorage.setItem("mail", correo)
-        dispatch(setPlatformUser(parseRes))
+        console.log("aaaaaaaaaaaaaaa", finalRes)
+        dispatch(setPlatformUser(finalRes))
+        if (finalRes.shoppingCart) {
+          if (finalRes.shoppingCart) {
+            const carrito = JSON.parse(parseRes.shoppingCart)
+            console.log("carritocarritocarritocarritocarritocarrito",carrito)
+            dispatch(addCartItem(carrito))
+          }
+
+        }
+
         setAuth(true)
         swal({
           text: "login exitoso",
@@ -63,11 +78,11 @@ export const LoginUser = ({ setAuth }) => {
         })
         dispatch(login({ state: "user_ok", mail: correo }))
         if (correo === "beefshophenry@gmail.com") {
-          currentUser.administrador= true;
+          currentUser.administrador = true;
           console.log(currentUser)
-      } else {
-          currentUser.administrador= false;
-      }
+        } else {
+          currentUser.administrador = false;
+        }
       } else {
         setAuth(false)
         swal({
@@ -146,7 +161,7 @@ export const LoginUser = ({ setAuth }) => {
                   />
                 )}
             </div>
-            <form  className="mt-3">
+            <form className="mt-3">
               <div className="mb-3">
                 <label htmlFor="exampleInputEmail1" className="form-label">Correo</label>
                 <input type="email" name="correo" id="exampleInputEmail1" aria-describedby="emailHelp" value={correo} placeholder="correo..." className='form-control' onChange={e => onChange(e)} />
