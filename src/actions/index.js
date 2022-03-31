@@ -100,9 +100,8 @@ export const loginforgot = async(payload)=>{
 }
 
 export const loginreset=async(payload)=>{
-  
-const url = window.location.href;  
-const reset = await axios.post("http://localhost:3001/api/user/reset", payload, { headers: { reset: url }})
+const urlTokenUser = window.location.href.slice(34).toString() 
+const reset = await axios.post("http://localhost:3001/api/user/reset", payload, {headers:{reset: urlTokenUser}} )
 return reset 
 }
 

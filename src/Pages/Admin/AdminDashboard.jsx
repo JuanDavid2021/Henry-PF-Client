@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Pedidos from '../../components/Pedidos';
 import Products from '../../components/Products';
 import EditCategory from "../../components/EditCategory"
+import UserList from './Views/UserList';
+
 
 export default function AdminDashboard() {
 
@@ -11,6 +13,7 @@ export default function AdminDashboard() {
       <Products />
       <EditCategory />
       <Pedidos />
+      <UserList />
     </div>
   );
 }

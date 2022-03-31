@@ -8,7 +8,6 @@ import {
   Col,
   Carousel,
   Form,
-  Stack,
   Spinner,
 } from "react-bootstrap";
 import { RiShoppingCartLine, RiArrowGoBackFill } from "react-icons/ri";
@@ -39,7 +38,6 @@ function DetailProduct() {
 
   const navigate = useNavigate();
 
-
   const handleChange = (e) => {
     setValoresDetalleProducto({
       ...valoresDetalleProducto,
@@ -57,17 +55,8 @@ function DetailProduct() {
     setConfirmModal(false)
   }
 
-
   const handleClose = () => {
     navigate("/shop");
-  };
-
-
-
-
-
-  const handleViewCart = () => {
-    navigate("/cartDetails");
   };
 
   useEffect(() => {
@@ -104,176 +93,163 @@ function DetailProduct() {
 
   if (waiting) {
     return (
-      <>
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      </>
+      <div className="d-flex justify-content-center align-items-center align-content-center" style={{height:"70vh"}}>
+        <div>
+          <Spinner style={{width:"20vh", height:"20vh"}} animation="border" role="status"/>
+          <p style={{ textAlign: "center", fontSize:"2rem"}}>Cargando...</p>
+        </div>
+      </div>
     );
   } else {
     return (
-      <>
-        <Container className="my-2">
-          <Card>
-            <Card.Header closeButton>
-              <Card.Title>{productDetails.nombre}</Card.Title>
-            </Card.Header>
-            <Card.Body>
-              <Row>
+      <Container className="my-2">
+        <Card>
+          <Card.Header>
+            <Card.Title>{productDetails.nombre}</Card.Title>
+          </Card.Header>
+          <Card.Body>
+            <Row>
+              <Col lg={6} xl={6}>
+                <Carousel fade style={{ width:"80%", margin:"auto"}}>
+                  {productDetails?.fotos?.filter( e => e.length > 0 ).map((el) => (
+                    <Carousel.Item  key={el}>
+                      <img
+                        className="d-block w-100"
+                        src={el}
+                        alt={el}
+                      />
+                    </Carousel.Item>
+                  ))}
+                </Carousel>
+              </Col>
 
-                <Col
-                  lg={6}
-                  xl={6}
-                  style={{ display: "flex", flexDirection: "column" }}
+              <Col lg={6} xl={6}>
+                <Row className="mb-2">
+                  <Row>
+                    <Col className="my-2">{productDetails.descripcion}</Col>
+                  </Row>
+                  <Col className="mt-3">Precio por kg: ${productDetails.precio}</Col>
+                </Row>
+                
+                <Row>
+                  <Col className="mt-3">
+                    <Form noValidate validated={validated}>
+                      <Form.Group className="mb-3">
+                        <Form.Label>Cantidad</Form.Label>
+                        <Form.Control
+                          required
+                          as="select"
+                          type="select"
+                          onChange={handleChange}
+                          name="peso"
+                          value={valoresDetalleProducto.peso}
+                        >
+                          <option value="" disabled>
+                            Seleccione un peso
+                          </option>
+                          <option value="0.5">0.5 kg</option>
+                          <option value="1">1.0 kg</option>
+                          <option value="1.5">1.5 kg</option>
+                        </Form.Control>
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        <Form.Label>Tipo de corte</Form.Label>
+                        <Form.Control
+                          required
+                          as="select"
+                          type="select"
+                          onChange={handleChange}
+                          name="tipo_corte"
+                          value={valoresDetalleProducto.tipo_corte}
+                        >
+                          <option value="" disabled>
+                            Seleccione un tipo de corte
+                          </option>
+                          {
+                            productDetails?.Presentacions?.length > 0
+                              ? productDetails?.Presentacions?.map(el => <option key={el.nombre} value={el.nombre}>{el.nombre}</option>)
+                              : <option value="Unidad">Unidad</option>
+                          }
+                        </Form.Control>
+                      </Form.Group>
+
+                      <Form.Group className="mb-3">
+                        {productDetails.stock === 0 && (
+                          <Form.Text muted>
+                            Sin stock. Sentimos las molestias
+                          </Form.Text>
+                        )}
+                      </Form.Group>
+                    </Form>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+
+            <Row >
+              <Col className="mb-2" sm="12" md="6" lg="6">
+                <Button className="col-12" variant="secondary" onClick={handleClose}>
+                  Seguir comprando <RiArrowGoBackFill />
+                </Button>
+              </Col>
+
+              <Col className="mb-2" sm="12" md="6" lg="6">
+                <Button
+                  className="col-12"
+                  disabled={
+                    (productDetails.stock === 0 ||
+                      valoresDetalleProducto.tipo_corte === "" ||
+                      valoresDetalleProducto.peso === "") &&
+                    true
+                  }
+                  variant="dark"
+                  onClick={handleAddProductInCart}
                 >
-                  <Row style={{ display: "flex", justifyContent: "center" }}>
-                    <Carousel fade /* variant="dark" */ style={{ width: "10em" }}>
-                      {productDetails?.fotos?.filter( e => e.length > 0 ).map((el) => (
-                        <Carousel.Item style={{ width: "10em" }} key={el}>
-                          <img
-                            className="d-block w-100"
-                            src={el}
-                            alt={el}
-                            style={{ height: "10em" }}
-                          />
-                        </Carousel.Item>
-                      ))}
-                    </Carousel>
-                  </Row>
+                  Agregar al Carrito <RiShoppingCartLine />
+                </Button>
+              </Col>
+            </Row>
 
-                  <Row>
-                    <Col>{productDetails.descripcion}</Col>
-                  </Row>
-                </Col>
-                <Col lg={6} xl={6}>
-
-                  <Row className="mb-2">
-                    <Col>Precio por kg: ${productDetails.precio}</Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <Form noValidate validated={validated}>
-                        <Form.Group className="mb-3">
-                          <Form.Label>Cantidad</Form.Label>
-                          <Form.Control
-                            required
-                            as="select"
-                            type="select"
-                            onChange={handleChange}
-                            name="peso"
-                            value={valoresDetalleProducto.peso}
-                          >
-                            <option value="" disabled>
-                              Seleccione un peso
-                            </option>
-                            <option value="0.5">0.5 kg</option>
-                            <option value="1">1.0 kg</option>
-                            <option value="1.5">1.5 kg</option>
-                          </Form.Control>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                          <Form.Label>Tipo de corte</Form.Label>
-                          <Form.Control
-                            required
-                            as="select"
-                            type="select"
-                            onChange={handleChange}
-                            name="tipo_corte"
-                            value={valoresDetalleProducto.tipo_corte}
-                          >
-                            <option selected value="" disabled>
-                              Seleccione un tipo de corte
-                            </option>
-                            {
-                              productDetails?.Presentacions?.length > 0
-                                ? productDetails?.Presentacions?.map(el => <option key={el.nombre} value={el.nombre}>{el.nombre}</option>)
-                                : <option value="Unidad">Unidad</option>
-                            }
-                          </Form.Control>
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                          {/* <Stack gap={2}>
-                            
-                            
-                          </Stack> */}
-                          {productDetails.stock === 0 && (
-                            <Form.Text muted>
-                              Sin stock. Sentimos las molestias
-                            </Form.Text>
-                          )}
-                        </Form.Group>
-                      </Form>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-              <Row >
-                <Col className="mb-2" sm="12" md="6" lg="6">
-                  <Button className="col-12" variant="secondary" onClick={handleClose}>
-                    Seguir comprando <RiArrowGoBackFill />
-                  </Button>
-                </Col>
-                <Col className="mb-2" sm="12" md="6" lg="6">
-                  <Button
-                    className="col-12"
-                    disabled={
-                      (productDetails.stock === 0 ||
-                        valoresDetalleProducto.tipo_corte === "" ||
-                        valoresDetalleProducto.peso === "") &&
-                      true
-                    }
-                    variant="dark"
-                    onClick={handleAddProductInCart}
-                  >
-                    Agregar al Carrito <RiShoppingCartLine />
-                  </Button>
-                  {/* <Button className="col-12" variant="dark" onClick={handleViewCart}>
-                    Ver Carrito <RiShoppingCartLine />
-                  </Button> */}
-                </Col>
-              </Row>
-              <Row style={{ maxHeight: "100px" }}>
-
-                {productDetails.Reviews.length ? (
-                  productDetails.Reviews.map((review, i) => (
-                    <Card.Text key={i}>
+            <Row style={{ maxHeight: "100px" }}>
+              {
+                productDetails.Reviews.length 
+                  ?productDetails.Reviews.map((review, i) => (
+                    <Col key={i}>
                       <Evaluation ev={review.evaluacion} cm={review.comentario} />
-                    </Card.Text>
+                    </Col>
                   ))
-                ) : (
-                  <h4>No existen Reviews</h4>
-                )}
-              </Row>
-            </Card.Body>
-            <Card.Footer>
-              <Review
-                id={productDetails.id}
-                available="ver de donde sacar el dato para habilitar/no habilitar el comentario"
-                califications={["Pasable", "Regular", "Bueno", "Muy bueno", "Exelente"]}
-                toDispatch={"aca va la funcion a despachar por el review"} />
-            </Card.Footer>
-          </Card>
-          <Modal
-            show={confirmModal}
-            size="sm"
-            onHide={handleCloseModal}
-            backdrop="static"
-            keyboard={false}
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-          >
-            <Modal.Header>
-              <Modal.Title><p style={{ textAlign: "center" }}>Producto agregado con éxito!</p></Modal.Title>
-            </Modal.Header>
+                  
+                :<h4>No existen Reviews</h4>
+              }
+            </Row>
+          </Card.Body>
+          <Card.Footer>
+            <Review
+              id={productDetails.id}
+              available="ver de donde sacar el dato para habilitar/no habilitar el comentario"
+              califications={["Pasable", "Regular", "Bueno", "Muy bueno", "Exelente"]}
+              toDispatch={"aca va la funcion a despachar por el review"} />
+          </Card.Footer>
+        </Card>
+        <Modal
+          show={confirmModal}
+          size="sm"
+          onHide={handleCloseModal}
+          backdrop="static"
+          keyboard={false}
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header>
+            <Modal.Title><p style={{ textAlign: "center" }}>Producto agregado con éxito!</p></Modal.Title>
+          </Modal.Header>
 
-            <Modal.Footer>
-              <Button variant="primary" onClick={handleCloseModal}>Aceptar</Button>
-            </Modal.Footer>
-          </Modal>
-        </Container>
-      </>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleCloseModal}>Aceptar</Button>
+          </Modal.Footer>
+        </Modal>
+      </Container>
     );
   }
 }

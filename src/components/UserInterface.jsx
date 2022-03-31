@@ -17,7 +17,7 @@ function UserInterface() {
         }, [dispatch])
 
         const handleDetailPedido = (id) => {
-            navigate(`/pedido/${id}`)
+            navigate(`/compra/${id}`)
         }
 
         return (
@@ -27,7 +27,7 @@ function UserInterface() {
             <div style={{ minHeight: "700px", display: "flex", justifyContent: "center", backgroundSize: "cover" }}>
                 <div style={{ width: "80%", marginTop: "70px", marginBottom: "30px" }}><h3>Compras</h3>
                     {pedidos.pedidos?.length ?
-                        pedidos?.pedidos?.map((p) => {
+                        pedidos?.pedidos?.filter(p => p.status !== "Created" ).map((p) => {
                             return (
                                 <Card text="dark" bg-opacity="75%" style={{ marginTop: "30px" }}>
                                     <Card.Header as="h5" className="fw-normal">{p.ItemsPedidos.map(p => p.nombre).join(" || ").substring(0, 95) + "..."}</Card.Header>
@@ -48,7 +48,7 @@ function UserInterface() {
                                                 Fecha de entrega: {p.f_requerida.substring(0, 10)}
                                             </Card.Text>
                                         </Card.Body>
-                                        <Button variant="primary" style={{ height: "40%" }} onClick={(p)=>handleDetailPedido(p.id)}>Detalles</Button>
+                                        <Button variant="primary" style={{ height: "40%" }} onClick={()=>handleDetailPedido(p.id)}>Detalles</Button>
                                     </Card.Body>
                                     {/* <ProgressBar>
                                 <ProgressBar striped variant="success" now={35} key={1} />
