@@ -225,7 +225,7 @@ export function TrItemCart({ el, inputRender }) {
 
   return (
     <tr className="text-sm">
-      <td className="align-middle border-gray-300 py-3"><a href="noopener noreferrer"><img className="img-fluid flex-shrink-0" src={el.arrFotos[0]} alt={el.nombre} style={{ minWidth: "50px" }} width="50" /></a></td>
+      <td className="align-middle border-gray-300 py-3"><img className="img-fluid flex-shrink-0" src={Array.isArray(el.arrFotos) ? el.arrFotos[0] : el.arrFotos} alt={el.nombre} style={{ minWidth: "50px" }} width="50" /></td>
       <td className="align-middle border-gray-300 py-3">{el.nombre}</td>
       <td className="align-middle border-gray-300 py-3">{el.tipo_corte} - {el.peso} kg</td>
       {

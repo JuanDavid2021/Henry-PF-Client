@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import swal from "sweetalert";
-import { logoutuser, setPlatformUser, apiUpdateUser } from "../actions/index";
+import { logoutuser, setPlatformUser, apiUpdateUser, flushCart } from "../actions/index";
 import img from '../img/logo2.png';
 
 
@@ -21,9 +21,9 @@ function NavBar({ setAuth }) {
 
     useEffect(() => {
         if (currentUser.email === "beefshophenry@gmail.com") {
-            currentUser.administrador= true;
+            currentUser.administrador = true;
         } else {
-            currentUser.administrador= false;
+            currentUser.administrador = false;
         }
     }, [])
     /*      const handleLogin = () => {
@@ -37,32 +37,39 @@ function NavBar({ setAuth }) {
     const toProfile = () => {
         navigate('/profile')
     }
-    
+
 
     const logout = (e) => {
         e.preventDefault()
-        if (itemsCart.length > 0 ) {
-            console.log(userAuthenticated)
+        if (itemsCart.length > 0) {
             const shoppingCart = itemsCart.map(i => {
-                return {id: i.id, 
-                    nombre: i.nombre, 
-                    precio: i.precio, 
-                    tipo_corte: i.tipo_corte, 
-                    peso: i.peso, 
-                    cantidad: i.cantidad,
-                    precioTotal: i.precioTotal,
-                    stock: i.stock
-                }
-            }) 
-            apiUpdateUser({correo: currentUser.email, shoppingCart: shoppingCart})
-            // itemsCart = [];
+                const foto = Array.isArray(i.arrFotos) ? i.arrFotos[0] : i.arrFotos
+                console.log(foto)
+                    return {
+                        id: i.id,
+                        nombre: i.nombre,
+                        idItemFront: i.idItemFront,
+                        precio: i.precio,
+                        tipo_corte: i.tipo_corte,
+                        peso: i.peso,
+                        cantidad: i.cantidad,
+                        precioTotal: i.precioTotal,
+                        stock: i.stock,
+                        arrFotos: foto
+                    }
+            }
+            )
+            console.log("sssssssssssssssssssss", currentUser)
+            console.log("cccccccccccccc", itemsCart)
+
+            apiUpdateUser({ correo: currentUser.email, shoppingCart: shoppingCart })
+            dispatch(flushCart([]))
         }
-        itemsCart = []
         localStorage.removeItem("token")
         localStorage.removeItem("mail")
         localStorage.removeItem("loginData")
         setAuth(false)
-        dispatch(setPlatformUser({ administrador: false, nombre: "Invitado", email: "invitado@invitado.com", shoppingCart:[] }))
+        dispatch(setPlatformUser({ administrador: false, nombre: "Invitado", email: "invitado@invitado.com", shoppingCart: null }))
         swal({
             text: "has cerrado la sesion",
             icon: "success",
@@ -72,27 +79,27 @@ function NavBar({ setAuth }) {
     }
 
     document.addEventListener("scroll", () => {
-       let navcontent = document.getElementById("navbarSupportedContent")
-       navcontent.classList.remove("show")
+        let navcontent = document.getElementById("navbarSupportedContent")
+        navcontent.classList.remove("show")
     })
 
-    useEffect(()=>{
+    useEffect(() => {
         var ignoreClickOnMeElement = document.getElementById("navbarSupportedContent");
 
         document.addEventListener("click", (evt) => {
-            
-            if(evt.target.nodeName !== "A" && evt.target.nodeName !== "BUTTON"  && evt.target.nodeName !== "IMG"){
+
+            if (evt.target.nodeName !== "A" && evt.target.nodeName !== "BUTTON" && evt.target.nodeName !== "IMG") {
                 var isClickInsideElement = ignoreClickOnMeElement.contains(evt.target);
                 if (!isClickInsideElement) {
                     ignoreClickOnMeElement.classList?.remove("show")
                 }
             }
         })
-    },[])
+    }, [])
 
     return (
         <nav className="navbar navbar-expand-lg bg-dark sticky-top" style={{ height: "10vh" }}>
-            <div className="container-fluid" style={{ background: "#212529 "}}>
+            <div className="container-fluid" style={{ background: "#212529 " }}>
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/" style={{ width: "5vh" }}>
                     <img src={img} alt="logo" style={{ width: "100%" }} />
                 </Link>
@@ -124,10 +131,10 @@ function NavBar({ setAuth }) {
                                     }
                                 </Link>
                                 <button className="btn btn-primary text-light mx-2" onClick={e => logout(e)}>Salir</button>
-                                {currentUser.administrador ? 
-                                <button className="btn btn-secondary text-light mx-2" onClick={dashboard}>Dashboard</button> 
-                                :
-                                <button className="btn btn-secondary text-light mx-2" onClick={toProfile}>Mi perfil <CgProfile size={20} style={{marginBottom: "3px"}}/> </button> 
+                                {currentUser.administrador ?
+                                    <button className="btn btn-secondary text-light mx-2" onClick={dashboard}>Dashboard</button>
+                                    :
+                                    <button className="btn btn-secondary text-light mx-2" onClick={toProfile}>Mi perfil <CgProfile size={20} style={{ marginBottom: "3px" }} /> </button>
                                 }
                             </div>
                             :
