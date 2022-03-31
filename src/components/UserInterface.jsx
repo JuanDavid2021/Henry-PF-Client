@@ -17,7 +17,7 @@ function UserInterface() {
         }, [dispatch])
 
         const handleDetailPedido = (id) => {
-            navigate(`/pedido/${id}`)
+            navigate(`/compra/${id}`)
         }
 
         return (
@@ -48,7 +48,7 @@ function UserInterface() {
                                                 Fecha de entrega: {p.f_requerida.substring(0, 10)}
                                             </Card.Text>
                                         </Card.Body>
-                                        <Button variant="primary" style={{ height: "40%" }} onClick={(p)=>handleDetailPedido(p.id)}>Detalles</Button>
+                                        <Button variant="primary" style={{ height: "40%" }} onClick={()=>handleDetailPedido(p.id)}>Detalles</Button>
                                     </Card.Body>
                                     {/* <ProgressBar>
                                 <ProgressBar striped variant="success" now={35} key={1} />

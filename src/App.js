@@ -28,6 +28,7 @@ import UserInterface from './components/UserInterface';
 import ProtectedRoute from './Middleware/ProtectedRoute';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import {LoginReset} from "./components/LoginReset"
+import DetailCompra from './components/DetailCompra';
 
 function App() {
 
@@ -105,6 +106,7 @@ function App() {
         <Route exact path='/pagorechazado' element={<PagoDenied />} />
 
         <Route exact path='/profile' element={isAuthenticated ? (<UserInterface/>) : (<Navigate to="/loginuser" />)} />
+        <Route exact path='/compra/:id' element={isAuthenticated ? (<DetailCompra/>) : (<Navigate to="/loginuser" />) } /> 
 
 
       </Routes>
