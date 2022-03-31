@@ -54,7 +54,6 @@ export const LoginUser = ({ setAuth }) => {
 
       const parseRes = await response.json()
       const finalRes = { ...parseRes, email: correo }
-      // shoppingCart: JSON.parse(parseRes.shoppingCart)
 
       if (parseRes.token) {
         localStorage.setItem("token", parseRes.token)
@@ -62,12 +61,8 @@ export const LoginUser = ({ setAuth }) => {
         console.log("aaaaaaaaaaaaaaa", finalRes)
         dispatch(setPlatformUser(finalRes))
         if (finalRes.shoppingCart) {
-          if (finalRes.shoppingCart) {
             const carrito = JSON.parse(parseRes.shoppingCart)
-            console.log("carritocarritocarritocarritocarritocarrito",carrito)
             dispatch(addCartItem(carrito))
-          }
-
         }
 
         setAuth(true)
@@ -79,7 +74,6 @@ export const LoginUser = ({ setAuth }) => {
         dispatch(login({ state: "user_ok", mail: correo }))
         if (correo === "beefshophenry@gmail.com") {
           currentUser.administrador = true;
-          console.log(currentUser)
         } else {
           currentUser.administrador = false;
         }
