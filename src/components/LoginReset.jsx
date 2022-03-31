@@ -50,12 +50,12 @@ if(reset){
             <form  className="mt-3">
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Nueva contraseña</label>
-                <input type="password" name="contraseña" id="exampleInputEmail1" aria-describedby="emailHelp" value={input.contraseña} placeholder="correo..." className='form-control' onChange={e => handleChange(e)} />
+                <input type="password" name="contraseña" id="exampleInputEmail1" aria-describedby="emailHelp" value={input.contraseña} placeholder="contraseña..." className='form-control' onChange={e => handleChange(e)} />
               </div>
 
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Confirmar Nueva Contraseña</label>
-                <input type="password" name="nuevaContraseña" id="exampleInputEmail1" aria-describedby="emailHelp" value={input.nuevaContraseña} placeholder="correo..." className='form-control' onChange={e => handleChange(e)} />
+                <input type="password" name="nuevaContraseña" id="exampleInputEmail1" aria-describedby="emailHelp" value={input.nuevaContraseña} placeholder="confirmar contraseña..." className='form-control' onChange={e => handleChange(e)} />
               </div>
 
             </form>

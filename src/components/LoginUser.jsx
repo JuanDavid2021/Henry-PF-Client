@@ -172,6 +172,9 @@ export const LoginUser = ({ setAuth }) => {
 
               <h6 className='fs-5 align-self-center'>¿No estás registrado?</h6><Link className="fs-5 mb-2 ms-2 text-decoration-none fw-normal" to="/register">Registrate</Link>
             </div>
+            <div className='d-flex justify-content-center align-items-center'>
+            <h6 className='fs-5 align-self-center'></h6><Link className="fs-5 mb-2 ms-2 text-decoration-none fw-normal" to="/login/forgot">¿Olvidaste la contraseña?</Link>
+            </div>
           </div>
         </div>
       </div>
