@@ -195,7 +195,7 @@ async function apiAddUser(data) {
   }
 }
 
-async function apiUpdateUser(data) {
+export async function apiUpdateUser(data) {
   try {
     const response = await axios.put(`http://localhost:3001/api/user/update/${data.correo}`, { data });
     return response.data;

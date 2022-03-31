@@ -6,19 +6,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import swal from "sweetalert";
-import { logoutuser, setPlatformUser } from "../actions/index";
+import { logoutuser, setPlatformUser, apiUpdateUser } from "../actions/index";
 import img from '../img/logo2.png';
 
 
 function NavBar({ setAuth }) {
 
-
     const dispatch = useDispatch()
-
-
     const navigate = useNavigate();
-
-
+    const userAuthenticated = useSelector(state => state.userAuthenticated)
     const itemsCart = useSelector(state => state.cart)
     const currentUser = useSelector(state => state.user);
 
@@ -26,7 +22,6 @@ function NavBar({ setAuth }) {
     useEffect(() => {
         if (currentUser.email === "beefshophenry@gmail.com") {
             currentUser.administrador= true;
-            console.log(currentUser)
         } else {
             currentUser.administrador= false;
         }
@@ -46,11 +41,28 @@ function NavBar({ setAuth }) {
 
     const logout = (e) => {
         e.preventDefault()
+        if (itemsCart.length > 0 ) {
+            console.log(userAuthenticated)
+            const shoppingCart = itemsCart.map(i => {
+                return {id: i.id, 
+                    nombre: i.nombre, 
+                    precio: i.precio, 
+                    tipo_corte: i.tipo_corte, 
+                    peso: i.peso, 
+                    cantidad: i.cantidad,
+                    precioTotal: i.precioTotal,
+                    stock: i.stock
+                }
+            }) 
+            apiUpdateUser({correo: currentUser.email, shoppingCart: shoppingCart})
+            // itemsCart = [];
+        }
+        itemsCart = []
         localStorage.removeItem("token")
         localStorage.removeItem("mail")
         localStorage.removeItem("loginData")
         setAuth(false)
-        dispatch(setPlatformUser({ administrador: false, nombre: "Invitado", email: "invitado@invitado.com" }))
+        dispatch(setPlatformUser({ administrador: false, nombre: "Invitado", email: "invitado@invitado.com", shoppingCart:[] }))
         swal({
             text: "has cerrado la sesion",
             icon: "success",

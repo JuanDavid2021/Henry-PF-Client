@@ -10,10 +10,8 @@ function UserInterface() {
         const currentuser = useSelector(state => state.user)
         const navigate = useNavigate()
 
-        useEffect(async () => {
-            console.log(currentuser)
-            await dispatch(getPedidos(currentuser))
-            console.log(pedidos)
+        useEffect(() => {
+            dispatch(getPedidos(currentuser))
         }, [dispatch])
 
         const handleDetailPedido = (id) => {
