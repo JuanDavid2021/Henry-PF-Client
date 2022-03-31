@@ -44,7 +44,6 @@ function NavBar({ setAuth }) {
         if (itemsCart.length > 0) {
             const shoppingCart = itemsCart.map(i => {
                 const foto = Array.isArray(i.arrFotos) ? i.arrFotos[0] : i.arrFotos
-                console.log(foto)
                     return {
                         id: i.id,
                         nombre: i.nombre,
@@ -59,9 +58,6 @@ function NavBar({ setAuth }) {
                     }
             }
             )
-            console.log("sssssssssssssssssssss", currentUser)
-            console.log("cccccccccccccc", itemsCart)
-
             apiUpdateUser({ correo: currentUser.email, shoppingCart: shoppingCart })
             dispatch(flushCart([]))
         }
