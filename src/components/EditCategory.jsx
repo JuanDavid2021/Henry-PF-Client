@@ -20,7 +20,7 @@ function validate(toTest, toCompare) {
       break
     }    
   }  
-    console.log(error);
+    
 
   return error;    
 }
@@ -54,7 +54,7 @@ function EditCategory() {
     if (item.id === 0) {      
       const result = await dispatch(addCategory(item))
       if (result.status === 200) {
-        console.log(result.data)
+        
         setEditing(result.data)
         setInput(result.data)
       }
