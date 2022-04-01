@@ -32,7 +32,7 @@ function DetailPedido() {
   }, [s])
 
   const handleClose = () => {
-    navigate("/pedidos");
+    navigate("/dashboard");
   };
 
   const handleProcesar = () => {
