@@ -788,7 +788,9 @@ export function getPedidos(payload) {
 export function putPedidos(payload) {
   return async function (dispatch) {
     try {
-      const pedido = await axios.get("http://localhost:3001/api/pedido/update/" + payload);
+      const pedido = await axios.put("http://localhost:3001/api/pedido/update/"+payload.id,{
+        status: payload.status
+      });
       if (pedido.status === 200) {
         dispatch({
           type: PUT_PEDIDO_STATE,

@@ -10,12 +10,13 @@ import {
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPedidos } from "../actions";
+import { getPedidos, putPedidos } from "../actions";
 
 function DetailPedido() {
 
   const dispatch = useDispatch();
   const [waiting, setWaiting] = useState(true);
+  const [s, setS] = useState();
 
   const pedido = useSelector(state => state.pedidoId);
 
@@ -25,10 +26,43 @@ function DetailPedido() {
 
   useEffect(() => {
     dispatch(getPedidos(id));
-  }, [dispatch])
+  }, [dispatch, s])
+
+  useEffect(() => {;
+  }, [s])
 
   const handleClose = () => {
     navigate("/pedidos");
+  };
+
+  const handleProcesar = () => {
+    if (pedido.status === "Approbed") {
+      dispatch(putPedidos({
+        id: id,
+        status: "Procesando"
+      }));
+    }
+    setS("Procesando");
+  };
+
+  const handleCancelar = () => {
+    if ((pedido.status === "Approbed") || (pedido.status === "Procesando")) {
+      dispatch(putPedidos({
+        id: id,
+        status: "Cancelado"
+      }));
+    }
+    setS("Cancelado");
+  };
+
+  const handleDespachar = () => {
+    if (pedido.status === "Procesando") {
+      dispatch(putPedidos({
+        id: id,
+        status: "Completo"
+      }));
+    }
+    setS("Completo");
   };
 
   return (
@@ -92,14 +126,14 @@ function DetailPedido() {
                 }
               </Col>
               <Col lg={6} xl={6}>
-                <Row className="mb-3 mt-3">
-                  <button className="btn btn-warning text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle">Procesar</button>
+              <Row className="mb-3 mt-3">
+                  <button className="btn btn-warning text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle" onClick={handleProcesar}>Procesar</button>
                 </Row>
                 <Row className="mb-3">
-                  <button className="btn btn-danger text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle">Cancelar</button>
+                  <button className="btn btn-danger text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle" onClick={handleCancelar}>Cancelar</button>
                 </Row>
                 <Row>
-                  <button className="btn btn-success text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle">Despachar</button>
+                  <button className="btn btn-success text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle" onClick={handleDespachar}>Despachar</button>
                 </Row>
               </Col>
             </Row>
