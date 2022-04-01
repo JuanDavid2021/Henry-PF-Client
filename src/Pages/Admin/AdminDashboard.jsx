@@ -27,7 +27,7 @@ export default function AdminDashboard() {
   return (
     <div className="container-fluid justify-content-between">
       <div className="row flex-nowrap">
-        <Sidebar handleClick={handleClick}/>
+        <Sidebar handleClick={handleClick} stateActive={show}/>
         <div className="col-sm-11 col-md-11 col-lg-10 col-xl-10 px-0 contentAdmin">
           {show?.productos ? <Products /> : null}
           {show?.pedidios ? <Pedidos /> : null}
@@ -39,35 +39,36 @@ export default function AdminDashboard() {
   );
 }
 
-function Sidebar({handleClick}) {
+function Sidebar({handleClick, stateActive }) {
+  console.log(stateActive);
   return(
     <div className="col-auto d-flex justify-content-center col-md-1 col-lg-2 col-xl-2 px-0 bg-dark sidebarAdmin">
-      <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100 position-fixed">
+      <div className="d-flex flex-column align-items-center align-items-sm-start px-1 pt-2 text-white min-vh-100 position-fixed" style={{width:"inherit"}}>
         <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-          <li className="nav-item">
-            <a href="#" className="nav-link align-middle px-0">
-              <i className="fs-4 bi-house"></i> <span className="ms-1 d-none d-lg-inline">Home</span>
-            </a>
+          <li className="w-100">
+            <button className="nav-link align-middle px-0 w-100 text-light ">
+            <GiMeatHook /> <span className="ms-1 d-none d-lg-inline">Home</span>
+            </button>
           </li>
-          <li>
-            <a href="#" className="nav-link  px-0 align-middle" onClick={()=>handleClick("Pedidios")}>
+          <li className="w-100">
+            <button className={`nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.pedidios ? "active":""}`} onClick={()=>handleClick("Pedidios")}>
               <RiListOrdered /> <span className="ms-1 d-none d-lg-inline">Pedidos</span>
-            </a>
+            </button>
           </li>
-          <li>
-            <a href="#" className="nav-link px-0 align-middle " onClick={()=>handleClick("Productos")}>
+          <li className="w-100">
+            <button className={`nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.productos ? "active":""}`} onClick={()=>handleClick("Productos")}>
               <GiMeat /> <span className="ms-1 d-none d-lg-inline">Productos</span>
-            </a>
+            </button>
           </li>
-          <li>
-            <a href="#" className="nav-link px-0 align-middle" onClick={()=>handleClick("Categorías")}>
+          <li className="w-100">
+            <button className={`nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.categorias ? "active":""}`} onClick={()=>handleClick("Categorías")}>
               <MdCategory /> <span className="ms-1 d-none d-lg-inline">Categorías</span> 
-            </a>
+            </button>
           </li>
-          <li>
-            <a href="#" className="nav-link px-0 align-middle"onClick={()=>handleClick("Usuarios")}>
+          <li className="w-100">
+            <button className={`nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.usuarios ? "active":""}`} onClick={()=>handleClick("Usuarios")}>
               <FaUsersCog /> <span className="ms-1 d-none d-lg-inline">Usuarios</span>
-            </a>
+            </button>
           </li>
         </ul>
       </div>
