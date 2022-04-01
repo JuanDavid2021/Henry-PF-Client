@@ -1,3 +1,4 @@
+import { filterPedidos } from '../actions';
 import {
   ADD_PRODUCT,
   PUT_PRODUCT,
@@ -50,6 +51,7 @@ import {
   GET_PEDIDO_ID,
   SET_PLATFORM_USER,
   PUT_PEDIDO_STATE,
+  FILTER_PEDIDO,
   PUT_CATEGORY,
   ACT_CART,
   ADD_PRESENTATION,
@@ -79,6 +81,7 @@ const initialState = {
   pedido: {},
   pedidoId: {},
   pedidos: [],
+  filterPedidos: [],
   idPago: {},
 
   sales: [],//lista de ventas
@@ -580,7 +583,8 @@ function rootReducer(state = initialState, action) {
   if (action.type === GET_PEDIDOS) {
     return {
       ...state,
-      pedidos: action.payload
+      pedidos: action.payload,
+      filterPedidos: action.payload
     };
   }
 
