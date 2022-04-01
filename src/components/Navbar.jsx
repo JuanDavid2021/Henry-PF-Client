@@ -43,23 +43,22 @@ function NavBar({ setAuth }) {
         e.preventDefault()
         if (itemsCart.length > 0) {
             const shoppingCart = itemsCart.map(i => {
-                const foto = Array.isArray(i.arrFotos) ? i.arrFotos[0] : i.arrFotos
-                return {
+                return JSON.stringify({
                     id: i.id,
                     nombre: i.nombre,
-                    idItemFront: i.idItemFront,
+                    // idItemFront: i.idItemFront,
                     precio: i.precio,
                     tipo_corte: i.tipo_corte,
                     peso: i.peso,
                     cantidad: i.cantidad,
                     precioTotal: i.precioTotal,
                     stock: i.stock,
-                    arrFotos: foto
-                }
+                    arrFotos: i.arrFotos //foto
+                })
             }
             )
             apiUpdateUser({ correo: currentUser.email, shoppingCart: shoppingCart })
-            dispatch(flushCart())
+            // dispatch(flushCart())
         } else {
             apiUpdateUser({ correo: currentUser.email, shoppingCart: [] })
         }

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
-import { actCart, addCartItem, flushCart, login, setPlatformUser } from "../actions/index"
+import { actCart, login, setPlatformUser } from "../actions/index"
 import { useDispatch, useSelector } from "react-redux"
 
 export const userok = () => {
@@ -93,7 +93,7 @@ export const LoginUser = ({ setAuth }) => {
   }
 
   const handleFailure = (result) => {
-    alert(result)
+    // alert(result)
   }
 
   const handleLogin = async (googleData) => {
