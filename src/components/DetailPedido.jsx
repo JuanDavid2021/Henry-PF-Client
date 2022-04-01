@@ -39,30 +39,30 @@ function DetailPedido() {
     if (pedido.status === "Approbed") {
       dispatch(putPedidos({
         id: id,
-        status: "Procesando"
+        status: "Processed"
       }));
     }
-    setS("Procesando");
+    setS("processed");
   };
 
   const handleCancelar = () => {
-    if ((pedido.status === "Approbed") || (pedido.status === "Procesando")) {
+    if ((pedido.status === "Approbed") || (pedido.status === "Processed")) {
       dispatch(putPedidos({
         id: id,
-        status: "Cancelado"
+        status: "Cancelled"
       }));
     }
-    setS("Cancelado");
+    setS("cancelled");
   };
 
   const handleDespachar = () => {
-    if (pedido.status === "Procesando") {
+    if (pedido.status === "Processed") {
       dispatch(putPedidos({
         id: id,
-        status: "Completo"
+        status: "Dispatched"
       }));
     }
-    setS("Completo");
+    setS("dispatched");
   };
 
   return (
