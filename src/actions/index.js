@@ -395,7 +395,7 @@ export function getProductDetails(id) {
 export function getAllCategories() {
   return async (dispatch) => {
     try {
-      const allCategories = apiGetAllCategories
+      const allCategories = await apiGetAllCategories()
       if (!allCategories.error) {
         dispatch({ type: SET_CATEGORIES, payload: allCategories });
       }
@@ -438,7 +438,8 @@ export function addCategory(payload) {
 export function getAllPresentations() {
   return async (dispatch) => {
     try {
-      const allPresentations = apiGetAllPresentations
+      const allPresentations = await apiGetAllPresentations()
+      console.log(allPresentations)
       if (!allPresentations.error) {
         dispatch({ type: SET_PRESENTATIONS, payload: allPresentations });
       }

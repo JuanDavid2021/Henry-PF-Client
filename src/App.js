@@ -20,7 +20,7 @@ import NavBar from './components/Navbar';
 import PagoDenied from "./components/PagoDenied";
 import PagoSuccess from "./components/PagoSuccess";
 import Pedidos from './components/Pedidos';
-import Products from "./components/Products";
+
 import { Register } from "./components/Register";
 // import Profile from './components/Profile';
 import Shop from './components/Shop';
@@ -92,8 +92,7 @@ function App() {
 
         <Route exact path='/product/:id' element={<DetailProduct />} />
         <Route exact path ='/login/forgot' element={<LoginForgot/>} />
-        <Route path ='/login/reset/:token' element={<LoginReset/>}/>
-        <Route exact path='/products' element={<Products />} />
+        <Route path ='/login/reset/:token' element={<LoginReset/>}/>       
         <Route exact path='/pedidos' element={<Pedidos />} />
         <Route exact path='/pedido/:id' element={<DetailPedido />} /> 
         <Route exact path='/creationForm' element={<CreationForm />} />
