@@ -37,10 +37,11 @@ function DetailCompra() {
             <Spinner animation="border" role="status">
                 <span className="visually-hidden">Loading...</span>
             </Spinner>
-        </>) : (<>
-            <div style={{ width: "100%", display: "flex", flexDirection: "row", justifyContent: "center" }}>
+        </>) : (
+        <div className="container">
+            <div className="row justify-content-center displaySm">
 
-                <div style={{width:"70%" , display: "flex", flexDirection: "column", justifyContent: "center", marginBottom: "40px" }}>
+                <div className="col col-sm-9" style={{ marginBottom: "40px" }}>
                     <div style={{ width: "100%", marginTop: "30px", display: "flex", justifyContent: "center" }}>
                         <Button style={{ width: "120px" }} variant="dark" onClick={handleClose}>
                             Mi perfil <RiArrowGoBackFill />
@@ -83,31 +84,38 @@ function DetailCompra() {
                     {
                         pedido.ItemsPedidos.map((i, el) => (
                             <Card className="mb-3">
-                                <img src={i.Producto.fotos[0]} className="position-absolute top-0 end-0 rounded-circle" style={{ maxWidth: "100px", marginTop: "80px", marginRight: "40px" }}></img>
                                 <Card.Header as="h5">{i.nombre}</Card.Header>
                                 <Card.Body>
-                                    <Card.Title>Peso: {i.peso} kg</Card.Title>
-                                    <Card.Text>
-                                        <p>Cantidad: {i.cantidad}</p>
-                                        <p>Tipo de corte: {i.tipo_corte}</p>
-                                    </Card.Text>
+                                    <Row className="row row-wrap">
+                                        <Col className="col col-lg-10">
+                                            <Card.Title>Peso: {i.peso} kg</Card.Title>
+                                            <Card.Text>
+                                                <p>Cantidad: {i.cantidad}</p>
+                                                <p>Tipo de corte: {i.tipo_corte}</p>
+                                            </Card.Text>
+                                        </Col>
+                                        <Col className="col col-lg-2 col-md-2 position-relative">
+                                            <img src={i.Producto.fotos[0]} alt={i.nombre} className="rounded-circle img-fluid position-absolute" style={{width:"15vh", top: "1rem", right: "1.25rem"}}></img>
+                                        </Col>
+
+                                    </Row>
                                     <Button variant="primary">Opinar sobre el producto</Button>
                                 </Card.Body>
                             </Card>
                         ))
                     }
                 </div>
-                <div className="sticky-top" style={{ width: "14%", height: "100%", marginLeft: "40px" }}>
-                    <div className="sticky-top" style={{ paddingLeft: "20px", marginTop: "140px" }}>
-                    <div className="border-bottom border-2">
+                <div className="col col-sm-2 sticky-top resumeBuy" style={{ width: "15vw", height: "70vh", marginLeft: "1px" }}>
+                    <div className="sticky-top resumeBuy1" style={{ padding: "5px", marginTop: "10vh" }}>
+                        <div className="border-bottom border-2">
 
-                        <p className="fw-bolder fs-5 mb-0" >
-                            Detalle de compra
-                        </p>
-                        <p className="fw-light">
-                            {pedido.f_pedido.substring(0, 10)} # {pedido.pago_id}
-                        </p>
-                    </div>
+                            <p className="fw-bolder fs-5 mb-0" >
+                                Detalle de compra
+                            </p>
+                            <p className="fw-light">
+                                {pedido.f_pedido.substring(0, 10)} # {pedido.pago_id}
+                            </p>
+                        </div>
                         <div className="d-flex justify-content-between border-bottom mt-4">
                             <p className="mb-0">
                                 Total en productos:
@@ -130,14 +138,11 @@ function DetailCompra() {
                             ${pedido.ItemsPedidos.reduce((i, p) => i += p.precioTotal, 0) + 3220}
                         </p>
                         </div>
-
-
                     </div>
-
-
                 </div>
             </div>
-        </>)
+        </div>
+        )
     );
 }
 

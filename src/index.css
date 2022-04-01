@@ -13,7 +13,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+/*carousel-shop*/
 @media (min-width: 1440px) {
   .carousel-item-shop>div>img {
       max-height: 400px;
@@ -51,5 +51,27 @@ code {
   .carrusel{
     height:146px!important;
     width:70%!important;
+  }
+}
+
+/*DetailCompra*/
+
+@media (max-width:560px) {
+  .displaySm{
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .resumeBuy{
+    position: relative;
+    margin-top: 0rem!important;
+    z-index: 0;
+    width: 100%!important;
+  }
+  .resumeBuy1{
+    margin-top: 1rem!important;
+    background-color: #212529;
+    color: white;
+    padding-left: 0;
+    padding: 1rem!important;
   }
 }
