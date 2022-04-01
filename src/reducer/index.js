@@ -51,7 +51,11 @@ import {
   SET_PLATFORM_USER,
   PUT_PEDIDO_STATE,
   PUT_CATEGORY,
-  ACT_CART
+  ACT_CART,
+  ADD_PRESENTATION,
+  PUT_PRESENTATION,
+  SET_PRESENTATIONS,
+  DELETE_PRESENTATION
 } from './../action-types/index';
 
 
@@ -70,7 +74,7 @@ const initialState = {
   cart: [],
   despacho: null,
   categories: [],//[{id:XXX,name:'sadasd'},...]
-
+  presentations:[],
   userRegistred: [],
   pedido: {},
   pedidoId: {},
@@ -273,6 +277,28 @@ function rootReducer(state = initialState, action) {
     };
   }
 
+   if (action.type === SET_PRESENTATIONS) {
+    //seteo categorias desde el back
+    return {
+      ...state,
+      presentations: action.payload
+    };
+  }
+  
+  if (action.type === PUT_PRESENTATION) {
+    //seteo categorias desde el back
+    const updatedPresentations = state.presentations.map(p => {
+      if (p.id === action.payload.id) {
+        return action.payload
+      }
+      return p
+    })  
+    return {
+      ...state,
+      presentations: updatedPresentations
+    };
+  }
+
   if (action.type === DELETE_PRODUCT) {
     //borro el producto del arreglo una vez tenemos la confirmacion del back
     const newProducts = state.products.filter(
@@ -408,6 +434,14 @@ function rootReducer(state = initialState, action) {
     };
   }
 
+  if (action.type === ADD_PRESENTATION) {
+    //agrego categoria al arreglo una vez tenemos la confirmacion desde el back
+    return {
+      ...state,
+      presentations: [...state.presentations, action.payload],
+    };
+  }
+
   if (action.type === DELETE_CATEGORY) {
     //agrego categoria al arreglo una vez tenemos la confirmacion desde el back
     const newCategories = state.categories.filter(
@@ -416,6 +450,17 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       categories: newCategories,
+    };
+  }
+
+  if (action.type === DELETE_PRESENTATION) {
+    //agrego categoria al arreglo una vez tenemos la confirmacion desde el back
+    const newPresentations = state.presentations.filter(
+      (e) => e.id !== action.payload.id
+    );
+    return {
+      ...state,
+      categories: newPresentations,
     };
   }
 
