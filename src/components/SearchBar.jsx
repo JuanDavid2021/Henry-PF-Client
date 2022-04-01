@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import { searchProduct, filterProducts } from "../actions";
 
-function SearchBar() {
+function SearchBar({filtro}) {
   const [input, setInput] = useState("");
   const categories = useSelector((state) => state.categories);
   const [typing, setTyping] = useState(false);
@@ -77,6 +77,37 @@ function SearchBar() {
     }
     return () => clearTimeout(timeout);
   }, [typing, dispatch, setTyping, categoryFilterStatus, filter,loaded]);
+
+  if (filtro) {
+    return (
+      <div className="container px-0">
+      <Row className="mx-4 mt-3">
+        <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
+          <p>Filtrar pedidos por :</p>
+        </Col>
+        <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
+          <Form.Select>
+            <option selected value="all">
+              Todos los pedidos
+            </option>
+            <option selected value="approbed">
+              Creado
+            </option>
+            <option selected value="processed">
+              Procesado
+            </option>
+            <option selected value="cancelled">
+              Cancelado
+            </option>
+            <option selected value="dispatched">
+              Completo
+            </option>
+          </Form.Select>
+        </Col>
+      </Row>
+    </div>
+    )
+  }
 
   return (
     <div className="container px-0">

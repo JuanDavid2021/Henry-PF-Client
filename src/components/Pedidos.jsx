@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { deleteCartItem, setCartItem, getPedidos, apiGetAllUsers } from '../actions';
 import { Modal, Button } from 'react-bootstrap';
+import SearchBar from "../components/SearchBar";
 
 function Pedidos() {
     const pedidos = useSelector(state => state.pedidos);
@@ -22,6 +23,7 @@ function Pedidos() {
 
     return (
         <div className='container'>
+            <SearchBar filtro={true}/>
             <div className="table-responsive ">
                 <table className="table text-nowrap ">
                     <thead  >
