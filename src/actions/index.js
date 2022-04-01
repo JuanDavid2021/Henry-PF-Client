@@ -50,6 +50,7 @@ import {
   GET_PEDIDOS,
   GET_PEDIDO_ID,
   PUT_PEDIDO_STATE,
+  FILTER_PEDIDO,
   PUT_CATEGORY,
   ADD_PRESENTATION,
   PUT_PRESENTATION,
@@ -801,6 +802,12 @@ export function putPedidos(payload) {
       console.log(error);
     }
 
+  };
+}
+
+export function filterPedidos(filter) {
+  return (dispatch) => {
+    dispatch({ type: FILTER_PEDIDO, payload: filter });
   };
 }
 
