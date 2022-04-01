@@ -53,6 +53,7 @@ export const GET_PEDIDOS = "getPedidos";
 export const GET_PEDIDO_ID = "getPedidosId";
 export const GET_PEDIDO_USER = "getPedido";
 export const PUT_PEDIDO_STATE = "putPedidoState";
+export const FILTER_PEDIDO = "filterPedido";
   
 export const GET_COMMENTS = "getComments"; 
 export const POST_PRODUCT = "POST_PRODUCT"; 
