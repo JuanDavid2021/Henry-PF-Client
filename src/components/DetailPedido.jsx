@@ -140,7 +140,7 @@ function DetailPedido() {
             <Row >
               <Col className="mb-2" sm="12" md="6" lg="6">
                 <Button className="col-12" variant="secondary" onClick={handleClose}>
-                  Pedidos <RiArrowGoBackFill />
+                  Dashboard <RiArrowGoBackFill />
                 </Button>
               </Col>
             </Row>
