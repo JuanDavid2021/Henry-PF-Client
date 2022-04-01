@@ -50,7 +50,10 @@ import {
   GET_PEDIDOS,
   GET_PEDIDO_ID,
   PUT_PEDIDO_STATE,
-  PUT_CATEGORY
+  PUT_CATEGORY,
+  ADD_PRESENTATION,
+  PUT_PRESENTATION,
+  SET_PRESENTATIONS
 
 } from './../action-types/index';
 const axios = require("axios");
@@ -275,6 +278,34 @@ async function apiAddCategory(data) {
   }
 }
 
+async function apiGetAllPresentations() {
+  try {
+    const response = await axios.get(`http://localhost:3001/api/presentation/all`);
+    return response.data;
+  } catch (error) {
+    let err = `error en /actions apiGetAllPresentations, ${error}`;
+    return { error: err };
+  }
+}
+
+async function apiPutPresentation(data) {
+  try {
+    const response = await axios.put(`http://localhost:3001/api/presentation/${data.id}`, data);
+    return response;
+  } catch (error) {
+    return error
+  }
+}
+
+async function apiAddPresentation(data) {
+  try {
+    const response = await axios.post(`http://localhost:3001/api/presentation/new`, data);
+    return response;
+  } catch (error) {
+    return error
+  }
+}
+
 //PRODUCT...
 
 export function addProduct(data) {
@@ -327,6 +358,10 @@ export function getProducts() {
       const categories = await apiGetAllCategories();
       if (!categories.error) {
         dispatch({ type: SET_CATEGORIES, payload: categories });
+      }
+      const presentations = await apiGetAllPresentations();
+      if (!presentations.error) {
+        dispatch({ type: SET_PRESENTATIONS, payload: presentations });
       }
       const products = await apiGetAllProducts();
       if (products.error) {
@@ -393,6 +428,49 @@ export function addCategory(payload) {
         dispatch({ type: ADD_CATEGORY, payload: createdCategory.data })
       }
       return createdCategory
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  }
+}
+
+export function getAllPresentations() {
+  return async (dispatch) => {
+    try {
+      const allPresentations = apiGetAllPresentations
+      if (!allPresentations.error) {
+        dispatch({ type: SET_PRESENTATIONS, payload: allPresentations });
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function putPresentation(payload) {
+  return async (dispatch) => {
+    try {
+      const editedPresentation = await apiPutPresentation(payload)
+      if (editedPresentation.status === 200) {
+        dispatch({ type: PUT_PRESENTATION, payload: payload })
+      }
+      return editedPresentation
+    } catch (error) {
+      console.log(error)
+      return error
+    }
+  }
+}
+
+export function addPresentation(payload) {
+  return async (dispatch) => {
+    try {
+      const createdPresentation = await apiAddPresentation(payload)
+      if (createdPresentation.status === 200) {
+        dispatch({ type: ADD_PRESENTATION, payload: createdPresentation.data })
+      }
+      return createdPresentation
     } catch (error) {
       console.log(error)
       return error

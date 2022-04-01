@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllCategories, putCategory, addCategory } from "../actions";
+import { getAllPresentations, putPresentation, addPresentation } from "../actions";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { FaTrash, FaEyeSlash, FaEye } from "react-icons/fa"
+import { FaEyeSlash, FaEye } from "react-icons/fa"
 
 function validate(toTest, toCompare) {
   let error = "";  
@@ -25,21 +25,21 @@ function validate(toTest, toCompare) {
   return error;    
 }
 
-function EditCategory() {
+function EditPresentation() {
   const dispatch = useDispatch();
-  const storeCategories = useSelector((state) => state.categories);
+  const storePresentations = useSelector((state) => state.presentations);
   const [input, setInput] = useState({ id: 0, nombre: "", activo:true });
   const [editing, setEditing] = useState({ id: 0, nombre: "", activo:true });
   const [errors, setErrors] = useState("");
   useEffect(() => {
-    if (!storeCategories.length) dispatch(getAllCategories);
-  }, [storeCategories, dispatch]);
+    if (!storePresentations.length) dispatch(getAllPresentations);
+  }, [storePresentations, dispatch]);
 
   function selectToEdit(e) {
     let id = parseInt(e.target.value);
     setErrors("")
     if (id !== 0) {      
-      let cat = storeCategories.find(
+      let cat = storePresentations.find(
         (sC) => sC.id === parseInt(e.target.value)
       );      
       setEditing(cat);
@@ -52,14 +52,14 @@ function EditCategory() {
 
   async function put(item) {    
     if (item.id === 0) {      
-      const result = await dispatch(addCategory(item))
+      const result = await dispatch(addPresentation(item))
       if (result.status === 200) {
         
         setEditing(result.data)
         setInput(result.data)
       }
     } else {      
-      const result = await dispatch(putCategory(item))
+      const result = await dispatch(putPresentation(item))
       if (result.status === 200) {
         setEditing(item)
         setInput(item)
@@ -78,14 +78,14 @@ function EditCategory() {
       ...input,
       nombre: variable,
     })   
-    setErrors(validate(variable, storeCategories));       
+    setErrors(validate(variable, storePresentations));       
   }
 
   return (
     <Row className="mb-2 border-top">
       <Col className="col-12">
         <Row className="mb-2">
-          <Col className="col-12 mb-0">{ errors.length>0 ? <Form.Label className="text-danger">{errors}</Form.Label> : <Form.Label>Categorías: </Form.Label> }</Col>
+          <Col className="col-12 mb-0">{ errors.length>0 ? <Form.Label className="text-danger">{errors}</Form.Label> : <Form.Label>Presentaciones: </Form.Label> }</Col>
           <Col>
               <Form.Select
               onChange={(e) => selectToEdit(e)}
@@ -95,7 +95,7 @@ function EditCategory() {
                 <option selected value={0}>
                   Crear nueva
                 </option>
-                {storeCategories?.map((c, i) => (
+                {storePresentations?.map((c, i) => (
                   <option key={i} value={c.id}>
                     {c.nombre}
                   </option>
@@ -114,7 +114,7 @@ function EditCategory() {
               isInvalid={errors.length}
               type="text"
               name={input.id}
-              placeholder={ editing.id !== 0 ? editing.nombre : `Crear Categoria` }
+              placeholder={ editing.id !== 0 ? editing.nombre : `Crear Presentación` }
               value={input.nombre}
               onChange={(e) => handleChangeString(e)}
               trim
@@ -146,4 +146,4 @@ function EditCategory() {
   );
 }
 
-export default EditCategory;
+export default EditPresentation;
