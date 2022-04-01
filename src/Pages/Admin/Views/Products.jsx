@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { Row, Col, Modal } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { postProduct, putProduct, getProducts } from "../../../actions/index"
+
+import swal from 'sweetalert'
 import SearchBar from "../../../components/SearchBar";
 import EditCategory from "../../../components/EditCategory";
 import EditPresentation from "../../../components/EditPresentation";
-import swal from 'sweetalert'
-//import arrProductos from './../dataSimulate';
-import { Container, Row, Col, Card, Image, Carousel, Form, Modal, Button } from "react-bootstrap";
-import img from "../../../img/logo2.png";
-import { useDispatch, useSelector } from "react-redux";
-import { NotFound } from "../../../components/NotFound";
 import EditDeleteProductForm from "../../../components/EditDeleteProductForm"
 import CreateProductForm from "../../../components/CreateProductForm"
-import { postProduct, putProduct, deleteProduct, getProducts } from "../../../actions/index"
+import { NotFound } from "../../../components/NotFound";
+
 
 function Products() {
   const dispatch = useDispatch();
