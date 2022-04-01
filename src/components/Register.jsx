@@ -59,7 +59,7 @@ export const Register = ({setAuth}) => {
 
   return (
   <div className="py-3 bg-dark" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
-    <div className="alert align-middle bg-dark text-light bg-opacity-75 mb-0 mx-1">
+    <div className="alert align-middle bg-dark text-light bg-opacity-75 mb-0 mx-1" style={{ display: "flex",flexDirection: "column", justifyContent: "center", minWidth: "300px", maxWidth: "300px" }}>
       <h2 className='text-center my-4'>Registro de usuario</h2>
       <form className="px-md-2 needs-validation" onSubmit={onSubmitForm}>
         <div>
