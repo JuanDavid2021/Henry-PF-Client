@@ -4,7 +4,7 @@ import { RiDeleteBin5Fill, RiArrowRightSLine, RiArrowLeftSLine } from 'react-ico
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { deleteCartItem, setCartItem, getPedidos, apiGetAllUsers } from '../actions';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Row } from 'react-bootstrap';
 import SearchBar from "../components/SearchBar";
 
 function Pedidos() {
@@ -23,7 +23,9 @@ function Pedidos() {
 
     return (
         <div className='container'>
-            <SearchBar filtro={true}/>
+            <Row className="border-top border-2 border-dark">
+                <SearchBar filtro={true}/>
+            </Row>
             <div className="table-responsive ">
                 <table className="table text-nowrap ">
                     <thead  >
