@@ -16,7 +16,7 @@ function validate(toTest, toCompare) {
   }
   for (let i = 0; i < toCompare.length; i++) {
     if (toCompare[i].nombre.toLowerCase() === toTest.toLowerCase()) {
-      error = "Ya existe otra categoría con ese nombre"
+      error = "Ya existe otra presentación con ese nombre"
       break
     }    
   }  
