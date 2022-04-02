@@ -4,7 +4,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { RiChatQuoteFill } from "react-icons/ri";
 
-function Review({ id, califications, toDispatch }) {
+function Review({ id, califications, toDispatch, available=false }) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("Debe contener de 10 a 120 caracteres");  
@@ -46,14 +46,16 @@ function Review({ id, califications, toDispatch }) {
     <Row className="my-1">
       <Col>
         <Form noValidate validated={!error.length}>
-          <Form.Group className="mb-3">
-            <div className="mb-2" style={{ display: "flex", justifyContent: "space-between" }}>
+          <Form.Group className="mb-1">            
+            {available ? 
+               <>
+              <div className="mb-2" style={{ display: "flex", justifyContent: "space-between" }}>
               <div className="mt-1">
                 {califications.map((value, index) => {
                   return (
                     <FaStar
                       key={index}
-                      style={{ marginRight: "10" }}
+                      style={{ marginRight: "10" }}                      
                       strokeWidth="5"
                       color="black"
                       fill={rating >= index+1 ? "yellow" : "none"}
@@ -61,29 +63,36 @@ function Review({ id, califications, toDispatch }) {
                     />
                   );
                 })}
-                { rating>0 ? califications[rating-1] : "No lo se Rick..." }
+                { rating>0 ? califications[rating-1] : "Mmm..." }
               </div>
               <Button  
-                disabled={comment.length<10 || error.length!==0}  
+                disabled={( comment.length<10 || error.length!==0 ) && !available}  
                 className="mt-0"
                 variant="secondary"
                 onClick={sendReview}
               >
-                Publicar reseña <RiChatQuoteFill />
+                Publicar<RiChatQuoteFill />
               </Button>
             </div>
-
-            <Form.Control
+             
+              <Form.Control
               type="text"
               id="comment"
-              name="comment"
+                  name="comment"
+                  disabled={!available }
               aria-describedby="comment"
-              value={ comment }
+              value={ available? comment : "Debe comprar el producto antes de poder calificarlo"}
               onChange={ handleComment }
             />
             <Form.Text id="commentHelpBlock" muted={ !error.length } className={ error.length? "text-danger font-weight-bold" : "" }>
               La reseña debe tener de 10 a 120 caracteres de largo y solo se aceptan letras puntos y comas.
-            </Form.Text>
+                </Form.Text>
+              </>
+              :
+              <Form.Text id="commentHelpBlock" className="text-danger font-weight-bold">
+              Debe poseer el producto antes de poder calificarlo.
+              </Form.Text>
+            }            
           </Form.Group>
         </Form>
       </Col>

@@ -241,9 +241,13 @@ async function apiUpdateProduct(data) {
   }
 }
 
-async function apiGetProductDetails(id) {
+async function apiGetProductDetails(id,currentUser) {
   try {
-    const response = await axios.get(`http://localhost:3001/api/product/get/${id}`);
+    const response = await axios.get(`http://localhost:3001/api/product/get/${id}`,{
+          headers: {
+            token: currentUser.token || "invitado"
+          }
+        });
     return response.data;
   } catch (error) {
     let err = `error en /actions apiGetProductDetails, ${error}`;
@@ -377,11 +381,11 @@ export function getProducts() {
   };
 }
 
-export function getProductDetails(id) {
+export function getProductDetails(id, currentUser) {
   return async (dispatch) => {
     try {
       dispatch({ type: GETTING_PRODUCT_DETAILS, payload: true });
-      const productDetails = await apiGetProductDetails(id);
+      const productDetails = await apiGetProductDetails(id, currentUser);
       if (productDetails.error) {
         return dispatch({ type: GETTING_PRODUCT_DETAILS, payload: false });
       } else {

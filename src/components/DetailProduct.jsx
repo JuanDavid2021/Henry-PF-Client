@@ -28,7 +28,8 @@ function DetailProduct() {
 
   const [confirmModal, setConfirmModal] = useState(false)
 
-  const productDetails = useSelector((state) => state.productDetails);
+  const productDetails = useSelector(state => state.productDetails);
+  const currentUser = useSelector(state => state.user)
 
   const [validated, setValidated] = useState(false);
 
@@ -64,7 +65,7 @@ function DetailProduct() {
       (productDetails.id && productDetails.id.toString() !== id.toString()) ||
       productDetails.id === null
     ) {
-      dispatch(getProductDetails(id));
+      dispatch(getProductDetails(id, currentUser));
     } else {
       setWaiting(false);
     }
@@ -211,11 +212,11 @@ function DetailProduct() {
               </Col>
             </Row>
 
-            <Row style={{ maxHeight: "100px" }}>
+            <Row style={{ maxHeight: "100px", overflowY: "auto" }}>
               {
                 productDetails.Reviews.length 
                   ?productDetails.Reviews.map((review, i) => (
-                    <Col key={i}>
+                    <Col className="col-12" key={i}>
                       <Evaluation ev={review.evaluacion} cm={review.comentario} />
                     </Col>
                   ))
@@ -227,7 +228,7 @@ function DetailProduct() {
           <Card.Footer>
             <Review
               id={productDetails.id}
-              available="ver de donde sacar el dato para habilitar/no habilitar el comentario"
+              available={productDetails.comprado}
               califications={["Pasable", "Regular", "Bueno", "Muy bueno", "Exelente"]}
               toDispatch={"aca va la funcion a despachar por el review"} />
           </Card.Footer>
