@@ -90,3 +90,9 @@ code {
     width: 91.77777777%;
   }
 }
+
+/*sidebar hover btn*/
+
+.hoverBtn:hover{
+  background-color: #0d6efd;
+}
