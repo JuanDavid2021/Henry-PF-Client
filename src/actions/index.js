@@ -54,7 +54,8 @@ import {
   PUT_CATEGORY,
   ADD_PRESENTATION,
   PUT_PRESENTATION,
-  SET_PRESENTATIONS
+  SET_PRESENTATIONS,
+  ADD_REVIEW
 
 } from './../action-types/index';
 const axios = require("axios");
@@ -311,6 +312,20 @@ async function apiAddPresentation(data) {
   }
 }
 
+async function apiAddReview(data, user) {
+  try {
+    
+    const created = axios.post(`http://localhost:3001/api/review/create/${data.id}`, data, {
+      headers: {
+            token: user.token
+          }
+    })
+    return created
+  } catch (error) {
+    return error
+  }
+}
+
 //PRODUCT...
 
 export function addProduct(data) {
@@ -320,6 +335,21 @@ export function addProduct(data) {
       payload: data,
     });
   };
+}
+
+
+export function addReview(data, user) {
+  return async (dispatch) => {
+    try {
+      const created = await apiAddReview(data, user)
+      if (created.status === 200) {
+        dispatch({type:ADD_REVIEW, payload:created.data})
+      }
+    return created
+  } catch (error) {    
+    return error
+  }
+  }  
 }
 
 export function deleteProduct(id) {

@@ -33,6 +33,8 @@ export const DELETE_CATEGORY = "deleteCategory";//admin
 export const DELIVERY_CART_ITEMS = "deliveryCartItems";
 export const ADD_ORDER_DATE = "addOrderDate";
 
+export const ADD_REVIEW = "addReview"
+
 export const GETTING_USERS = "gettingUsers";
 export const SET_USERS = "setUsers";//admin
 export const DELETE_USER = "deleteUser";//admin
