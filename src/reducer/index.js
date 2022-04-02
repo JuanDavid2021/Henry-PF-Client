@@ -38,6 +38,7 @@ import {
   SET_CART_ITEM,
   USERLOGIN,
   USERCREATE,
+  ADD_REVIEW,
 
   USERLOGINOK,
 
@@ -183,6 +184,15 @@ function rootReducer(state = initialState, action) {
       ...state,
       cart: [...action.payload]
     };
+  }
+
+  if (action.type === ADD_REVIEW) {    
+    let newProductDetails = { ...state.productDetails }
+    newProductDetails.Reviews.unshift(action.payload)
+    return {
+      ...state,
+      productDetails:newProductDetails
+    }
   }
 
   if (action.type === USERCREATE) {
