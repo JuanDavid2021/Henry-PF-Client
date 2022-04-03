@@ -5,7 +5,8 @@ import {
   Container,
   Row,
   Col,
-  Spinner
+  Spinner,
+  Modal
 } from "react-bootstrap";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +24,11 @@ function DetailPedido() {
   let { id } = useParams();
 
   const navigate = useNavigate();
+
+  const [show, setShow] = useState(false);
+
+  const handleCloseModal = () => setShow(false);
+  const handleShowModal = () => setShow(true);
 
   useEffect(() => {
     dispatch(getPedidos(id));
@@ -42,7 +48,8 @@ function DetailPedido() {
         status: "Processed"
       }));
     }
-    setS("processed");
+    setS("procesará");
+    handleShowModal();
   };
 
   const handleCancelar = () => {
@@ -52,7 +59,8 @@ function DetailPedido() {
         status: "Cancelled"
       }));
     }
-    setS("cancelled");
+    setS("cancelará");
+    handleShowModal();
   };
 
   const handleDespachar = () => {
@@ -62,7 +70,8 @@ function DetailPedido() {
         status: "Dispatched"
       }));
     }
-    setS("dispatched");
+    setS("despachará");
+    handleShowModal();
   };
 
   return (
@@ -158,6 +167,25 @@ function DetailPedido() {
             </Row>
           </Card.Body>
         </Card>
+
+        <Modal
+        show={show}
+        onHide={handleCloseModal}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Cambio de estado del pedido</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Se {s} el pedido.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
       </Container>
     </>)
   );

@@ -99,16 +99,16 @@ function SearchBar({filtro}) {
             <option selected value="all">
               Todos los pedidos
             </option>
-            <option selected value="Approbed">
+            <option value="Approbed">
               Creado
             </option>
-            <option selected value="Processed">
+            <option value="Processed">
               Procesado
             </option>
-            <option selected value="Cancelled">
+            <option value="Cancelled">
               Cancelado
             </option>
-            <option selected value="Dispatched">
+            <option value="Dispatched">
               Completo
             </option>
           </Form.Select>
