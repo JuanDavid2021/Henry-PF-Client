@@ -13,11 +13,15 @@ import {
   FormControl,
   Spinner,
 } from "react-bootstrap";
-import { searchProduct, filterProducts,filterProductsAuto } from "../actions";
+
+import { searchProduct, filterProducts,filterProductsAuto,filterPedidos } from "../actions";
 import { SearchBarList } from "./SearchBarList";
 
-function SearchBar({filtro}) {
 
+
+function SearchBar({filtro}) {
+  const [input, setInput] = useState("");
+  const [filterPedido, setFilterPedido] = useState('all');
   const categories = useSelector((state) => state.categories);
   const productsAutoComplete = useSelector(state=> state.products)
   const productosFilter=useSelector(state=>state.filteredProducts)
@@ -39,6 +43,7 @@ function SearchBar({filtro}) {
     order: "",
     input: "",
   });
+
 
   const expandContainer=()=>{
     setExpanding(true)
@@ -78,6 +83,11 @@ function SearchBar({filtro}) {
 
   const transition = {type:"spring", damping:50, stiffness:150}
 
+  const filterP = (e) => {
+    dispatch(filterPedidos(e.target.value));
+    setFilterPedido(e.target.value);
+  }
+
   const setTheFilter = (e) => {
     setFilter({
       ...filter,
@@ -112,7 +122,7 @@ function SearchBar({filtro}) {
       }, 1000);
     }
     return () => clearTimeout(timeout);
-  }, [typing, dispatch, setTyping, categoryFilterStatus, filter,loaded]); 
+  }, [typing, dispatch, setTyping, categoryFilterStatus, filter,loaded,filterPedido]); 
 
   useEffect(()=>{
      if(isClickedOutSide) closeContainer()
@@ -126,20 +136,23 @@ function SearchBar({filtro}) {
           <p>Filtrar pedidos por :</p>
         </Col>
         <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
-          <Form.Select>
+          <Form.Select
+            name="pedidos"
+            onChange={(e) => filterP(e)}
+          >
             <option selected value="all">
               Todos los pedidos
             </option>
-            <option selected value="approbed">
+            <option value="Approbed">
               Creado
             </option>
-            <option selected value="processed">
+            <option value="Processed">
               Procesado
             </option>
-            <option selected value="cancelled">
+            <option value="Cancelled">
               Cancelado
             </option>
-            <option selected value="dispatched">
+            <option value="Dispatched">
               Completo
             </option>
           </Form.Select>

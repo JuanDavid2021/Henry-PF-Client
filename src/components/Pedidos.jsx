@@ -30,9 +30,10 @@ function Pedidos() {
                 <table className="table text-nowrap">
                     <thead  >
                         <tr className="text-sm">
-                            <th className="border-gray-300 border-top py-3">Fecha Pedido</th>
-                            <th className="border-gray-300 border-top py-3">Fecha Despacho</th>
                             <th className="border-gray-300 border-top py-3">Usuario</th>
+                            <th className="border-gray-300 border-top py-3">Fecha Pedido</th>
+                            <th className="border-gray-300 border-top py-3">Fecha Requerida</th>
+                            <th className="border-gray-300 border-top py-3">Estado</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +42,10 @@ function Pedidos() {
                                 /* Mapeo de las filas de la tabla con los items del carrito */
                                 pedidos.map((p) => {
                                     return (
-                                        <tr className="text-sm">
+                                        <tr key={p.id} className="text-sm">
+                                            <td>
+                                                {p.UsuarioCorreo}
+                                            </td>
                                             <td>
                                                 {p.f_pedido.substring(0, 10)}
                                             </td>
@@ -49,10 +53,10 @@ function Pedidos() {
                                                 {p.f_requerida.substring(0, 10)}
                                             </td>
                                             <td>
-                                                {p.UsuarioCorreo}
+                                                {p.status}
                                             </td>
                                             <td>
-                                                <button className="btn btn-info text-light text-decoration-none mx-2" onClick={() => handleDetailPedido(p.id)}>Detalles</button>
+                                                <button className="btn btn-info text-light text-decoration-none fs-6 mx-2" onClick={() => handleDetailPedido(p.id)}>Detalles</button>
                                             </td>
                                         </tr>
                                     )
@@ -67,7 +71,7 @@ function Pedidos() {
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th className="py-3 border-0" colSpan="3"> <span className="h5 text-gray-700 mb-0">Total</span></th>
+                            <th className="py-3 border-0" colSpan="4"> <span className="h5 text-gray-700 mb-0">Total</span></th>
                             <th className="py-3 border-0 text-center" colSpan="1"> <span className="h5 text-gray-700 mb-0">{pedidos.length}</span></th>
                         </tr>
                     </tfoot>

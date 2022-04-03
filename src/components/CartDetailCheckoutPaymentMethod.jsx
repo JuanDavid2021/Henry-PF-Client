@@ -11,16 +11,16 @@ function CartDetailCheckoutPaymentMethod() {
   let idPedido = useSelector(state => state.idPago)
   const pedidoBack = useSelector(state => state.pedido)
   const despacho = useSelector(state => state.despacho)
-  const user = useSelector((state => state.user))
+  const currenuser = useSelector((state => state.user))
   const loading = useSelector((state => state.loading))
 
 
   const dispatch = useDispatch()
 
-  const carritoMod = carrito.forEach(el => {
-    el.peso = Number(el.peso)
-    delete el.idItemFront;
-  })
+  // const carritoMod = carrito.forEach(el => {
+  //   el.peso = Number(el.peso)
+  //   delete el.idItemFront;
+  // })
 
   const pedidos = {
     f_pedido: despacho.f_pedido,
@@ -55,8 +55,8 @@ function CartDetailCheckoutPaymentMethod() {
 
 
   useEffect(() => {
-    console.log(pedidos)
-    dispatch(postPedido(pedidos))
+    // console.log(pedidos)
+    dispatch(postPedido(currenuser,pedidos))
   }, [dispatch])
 
   const navigate = useNavigate()
@@ -73,6 +73,7 @@ function CartDetailCheckoutPaymentMethod() {
 
   const handlePago = (e) => {
     dispatch(pagarPedido({
+      currenuser: currenuser,
       id: pedidoBack.id,
       ItemsPedidos: pedidoBack.ItemsPedidos
     }))

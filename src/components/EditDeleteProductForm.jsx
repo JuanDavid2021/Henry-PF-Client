@@ -77,6 +77,7 @@ function EditDeleteProductForm({
 
   const [fotos,setFotos] = useState([product.fotos[0] || "",product.fotos[1] || "", product.fotos[2] || ""])
   const storeCategories = useSelector((state) => state.categories);
+  const storePresentations = useSelector((state) => state.presentations);
 
   const [categorias, setCategrorias] = useState(product.Categoria || []);
 
@@ -305,13 +306,13 @@ function EditDeleteProductForm({
             <Col className="border-bottom" xs="12" sm="6">
               <p className="mb-1">
                 <b>Categorias: </b>
-                {productToView.Categoria?.map(ct=>ct.nombre+ ", ")}
+                {productToView.Categoria?.map(ct=> storeCategories.find(sc=>ct.id===sc.id).nombre+"-")}
               </p> 
             </Col>
             <Col className="border-bottom" xs="12" sm="6">
               <p className="mb-1">
                 <b>Tipo de corte: </b>
-                {productToView.Presentacions.map(pr => pr.nombre + ", ")}
+                {productToView.Presentacions.map(pt=> storePresentations.find(sp=>pt.id===sp.id).nombre+"-")}
               </p>
             </Col>
           </Row>
