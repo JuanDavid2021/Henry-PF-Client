@@ -54,8 +54,10 @@ import {
   ADD_PRESENTATION,
   PUT_PRESENTATION,
   SET_PRESENTATIONS,
+  FILTER_AUTO,
   ADD_REVIEW,
   GET_USER_BY_ID
+
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -384,6 +386,12 @@ export function editProduct(data) {
 export function filterProducts(filter) {
   return (dispatch) => {
     dispatch({ type: FILTER_PRODUCTS, payload: filter });
+  };
+}
+
+export function filterProductsAuto(name) {
+  return (dispatch) => {
+    dispatch({ type: FILTER_AUTO, payload: name });
   };
 }
 
@@ -775,7 +783,7 @@ export function postPedido(currenuser,pedidoData) {
         url: "http://localhost:3001/api/pedido/create",
         method: 'post',
         headers: {token: currenuser.token},
-        data: pedidoData
+        data: {...pedidoData, ...currenuser}
       });
       if (newPedido.status === 200) {
         dispatch({
@@ -855,11 +863,12 @@ export function getPedidos(userData,productoId) {
 export function putPedidos(payload) {
   return async function (dispatch) {
     try {
-      const pedido = await axios.put("http://localhost:3001/api/pedido/update/"+payload.id,{
-        headers: {
-          token: payload.currenuser.token, 
-          data : payload
-      }});
+      const pedido = await axios({
+        url: "http://localhost:3001/api/pedido/update/"+payload.id,
+        method: 'put',
+        headers: {token: payload.currenuser.token}, 
+        data : payload
+      });
       if (pedido.status === 200) {
         dispatch({
           type: PUT_PEDIDO_STATE,
