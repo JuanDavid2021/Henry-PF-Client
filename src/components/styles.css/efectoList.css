@@ -1,0 +1,8 @@
+.efecto{
+    cursor:pointer
+}
+
+.efecto:hover{
+    background-color:rgb(226, 242, 242)
+}
+

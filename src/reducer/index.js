@@ -38,6 +38,7 @@ import {
   SET_CART_ITEM,
   USERLOGIN,
   USERCREATE,
+  FILTER_AUTO,
 
   USERLOGINOK,
 
@@ -83,6 +84,7 @@ const initialState = {
   pedidos: [],
   filterPedidos: [],
   idPago: {},
+  productsAuto:[],
 
   sales: [],//lista de ventas
   users: [],//lista de usuarios para borrar / forzar password
@@ -516,14 +518,27 @@ function rootReducer(state = initialState, action) {
       searchStatus = true;
     }
     let userProducts = filteredProducts.filter(e => (e.stock>0 && e.activo)) 
-
+    
     return {
       ...state,
       filteredProducts: userProducts,
       adminFilteredProducts:filteredProducts,
       categoryFilterStatus: categoryStatus,
-      searchFilterStatus: searchStatus
+      searchFilterStatus: searchStatus,
     };
+    
+  }
+
+  if(action.type===FILTER_AUTO){
+  
+    let filteredProducts = [...state.products]
+   let result = filteredProducts.filter(p=>p.nombre===action.payload)
+
+   return {
+     ...state,
+     filteredProducts:result
+   }
+
   }
 
   if (action.type === ORDER_PRODUCTS) {
