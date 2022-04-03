@@ -771,7 +771,7 @@ export function putProduct(payload) {
 export function postPedido(currenuser,pedidoData) {
   return async function (dispatch) {
     try {
-      const newPedido = await axiosaxios({
+      const newPedido = await axios({
         url: "http://localhost:3001/api/mercadopago",
         method: 'post',
         headers: {token: currenuser.token},
