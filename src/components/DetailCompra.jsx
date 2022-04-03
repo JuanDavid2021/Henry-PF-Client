@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
     Button,
     Card,
-    Container,
+    // Container,
     Row,
     Col,
     Spinner
@@ -15,17 +15,17 @@ import { getPedidos } from "../actions";
 function DetailCompra() {
 
     const dispatch = useDispatch();
-    const [waiting, setWaiting] = useState(true);
+    // const [waiting, setWaiting] = useState(true);
 
     const pedido = useSelector(state => state.pedidoId);
+    const currenuser = useSelector(store => store.user)
 
-    let { id } = useParams();
+    let pedidoId = useParams().id;
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(getPedidos(id));
-        console.log("pedido", pedido)
+        dispatch(getPedidos(currenuser, pedidoId));
     }, [dispatch])
 
     const handleClose = () => {

@@ -46,17 +46,18 @@ function App() {
  
   const isAuth = async () => {
     try {
-      
-      const response = await fetch("http://localhost:3001/api/user/is-verify",
-        {
-          method: "GET",
-          headers: { token: localStorage.token }
-        });
-     
-      const parseRes = await response.json();
-      parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
+      if (!localStorage.token) {
+        return setIsAuthenticated(false)
+      }
+        const response = await fetch("http://localhost:3001/api/user/is-verify",
+          {
+            method: "GET",
+            headers: { token: localStorage?.token }
+          });     
+        const parseRes = await response.json();
+        parseRes === true ? setIsAuthenticated(true) : setIsAuthenticated(false);
     } catch (error) {
-      console.error(error.message);
+      console.log(error.message);
     }
   };
   

@@ -57,7 +57,7 @@ function Products() {
   };
 
   async function toggle(p) {
-    console.log(p)
+    //console.log(p)
     const updatedProduct = await dispatch(putProduct(p))
     if (updatedProduct.status === 200) { 
       
