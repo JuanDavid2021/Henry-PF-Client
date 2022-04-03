@@ -54,8 +54,10 @@ import {
   ADD_PRESENTATION,
   PUT_PRESENTATION,
   SET_PRESENTATIONS,
+  FILTER_AUTO
   ADD_REVIEW,
   GET_USER_BY_ID
+
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -384,6 +386,12 @@ export function editProduct(data) {
 export function filterProducts(filter) {
   return (dispatch) => {
     dispatch({ type: FILTER_PRODUCTS, payload: filter });
+  };
+}
+
+export function filterProductsAuto(name) {
+  return (dispatch) => {
+    dispatch({ type: FILTER_AUTO, payload: name });
   };
 }
 

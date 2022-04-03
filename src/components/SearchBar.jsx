@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {motion} from 'framer-motion'
+import "../components/styles.css/efectoList.css"
+import {useClickOutside} from "react-click-outside-hook"
 import {
   Container,
   Row,
@@ -10,23 +13,75 @@ import {
   FormControl,
   Spinner,
 } from "react-bootstrap";
-import { searchProduct, filterProducts, filterPedidos } from "../actions";
+
+import { searchProduct, filterProducts,filterProductsAuto,filterPedidos } from "../actions";
+import { SearchBarList } from "./SearchBarList";
+
+
 
 function SearchBar({filtro}) {
   const [input, setInput] = useState("");
   const [filterPedido, setFilterPedido] = useState('all');
   const categories = useSelector((state) => state.categories);
-  const [typing, setTyping] = useState(false);
-  const categoryFilterStatus = useSelector(
-    (state) => state.categoryFilterStatus
-  );
+  const productsAutoComplete = useSelector(state=> state.products)
+  const productosFilter=useSelector(state=>state.filteredProducts)
+  const categoryFilterStatus = useSelector((state) => state.categoryFilterStatus);
   const searchFilterStatus = useSelector((state) => state.searchFilterStatus);
+
+
+  
+  const dispatch = useDispatch();
+
+  const [loaded, setLoaded] = useState(true)
+  const [input, setInput] = useState("");
+  const [typing, setTyping] = useState(false);
+  const [expanding, setExpanding] = useState(false)
+  const [ref, isClickedOutSide] = useClickOutside();
 
   const [filter, setFilter] = useState({
     category: "all",
     order: "",
     input: "",
   });
+
+
+  const expandContainer=()=>{
+    setExpanding(true)
+  
+  }
+
+  const closeContainer =()=>{
+    setExpanding(false) 
+  }
+
+  const conteinerVariants = {
+    expanded:{
+      height:"20em",
+    },
+    close:{  
+      height:"2.5em",
+    }
+  }
+
+
+  const search =(e,nombre)=>{
+   e.preventDefault()
+   setFilter({
+     ...filter,
+     input:nombre
+   })
+   dispatch(filterProductsAuto(nombre)) 
+   closeContainer()
+  }
+
+  const inputWhite =(e)=>{
+    e.preventDefault()
+    if(filter.input===""){
+      closeContainer()
+    }
+  }
+
+  const transition = {type:"spring", damping:50, stiffness:150}
 
   const filterP = (e) => {
     dispatch(filterPedidos(e.target.value));
@@ -46,13 +101,8 @@ function SearchBar({filtro}) {
     );
   };
 
-  const [loaded, setLoaded] = useState(true)
-  
-  const dispatch = useDispatch();
-
   const handleChange = (e) => {
     e.preventDefault();
-    console.log(e.target.name);
     setFilter({
       ...filter,
       [e.target.name]: e.target.value,
@@ -61,17 +111,7 @@ function SearchBar({filtro}) {
     setTyping(true);
   };
 
-  useEffect(() => {
-    if (loaded) {
-      setLoaded(false);
-      setFilter({
-        category: "all",
-    order: "",
-    input: ""})
-      dispatch(filterProducts({
-        category: "all",
-    order: "",
-    input: "",}))}
+   useEffect(() => { 
     let timeout = null;
     if (typing) {
       timeout = setTimeout(() => {
@@ -82,7 +122,11 @@ function SearchBar({filtro}) {
       }, 1000);
     }
     return () => clearTimeout(timeout);
-  }, [typing, dispatch, setTyping, categoryFilterStatus, filter,loaded, filterPedido]);
+  }, [typing, dispatch, setTyping, categoryFilterStatus, filter,loaded,filterPedido]); 
+
+  useEffect(()=>{
+     if(isClickedOutSide) closeContainer()
+  },[isClickedOutSide])
 
   if (filtro) {
     return (
@@ -117,15 +161,17 @@ function SearchBar({filtro}) {
     </div>
     )
   }
-
+ 
   return (
     <div className="container px-0">
       <Row className="mx-4 mt-3">
-        <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
-          <InputGroup>
+        <Col sm="12" md="4" lg="4" xl="4" className="mb-2" >
+          <InputGroup >
+             <motion.div animate={expanding? "expanded":"close"} ref={ref} transition={transition}variants={conteinerVariants}  style={{ width:"500px", height:"20px", overflow:"hidden"}} >
             <FormControl
               isInvalid={!searchFilterStatus}
               placeholder="Buscar por nombre..."
+              onFocus={expandContainer}
               aria-label="Recipient's username"
               type="text"
               id="search"
@@ -134,6 +180,17 @@ function SearchBar({filtro}) {
               value={filter.input}
               onChange={handleChange}
             />
+            <div style={{width:"100%", height:"100%", display:"flex", flexDirection:"column", padding:"1em",overflowY:"scroll",alignItems:"center",}}>
+               {filter.input==="" ? null : productosFilter?.map(p=>(
+                 <span className="efecto" style={{display:"flex", minWidth:"100%", minHeight:"30%", alignItems:"auto", fontSize:"20px", hover:"color: red"}} value={p.nombre} onClick={(e)=>search(e, p.nombre)}>
+                <SearchBarList producto={p.nombre}
+                 foto={p.fotos}
+                 value={p.nombre}
+                />
+                </span>
+               ))}
+            </div>
+            </motion.div>
             {typing ? (
               <Button
                 onClick={setTheFilter}
