@@ -865,11 +865,12 @@ export function getPedidos(userData,productoId) {
 export function putPedidos(payload) {
   return async function (dispatch) {
     try {
-      const pedido = await axios.put("http://localhost:3001/api/pedido/update/"+payload.id,{
-        headers: {
-          token: payload.currenuser.token, 
-          data : payload
-      }});
+      const pedido = await axios({
+        url: "http://localhost:3001/api/pedido/update/"+payload.id,
+        method: 'put',
+        headers: {token: payload.currenuser.token}, 
+        data : payload
+      });
       if (pedido.status === 200) {
         dispatch({
           type: PUT_PEDIDO_STATE,
