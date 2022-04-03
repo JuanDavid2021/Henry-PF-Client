@@ -10,10 +10,11 @@ import {
   FormControl,
   Spinner,
 } from "react-bootstrap";
-import { searchProduct, filterProducts } from "../actions";
+import { searchProduct, filterProducts, filterPedidos } from "../actions";
 
 function SearchBar({filtro}) {
   const [input, setInput] = useState("");
+  const [filterPedido, setFilterPedido] = useState('all');
   const categories = useSelector((state) => state.categories);
   const [typing, setTyping] = useState(false);
   const categoryFilterStatus = useSelector(
@@ -26,6 +27,11 @@ function SearchBar({filtro}) {
     order: "",
     input: "",
   });
+
+  const filterP = (e) => {
+    dispatch(filterPedidos(e.target.value));
+    setFilterPedido(e.target.value);
+  }
 
   const setTheFilter = (e) => {
     setFilter({
@@ -76,7 +82,7 @@ function SearchBar({filtro}) {
       }, 1000);
     }
     return () => clearTimeout(timeout);
-  }, [typing, dispatch, setTyping, categoryFilterStatus, filter,loaded]);
+  }, [typing, dispatch, setTyping, categoryFilterStatus, filter,loaded, filterPedido]);
 
   if (filtro) {
     return (
@@ -86,7 +92,10 @@ function SearchBar({filtro}) {
           <p>Filtrar pedidos por :</p>
         </Col>
         <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
-          <Form.Select>
+          <Form.Select
+            name="pedidos"
+            onChange={(e) => filterP(e)}
+          >
             <option selected value="all">
               Todos los pedidos
             </option>

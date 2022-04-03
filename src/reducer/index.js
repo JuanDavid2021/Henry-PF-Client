@@ -627,6 +627,19 @@ function rootReducer(state = initialState, action) {
     };
   }
 
+  if (action.type === FILTER_PEDIDO) {
+    let filtro;
+    if (action.payload !== 'all') {
+      filtro = state.filterPedidos.filter(p => p.status === action.payload)
+    } else {
+      filtro = state.filterPedidos
+    }
+    return {
+      ...state,
+      pedidos: filtro
+    };
+  }
+
   /*   if (action.type === "ORDER_BY_SCORE") {
       const orderedRecipes = orderByScore(
         [...state.filterResult],
