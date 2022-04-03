@@ -9,12 +9,12 @@ import { MdCategory } from 'react-icons/md'
 
 export default function AdminDashboard() {
 
-  const [show, setShow] = useState({
+  const [show, setShow] = useState({productos: true
   })
 
   const handleClick = (str) => {
     if (str === "Pedidios") {
-      setShow({...show, pedidios: true, usuarios: false, productos: false,})
+      setShow({...show, pedidios: true, usuarios: false, productos: false})
     }
     if (str === "Usuarios") {
       setShow({...show, usuarios: true, pedidios: false, productos: false})
@@ -26,7 +26,7 @@ export default function AdminDashboard() {
 
   return (
     <div className="container-fluid justify-content-between">
-      <div className="row flex-nowrap">
+      <div className="row flex-nowrap" style={{minHeight: "70vh"}}>
         <Sidebar handleClick={handleClick} stateActive={show}/>
         <div className="col-sm-11 col-md-11 col-lg-10 col-xl-10 px-0 contentAdmin">
           {show?.productos ? <Products /> : null}
@@ -51,13 +51,13 @@ function Sidebar({handleClick, stateActive }) {
             </button>
           </li>
           <li className="w-100">
-            <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.pedidios ? "active":""}`} onClick={()=>handleClick("Pedidios")}>
-              <RiListOrdered /> <span className="ms-1 d-none d-lg-inline">Pedidos</span>
+            <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.productos ? "active":""}`} onClick={()=>handleClick("Productos")} >
+              <GiMeat /> <span className="ms-1 d-none d-lg-inline">Productos</span>
             </button>
           </li>
           <li className="w-100">
-            <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.productos ? "active":""}`} onClick={()=>handleClick("Productos")} >
-              <GiMeat /> <span className="ms-1 d-none d-lg-inline">Productos</span>
+            <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.pedidios ? "active":""}`} onClick={()=>handleClick("Pedidios")}>
+              <RiListOrdered /> <span className="ms-1 d-none d-lg-inline">Pedidos</span>
             </button>
           </li>
           <li className="w-100">
