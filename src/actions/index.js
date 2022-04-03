@@ -771,7 +771,9 @@ export function putProduct(payload) {
 export function postPedido(currenuser,pedidoData) {
   return async function (dispatch) {
     try {
-      const newPedido = await axios.post("http://localhost:3001/api/pedido/create", {
+      const newPedido = await axiosaxios({
+        url: "http://localhost:3001/api/mercadopago",
+        method: 'post',
         headers: {token: currenuser.token},
         data: {pedidoData, currenuser}
       });
@@ -795,7 +797,9 @@ export function pagarPedido(payload) {
   return async function (dispatch) {
     dispatch(loading());
     try {
-      const pagoPedido = await axios.post("http://localhost:3001/api/mercadopago", { 
+      const pagoPedido = await axios({
+        url: "http://localhost:3001/api/mercadopago",
+        method: 'post', 
         headers: { token: payload.currenuser.token},
         data: {payload}
       });
