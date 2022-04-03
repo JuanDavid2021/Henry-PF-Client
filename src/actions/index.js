@@ -122,8 +122,8 @@ export const searchProduct = (producto) => {
 };
 export const loginUser = (data) => {
   return async function (dispatch) {
-    var logUser = await axios.post("http://localhost:3001/api/user/login", data);
-    console.log(logUser);
+    var logUser = await axios.post("http://localhost:3001/api/user/login", data)
+    // console.log(logUser)
     return dispatch({
       type: USERLOGIN,
       payload: logUser.data
@@ -141,9 +141,9 @@ export const order = (payload) => {
 
 export const createUser = (payload) => {
   return async function (dispatch) {
-    var create = await axios.post("http://localhost:3001/api/user/registro", payload);
-    console.log(create);
-    return create;
+    var create = await axios.post("http://localhost:3001/api/user/registro", payload)
+    // console.log(create)
+    return create
     /*    return dispatch({
          type: USERCREATE,
          payload: create.data
@@ -763,17 +763,18 @@ export function putProduct(payload) {
       }
       return updatedProduct;
     } catch (error) {
-      return { status: 400, error: error };
-    }
-
-  };
+      return { status: 400, error: error }
+  }};
 
 }
 
-export function postPedido(payload) {
+export function postPedido(currenuser,pedidoData) {
   return async function (dispatch) {
     try {
-      const newPedido = await axios.post("http://localhost:3001/api/pedido/create", payload);
+      const newPedido = await axios.post("http://localhost:3001/api/pedido/create", {
+        headers: {token: currenuser.token},
+        data: {pedidoData, currenuser}
+      });
       if (newPedido.status === 200) {
         dispatch({
           type: POST_PEDIDO,
@@ -794,7 +795,10 @@ export function pagarPedido(payload) {
   return async function (dispatch) {
     dispatch(loading());
     try {
-      const pagoPedido = await axios.post("http://localhost:3001/api/mercadopago", payload);
+      const pagoPedido = await axios.post("http://localhost:3001/api/mercadopago", { 
+        headers: { token: payload.currenuser.token},
+        data: {payload}
+      });
       if (pagoPedido.status === 200) {
         dispatch({
           type: PAGAR_PEDIDO,
@@ -809,13 +813,13 @@ export function pagarPedido(payload) {
   };
 }
 
-export function getPedidos(payload) {
+export function getPedidos(userData,productoId) {
   return async function (dispatch) {
     try {
-      if (typeof payload === 'object') {
+      if (!productoId && userData.token) {
         const pedidos = await axios.get(`http://localhost:3001/api/pedido/all`, {
           headers: {
-            token: payload.token
+            token: userData.token
           }
         });
         if (pedidos.status === 200) {
@@ -824,8 +828,13 @@ export function getPedidos(payload) {
             payload: pedidos.data
           });
         }
-      } else {
-        const pedido = await axios.get("http://localhost:3001/api/pedido/get/" + payload);
+      } else if (productoId && userData.token){
+        console.log('productoId && userData.token')
+        const pedido = await axios.get("http://localhost:3001/api/pedido/get/" + productoId, {
+          headers: {
+            token: userData.token
+          }
+        });
         if (pedido.status === 200) {
           dispatch({
             type: GET_PEDIDO_ID,
@@ -833,6 +842,7 @@ export function getPedidos(payload) {
           });
         }
       }
+      console.log('no entró',productoId,'\nToken: ',userData.token)
     } catch (error) {
       console.log(error);
     }
@@ -843,9 +853,11 @@ export function getPedidos(payload) {
 export function putPedidos(payload) {
   return async function (dispatch) {
     try {
-      const pedido = await axios.put("http://localhost:3001/api/pedido/update/" + payload.id, {
-        status: payload.status
-      });
+      const pedido = await axios.put("http://localhost:3001/api/pedido/update/"+payload.id,{
+        headers: {
+          token: payload.currenuser.token, 
+          data : payload
+      }});
       if (pedido.status === 200) {
         dispatch({
           type: PUT_PEDIDO_STATE,

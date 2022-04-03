@@ -58,7 +58,7 @@ function NavBar({ setAuth }) {
             }
             )
             apiUpdateUser({ correo: currentUser.email, shoppingCart: shoppingCart })
-            // dispatch(flushCart())
+            dispatch(flushCart())
         } else {
             apiUpdateUser({ correo: currentUser.email, shoppingCart: [] })
         }

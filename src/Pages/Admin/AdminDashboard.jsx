@@ -40,7 +40,7 @@ export default function AdminDashboard() {
 }
 
 function Sidebar({handleClick, stateActive }) {
-  console.log(stateActive);
+  //console.log(stateActive);
   return(
     <div className="col-auto d-flex justify-content-center col-md-1 col-lg-2 col-xl-2 px-0 bg-dark sidebarAdmin">
       <div className="d-flex flex-column align-items-center align-items-sm-start px-1 pt-2 text-white min-vh-100 position-fixed" style={{width:"inherit"}}>

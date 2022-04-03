@@ -51,12 +51,12 @@ function Pedidos() {
                                             </td>
                                             <td>
                                                 {p.f_requerida.substring(0, 10)}
+                                                <button className="btn btn-info text-light text-decoration-none fs-6 mx-2" onClick={() => handleDetailPedido(p.id)}>Detalles</button>
                                             </td>
                                             <td>
                                                 {p.status}
                                             </td>
                                             <td>
-                                                <button className="btn btn-info text-light text-decoration-none mx-2" onClick={() => handleDetailPedido(p.id)}>Detalles</button>
                                             </td>
                                         </tr>
                                     )

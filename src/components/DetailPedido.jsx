@@ -16,12 +16,13 @@ import { getPedidos, putPedidos } from "../actions";
 function DetailPedido() {
 
   const dispatch = useDispatch();
-  const [waiting, setWaiting] = useState(true);
-  const [s, setS] = useState();
-
+  // const [waiting, setWaiting] = useState(true);
+  const currenuser = useSelector(store => store.user)
+  
   const pedido = useSelector(state => state.pedidoId);
-
+  const [s, setS] = useState(pedido.status);
   let { id } = useParams();
+  
 
   const navigate = useNavigate();
 
@@ -31,11 +32,12 @@ function DetailPedido() {
   const handleShowModal = () => setShow(true);
 
   useEffect(() => {
-    dispatch(getPedidos(id));
+    console.log('primer switch')
+    dispatch(getPedidos(currenuser,id));
   }, [dispatch, s])
 
-  useEffect(() => {;
-  }, [s])
+  // useEffect(() => {;
+  // }, [s])
 
   const handleClose = () => {
     navigate("/dashboard");
@@ -44,6 +46,7 @@ function DetailPedido() {
   const handleProcesar = () => {
     if (pedido.status === "Approbed") {
       dispatch(putPedidos({
+        currenuser: currenuser,
         id: id,
         status: "Processed"
       }));
@@ -55,6 +58,7 @@ function DetailPedido() {
   const handleCancelar = () => {
     if ((pedido.status === "Approbed") || (pedido.status === "Processed")) {
       dispatch(putPedidos({
+        currenuser: currenuser,
         id: id,
         status: "Cancelled"
       }));
@@ -66,6 +70,7 @@ function DetailPedido() {
   const handleDespachar = () => {
     if (pedido.status === "Processed") {
       dispatch(putPedidos({
+        currenuser: currenuser,
         id: id,
         status: "Dispatched"
       }));
