@@ -13,7 +13,7 @@ import {
 import { RiShoppingCartLine, RiArrowGoBackFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductDetails, addCartItem } from "../actions";
+import { getProductDetails, addCartItem, addReview } from "../actions";
 import Evaluation from "./Evaluation"
 import Review from "./Review"
 
@@ -70,7 +70,7 @@ function DetailProduct() {
       setWaiting(false);
     }
     return () => { };
-  }, [id, productDetails, dispatch]);
+  }, [id, productDetails, currentUser, dispatch]);
 
   const handleAddProductInCart = (e) => {
     const form = e.currentTarget;
@@ -230,7 +230,7 @@ function DetailProduct() {
               id={productDetails.id}
               available={productDetails.comprado}
               califications={["Pasable", "Regular", "Bueno", "Muy bueno", "Exelente"]}
-              toDispatch={"aca va la funcion a despachar por el review"} />
+              toDispatch={addReview} />
           </Card.Footer>
         </Card>
         <Modal

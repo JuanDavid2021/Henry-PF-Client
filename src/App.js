@@ -9,26 +9,27 @@ import CartDetailsCheckoutDelivery from './components/CartDetailsCheckoutDeliver
 import CartDetailsCheckoutReview from './components/CartDetailsCheckoutReview';
 import { CreationForm } from './components/CreationForm';
 import { DashboardUser } from './components/DashboardUser';
+import DetailCompra from './components/DetailCompra';
 import DetailPedido from './components/DetailPedido';
 import DetailProduct from './components/DetailProduct';
 import Footer from './components/Footer';
 import Landin from './components/Landin';
 import { LoginForgot } from './components/LoginForgot';
+import { LoginReset } from "./components/LoginReset";
 import { LoginUser } from './components/LoginUser';
 // import Login from './components/Login';
 import NavBar from './components/Navbar';
 import PagoDenied from "./components/PagoDenied";
 import PagoSuccess from "./components/PagoSuccess";
 import Pedidos from './components/Pedidos';
-
 import { Register } from "./components/Register";
 // import Profile from './components/Profile';
 import Shop from './components/Shop';
 import UserInterface from './components/UserInterface';
 import ProtectedRoute from './Middleware/ProtectedRoute';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
-import {LoginReset} from "./components/LoginReset"
-import DetailCompra from './components/DetailCompra';
+import UserDetail from './Pages/Admin/Views/UserDetail';
+
 
 function App() {
 
@@ -91,9 +92,14 @@ function App() {
         <Route exact path='/shop' element={<Shop />} />
         {/* <Route exact path='/profile/:id' element={<Profile />} /> */}
 
+        <Route exact path='/user/:id' element={
+          <ProtectedRoute isAllowed={currentUser.administrador} >
+            <UserDetail />
+          </ProtectedRoute>
+        } />
         <Route exact path='/product/:id' element={<DetailProduct />} />
-        <Route exact path ='/login/forgot' element={<LoginForgot/>} />
-        <Route path ='/login/reset/:token' element={<LoginReset/>}/>       
+        <Route exact path='/login/forgot' element={<LoginForgot />} />
+        <Route path='/login/reset/:token' element={<LoginReset />} />       
         <Route exact path='/pedidos' element={<Pedidos />} />
         <Route exact path='/pedido/:id' element={<DetailPedido />} /> 
         <Route exact path='/creationForm' element={<CreationForm />} />
@@ -105,8 +111,8 @@ function App() {
         <Route exact path='/pagoaprobado' element={<PagoSuccess />} />
         <Route exact path='/pagorechazado' element={<PagoDenied />} />
 
-        <Route exact path='/profile' element={isAuthenticated ? (<UserInterface/>) : (<Navigate to="/loginuser" />)} />
-        <Route exact path='/compra/:id' element={isAuthenticated ? (<DetailCompra/>) : (<Navigate to="/loginuser" />) } /> 
+        <Route exact path='/profile' element={isAuthenticated ? (<UserInterface />) : (<Navigate to="/loginuser" />)} />
+        <Route exact path='/compra/:id' element={isAuthenticated ? (<DetailCompra />) : (<Navigate to="/loginuser" />)} /> 
 
 
       </Routes>

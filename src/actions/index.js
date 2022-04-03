@@ -1,4 +1,3 @@
-
 import {
   POST_PEDIDO,
   ADD_PRODUCT,
@@ -54,8 +53,9 @@ import {
   PUT_CATEGORY,
   ADD_PRESENTATION,
   PUT_PRESENTATION,
-  SET_PRESENTATIONS
-
+  SET_PRESENTATIONS,
+  ADD_REVIEW,
+  GET_USER_BY_ID
 } from './../action-types/index';
 const axios = require("axios");
 
@@ -64,7 +64,7 @@ const axios = require("axios");
 export function loading() {
   return {
     type: LOADING
-  }
+  };
 }
 
 
@@ -93,8 +93,8 @@ export function logoutuser(payload) {
     return dispatch({
       type: USERLOGOUT,
       payload: payload
-    })
-  }
+    });
+  };
 }
 
 
@@ -106,20 +106,20 @@ export const login = (payload) => {
     return dispatch({
       type: USERLOGINOK,
       payload: payload
-    })
-  }
-}
+    });
+  };
+};
 
 
 export const searchProduct = (producto) => {
   return async function (dispatch) {
-    var busq = await axios("http://localhost:3001/api/product/all")
+    var busq = await axios("http://localhost:3001/api/product/all");
     return dispatch({
       type: SEARCH_PRODUCT,
       payload: { busq, producto }
-    })
-  }
-}
+    });
+  };
+};
 export const loginUser = (data) => {
   return async function (dispatch) {
     var logUser = await axios.post("http://localhost:3001/api/user/login", data)
@@ -127,16 +127,16 @@ export const loginUser = (data) => {
     return dispatch({
       type: USERLOGIN,
       payload: logUser.data
-    })
-  }
-}
+    });
+  };
+};
 
 export const order = (payload) => {
   return {
     type: ORDER_PRODUCTS,
     payload
-  }
-}
+  };
+};
 
 
 export const createUser = (payload) => {
@@ -148,8 +148,8 @@ export const createUser = (payload) => {
          type: USERCREATE,
          payload: create.data
        }) */
-  }
-}
+  };
+};
 // export const searchProduct = (producto) => {
 //   return async function (dispatch) {
 //     var busq = await axios("http://localhost:3001/api/product/all");
@@ -179,7 +179,15 @@ async function apiGetAllUsers() {
   }
 }
 
-
+async function apiGetUser(id) {
+  try {
+    const response = await axios.get(`http://localhost:3001/api/user/get/${id}`);
+    return response.data;
+  } catch (error) {
+    console.log(`error en /actions apiGetUser: ${error}`);
+    return {};
+  }
+}
 
 async function apiAddUser(data) {
   try {
@@ -241,13 +249,13 @@ async function apiUpdateProduct(data) {
   }
 }
 
-async function apiGetProductDetails(id,currentUser) {
+async function apiGetProductDetails(id, currentUser) {
   try {
-    const response = await axios.get(`http://localhost:3001/api/product/get/${id}`,{
-          headers: {
-            token: currentUser.token || "invitado"
-          }
-        });
+    const response = await axios.get(`http://localhost:3001/api/product/get/${id}`, {
+      headers: {
+        token: currentUser.token || "invitado"
+      }
+    });
     return response.data;
   } catch (error) {
     let err = `error en /actions apiGetProductDetails, ${error}`;
@@ -270,7 +278,7 @@ async function apiPutCategory(data) {
     const response = await axios.put(`http://localhost:3001/api/category/${data.id}`, data);
     return response;
   } catch (error) {
-    return error
+    return error;
   }
 }
 
@@ -279,7 +287,7 @@ async function apiAddCategory(data) {
     const response = await axios.post(`http://localhost:3001/api/category/new`, data);
     return response;
   } catch (error) {
-    return error
+    return error;
   }
 }
 
@@ -298,7 +306,7 @@ async function apiPutPresentation(data) {
     const response = await axios.put(`http://localhost:3001/api/presentation/${data.id}`, data);
     return response;
   } catch (error) {
-    return error
+    return error;
   }
 }
 
@@ -307,7 +315,21 @@ async function apiAddPresentation(data) {
     const response = await axios.post(`http://localhost:3001/api/presentation/new`, data);
     return response;
   } catch (error) {
-    return error
+    return error;
+  }
+}
+
+async function apiAddReview(data, user) {
+  try {
+    
+    const created = axios.post(`http://localhost:3001/api/review/create/${data.id}`, data, {
+      headers: {
+        token: user.token
+      }
+    });
+    return created;
+  } catch (error) {
+    return error;
   }
 }
 
@@ -320,6 +342,21 @@ export function addProduct(data) {
       payload: data,
     });
   };
+}
+
+
+export function addReview(data, user) {
+  return async (dispatch) => {
+    try {
+      const created = await apiAddReview(data, user);
+      if (created.status === 200) {
+        dispatch({ type: ADD_REVIEW, payload: created.data });
+      }
+      return created;
+    } catch (error) {    
+      return error;
+    }
+  };  
 }
 
 export function deleteProduct(id) {
@@ -352,8 +389,8 @@ export function filterProducts(filter) {
 
 export function setPlatformUser(user) {
   return async (dispatch) => {
-    return dispatch({ type: SET_PLATFORM_USER, payload: user })
-  }
+    return dispatch({ type: SET_PLATFORM_USER, payload: user });
+  };
 }
 
 export function getProducts() {
@@ -400,88 +437,88 @@ export function getProductDetails(id, currentUser) {
 export function getAllCategories() {
   return async (dispatch) => {
     try {
-      const allCategories = await apiGetAllCategories()
+      const allCategories = await apiGetAllCategories();
       if (!allCategories.error) {
         dispatch({ type: SET_CATEGORIES, payload: allCategories });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 }
 
 export function putCategory(payload) {
   return async (dispatch) => {
     try {
-      const editedCategory = await apiPutCategory(payload)
+      const editedCategory = await apiPutCategory(payload);
       if (editedCategory.status === 200) {
-        dispatch({ type: PUT_CATEGORY, payload: payload })
+        dispatch({ type: PUT_CATEGORY, payload: payload });
       }
-      return editedCategory
+      return editedCategory;
     } catch (error) {
-      console.log(error)
-      return error
+      console.log(error);
+      return error;
     }
-  }
+  };
 }
 
 export function addCategory(payload) {
   return async (dispatch) => {
     try {
-      const createdCategory = await apiAddCategory(payload)
+      const createdCategory = await apiAddCategory(payload);
       if (createdCategory.status === 200) {
-        dispatch({ type: ADD_CATEGORY, payload: createdCategory.data })
+        dispatch({ type: ADD_CATEGORY, payload: createdCategory.data });
       }
-      return createdCategory
+      return createdCategory;
     } catch (error) {
-      console.log(error)
-      return error
+      console.log(error);
+      return error;
     }
-  }
+  };
 }
 
 export function getAllPresentations() {
   return async (dispatch) => {
     try {
-      const allPresentations = await apiGetAllPresentations()
-      console.log(allPresentations)
+      const allPresentations = await apiGetAllPresentations();
+      console.log(allPresentations);
       if (!allPresentations.error) {
         dispatch({ type: SET_PRESENTATIONS, payload: allPresentations });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 }
 
 export function putPresentation(payload) {
   return async (dispatch) => {
     try {
-      const editedPresentation = await apiPutPresentation(payload)
+      const editedPresentation = await apiPutPresentation(payload);
       if (editedPresentation.status === 200) {
-        dispatch({ type: PUT_PRESENTATION, payload: payload })
+        dispatch({ type: PUT_PRESENTATION, payload: payload });
       }
-      return editedPresentation
+      return editedPresentation;
     } catch (error) {
-      console.log(error)
-      return error
+      console.log(error);
+      return error;
     }
-  }
+  };
 }
 
 export function addPresentation(payload) {
   return async (dispatch) => {
     try {
-      const createdPresentation = await apiAddPresentation(payload)
+      const createdPresentation = await apiAddPresentation(payload);
       if (createdPresentation.status === 200) {
-        dispatch({ type: ADD_PRESENTATION, payload: createdPresentation.data })
+        dispatch({ type: ADD_PRESENTATION, payload: createdPresentation.data });
       }
-      return createdPresentation
+      return createdPresentation;
     } catch (error) {
-      console.log(error)
-      return error
+      console.log(error);
+      return error;
     }
-  }
+  };
 }
 
 export function deleteCategory(data) {
@@ -536,6 +573,19 @@ export function getUsers() {
     }
   };
 }
+
+
+export function getUser(id) {
+  return async (dispatch) => {
+    try {
+      const response = await apiGetUser(id);
+      dispatch({ type: GET_USER_BY_ID, payload: response });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 
 export function deleteUser(id) {
   return async (dispatch) => {
@@ -658,27 +708,27 @@ export function setDelivery(data) {
 
 export function flushCart() {
   return (dispatch) => {
-    let cartLocal = JSON.parse(localStorage.getItem("cart"))
-    cartLocal = []
-    localStorage.setItem("cart", JSON.stringify(cartLocal))
+    let cartLocal = JSON.parse(localStorage.getItem("cart"));
+    cartLocal = [];
+    localStorage.setItem("cart", JSON.stringify(cartLocal));
 
     dispatch({
       type: FLUSH_CART,
       payload: cartLocal,
     });
-  }
+  };
 }
 
 export function actCart(payload) {
   return (dispatch) => {
     let cartLocal = JSON.parse(localStorage.getItem("cart"));
-    const cartLocal2 = cartLocal.concat(payload)
+    const cartLocal2 = cartLocal.concat(payload);
     localStorage.setItem("cart", JSON.stringify(cartLocal2));
     dispatch({
       type: ACT_CART,
       payload
-    })
-  }
+    });
+  };
 }
 
 
@@ -743,7 +793,7 @@ export function postPedido(currenuser,pedidoData) {
 
 export function pagarPedido(payload) {
   return async function (dispatch) {
-    dispatch(loading())
+    dispatch(loading());
     try {
       const pagoPedido = await axios.post("http://localhost:3001/api/mercadopago", { 
         headers: { token: payload.currenuser.token},

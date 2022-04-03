@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import { RiChatQuoteFill } from "react-icons/ri";
+import swal from 'sweetalert'
 
 function Review({ id, califications, toDispatch, available=false }) {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  const [error, setError] = useState("Debe contener de 10 a 120 caracteres");  
+  const [error, setError] = useState("Debe contener de 10 a 120 caracteres");    
+  const currentUser = useSelector(state => state.user)
   const dispatch = useDispatch()
-  
   function validate(input) {    
     let err = "";
     let textPattern = /[^a-zA-Z., ]/gm;    
@@ -32,14 +33,29 @@ function Review({ id, califications, toDispatch, available=false }) {
     setComment(e.target.value)//.replace(/[^a-zA-Z]/gm,""));
   };
 
-  const sendReview = () => {
-    const toReview = {
+  const sendReview = async() => {
+    const review = {
       id: id,
-      value: rating,
-      comment:comment
+      evaluacion: rating,
+      comentario: comment
     }
-    console.log(toReview);
-    dispatch(toDispatch(toReview))
+    const adr = await dispatch(toDispatch(review, currentUser))
+    if (adr.status === 200) {      
+      setRating(0)
+      setComment("");
+      swal(`Calificación publicada!`, {
+            icon: "success",
+            timer: 1000,
+            buttons: false
+      });
+    } else {
+      console.log("existieron errores en la calificacion")
+      swal("Error intentando calificar!", {
+            icon: "info",
+            timer: 1000,
+            buttons: false
+      });
+    }    
   };
 
   return (
@@ -66,7 +82,7 @@ function Review({ id, califications, toDispatch, available=false }) {
                 { rating>0 ? califications[rating-1] : "Mmm..." }
               </div>
               <Button  
-                disabled={( comment.length<10 || error.length!==0 ) && !available}  
+                disabled={ comment.length<10 || error.length!==0 || !available}  
                 className="mt-0"
                 variant="secondary"
                 onClick={sendReview}
@@ -85,7 +101,7 @@ function Review({ id, califications, toDispatch, available=false }) {
               onChange={ handleComment }
             />
             <Form.Text id="commentHelpBlock" muted={ !error.length } className={ error.length? "text-danger font-weight-bold" : "" }>
-              La reseña debe tener de 10 a 120 caracteres de largo y solo se aceptan letras puntos y comas.
+              La reseña debe tener de 10 a 120 caracteres de largo y solo se aceptan letras, puntos y comas.
                 </Form.Text>
               </>
               :
