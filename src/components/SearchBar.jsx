@@ -33,7 +33,6 @@ function SearchBar({filtro}) {
   const dispatch = useDispatch();
 
   const [loaded, setLoaded] = useState(true)
-  const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const [expanding, setExpanding] = useState(false)
   const [ref, isClickedOutSide] = useClickOutside();
