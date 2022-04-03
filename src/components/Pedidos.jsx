@@ -42,7 +42,7 @@ function Pedidos() {
                                 /* Mapeo de las filas de la tabla con los items del carrito */
                                 pedidos.map((p) => {
                                     return (
-                                        <tr className="text-sm">
+                                        <tr key={p.id} className="text-sm">
                                             <td>
                                                 {p.UsuarioCorreo}
                                             </td>
@@ -51,12 +51,12 @@ function Pedidos() {
                                             </td>
                                             <td>
                                                 {p.f_requerida.substring(0, 10)}
-                                                <button className="btn btn-info text-light text-decoration-none fs-6 mx-2" onClick={() => handleDetailPedido(p.id)}>Detalles</button>
                                             </td>
                                             <td>
                                                 {p.status}
                                             </td>
                                             <td>
+                                                <button className="btn btn-info text-light text-decoration-none fs-6 mx-2" onClick={() => handleDetailPedido(p.id)}>Detalles</button>
                                             </td>
                                         </tr>
                                     )
