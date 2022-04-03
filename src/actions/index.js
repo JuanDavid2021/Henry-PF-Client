@@ -775,7 +775,7 @@ export function postPedido(currenuser,pedidoData) {
         url: "http://localhost:3001/api/pedido/create",
         method: 'post',
         headers: {token: currenuser.token},
-        data: {pedidoData, currenuser}
+        data: {...pedidoData, ...currenuser}
       });
       if (newPedido.status === 200) {
         dispatch({
@@ -801,7 +801,7 @@ export function pagarPedido(payload) {
         url: "http://localhost:3001/api/mercadopago",
         method: 'post', 
         headers: { token: payload.currenuser.token},
-        data: {payload}
+        data: payload
       });
       if (pagoPedido.status === 200) {
         dispatch({
