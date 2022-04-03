@@ -58,26 +58,28 @@ import {
   ADD_PRESENTATION,
   PUT_PRESENTATION,
   SET_PRESENTATIONS,
-  DELETE_PRESENTATION
+  DELETE_PRESENTATION,
+  GET_USER_BY_ID
 } from './../action-types/index';
 
 
 const initialState = {
-  user: { administrador:false, nombre: "Invitado", email: localStorage.mail, token: localStorage.token }, //usuario actual usando la app
-  // user: [], //usuario actual usando la app
-  userLogin:[],
-  userAuthenticated:{},
+  //usuario actual
+  user: { administrador: false, nombre: "Invitado", email: localStorage.mail, token: localStorage.token },
+  userLogin: [],
+  userAuthenticated: {},
 
   gettingProducts: false,
   products: [],
   filteringProducts: false,
   filteredProducts: [],
-  adminFilteredProducts :[],
+  adminFilteredProducts: [],
   productDetails: { id: null },
+  userDetail: {},//detalle de usuario para editar // admin
   cart: [],
   despacho: null,
   categories: [],//[{id:XXX,name:'sadasd'},...]
-  presentations:[],
+  presentations: [],
   userRegistred: [],
   pedido: {},
   pedidoId: {},
@@ -121,8 +123,8 @@ function rootReducer(state = initialState, action) {
   if (action.type === SET_PLATFORM_USER) {
     return {
       ...state,
-      user:action.payload
-    }
+      user: action.payload
+    };
   }
 
   if (action.type === ADD_CART_ITEM) {
@@ -136,14 +138,14 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       cart: action.payload
-    }
+    };
   }
 
-  if(action.type === ACT_CART) {
+  if (action.type === ACT_CART) {
     return {
       ...state,
       cart: state.cart.concat(action.payload)
-    }
+    };
   }
 
   if (action.type === POST_PEDIDO) {
@@ -156,20 +158,20 @@ function rootReducer(state = initialState, action) {
   if (action.type === PAGAR_PEDIDO) {
 
 
-    console.log(state.loading)
+    console.log(state.loading);
     return {
       ...state,
       idPago: action.payload,
       loading: false
-    }
+    };
   }
 
   if (action.type === LOADING) {
-    console.log(state.loading)
+    console.log(state.loading);
     return {
       ...state,
       loading: true
-    }
+    };
   }
 
   if (action.type === SET_CART_ITEM) {
@@ -187,27 +189,27 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === ADD_REVIEW) {    
-    let newProductDetails = { ...state.productDetails }
-    newProductDetails.Reviews.unshift(action.payload)
+    let newProductDetails = { ...state.productDetails };
+    newProductDetails.Reviews.unshift(action.payload);
     return {
       ...state,
-      productDetails:newProductDetails
-    }
+      productDetails: newProductDetails
+    };
   }
 
   if (action.type === USERCREATE) {
     return {
       ...state,
       userRegistred: [action.payload]
-    }
+    };
   }
 
 
-  if(action.type===USERLOGINOK){
-       return{
-        ...state,
-        userAuthenticated: action.payload,
-       }
+  if (action.type === USERLOGINOK) {
+    return {
+      ...state,
+      userAuthenticated: action.payload,
+    };
   }
   if (action.type === USERLOGIN) {
     if (action.payload.userEmail) {
@@ -215,23 +217,23 @@ function rootReducer(state = initialState, action) {
         ...state,
         userLogin: action.payload,
         user: action.payload.userEmail
-      }
+      };
     }
     else {
       return {
         ...state,
         userLogin: action.payload
-      }
+      };
     }
 
   }
 
-  if(action.type===USERLOGOUT){
-    return{
-     ...state,
-     userAuthenticated: action.payload,
-    }
-}
+  if (action.type === USERLOGOUT) {
+    return {
+      ...state,
+      userAuthenticated: action.payload,
+    };
+  }
 
   if (action.type === ADD_PRODUCT) {
     //agrego el producto del arreglo una vez tenemos la confirmacion desde el back        
@@ -264,7 +266,7 @@ function rootReducer(state = initialState, action) {
       ...state,
       products: newProducts,
       adminFilteredProducts: filteredProducts,
-      filteredProducts:filteredProducts.filter(p=>(p.stock>0 && p.activo))
+      filteredProducts: filteredProducts.filter(p => (p.stock > 0 && p.activo))
     };
   }
 
@@ -280,17 +282,17 @@ function rootReducer(state = initialState, action) {
     //seteo categorias desde el back
     const updatedCategories = state.categories.map(c => {
       if (c.id === action.payload.id) {
-        return action.payload
+        return action.payload;
       }
-      return c
-    })  
+      return c;
+    });  
     return {
       ...state,
       categories: updatedCategories
     };
   }
 
-   if (action.type === SET_PRESENTATIONS) {
+  if (action.type === SET_PRESENTATIONS) {
     //seteo categorias desde el back
     return {
       ...state,
@@ -302,10 +304,10 @@ function rootReducer(state = initialState, action) {
     //seteo categorias desde el back
     const updatedPresentations = state.presentations.map(p => {
       if (p.id === action.payload.id) {
-        return action.payload
+        return action.payload;
       }
-      return p
-    })  
+      return p;
+    });  
     return {
       ...state,
       presentations: updatedPresentations
@@ -479,7 +481,7 @@ function rootReducer(state = initialState, action) {
 
   if (action.type === FILTER_PRODUCTS) {
 
-    let filteredProducts = [...state.products]//.filter(e => e.stock > 0);
+    let filteredProducts = [...state.products];//.filter(e => e.stock > 0);
 
     let categoryStatus = false;
     if (action.payload.category !== "all") {
@@ -525,12 +527,12 @@ function rootReducer(state = initialState, action) {
     } else {
       searchStatus = true;
     }
-    let userProducts = filteredProducts.filter(e => (e.stock>0 && e.activo)) 
+    let userProducts = filteredProducts.filter(e => (e.stock > 0 && e.activo)); 
 
     return {
       ...state,
       filteredProducts: userProducts,
-      adminFilteredProducts:filteredProducts,
+      adminFilteredProducts: filteredProducts,
       categoryFilterStatus: categoryStatus,
       searchFilterStatus: searchStatus
     };
@@ -616,6 +618,13 @@ function rootReducer(state = initialState, action) {
       return p;
     });
 
+  }
+
+  if (action.type === GET_USER_BY_ID) {
+    return {
+      ...state,
+      userDetail: action.payload
+    };
   }
 
   /*   if (action.type === "ORDER_BY_SCORE") {
