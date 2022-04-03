@@ -772,7 +772,7 @@ export function postPedido(currenuser,pedidoData) {
   return async function (dispatch) {
     try {
       const newPedido = await axios({
-        url: "http://localhost:3001/api/mercadopago",
+        url: "http://localhost:3001/api/pedido/create",
         method: 'post',
         headers: {token: currenuser.token},
         data: {pedidoData, currenuser}
