@@ -127,13 +127,25 @@ function DetailPedido() {
               </Col>
               <Col lg={6} xl={6}>
               <Row className="mb-3 mt-3">
+                {(pedido.status === 'Approbed')?(
                   <button className="btn btn-warning text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle" onClick={handleProcesar}>Procesar</button>
+                ):(
+                  <button className="btn btn-warning text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle" disabled="disabled">Procesar</button>
+                )}
                 </Row>
                 <Row className="mb-3">
+                {(pedido.status === 'Approbed' || pedido.status === 'Processed')?(
                   <button className="btn btn-danger text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle" onClick={handleCancelar}>Cancelar</button>
+                  ):(
+                  <button className="btn btn-danger text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle" disabled="disabled">Cancelar</button>
+                  )} 
                 </Row>
                 <Row>
+                {(pedido.status === 'Processed')?(
                   <button className="btn btn-success text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle" onClick={handleDespachar}>Despachar</button>
+                  ):(
+                  <button className="btn btn-success text-light text-decoration-none fs-6 mx-2 w-25 position-relative start-50 translate-middle" disabled="disabled">Despachar</button>
+                  )}
                 </Row>
               </Col>
             </Row>
