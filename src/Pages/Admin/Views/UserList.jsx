@@ -1,36 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { RiArrowLeftSLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getUsers, updateUser } from '../../../actions';
-import GenericModal from '../../../components/GenericModal';
+import { Link, useNavigate } from 'react-router-dom';
+import { getUsers } from '../../../actions';
 
 
 export default function UserList() {
 
   const users = useSelector(state => state.users);
   const dispatch = useDispatch();
-  const [target, setTarget] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getUsers());
   }, []);
 
-  const handleEdit = (e) => {
-    const target = e.target.value;
-    setTarget(users.find(user => user.correo === target));
-  };
-
-  const handleRemove = (e) => {
-    const target = e.target.value;
-    console.log('remove =>', target);
-  };
-
-  const handleSubmit = () => {
-    dispatch(updateUser(target));
-  };
-
-  console.log('target =>', target);
+  const handleRedirect = (id) => {
+    navigate(`/user/${id}`)
+  }
 
   return (
     <div className='container'>
@@ -54,8 +41,7 @@ export default function UserList() {
                     <td>{user.celular}</td>
                     <td>{user.direccion}</td>
                     <td>
-                      <button value={user.correo} className="btn btn-success text-light text-decoration-none fs-6 mx-2" onClick={handleEdit}>Editar</button>
-                      <button value={user.correo} className="btn btn-danger text-light text-decoration-none fs-6 mx-2" onClick={handleRemove}>Eliminar</button>
+                      <button value={user.correo} className="btn btn-success text-light text-decoration-none fs-6 mx-2" onClick={()=>handleRedirect(user.correo)}>Editar</button>
                     </td>
                   </tr>
                 );
