@@ -21,6 +21,7 @@ function DetailPedido() {
   
   const pedido = useSelector(state => state.pedidoId);
   const [s, setS] = useState(pedido.status);
+  const [estado, setEstado] = useState("")
   let { id } = useParams();
   
 
@@ -28,16 +29,16 @@ function DetailPedido() {
 
   const [show, setShow] = useState(false);
 
-  const handleCloseModal = () => setShow(false);
+  const handleCloseModal = () => {
+    setShow(false);
+    setEstado(s);
+  }
   const handleShowModal = () => setShow(true);
 
   useEffect(() => {
     console.log('primer switch')
     dispatch(getPedidos(currenuser,id));
-  }, [dispatch, s])
-
-  useEffect(() => {;
-  }, [s])
+  }, [dispatch, estado])
 
   const handleClose = () => {
     navigate("/dashboard");
