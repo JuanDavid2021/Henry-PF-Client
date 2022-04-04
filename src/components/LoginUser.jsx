@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import swal from "sweetalert"
 import GoogleLogin from "react-google-login";
 import { actCart, login, setPlatformUser } from "../actions/index"
@@ -18,6 +18,7 @@ export const userf = () => {
 export const LoginUser = ({ setAuth }) => {
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [inputs, setInputs] = useState({
     correo: "",
@@ -45,6 +46,9 @@ export const LoginUser = ({ setAuth }) => {
 
     try {
       const body = { correo, contraseña }
+      if(correo ===contraseña & correo!=="beefshophenry@gmail.com" & contraseña !== "beefshophenry@gmail.com"){
+        navigate("/userPasswordUpdate")
+      }
       const response = await fetch("http://localhost:3001/api/user/login",
         {
           method: "POST",
