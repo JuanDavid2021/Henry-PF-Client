@@ -85,20 +85,21 @@ function CartDetails() {
       })
     }
   }
-
-
-
-
+  
+  
+  
+  
   const handleCloseModal = () => {
     setModal(false)
   }
-
+  
   let arrSuma = []
-
+  
   arrCartProducts.map((p) => arrSuma.push(p.precioTotal * p.cantidad))
-
+  
   let suma = arrSuma?.reduce((a, b) => Number(a) + Number(b), 0)
-
+  console.log(arrCartProducts[0])
+  
   return (
     <section className="py-5">
       <div className="container py-4">
@@ -247,7 +248,7 @@ export function TrItemCart({ el, inputRender }) {
     }
     dispatch(setCartItem(elem))
   }
-
+console.log(el.precioFinal)
   return (
     <tr className="text-sm">
       <td className="align-middle border-gray-300 py-3"><img className="img-fluid flex-shrink-0" src={Array.isArray(el.arrFotos) ? el.arrFotos[0] : el.arrFotos} alt={el.nombre} style={{ minWidth: "50px" }} width="50" /></td>

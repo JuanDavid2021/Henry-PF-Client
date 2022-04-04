@@ -11,8 +11,8 @@ function Card({ id, prod, nombre, stock, presentacion, precio, arrFotos, descrip
   const productOnSale = useSelector((state) => state.productOnSale);
 
 
-  if(id === "d5d4efb5-bfc1-4d99-ba46-2d31c0f428d8"){
-    console.log(prod)
+  if(id === "bc35eabd-2caa-423a-afd6-1299ee2527a0"){
+    console.log("------------producot-------------\n",prod)
   }
 
   const [show, setShow] = useState(false);
