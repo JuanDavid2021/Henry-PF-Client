@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { RiArrowLeftSLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { getUsers } from '../../../actions';
+import { getUsers, resetAdmin } from '../../../actions';
 
 
 export default function UserList() {
@@ -17,6 +17,10 @@ export default function UserList() {
 
   const handleRedirect = (id) => {
     navigate(`/user/${id}`)
+  }
+
+  const handleReset = (correo) => {
+    dispatch(resetAdmin({correo: correo}))
   }
 
   return (
@@ -42,6 +46,7 @@ export default function UserList() {
                     <td>{user.direccion}</td>
                     <td>
                       <button value={user.correo} className="btn btn-success text-light text-decoration-none fs-6 mx-2" onClick={()=>handleRedirect(user.correo)}>Editar</button>
+                      <button value={user.correo} className="btn btn-success text-light text-decoration-none fs-6 mx-2" onClick={()=>handleReset(user.correo)}>Reset</button>
                     </td>
                   </tr>
                 );

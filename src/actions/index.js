@@ -56,7 +56,8 @@ import {
   SET_PRESENTATIONS,
   FILTER_AUTO,
   ADD_REVIEW,
-  GET_USER_BY_ID
+  GET_USER_BY_ID,
+  RESET_ADMIN
 
 } from './../action-types/index';
 const axios = require("axios");
@@ -99,7 +100,11 @@ export function logoutuser(payload) {
   };
 }
 
-
+export const resetAdmin= async(payload)=>{
+  console.log(payload)
+  let userPass = await axios.post("http://localhost:3001/api/user/resetPasswordAdmin", payload)
+  return userPass
+}
 
 
 export const login = (payload) => {

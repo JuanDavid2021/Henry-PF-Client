@@ -29,6 +29,7 @@ import UserInterface from './components/UserInterface';
 import ProtectedRoute from './Middleware/ProtectedRoute';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import UserDetail from './Pages/Admin/Views/UserDetail';
+import { LoginResetAdmin } from './components/LoginResetAdmin';
 
 
 function App() {
@@ -40,10 +41,15 @@ function App() {
   }, [location.pathname]);
     
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [UpdatePassword, setUpdatePassword] = useState(false)
 
   const setAuth = (boolean) => {
     setIsAuthenticated(boolean);
   };
+
+  const setPass=(boolean)=>{
+    setUpdatePassword(boolean)
+  }
  
   const isAuth = async () => {
     try {
@@ -80,6 +86,7 @@ function App() {
         <Route exact path='/register' element={!isAuthenticated ? (<Register setAuth={setAuth} />) : (<Navigate to="/shop" />)} />
         <Route exact path='/shop' element={<Shop />} /> 
         <Route exact path='/product/:id' element={<DetailProduct />} /> 
+        <Route exact path='/userPasswordUpdate' element={<LoginResetAdmin/>}/>
 
 
         {/* <Route exact path='/login' element={<Login />} /> */}

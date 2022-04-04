@@ -74,6 +74,7 @@ export const LOADING = "loading";
 
 export const LOGINFORGOT = "loginForgot"
 export const FILTER_AUTO ="filterAuto"
+export const RESET_ADMIN = "resetAdmin"
 
 
 
