@@ -13,6 +13,7 @@ import {
   SEARCHING_PRODUCT,
   PAGAR_PEDIDO,
   GETTING_PRODUCTS,
+  GET_PORDUCT_PROMO,
   SET_PRODUCTS,
   SET_FILTERED_PRODUCTS,
   ORDER_PRODUCTS,
@@ -323,7 +324,7 @@ async function apiAddPresentation(data) {
 
 async function apiAddReview(data, user) {
   try {
-    
+
     const created = axios.post(`http://localhost:3001/api/review/create/${data.id}`, data, {
       headers: {
         token: user.token
@@ -355,10 +356,10 @@ export function addReview(data, user) {
         dispatch({ type: ADD_REVIEW, payload: created.data });
       }
       return created;
-    } catch (error) {    
+    } catch (error) {
       return error;
     }
-  };  
+  };
 }
 
 export function deleteProduct(id) {
@@ -772,18 +773,19 @@ export function putProduct(payload) {
       return updatedProduct;
     } catch (error) {
       return { status: 400, error: error }
-  }};
+    }
+  };
 
 }
 
-export function postPedido(currenuser,pedidoData) {
+export function postPedido(currenuser, pedidoData) {
   return async function (dispatch) {
     try {
       const newPedido = await axios({
         url: "http://localhost:3001/api/pedido/create",
         method: 'post',
-        headers: {token: currenuser.token},
-        data: {...pedidoData, ...currenuser}
+        headers: { token: currenuser.token },
+        data: { ...pedidoData, ...currenuser }
       });
       if (newPedido.status === 200) {
         dispatch({
@@ -805,8 +807,8 @@ export function pagarPedido(payload) {
     try {
       const pagoPedido = await axios({
         url: "http://localhost:3001/api/mercadopago",
-        method: 'post', 
-        headers: { token: payload.currenuser.token},
+        method: 'post',
+        headers: { token: payload.currenuser.token },
         data: payload
       });
       if (pagoPedido.status === 200) {
@@ -823,7 +825,7 @@ export function pagarPedido(payload) {
   };
 }
 
-export function getPedidos(userData,productoId) {
+export function getPedidos(userData, productoId) {
   return async function (dispatch) {
     try {
       if (!productoId && userData.token) {
@@ -838,7 +840,7 @@ export function getPedidos(userData,productoId) {
             payload: pedidos.data
           });
         }
-      } else if (productoId && userData.token){
+      } else if (productoId && userData.token) {
         console.log('productoId && userData.token')
         const pedido = await axios.get("http://localhost:3001/api/pedido/get/" + productoId, {
           headers: {
@@ -852,7 +854,7 @@ export function getPedidos(userData,productoId) {
           });
         }
       }
-      console.log('no entró',productoId,'\nToken: ',userData.token)
+      console.log('no entró', productoId, '\nToken: ', userData.token)
     } catch (error) {
       console.log(error);
     }
@@ -864,10 +866,10 @@ export function putPedidos(payload) {
   return async function (dispatch) {
     try {
       const pedido = await axios({
-        url: "http://localhost:3001/api/pedido/update/"+payload.id,
+        url: "http://localhost:3001/api/pedido/update/" + payload.id,
         method: 'put',
-        headers: {token: payload.currenuser.token}, 
-        data : payload
+        headers: { token: payload.currenuser.token },
+        data: payload
       });
       if (pedido.status === 200) {
         dispatch({
@@ -890,3 +892,13 @@ export function filterPedidos(filter) {
 
 //SALES...
 
+
+export function getProductPromo() {
+  return async (dispatch) => {
+    const productsOnSale = await axios.get('http://localhost:3001/api/promocion/all')
+    dispatch({
+      type: GET_PORDUCT_PROMO,
+      payload: productsOnSale.data
+    })
+  }
+}
