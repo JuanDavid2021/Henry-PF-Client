@@ -103,19 +103,19 @@ function DetailPedido() {
                   {(pedido.status === 'Approbed')?(
                     <button className="btn btn-warning text-light w-100 mt-2" onClick={handleProcesar}>Procesar</button>
                   ):(
-                    <button className="btn btn-secondary btn-lg text-light w-100 mt-2" disabled="disabled">Procesar</button>
+                    <button className="btn btn-secondary text-light w-100 mt-2" disabled="disabled">Procesar</button>
                   )}
 
                   {(pedido.status === 'Approbed' || pedido.status === 'Processed')?(
                   <button className="btn btn-danger text-light w-100 mt-2" onClick={handleCancelar}>Cancelar</button>
                   ):(
-                  <button className="btn btn-secondary btn-lg text-light w-100 mt-2" disabled="disabled">Cancelar</button>
+                  <button className="btn btn-secondary text-light w-100 mt-2" disabled="disabled">Cancelar</button>
                   )} 
 
                   {(pedido.status === 'Processed')?(
                   <button className="btn btn-success text-light w-100 mt-2" onClick={handleDespachar}>Despachar</button>
                   ):(
-                  <button className="btn btn-secondary btn-lg text-light w-100 mt-2" disabled="disabled">Despachar</button>
+                  <button className="btn btn-secondary text-light w-100 mt-2" disabled="disabled">Despachar</button>
                   )}
 
                   <Button variant="secondary" className="w-100 mt-2" onClick={handleClose}>

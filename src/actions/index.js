@@ -696,7 +696,6 @@ export function deleteCartItem(data) {
 }
 
 export function addOrderDate(data) {
-  console.log("data date", data);
   return (dispatch) => {
     dispatch({
       type: ADD_ORDER_DATE,
@@ -706,7 +705,6 @@ export function addOrderDate(data) {
 }
 
 export function setDelivery(data) {
-  console.log("SET_DELIVERY", data);
   return (dispatch) => {
     dispatch({
       type: DELIVERY_CART_ITEMS,
