@@ -51,8 +51,8 @@ function DetailPedido() {
         status: "Processed"
       }));
     }
-    setS("procesará");
     handleShowModal();
+    setS("procesará");
   };
 
   const handleCancelar = () => {
@@ -63,8 +63,8 @@ function DetailPedido() {
         status: "Cancelled"
       }));
     }
-    setS("cancelará");
     handleShowModal();
+    setS("cancelará");
   };
 
   const handleDespachar = () => {
@@ -75,8 +75,8 @@ function DetailPedido() {
         status: "Dispatched"
       }));
     }
-    setS("despachará");
     handleShowModal();
+    setS("despachará");
   };
 
   return (
