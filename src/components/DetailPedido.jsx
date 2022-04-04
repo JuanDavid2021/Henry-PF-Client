@@ -36,8 +36,8 @@ function DetailPedido() {
     dispatch(getPedidos(currenuser,id));
   }, [dispatch, s])
 
-  // useEffect(() => {;
-  // }, [s])
+  useEffect(() => {;
+  }, [s])
 
   const handleClose = () => {
     navigate("/dashboard");
@@ -95,7 +95,6 @@ function DetailPedido() {
               <Col md={6}>
                 <p><b>Fecha de pedido:</b> {pedido.f_pedido.substring(0, 10)}</p>
                 <p><b>Fecha requerida:</b> {pedido.f_requerida.substring(0, 10)}</p>
-                <p><b>Fecha despacho o cancelación:</b> </p>
                 <p><b>Usuario:</b> {pedido.Usuario.nombre + ' ' + pedido.Usuario.apellido}</p>
                 <p><b>Status:</b> {pedido.status}</p>
               </Col>
@@ -103,19 +102,19 @@ function DetailPedido() {
                   {(pedido.status === 'Approbed')?(
                     <button className="btn btn-warning text-light w-100 mt-2" onClick={handleProcesar}>Procesar</button>
                   ):(
-                    <button className="btn btn-warning text-light w-100 mt-2" disabled="disabled">Procesar</button>
+                    <button className="btn btn-secondary btn-lg text-light w-100 mt-2" disabled="disabled">Procesar</button>
                   )}
 
                   {(pedido.status === 'Approbed' || pedido.status === 'Processed')?(
                   <button className="btn btn-danger text-light w-100 mt-2" onClick={handleCancelar}>Cancelar</button>
                   ):(
-                  <button className="btn btn-danger text-light w-100 mt-2" disabled="disabled">Cancelar</button>
+                  <button className="btn btn-secondary btn-lg text-light w-100 mt-2" disabled="disabled">Cancelar</button>
                   )} 
 
                   {(pedido.status === 'Processed')?(
                   <button className="btn btn-success text-light w-100 mt-2" onClick={handleDespachar}>Despachar</button>
                   ):(
-                  <button className="btn btn-success text-light w-100 mt-2" disabled="disabled">Despachar</button>
+                  <button className="btn btn-secondary btn-lg text-light w-100 mt-2" disabled="disabled">Despachar</button>
                   )}
 
                   <Button variant="secondary" className="w-100 mt-2" onClick={handleClose}>
