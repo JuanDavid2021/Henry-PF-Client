@@ -35,18 +35,8 @@ function Shop() {
 
   return (
     <div style={{ marginBottom: "30px" }}>
-    {!productOnSale.length ?
+    
       <CarouselShop />
-      :
-      productOnSale?.map((p)=>{
-        return (
-      <div>
-          {p.promocion}
-      </div>
-        )
-      })
-        
-    }
       
       <SearchBar />
 
