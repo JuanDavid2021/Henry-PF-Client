@@ -11,7 +11,7 @@ function Card({ id, prod, nombre, stock, presentacion, precio, arrFotos, descrip
   const productOnSale = useSelector((state) => state.productOnSale);
 
 
-  if(id === "bc35eabd-2caa-423a-afd6-1299ee2527a0"){
+  if(id === "12249c7c-9217-4710-9969-ae09b4e70523"){
     console.log("------------producot-------------\n",prod)
   }
 
@@ -45,8 +45,8 @@ function Card({ id, prod, nombre, stock, presentacion, precio, arrFotos, descrip
             }
             {/* s */}
           </CardBootstrap.Body>
-          <Col className="d-flex">
-            <button className="bg-dark rounded-bottom text-light p-1" style={{ border: "none", width: "100%", }} >
+          <Col className="d-flex align-items-end">
+            <button className="bg-dark rounded-bottom text-light p-1" style={{ border: "none", width: "100%", height:"30px"}} >
               Detalle
             </button>
           </Col>
