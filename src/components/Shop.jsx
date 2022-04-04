@@ -5,20 +5,23 @@ import Card from "./Card";
 import { Container, Row, Col } from "react-bootstrap";
 import img from "../img/logo2.png";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../actions";
+import { getProductPromo, getProducts } from "../actions";
 import { NotFound } from "./NotFound";
 import CarouselShop from './CarouselShop';
 
 function Shop() {
   const dispatch = useDispatch();
   const arrProductos = useSelector((state) => state.products);
+  const productOnSale = useSelector((state) => state.productOnSale);
   const filteredProducts = useSelector((state) => state.filteredProducts);
 
   const [inview, setInview] = useState(12);
 
   useEffect(() => {
     if (!arrProductos.length) dispatch(getProducts());
+    if (!productOnSale.length) dispatch(getProductPromo())
   }, [dispatch, arrProductos]);
+  console.log('---------------------promo------------------------\n',productOnSale)
 
   let arrProducts = filteredProducts?.slice(0, inview);
 
@@ -32,7 +35,18 @@ function Shop() {
 
   return (
     <div style={{ marginBottom: "30px" }}>
+    {!productOnSale.length ?
       <CarouselShop />
+      :
+      productOnSale?.map((p)=>{
+        return (
+      <div>
+          {p.promocion}
+      </div>
+        )
+      })
+        
+    }
       
       <SearchBar />
 
@@ -41,8 +55,11 @@ function Shop() {
           <Row xs={1} md={2} xl={4} className="g-4 mx-2 px-1">
             {arrProducts?.map((p) => (
               <Card
+                prod = {p}
+                promocion={p.promocion ? p.promocion : null}
                 key={p.id}
                 id={p.id}
+                precioDesc={p.precio_descuento}
                 precio={p.precio}
                 nombre={p.nombre}
                 descripcion={p.descripcion}

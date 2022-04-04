@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { addCartItem } from '../actions';
 
-function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, arrFotos, presentacion }) {
+function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, arrFotos, presentacion, promocion, precioDesc }) {
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
     id,
     arrFotos,
@@ -99,7 +99,12 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
               </Col>
             </Row>
             <Row>
-              <Col>Precio por kg: $ {precio}</Col>
+            {
+              promocion !== null ?
+            <Col > Precio por kg: <p className="text-muted text-decoration-line-through fw-light m-0"> $ {precio}</p> <p className='fs-5 d-flex justify-content-between'>$ {precioDesc}<span class="badge bg-danger" style={{height:"100%"}}>promo</span></p></Col>
+            :
+            <Col>Precio por kg: $ {precio}</Col> 
+            }
             </Row>
           </Container>
 

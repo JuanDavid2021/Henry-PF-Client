@@ -3,12 +3,14 @@ import { Card as CardBootstrap, Col } from "react-bootstrap";
 import DetailProductModal from './DetailProductModal';
 import { motion } from "framer-motion"
 
-function Card({ id, nombre, stock, presentacion, precio, arrFotos, descripcion }) {
+function Card({ id, prod, nombre, stock, presentacion, precio, arrFotos, descripcion, precioDesc, promocion }) {
   const nombreCap = nombre?.[0].toUpperCase() + nombre?.slice(1).toLowerCase();
   const pics = arrFotos.filter(el => el.length > 0)
   let randomPic = Math.floor(Math.random() * pics?.length)
 
   const [show, setShow] = useState(false);
+
+  console.log(prod)
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -22,7 +24,12 @@ function Card({ id, nombre, stock, presentacion, precio, arrFotos, descripcion }
           </Col>
           <CardBootstrap.Body>
             <CardBootstrap.Title>{nombreCap}</CardBootstrap.Title>
-            <CardBootstrap.Subtitle>$ {precio}/kg</CardBootstrap.Subtitle>
+            {
+              promocion !== null ?
+            <CardBootstrap.Subtitle style={{display:"flex", flexDirection:"column"}}><p className="text-muted text-decoration-line-through fw-light m-0">$ {precio}/kg</p> <p className="fs-5 d-flex justify-content-between">$ {precioDesc}/kg<span class="badge bg-danger">promo</span></p></CardBootstrap.Subtitle>
+            :
+            <CardBootstrap.Subtitle>$ {precio}/kg</CardBootstrap.Subtitle> 
+            }
             {/* s */}
           </CardBootstrap.Body>
           <Col>
@@ -32,7 +39,7 @@ function Card({ id, nombre, stock, presentacion, precio, arrFotos, descripcion }
           </Col>
         </CardBootstrap>
       </motion.div>
-        <DetailProductModal id={id} nombreCap={nombreCap} stock={stock} precio={precio} presentacion={presentacion} arrFotos={pics} show={show} handleClose={handleClose} descripcion={descripcion} />
+        <DetailProductModal id={id} promocion={promocion} nombreCap={nombreCap} stock={stock} precio={precio} precioDesc={precioDesc} presentacion={presentacion} arrFotos={pics} show={show} handleClose={handleClose} descripcion={descripcion} />
     </Col>
   );
 }

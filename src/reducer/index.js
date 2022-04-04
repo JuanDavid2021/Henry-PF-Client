@@ -62,7 +62,8 @@ import {
   PUT_PRESENTATION,
   SET_PRESENTATIONS,
   DELETE_PRESENTATION,
-  GET_USER_BY_ID
+  GET_USER_BY_ID,
+  GET_PORDUCT_PROMO
 } from './../action-types/index';
 
 
@@ -90,7 +91,7 @@ const initialState = {
   filterPedidos: [],
   idPago: {},
   productsAuto:[],
-
+  productOnSale:[],
   sales: [],//lista de ventas
   users: [],//lista de usuarios para borrar / forzar password
   categoryFilterStatus: true,
@@ -118,6 +119,16 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       despacho: { ...state.despacho, ...action.payload }
+
+
+    };
+
+  }
+
+  if (action.type === GET_PORDUCT_PROMO) {
+    return {
+      ...state,
+      productOnSale: action.payload
 
 
     };
