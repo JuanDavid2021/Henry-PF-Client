@@ -55,7 +55,7 @@ function SearchBar({filtro}) {
 
   const conteinerVariants = {
     expanded:{
-      height:"20em",
+      height:"15em",
     },
     close:{  
       height:"2.5em",
@@ -73,12 +73,6 @@ function SearchBar({filtro}) {
    closeContainer()
   }
 
-  const inputWhite =(e)=>{
-    e.preventDefault()
-    if(filter.input===""){
-      closeContainer()
-    }
-  }
 
   const transition = {type:"spring", damping:50, stiffness:150}
 
@@ -166,7 +160,7 @@ function SearchBar({filtro}) {
       <Row className="mx-4 mt-3">
         <Col sm="12" md="4" lg="4" xl="4" className="mb-2" >
           <InputGroup >
-             <motion.div animate={expanding? "expanded":"close"} ref={ref} transition={transition}variants={conteinerVariants}  style={{ width:"500px", height:"20px", overflow:"hidden"}} >
+             <motion.div animate={expanding & filter.input.length>0 ? "expanded":"close"}  ref={ref}  transition={transition}variants={conteinerVariants}  style={{ width:"500px", height:"20px", overflow:"hidden"}} >
             <FormControl
               isInvalid={!searchFilterStatus}
               placeholder="Buscar por nombre..."
