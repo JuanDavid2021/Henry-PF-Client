@@ -59,6 +59,8 @@ function CreateProductForm({ product, createFunction }) {
 
   const storeCategories = useSelector((state) => state.categories);
 
+  const storePresentations = useSelector((state) => state.presentations);
+
   const [categorias, setCategrorias] = useState(product.Categoria || []);
 
   const [settingFoto, setSettingFoto] = useState({
@@ -146,10 +148,9 @@ function CreateProductForm({ product, createFunction }) {
         ...input,
         id: "",
         presentacion: presentacion.map(p => p.id),        
-        categoria: categorias.map((c) => c.id),
+        categoria: categorias.map(c => c.id),
         fotos: fotos,
-      };
-      console.log(finalProduct)
+      };      
       createFunction(finalProduct);
     } else {
       alert(`Existen errores ${errors}`);
@@ -187,13 +188,13 @@ function CreateProductForm({ product, createFunction }) {
 
   const handleTypes = (e) => {
     if (e.target.checked) {
-      if (!categorias.find((c) => c === parseInt(e.target.value))) {
-        setCategrorias([...categorias, { id: parseInt(e.target.value) }]);
+      if (!presentacion.find((c) => c === parseInt(e.target.value))) {
+        setPresentacion([...presentacion, { id: parseInt(e.target.value) }]);
       }
     } else {
-      if (categorias.find((c) => c.id === parseInt(e.target.value))) {
-        setCategrorias(
-          categorias.filter((c) => c.id !== parseInt(e.target.value))
+      if (presentacion.find((c) => c.id === parseInt(e.target.value))) {
+        setPresentacion(
+          presentacion.filter((c) => c.id !== parseInt(e.target.value))
         );
       }
     }
@@ -350,24 +351,25 @@ function CreateProductForm({ product, createFunction }) {
               </div>
             </Form.Group>
           </Col>
-          <Col hidden className="col-12 border-top">
+          <Col className="col-12 border-top">
             <Form.Group>
-              <Form.Label className="mb-0">Tipos de corte:</Form.Label>
+                <Form.Label className="mb-0">Tipos de corte:</Form.Label>
+                
               <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-                {storeCategories.map((c) => {
+                {storePresentations.map((p) => {
                   return (
                     <Form.Check
-                      key={c.id}
-                      label={c.nombre}
-                      value={c.id}
-                      checked={categorias.filter((ca) => ca.id === c.id).length}
+                      key={p.id}
+                      label={p.nombre}
+                      value={p.id}
+                      checked={presentacion.filter((pr) => pr.id === p.id).length}
                       onChange={(e) => handleTypes(e)}
                     />
                   );
                 })}
               </div>
             </Form.Group>
-          </Col>
+          </Col>          
         </Row>
         <Row>
           <Col lg="10" sm="8" xs="12">
