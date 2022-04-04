@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RiShoppingCartLine } from 'react-icons/ri';
 import { CgProfile } from 'react-icons/cg';
@@ -8,7 +8,13 @@ import { Link } from 'react-router-dom';
 import swal from "sweetalert";
 import { logoutuser, setPlatformUser, apiUpdateUser, flushCart } from "../actions/index";
 import img from '../img/logo2.png';
+import { motion } from 'framer-motion';
 
+
+const variants = {
+    open: { rotate: 90},
+    closed: { rotate: 0},
+  }
 
 function NavBar({ setAuth }) {
 
@@ -80,6 +86,8 @@ function NavBar({ setAuth }) {
         navcontent.classList.remove("show")
     })
 
+    const [isOpen, setIsOpen] = useState(false)
+
     useEffect(() => {
         var ignoreClickOnMeElement = document.getElementById("navbarSupportedContent");
 
@@ -101,8 +109,8 @@ function NavBar({ setAuth }) {
                     <img src={img} alt="logo" style={{ width: "100%" }} />
                 </Link>
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/">Beef Shop</Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="btnHamburger">
-                    <span className="navbar-toggler-icon btn-outline-light" type="button"><GiHamburgerMenu /></span>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" onClick={() => setIsOpen(isOpen => !isOpen)} data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="btnHamburger">
+                    <motion.span className="navbar-toggler-icon" animate={isOpen ? "open" : "closed"} variants={variants} ><GiHamburgerMenu size={"30px"} color={"white"}/></motion.span>
                 </button>
                 <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent" >
                     <ul className="navbar-nav">

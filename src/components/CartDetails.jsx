@@ -8,15 +8,18 @@ import { Modal, Button } from 'react-bootstrap';
 
 function CartDetails() {
   const arrCartProducts = useSelector(state => state.cart);
+  const arrProducts = useSelector(state => state.products);
+
 
   const [modal, setModal] = useState({ show: false, msg: "" })
   const [user, setUser] = useState(false)
 
 
+
   const navigate = useNavigate()
 
-  const ifLogin = ()=>{
-    if (localStorage.token === undefined){
+  const ifLogin = () => {
+    if (localStorage.token === undefined) {
       setUser(false)
     } else {
       setUser(true)
@@ -24,26 +27,48 @@ function CartDetails() {
 
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     ifLogin()
-  },[localStorage.token])
+  }, [localStorage.token])
 
 
 
   const handleNavigateDelibery = (e) => {
     e.preventDefault()
-    if(!user){
+    if (!user) {
       setModal({
         show: true,
         msg: "Necesitas estar logueado o crearse una cuenta para continuar"
       })
     } else if (arrCartProducts.length > 0) {
       let stock = false
+      let checkPrecio = false
       arrCartProducts.forEach((p) => {
+
         if (p.cantidad > p.stock) {
           stock = true
         }
       })
+
+
+      arrCartProducts.forEach((p) => {
+        arrProducts.forEach((prod) => {
+          if (prod.id === p.id) {
+            if (prod.precio_descuento && prod.precio_descuento !== p.precioFinal) {
+              return checkPrecio = true
+            }
+          }
+        })
+      })
+
+      if (checkPrecio) {
+        return setModal({
+          show: true,
+          msg: "El precio se ha modificado o estaba en descuento y se vencio"
+        })
+      }
+
+
       if (stock) {
         setModal({
           show: true,
@@ -52,8 +77,8 @@ function CartDetails() {
       } else {
         navigate("/cartDetailsCheckout")
       }
-    } 
-     else {
+    }
+    else {
       setModal({
         show: true,
         msg: "No posee productos en su carrito"
@@ -127,7 +152,7 @@ function CartDetails() {
                   </Link>
                 </div>
                 <div className="col-md-6 text-md-end py-1">
-                    <button className="btn btn-primary my-1" onClick={handleNavigateDelibery}>Verificación <RiArrowRightSLine /></button>
+                  <button className="btn btn-primary my-1" onClick={handleNavigateDelibery}>Verificación <RiArrowRightSLine /></button>
                 </div>
               </div>
             </form>
@@ -149,10 +174,10 @@ function CartDetails() {
         <Modal.Header>
           <Modal.Title><p style={{ textAlign: "center" }}>Error</p></Modal.Title>
         </Modal.Header>
-            <Modal.Body>
-              <p>{modal.msg}</p>
-            </Modal.Body>
-    
+        <Modal.Body>
+          <p>{modal.msg}</p>
+        </Modal.Body>
+
 
         <Modal.Footer>
           <Button variant="primary" onClick={handleCloseModal}>Aceptar</Button>
@@ -237,7 +262,7 @@ export function TrItemCart({ el, inputRender }) {
 
           : <td className="align-middle border-gray-300 py-3">{el.cantidad}</td>
       }
-      <td className="align-middle border-gray-300 py-3">${el.precio}</td>
+      <td className="align-middle border-gray-300 py-3">${el.precioFinal}</td>
       <td className="align-middle border-gray-300 py-3">${(el.precioTotal * changeQuantityItem.cantidad)}</td>
       {
         inputRender

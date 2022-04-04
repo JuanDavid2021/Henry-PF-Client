@@ -21,6 +21,7 @@ import { LoginUser } from './components/LoginUser';
 import NavBar from './components/Navbar';
 import PagoDenied from "./components/PagoDenied";
 import PagoSuccess from "./components/PagoSuccess";
+import SobreNosotros from "./components/SobreNosotros";
 import Pedidos from './components/Pedidos';
 import { Register } from "./components/Register";
 // import Profile from './components/Profile';
@@ -80,6 +81,9 @@ function App() {
         <Route exact path='/register' element={!isAuthenticated ? (<Register setAuth={setAuth} />) : (<Navigate to="/shop" />)} />
         <Route exact path='/shop' element={<Shop />} /> 
         <Route exact path='/product/:id' element={<DetailProduct />} /> 
+
+
+        <Route exact path='/about' element={<SobreNosotros />} />
 
 
         {/* <Route exact path='/login' element={<Login />} /> */}
