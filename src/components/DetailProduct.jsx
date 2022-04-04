@@ -47,6 +47,8 @@ function DetailProduct() {
     });
   };
 
+  console.log(productDetails)
+
   const handleCloseModal = () => {
     setValoresDetalleProducto({
       ...valoresDetalleProducto,

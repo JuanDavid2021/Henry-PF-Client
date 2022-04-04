@@ -6,10 +6,14 @@ import { useNavigate } from 'react-router';
 import { addCartItem } from '../actions';
 
 function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, arrFotos, presentacion, promocion, precioDesc }) {
+  
+  const precioFinal = promocion !== null ? precioDesc : precio
+  
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
     id,
     arrFotos,
     nombre: nombreCap,
+    precioFinal,
     precio,
     peso:"",
     tipo_corte:"",
@@ -29,7 +33,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
     setValoresDetalleProducto({
       ...valoresDetalleProducto,
       [e.target.name]: e.target.value,
-      precioTotal: valoresDetalleProducto.peso * valoresDetalleProducto.precio,
+      precioTotal: valoresDetalleProducto.peso * valoresDetalleProducto.precioFinal,
     })
   }
 
