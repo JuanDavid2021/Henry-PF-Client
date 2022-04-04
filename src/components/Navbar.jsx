@@ -54,6 +54,7 @@ function NavBar({ setAuth }) {
                     nombre: i.nombre,
                     // idItemFront: i.idItemFront,
                     precio: i.precio,
+                    precioFinal: i.precioFinal,
                     tipo_corte: i.tipo_corte,
                     peso: i.peso,
                     cantidad: i.cantidad,
@@ -63,6 +64,7 @@ function NavBar({ setAuth }) {
                 })
             }
             )
+            
             apiUpdateUser({ correo: currentUser.email, shoppingCart: shoppingCart })
             dispatch(flushCart())
         } else {
