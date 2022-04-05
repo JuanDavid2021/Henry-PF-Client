@@ -28,21 +28,56 @@ function SobreNosotros() {
         github: "https://github.com/Oleguis",
         puesto: "Back End",
         img: "https://avatars.githubusercontent.com/u/91699181?v=4"
+    },
+    {
+        nombre: "Juan David Rodriguez",
+        linkedin: "https://www.linkedin.com/in/juandavidrodriguezlopez/",
+        github: "https://github.com/JuanDavid2021",
+        puesto: "Full Stack",
+        img: "https://avatars.githubusercontent.com/u/87767241?v=4"
+    },
+    {
+        nombre: "Federico Di Donato",
+        linkedin: "https://www.linkedin.com/in/federicodidonato/",
+        github: "https://github.com/FDDeC",
+        puesto: "Full Stack",
+        img: "https://avatars.githubusercontent.com/u/83348277?v=4",
+    },
+    {
+        nombre: "Fabricio Olivera",
+        linkedin: "https://www.linkedin.com/in/fabricio-olivera-developer/",
+        github: "https://github.com/FabricioOlivera",
+        puesto: "Back End",
+        img: "https://avatars.githubusercontent.com/u/78769625?v=4",
+    },
+    {
+        nombre: "David Niño",
+        linkedin: "https://www.linkedin.com/in/david-alejandro-nino/",
+        github: "https://github.com/Alejo-Nino95",
+        puesto: "Full Stack",
+        img: "https://avatars.githubusercontent.com/u/90222547?v=4",
     }]
 
 
     return (
-        <div className='d-flex flex-column align-items-center' style={{  backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
-            <h2 className='text-light'> Sobre Nosotros </h2>
+        <div className='d-flex flex-column align-items-center' style={{ backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
+            <div className='card bg-dark bg-opacity-75 px-4 py-4 rounded mx-3 my-5' style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <h2 className='text-light'> Sobre Nosotros </h2>
+                <p className='text-light fs-5'>Beef shop es un e-commerce que facilita la compra de productos de carniceria.</p>
+                <p className='text-light fs-5'>Nuestro objetivo es lograr que cualquier persona pueda realizar una compra de manera rapida y sencilla.</p>
+                <p className='text-light fs-5'>Esto es parte del proyecto final del Bootcamp Soy Henry, por lo cual todo lo que este relacionado con el stock, los pagos, etc. es ficticio.</p>
+            </div>
+            <div className='card bg-light bg-opacity-50 px-4 py-4 rounded' style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <h1 className='text-dark fw-bold'> EQUIPO DE TRABAJO </h1>
+            </div>
             <div className="container">
-
                 <div className="row py-5">
                     {
                         nosotros?.map((persona) => {
                             return (
                                 <div className="col-auto col-sm-6 col-lg-4 col-xl-3">
-                                    <motion.div className="card mx-xl-3 mx-sm-1 my-3 text-light border-0" whileHover={{ scale: 1.1, boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.14)"}} style={{background: "linear-gradient(157deg, rgba(28,28,28,1) 0%, rgba(34,11,11,1) 80%, rgba(42,0,0,1) 100%)" }}>
-                                        <div style={{display:"flex", justifyContent:"center", marginTop:"20px"}}>
+                                    <motion.div className="card mx-xl-3 mx-sm-1 my-3 text-light border-0" whileHover={{ scale: 1.1, boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.14)" }} style={{ background: "linear-gradient(157deg, rgba(28,28,28,1) 0%, rgba(34,11,11,1) 80%, rgba(42,0,0,1) 100%)" }}>
+                                        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
                                             <img src={persona.img} className="card-img-top rounded-circle" alt={persona.nombre} style={{ width: "70%" }} />
                                         </div>
                                         <div className="card-body ">
