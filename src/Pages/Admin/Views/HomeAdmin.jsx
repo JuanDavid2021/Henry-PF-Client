@@ -168,14 +168,14 @@ return (
   <div className="container" >
     <h5 className="my-2">Datos referidos a ventas concluidas</h5>
     <Row className="my-5" style={{ display: "flex" ,justifyContent: "center" }}>
-      <div style={{ width:"60em", overflow:"auto", overflowX: "visible" }}>
+      <div className="scrollBar" style={{ width:"60em", overflow:"auto", overflowX: "visible" }}>
         <Col sm={12} className="col py-3" style={{ width:"60em" }}>
           <Bar options={optionsVentas} data={dataVentas} />
         </Col>
       </div>
     </Row>
     <Row className="my-5" style={{ display: "flex" ,justifyContent: "center" }}>
-      <div  style={{ width:"60em", overflow:"auto" }}>
+      <div  className="scrollBar" style={{ width:"60em", overflow:"auto" }}>
         <Col sm={12} className="col" style={{ width:"60em" }}>
           <Bar options={optionsMontoKilos} data={dataMontoKilos} />
         </Col>

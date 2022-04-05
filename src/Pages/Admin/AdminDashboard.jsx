@@ -11,22 +11,24 @@ import HomeAdmin from './Views/HomeAdmin';
 
 export default function AdminDashboard() {
 
-  const [show, setShow] = useState({home: true
-  })
+  const [show, setShow] = useState({ home: true })
 
 
   const handleClick = (str) => {
     if (str === "Pedidios") {
-      setShow({...show, pedidios: true, usuarios: false, productos: false, promociones:false})
+      setShow({...show, pedidios: true, usuarios: false, productos: false, promociones:false, home: false})
     }
     if (str === "Usuarios") {
-      setShow({...show, usuarios: true, pedidios: false, productos: false, promociones:false})
+      setShow({...show, usuarios: true, pedidios: false, productos: false, promociones:false, home: false})
     }
     if (str === "Productos") {
-      setShow({...show, usuarios: false, pedidios: false, productos: true, promociones:false})
+      setShow({...show, usuarios: false, pedidios: false, productos: true, promociones:false, home: false})
     }
     if (str === "Promociones") {
-      setShow({...show, usuarios: false, pedidios: false, productos: false, promociones:true})
+      setShow({...show, usuarios: false, pedidios: false, productos: false, promociones:true, home: false})
+    }
+    if (str === "Home") {
+      setShow({...show, usuarios: false, pedidios: false, productos: false, promociones:false, home: true})
     }
   }
 
