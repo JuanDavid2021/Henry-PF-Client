@@ -21,14 +21,13 @@ import { SearchBarList } from "./SearchBarList";
 
 function SearchBar({filtro}) {
   const [input, setInput] = useState("");
+  const [promo, setPromo] = useState(false)
   const [filterPedido, setFilterPedido] = useState('all');
   const categories = useSelector((state) => state.categories);
   const productsAutoComplete = useSelector(state=> state.products)
   const productosFilter=useSelector(state=>state.filteredProducts)
   const categoryFilterStatus = useSelector((state) => state.categoryFilterStatus);
   const searchFilterStatus = useSelector((state) => state.searchFilterStatus);
-
-
   
   const dispatch = useDispatch();
 
@@ -93,6 +92,20 @@ function SearchBar({filtro}) {
       })
     );
   };
+
+  const handlePromos = () => {
+    setPromo(!promo)
+    setFilter({
+      ...filter,
+      promo:!promo
+    })
+    dispatch(
+      filterProducts({
+        ...filter,
+        promo:!promo
+      })
+    );
+  }
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -203,7 +216,7 @@ function SearchBar({filtro}) {
             )}
           </InputGroup>
         </Col>
-        <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
+        <Col sm="12" md="3" lg="3" xl="3" className="mb-2">
           <Form.Select
             isValid={categoryFilterStatus}
             isInvalid={!categoryFilterStatus}
@@ -224,7 +237,7 @@ function SearchBar({filtro}) {
             })}
           </Form.Select>
         </Col>
-        <Col sm="12" md="4" lg="4" xl="4" className="mb-2">
+        <Col sm="12" md="3" lg="3" xl="3" className="mb-2">
           <Form.Select
             name="order"
             onChange={(e) => setTheFilter(e)}
@@ -234,11 +247,21 @@ function SearchBar({filtro}) {
             <option selected value="">
               Ordenar por
             </option>
+            <option value="priceLower-Higher">Menor precio</option>
+            <option value="priceHigher-Lower">Mayor precio</option>
             <option value="A-Z">Nombre de A a Z</option>
             <option value="Z-A">Nombre de Z a A</option>
-            <option value="priceLower-Higher">Baratos primero</option>
-            <option value="priceHigher-Lower">Caros primero</option>
+            
           </Form.Select>
+        </Col>
+        <Col sm="12" md="2" lg="2" xl="2" className="mb-2">
+          <Form.Check   
+            className="mt-1"  
+            label="Solo ofertas"
+            value={promo}
+            checked={promo}
+            onChange={(e) => handlePromos(e)}
+          />
         </Col>
       </Row>
     </div>
