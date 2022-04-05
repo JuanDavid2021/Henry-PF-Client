@@ -72,7 +72,7 @@ function Sidebar({ handleClick, stateActive }) {
             <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.promociones ? "active":""}`} onClick={()=>handleClick("Promociones")}>
               <MdCategory /> <span className="ms-1 d-none d-lg-inline">Promociones</span> 
             </button>
-          </li> */}
+          </li>
           <li className="w-100">
             <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${ stateActive?.usuarios ? "active":""}` } onClick={()=>handleClick("Usuarios")}>
               <FaUsersCog /> <span className="ms-1 d-none d-lg-inline">Usuarios</span>
