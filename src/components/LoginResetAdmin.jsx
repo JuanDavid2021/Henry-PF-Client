@@ -71,7 +71,7 @@ if(update){
 
   return (
     <div className="bg-dark" style={{ height: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
-      <div className='alert align-middle bg-dark text-light bg-opacity-75' style={{ display: "flex", height: "400px", width:"20%", flexDirection: "column", alignItems: "center" }}>
+      <div className='alert align-middle bg-dark text-light bg-opacity-75' style={{ display: "flex", height: "400px", width:"20%", flexDirection: "column", alignItems: "center", minWidth: "300px", maxWidth: "300px" }}>
         <div className=" d-flex justify-content-center">
           <div className='' style={{ width: "100%" }}>
           
