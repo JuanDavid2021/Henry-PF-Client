@@ -63,6 +63,7 @@ import {
 
 } from './../action-types/index';
 const axios = require("axios");
+const { API_URL } = process.env;
 
 
 //LOADING..
@@ -102,11 +103,11 @@ export function logoutuser(payload) {
   };
 }
 
-export const resetAdmin= async(payload)=>{
-  console.log(payload)
-  let userPass = await axios.post("http://localhost:3001/api/user/resetPasswordAdmin", payload)
-  return userPass
-}
+export const resetAdmin = async (payload) => {
+  console.log(payload);
+  let userPass = await axios.post(`${API_URL}/user/resetPasswordAdmin`, payload);
+  return userPass;
+};
 
 
 export const login = (payload) => {
@@ -122,7 +123,7 @@ export const login = (payload) => {
 
 export const searchProduct = (producto) => {
   return async function (dispatch) {
-    var busq = await axios("http://localhost:3001/api/product/all");
+    var busq = await axios(`${API_URL}/product/all`);
     return dispatch({
       type: SEARCH_PRODUCT,
       payload: { busq, producto }
@@ -131,7 +132,7 @@ export const searchProduct = (producto) => {
 };
 export const loginUser = (data) => {
   return async function (dispatch) {
-    var logUser = await axios.post("http://localhost:3001/api/user/login", data)
+    var logUser = await axios.post(`${API_URL}/user/login`, data);
     // console.log(logUser)
     return dispatch({
       type: USERLOGIN,
@@ -150,9 +151,9 @@ export const order = (payload) => {
 
 export const createUser = (payload) => {
   return async function (dispatch) {
-    var create = await axios.post("http://localhost:3001/api/user/registro", payload)
+    var create = await axios.post(`${API_URL}/user/registro`, payload);
     // console.log(create)
-    return create
+    return create;
     /*    return dispatch({
          type: USERCREATE,
          payload: create.data
@@ -161,7 +162,7 @@ export const createUser = (payload) => {
 };
 // export const searchProduct = (producto) => {
 //   return async function (dispatch) {
-//     var busq = await axios("http://localhost:3001/api/product/all");
+//     var busq = await axios(`${API_URL`}/product/all");
 //     return dispatch({
 //       type: SEARCH_PRODUCT,
 //       payload: { busq, producto }
@@ -180,7 +181,7 @@ export const createUser = (payload) => {
 
 async function apiGetAllUsers() {
   try {
-    const response = await axios.get(`http://localhost:3001/api/user/all`);
+    const response = await axios.get(`${API_URL}/user/all`);
     return response.data;
   } catch (error) {
     console.log(`error en /actions apiGetAllUsers, ${error}`);
@@ -190,7 +191,7 @@ async function apiGetAllUsers() {
 
 async function apiGetUser(id) {
   try {
-    const response = await axios.get(`http://localhost:3001/api/user/get/${id}`);
+    const response = await axios.get(`${API_URL}/user/get/${id}`);
     return response.data;
   } catch (error) {
     console.log(`error en /actions apiGetUser: ${error}`);
@@ -200,7 +201,7 @@ async function apiGetUser(id) {
 
 async function apiAddUser(data) {
   try {
-    const response = await axios.post(`http://localhost:3001/api/user/create`, { data });
+    const response = await axios.post(`${API_URL}/user/create`, { data });
     return response.data;
   } catch (error) {
     let err = `error en FRONT /actions apiDeleteUser, ${error}`;
@@ -210,7 +211,7 @@ async function apiAddUser(data) {
 
 export async function apiUpdateUser(data) {
   try {
-    const response = await axios.put(`http://localhost:3001/api/user/update/${data.correo}`, { data });
+    const response = await axios.put(`${API_URL}/user/update/${data.correo}`, { data });
     return response.data;
   } catch (error) {
     let err = `error en FRONT /actions apiUpdateUser, ${error}`;
@@ -220,7 +221,7 @@ export async function apiUpdateUser(data) {
 
 async function apiDeleteUser(id) {
   try {
-    const response = await axios.delete(`http://localhost:3001/api/user/delete/${id}`);
+    const response = await axios.delete(`${API_URL}/user/delete/${id}`);
     return response.data;
   } catch (error) {
     let err = `error en FRONT /actions apiDeleteUser, ${error}`;
@@ -230,7 +231,7 @@ async function apiDeleteUser(id) {
 
 async function apiGetAllProducts() {
   try {
-    const response = await axios.get(`http://localhost:3001/api/product/all`);
+    const response = await axios.get(`${API_URL}/product/all`);
     return response.data;
   } catch (error) {
     let err = `error en FRONT /actions apiGetAllProducts, ${error}`;
@@ -240,7 +241,7 @@ async function apiGetAllProducts() {
 
 async function apiDeleteProduct(id) {
   try {
-    const response = await axios.delete(`http://localhost:3001/api/product/delete/${id}`);
+    const response = await axios.delete(`${API_URL}/product/delete/${id}`);
     return response.data;
   } catch (error) {
     let err = `error en FRONT /actions apiGetAllProducts, ${error}`;
@@ -250,7 +251,7 @@ async function apiDeleteProduct(id) {
 
 async function apiUpdateProduct(data) {
   try {
-    const response = await axios.put(`http://localhost:3001/api/product/update/${data.id}`);
+    const response = await axios.put(`${API_URL}/product/update/${data.id}`);
     return response.data;
   } catch (error) {
     let err = `error en FRONT /actions apiGetAllProducts, ${error}`;
@@ -260,7 +261,7 @@ async function apiUpdateProduct(data) {
 
 async function apiGetProductDetails(id, currentUser) {
   try {
-    const response = await axios.get(`http://localhost:3001/api/product/get/${id}`, {
+    const response = await axios.get(`${API_URL}/product/get/${id}`, {
       headers: {
         token: currentUser.token || "invitado"
       }
@@ -274,7 +275,7 @@ async function apiGetProductDetails(id, currentUser) {
 
 async function apiGetAllCategories() {
   try {
-    const response = await axios.get(`http://localhost:3001/api/category/all`);
+    const response = await axios.get(`${API_URL}/category/all`);
     return response.data;
   } catch (error) {
     let err = `error en /actions apiGetAllCategories, ${error}`;
@@ -284,7 +285,7 @@ async function apiGetAllCategories() {
 
 async function apiPutCategory(data) {
   try {
-    const response = await axios.put(`http://localhost:3001/api/category/${data.id}`, data);
+    const response = await axios.put(`${API_URL}/category/${data.id}`, data);
     return response;
   } catch (error) {
     return error;
@@ -293,7 +294,7 @@ async function apiPutCategory(data) {
 
 async function apiAddCategory(data) {
   try {
-    const response = await axios.post(`http://localhost:3001/api/category/new`, data);
+    const response = await axios.post(`${API_URL}/category/new`, data);
     return response;
   } catch (error) {
     return error;
@@ -302,7 +303,7 @@ async function apiAddCategory(data) {
 
 async function apiGetAllPresentations() {
   try {
-    const response = await axios.get(`http://localhost:3001/api/presentation/all`);
+    const response = await axios.get(`${API_URL}/presentation/all`);
     return response.data;
   } catch (error) {
     let err = `error en /actions apiGetAllPresentations, ${error}`;
@@ -312,7 +313,7 @@ async function apiGetAllPresentations() {
 
 async function apiPutPresentation(data) {
   try {
-    const response = await axios.put(`http://localhost:3001/api/presentation/${data.id}`, data);
+    const response = await axios.put(`${API_URL}/presentation/${data.id}`, data);
     return response;
   } catch (error) {
     return error;
@@ -321,7 +322,7 @@ async function apiPutPresentation(data) {
 
 async function apiAddPresentation(data) {
   try {
-    const response = await axios.post(`http://localhost:3001/api/presentation/new`, data);
+    const response = await axios.post(`${API_URL}/presentation/new`, data);
     return response;
   } catch (error) {
     return error;
@@ -331,7 +332,7 @@ async function apiAddPresentation(data) {
 async function apiAddReview(data, user) {
   try {
 
-    const created = axios.post(`http://localhost:3001/api/review/create/${data.id}`, data, {
+    const created = axios.post(`${API_URL}/review/create/${data.id}`, data, {
       headers: {
         token: user.token
       }
@@ -749,7 +750,7 @@ export function postProduct(payload) {
 
   return async function (dispatch) {
     try {
-      const newProduct = await axios.post("http://localhost:3001/api/product/create", payload);
+      const newProduct = await axios.post(`${API_URL}/product/create`, payload);
       if (newProduct.status === 200) {
         dispatch({
           type: ADD_PRODUCT,
@@ -767,7 +768,7 @@ export function putProduct(payload) {
 
   return async function (dispatch) {
     try {
-      const updatedProduct = await axios.put(`http://localhost:3001/api/product/update/${payload.id}`, payload);
+      const updatedProduct = await axios.put(`${API_URL}/product/update/${payload.id}`, payload);
       if (updatedProduct.status === 200) {
         dispatch({
           type: PUT_PRODUCT,
@@ -776,7 +777,7 @@ export function putProduct(payload) {
       }
       return updatedProduct;
     } catch (error) {
-      return { status: 400, error: error }
+      return { status: 400, error: error };
     }
   };
 
@@ -786,7 +787,7 @@ export function postPedido(currenuser, pedidoData) {
   return async function (dispatch) {
     try {
       const newPedido = await axios({
-        url: "http://localhost:3001/api/pedido/create",
+        url: `${API_URL}/pedido/create`,
         method: 'post',
         headers: { token: currenuser.token },
         data: { ...pedidoData, ...currenuser }
@@ -810,7 +811,7 @@ export function pagarPedido(payload) {
     dispatch(loading());
     try {
       const pagoPedido = await axios({
-        url: "http://localhost:3001/api/mercadopago",
+        url: `${API_URL}/mercadopago`,
         method: 'post',
         headers: { token: payload.currenuser.token },
         data: payload
@@ -832,27 +833,27 @@ export function pagarPedido(payload) {
 export function getAllPromos(userData) {
   return async dispatch => {
     try {
-      const promos = await axios.get(`http://localhost:3001/api/promocion/all?activas=0`, {
-          headers: {
-            token: userData.token
-          }
+      const promos = await axios.get(`${API_URL}/promocion/all?activas=0`, {
+        headers: {
+          token: userData.token
+        }
       });
       if (promos.status === 200) {
         //console.log(promos.data)
-        dispatch({ type: SET_PROMOCIONES, payload: promos.data })
+        dispatch({ type: SET_PROMOCIONES, payload: promos.data });
       }
-      console.log(promos)
+      console.log(promos);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 }
 
 export function getPedidos(userData, productoId) {
   return async function (dispatch) {
     try {
       if (!productoId && userData.token) {
-        const pedidos = await axios.get(`http://localhost:3001/api/pedido/all`, {
+        const pedidos = await axios.get(`${API_URL}/pedido/all`, {
           headers: {
             token: userData.token
           }
@@ -864,8 +865,8 @@ export function getPedidos(userData, productoId) {
           });
         }
       } else if (productoId && userData.token) {
-        console.log('productoId && userData.token')
-        const pedido = await axios.get("http://localhost:3001/api/pedido/get/" + productoId, {
+        console.log('productoId && userData.token');
+        const pedido = await axios.get(`${API_URL}/pedido/get/` + productoId, {
           headers: {
             token: userData.token
           }
@@ -877,7 +878,7 @@ export function getPedidos(userData, productoId) {
           });
         }
       }
-      console.log('no entró', productoId, '\nToken: ', userData.token)
+      console.log('no entró', productoId, '\nToken: ', userData.token);
     } catch (error) {
       console.log(error);
     }
@@ -889,7 +890,7 @@ export function putPedidos(payload) {
   return async function (dispatch) {
     try {
       const pedido = await axios({
-        url: "http://localhost:3001/api/pedido/update/" + payload.id,
+        url: `${API_URL}/pedido/update/` + payload.id,
         method: 'put',
         headers: { token: payload.currenuser.token },
         data: payload
@@ -918,10 +919,10 @@ export function filterPedidos(filter) {
 
 export function getProductPromo() {
   return async (dispatch) => {
-    const productsOnSale = await axios.get('http://localhost:3001/api/promocion/all')
+    const productsOnSale = await axios.get(`${API_URL}/promocion/all`);
     dispatch({
       type: GET_PORDUCT_PROMO,
       payload: productsOnSale.data
-    })
-  }
+    });
+  };
 }
