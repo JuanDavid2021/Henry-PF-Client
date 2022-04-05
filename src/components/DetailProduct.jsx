@@ -30,6 +30,7 @@ function DetailProduct() {
 
   const productDetails = useSelector(state => state.productDetails);
   const currentUser = useSelector(state => state.user)
+  const productOnSale = useSelector(state => state.productOnSale)
 
   const [validated, setValidated] = useState(false);
 
@@ -53,7 +54,7 @@ function DetailProduct() {
     setValoresDetalleProducto({
       ...valoresDetalleProducto,
       peso: "",
-      tipo_corte:""
+      tipo_corte: ""
     })
     setConfirmModal(false)
   }
@@ -74,6 +75,9 @@ function DetailProduct() {
     return () => { };
   }, [id, productDetails, currentUser, dispatch]);
 
+  const precioFinal = productDetails.promocion  ? productDetails.precio_descuento :  productDetails.precio
+
+
   const handleAddProductInCart = (e) => {
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
@@ -86,9 +90,10 @@ function DetailProduct() {
       ...valoresDetalleProducto,
       id: productDetails.id,
       precio: productDetails.precio,
-      arrFotos: productDetails?.fotos?.filter( e=> e.length > 0 ),
+      precioFinal: precioFinal,
+      arrFotos: productDetails?.fotos?.filter(e => e.length > 0),
       nombre: productDetails.nombre,
-      idItemFront:( productDetails.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso )
+      idItemFront: (productDetails.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso)
     };
     console.log(alCarrito)
     dispatch(addCartItem(alCarrito));
@@ -96,10 +101,10 @@ function DetailProduct() {
 
   if (waiting) {
     return (
-      <div className="d-flex justify-content-center align-items-center align-content-center" style={{height:"70vh"}}>
+      <div className="d-flex justify-content-center align-items-center align-content-center" style={{ height: "70vh" }}>
         <div>
-          <Spinner style={{width:"20vh", height:"20vh"}} animation="border" role="status"/>
-          <p style={{ textAlign: "center", fontSize:"2rem"}}>Cargando...</p>
+          <Spinner style={{ width: "20vh", height: "20vh" }} animation="border" role="status" />
+          <p style={{ textAlign: "center", fontSize: "2rem" }}>Cargando...</p>
         </div>
       </div>
     );
@@ -107,15 +112,25 @@ function DetailProduct() {
     return (
       <Container className="my-2">
         <Card>
+          {
+            productDetails.promocion ?
+          <Card.Header>
+            <div className="w-100 d-flex justify-content-end bg-white">
+              <span className="badge bg-danger mt-0 me-2 position-absolute d-flex align-items-center" style={{ height: "34px" }}>promo {productOnSale.filter(p => p.promocion === productDetails.promocion)[0].porcentaje}%</span>
+            </div>
+            <Card.Title>{productDetails.nombre}</Card.Title>
+          </Card.Header>
+          :
           <Card.Header>
             <Card.Title>{productDetails.nombre}</Card.Title>
           </Card.Header>
+          }
           <Card.Body>
             <Row>
               <Col lg={6} xl={6}>
-                <Carousel fade style={{ width:"80%", margin:"auto"}}>
-                  {productDetails?.fotos?.filter( e => e.length > 0 ).map((el) => (
-                    <Carousel.Item  key={el}>
+                <Carousel fade style={{ width: "80%", margin: "auto" }}>
+                  {productDetails?.fotos?.filter(e => e.length > 0).map((el) => (
+                    <Carousel.Item key={el}>
                       <img
                         className="d-block w-100"
                         src={el}
@@ -131,9 +146,19 @@ function DetailProduct() {
                   <Row>
                     <Col className="my-2">{productDetails.descripcion}</Col>
                   </Row>
-                  <Col className="mt-3">Precio por kg: ${productDetails.precio}</Col>
+
+                  {
+                    productDetails.promocion ?
+                      <div>
+                        <Col className="mt-3 fs-5 text-muted fw-light text-decoration-line-through">Precio por kg anterior: ${productDetails.precio}</Col>
+                        <Col className="mt-0 fs-4 fw-bold "><b className="fw-normal">Precio por kg en PROMO:</b> ${productDetails.precio_descuento}</Col>
+                      </div>
+
+                      :
+                      <Col className="mt-3 fs-4">Precio por kg: ${productDetails.precio}</Col>
+                  }
                 </Row>
-                
+
                 <Row>
                   <Col className="mt-3">
                     <Form noValidate validated={validated}>
@@ -216,14 +241,14 @@ function DetailProduct() {
 
             <Row style={{ maxHeight: "100px", overflowY: "auto" }}>
               {
-                productDetails.Reviews.length 
-                  ?productDetails.Reviews.map((review, i) => (
+                productDetails.Reviews.length
+                  ? productDetails.Reviews.map((review, i) => (
                     <Col className="col-12" key={i}>
                       <Evaluation ev={review.evaluacion} cm={review.comentario} />
                     </Col>
                   ))
-                  
-                :<h4>No existen Reviews</h4>
+
+                  : <h4>No existen Reviews</h4>
               }
             </Row>
           </Card.Body>
