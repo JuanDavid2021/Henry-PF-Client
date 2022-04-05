@@ -40,6 +40,7 @@ function SearchBar({filtro}) {
     category: "all",
     order: "",
     input: "",
+    promo:false
   });
 
 
@@ -240,6 +241,7 @@ function SearchBar({filtro}) {
         <Col sm="12" md="3" lg="3" xl="3" className="mb-2">
           <Form.Select
             name="order"
+            disabled={ }
             onChange={(e) => setTheFilter(e)}
             className="form-select"
             aria-label="Default select example"
