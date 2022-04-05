@@ -499,6 +499,9 @@ function rootReducer(state = initialState, action) {
     let filteredProducts = [...state.products];//.filter(e => e.stock > 0);
 
     let categoryStatus = false;
+    if (action.payload.promo) {
+      filteredProducts = filteredProducts.filter(e=>e.hasOwnProperty('promocion'))
+    }
     if (action.payload.category !== "all") {
       filteredProducts = filteredProducts.filter(e => e.Categoria.find(i => parseInt(i.id) === parseInt(action.payload.category)));
       if (filteredProducts.length !== 0) {
