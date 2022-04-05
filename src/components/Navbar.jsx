@@ -103,10 +103,11 @@ function NavBar({ setAuth }) {
             }
         })
     }, [])
+    
 
     return (
-        <nav className="navbar navbar-expand-lg bg-dark sticky-top" style={{ height: "10vh" }}>
-            <div className="container-fluid" style={{ background: "#212529 " }}>
+        <nav className="navbar navbar-expand-lg sticky-top bg-dark" style={{ height: "10vh" }}>
+            <div className="container-fluid" >
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/" style={{ width: "5vh" }}>
                     <img src={img} alt="logo" style={{ width: "100%" }} />
                 </Link>
