@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import {Link} from "react-router-dom"
 import swal from "sweetalert"
 import {login,setPlatformUser} from "../actions/index"
+const {REACT_APP_API_URL} = process.env
 
 export const Register = ({setAuth}) => {
    
@@ -27,7 +28,7 @@ export const Register = ({setAuth}) => {
    
    try {
      const body = {nombre, apellido, celular, direccion, correo, contraseña}  
-     const response = await fetch("http://localhost:3001/api/user/registro",
+     const response = await fetch(`${REACT_APP_API_URL}/user/registro`,
      {method:"POST",
       headers:{"Content-Type":"application/json"},
       body: JSON.stringify(body) });
