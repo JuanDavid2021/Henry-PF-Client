@@ -3,9 +3,10 @@ import Pedidos from '../../components/Pedidos';
 import Products from './Views/Products';
 import UserList from './Views/UserList';
 import Promos from './Views/Promos';
-import { FaUsersCog } from 'react-icons/fa'
+import { FaUsersCog, } from 'react-icons/fa'
 import { RiListOrdered } from 'react-icons/ri'
 import { GiMeat, GiMeatHook } from 'react-icons/gi'
+import { MdCategory } from 'react-icons/md'
 import HomeAdmin from './Views/HomeAdmin';
 
 export default function AdminDashboard() {
