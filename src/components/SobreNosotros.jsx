@@ -18,7 +18,7 @@ function SobreNosotros() {
     {
         nombre: "Franco Gonzalez",
         linkedin: "https://www.linkedin.com/in/fran-gonzalez13/",
-        github: "github.com/Franco-13",
+        github: "https://github.com/Franco-13",
         puesto: "Front End",
         img: "https://avatars.githubusercontent.com/u/79342530?v=4"
     },
