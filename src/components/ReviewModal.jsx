@@ -27,10 +27,12 @@ function ReviewModal({ id, status, show, handleClose, nombreCap }) {
                 show={show}
                 onHide={handleClose}
                 backdrop="static"
+                style={{backgroundColor:"rgba(0, 0, 0, 0.1)"}}
                 keyboard={false}
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
+            {console.log('entro')}
                 <Modal.Header closeButton>
                     <Modal.Title>{nombreCap}</Modal.Title>
                 </Modal.Header>

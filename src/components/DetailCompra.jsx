@@ -10,7 +10,7 @@ import {
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPedidos, addReview } from "../actions";
+import { getPedidos } from "../actions";
 import ReviewModal from "./ReviewModal";
 
 function DetailCompra() {
@@ -30,11 +30,14 @@ function DetailCompra() {
     }, [dispatch])
 
     const [show, setShow] = useState(false);
+    const [prod, setProd] = useState({nombre:"", ProductoId:""});
 
-    const handleShow = () => setShow(true);
-    const handleClosed = () => setShow(false);
 
-    console.log(pedido.ItemsPedidos)
+    const handleShow = () => {
+        setShow(true);
+    }
+        const handleClosed = () => setShow(false);
+
 
 
     const handleClose = () => {
@@ -108,9 +111,8 @@ function DetailCompra() {
                                             </Col>
 
                                         </Row>
-                                        <Button onClick={handleShow} variant="primary">Opinar sobre el producto</Button>
+                                        <Button onClick={() => {setProd({nombre: i.nombre, ProductoId: i.ProductoId}); handleShow()  }} variant="primary">Opinar sobre el producto</Button>
                                     </Card.Body>
-                                    <ReviewModal nombreCap={i.nombre} id={i.ProductoId} toDispatch={addReview} status={pedido.status} show={show} handleClose={handleClosed} />
                                 </Card>
                             ))
                         }
@@ -151,6 +153,7 @@ function DetailCompra() {
                         </div>
                     </div>
                 </div>
+                        <ReviewModal nombreCap={prod.nombre} id={prod.ProductoId} status={pedido.status} show={show} handleClose={handleClosed} />
             </div>
         )
     );
