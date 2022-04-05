@@ -56,9 +56,7 @@ const showPassword3 =()=>{
 
 const handleSubmit = async (e)=>{
 e.preventDefault()
-
 const update = await axios.post("http://localhost:3001/api/user/updatepassword", input)
-console.log(update)
 if(update){
   swal({
     text: "contraseña cambiada con éxito, ya puedes iniciar sesion",
@@ -87,7 +85,7 @@ if(update){
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Nueva contraseña</label>
                   <div style={{position:"relative"}}>
-                   <input type="password" name="contraseña" style={{borderRadius:"5px", height:"40px", width:"230px"}} id="show2" aria-describedby="emailHelp" value={input.contraseña} placeholder="contraseña anterior..." onChange={e => handleChange(e)} />
+                   <input type="password" name="contraseña" style={{borderRadius:"5px", height:"40px", width:"230px"}} id="show2" aria-describedby="emailHelp" value={input.contraseña} placeholder="nueva contraseña" onChange={e => handleChange(e)} />
                    <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword2} id="eye">
                      <i class="fa-solid fa-eye-slash" id="icon2"></i>
                    </span>               
