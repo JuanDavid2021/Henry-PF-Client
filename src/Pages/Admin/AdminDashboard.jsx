@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Pedidos from '../../components/Pedidos';
 import Products from './Views/Products';
 import UserList from './Views/UserList';
+import Promos from './Views/Promos';
 import { FaUsersCog } from 'react-icons/fa'
 import { RiListOrdered } from 'react-icons/ri'
 import { GiMeat, GiMeatHook } from 'react-icons/gi'
@@ -12,18 +13,19 @@ export default function AdminDashboard() {
   const [show, setShow] = useState({home: true
   })
 
-  const handleClick = ( str ) => {
-    if ( str === "Home" ) {
-      setShow({...show, pedidios: false, usuarios: false, productos: false, home: true})
+
+  const handleClick = (str) => {
+    if (str === "Pedidios") {
+      setShow({...show, pedidios: true, usuarios: false, productos: false, promociones:false})
     }
-    if ( str === "Pedidios" ) {
-      setShow({...show, pedidios: true, usuarios: false, productos: false, home: false})
+    if (str === "Usuarios") {
+      setShow({...show, usuarios: true, pedidios: false, productos: false, promociones:false})
     }
-    if ( str === "Usuarios" ) {
-      setShow({...show, usuarios: true, pedidios: false, productos: false, home: false})
+    if (str === "Productos") {
+      setShow({...show, usuarios: false, pedidios: false, productos: true, promociones:false})
     }
-    if ( str === "Productos" ) {
-      setShow({...show, usuarios: false, pedidios: false, productos: true, home: false})
+    if (str === "Promociones") {
+      setShow({...show, usuarios: false, pedidios: false, productos: false, promociones:true})
     }
   }
 
@@ -36,6 +38,7 @@ export default function AdminDashboard() {
           {show?.productos ? <Products /> : null}
           {show?.pedidios ? <Pedidos /> : null}
           {show?.usuarios ? <UserList /> : null}
+          { show?.promociones ? <Promos /> : null }
           {Object.keys(show)?.length === 0 && <div style={{height:"70vh"}}></div>}
         </div>
       </div>
@@ -64,9 +67,9 @@ function Sidebar({ handleClick, stateActive }) {
               <RiListOrdered /> <span className="ms-1 d-none d-lg-inline">Pedidos</span>
             </button>
           </li>
-          {/* <li className="w-100">
-            <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.categorias ? "active":""}`} onClick={()=>handleClick("Categorías")}>
-              <MdCategory /> <span className="ms-1 d-none d-lg-inline">Categorías</span> 
+          <li className="w-100">
+            <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.promociones ? "active":""}`} onClick={()=>handleClick("Promociones")}>
+              <MdCategory /> <span className="ms-1 d-none d-lg-inline">Promociones</span> 
             </button>
           </li> */}
           <li className="w-100">

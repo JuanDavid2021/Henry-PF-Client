@@ -63,7 +63,8 @@ import {
   SET_PRESENTATIONS,
   DELETE_PRESENTATION,
   GET_USER_BY_ID,
-  GET_PORDUCT_PROMO
+  GET_PORDUCT_PROMO,
+  SET_PROMOCIONES
 } from './../action-types/index';
 
 
@@ -72,7 +73,7 @@ const initialState = {
   user: { administrador: false, nombre: "Invitado", email: localStorage.mail, token: localStorage.token },
   userLogin: [],
   userAuthenticated: {},
-
+  promos:[],
   gettingProducts: false,
   products: [],
   filteringProducts: false,
@@ -123,6 +124,13 @@ function rootReducer(state = initialState, action) {
 
     };
 
+  }
+
+  if (action.type === SET_PROMOCIONES) {
+    return {
+      ...state,
+      promos:action.payload
+    }
   }
 
   if (action.type === GET_PORDUCT_PROMO) {

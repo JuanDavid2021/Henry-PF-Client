@@ -58,7 +58,8 @@ import {
   FILTER_AUTO,
   ADD_REVIEW,
   GET_USER_BY_ID,
-  RESET_ADMIN
+  RESET_ADMIN,
+  SET_PROMOCIONES
 
 } from './../action-types/index';
 const axios = require("axios");
@@ -826,6 +827,25 @@ export function pagarPedido(payload) {
     }
 
   };
+}
+
+export function getAllPromos(userData) {
+  return async dispatch => {
+    try {
+      const promos = await axios.get(`http://localhost:3001/api/promocion/all?activas=0`, {
+          headers: {
+            token: userData.token
+          }
+      });
+      if (promos.status === 200) {
+        //console.log(promos.data)
+        dispatch({ type: SET_PROMOCIONES, payload: promos.data })
+      }
+      console.log(promos)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 export function getPedidos(userData, productoId) {
