@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Pedidos from '../../components/Pedidos';
 import Products from './Views/Products';
 import UserList from './Views/UserList';
+import Promos from './Views/Promos';
 import { FaUsersCog, FaShippingFast } from 'react-icons/fa'
 import { RiListOrdered } from 'react-icons/ri'
 import { GiMeat, GiMeatHook } from 'react-icons/gi'
@@ -14,13 +15,16 @@ export default function AdminDashboard() {
 
   const handleClick = (str) => {
     if (str === "Pedidios") {
-      setShow({...show, pedidios: true, usuarios: false, productos: false})
+      setShow({...show, pedidios: true, usuarios: false, productos: false, promociones:false})
     }
     if (str === "Usuarios") {
-      setShow({...show, usuarios: true, pedidios: false, productos: false})
+      setShow({...show, usuarios: true, pedidios: false, productos: false, promociones:false})
     }
     if (str === "Productos") {
-      setShow({...show, usuarios: false, pedidios: false, productos: true})
+      setShow({...show, usuarios: false, pedidios: false, productos: true, promociones:false})
+    }
+    if (str === "Promociones") {
+      setShow({...show, usuarios: false, pedidios: false, productos: false, promociones:true})
     }
   }
 
@@ -28,10 +32,11 @@ export default function AdminDashboard() {
     <div className="container-fluid justify-content-between">
       <div className="row flex-nowrap" style={{minHeight: "70vh"}}>
         <Sidebar handleClick={handleClick} stateActive={show}/>
-        <div className="col-sm-11 col-md-11 col-lg-10 col-xl-10 px-0 contentAdmin">
+        <div className="col-sm-11 col-md-11 col-lg-10 col-xl-10 px-0 contentAdmin">          
           {show?.productos ? <Products /> : null}
           {show?.pedidios ? <Pedidos /> : null}
           {show?.usuarios ? <UserList /> : null}
+          { show?.promociones ? <Promos /> : null }
           {Object.keys(show)?.length === 0 && <div style={{height:"70vh"}}></div>}
         </div>
       </div>
@@ -61,8 +66,8 @@ function Sidebar({handleClick, stateActive }) {
             </button>
           </li>
           <li className="w-100">
-            <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.categorias ? "active":""}`} onClick={()=>handleClick("Categorías")}>
-              <MdCategory /> <span className="ms-1 d-none d-lg-inline">Categorías</span> 
+            <button className={`hoverBtn nav-link px-0 align-middle px-0 w-100 text-light ${stateActive?.promociones ? "active":""}`} onClick={()=>handleClick("Promociones")}>
+              <MdCategory /> <span className="ms-1 d-none d-lg-inline">Promociones</span> 
             </button>
           </li>
           <li className="w-100">
