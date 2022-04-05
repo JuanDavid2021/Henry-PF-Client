@@ -121,6 +121,16 @@ function SearchBar({filtro}) {
   };
 
    useEffect(() => { 
+     if (loaded) {
+      setLoaded(false);
+      setFilter({
+        category: "all",
+        order: "",
+        input: ""})
+      dispatch(filterProducts({
+       category: "all",
+       order: "",
+       input: "",}))}
     let timeout = null;
     if (typing) {
       timeout = setTimeout(() => {
