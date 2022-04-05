@@ -130,7 +130,7 @@ function SearchBar({filtro}) {
       dispatch(filterProducts({
        category: "all",
        order: "",
-       input: "",}))} 
+       input: "",}))}; 
     let timeout = null;
     if (typing) {
       timeout = setTimeout(() => {
