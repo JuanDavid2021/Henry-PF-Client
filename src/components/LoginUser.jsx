@@ -48,8 +48,14 @@ export const LoginUser = ({ setAuth }) => {
       const body = { correo, contraseña }
       if(correo ===contraseña & correo!=="beefshophenry@gmail.com" & contraseña !== "beefshophenry@gmail.com"){
         navigate("/userPasswordUpdate")
+        swal({
+          text: "Por favor asigna tu contraseña",
+          icon: "warning",
+          timer: "2000",
+        })
       }
-      const response = await fetch("http://localhost:3001/api/user/login",
+      else{
+        const response = await fetch("http://localhost:3001/api/user/login",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -87,10 +93,8 @@ export const LoginUser = ({ setAuth }) => {
           icon: "warning",
           timer: "2000",
         })
-
       }
-
-
+      }
     } catch (error) {
       console.log(error.message)
     }
@@ -132,6 +136,20 @@ export const LoginUser = ({ setAuth }) => {
     })
   }
 
+  const showPassword =()=>{
+    var x = document.getElementById("show")
+    var y = document.getElementById("icon")
+    if(x.type==="password"){
+      x.type="text"
+      y.classList.remove("fa-eye-slash")
+      y.classList.add("fa-eye")
+    }else{
+      x.type="password"
+      y.classList.remove("fa-eye")
+      y.classList.add("fa-eye-slash")
+    }
+  }
+
   return (
     <div className="bg-dark" style={{ height: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
       <div className='alert align-middle bg-dark text-light bg-opacity-75 mb-0 mx-3' style={{ display: "flex", height: "450px", flexDirection: "column", justifyContent: "center", minWidth: "300px", maxWidth: "300px" }}>
@@ -164,8 +182,13 @@ export const LoginUser = ({ setAuth }) => {
                 <input type="email" name="correo" id="exampleInputEmail1" aria-describedby="emailHelp" value={correo} placeholder="correo..." className='form-control' onChange={e => onChange(e)} />
               </div>
               <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label" >Contraseña</label>
-                <input type="password" name="contraseña" value={contraseña} placeholder="contraseña..." id="exampleInputPassword1" className='form-control' onChange={e => onChange(e)} />
+                <label for="exampleInputEmail1" className="form-label">Contraseña</label>
+                  <div style={{position:"relative"}}>
+                   <input type="password" name="contraseña" style={{borderRadius:"5px", height:"40px", width:"265px"}} id="show" aria-describedby="emailHelp" value={contraseña} placeholder="contraseña..."  onChange={e => onChange(e)} />
+                   <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword} id="eye">
+                     <i class="fa-solid fa-eye-slash" id="icon"></i>
+                   </span>               
+                 </div>
               </div>
             </form>
             <div className="mb-3">
