@@ -3,6 +3,7 @@ import { RiArrowLeftSLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { getUsers, resetAdmin } from '../../../actions';
+import swal from "sweetalert"
 
 
 export default function UserList() {
@@ -20,6 +21,11 @@ export default function UserList() {
   }
 
   const handleReset = (correo) => {
+    swal({
+      text: "password reset exitoso",
+      icon: "success",
+      timer: "2000",
+    })
     dispatch(resetAdmin({correo: correo}))
   }
 

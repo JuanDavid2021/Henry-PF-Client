@@ -26,6 +26,34 @@ setInput({
 }
 )}
 
+const showPassword2 =()=>{
+  var x = document.getElementById("show2")
+  var y = document.getElementById("icon2")
+  if(x.type==="password"){
+    x.type="text"
+    y.classList.remove("fa-eye-slash")
+    y.classList.add("fa-eye")
+  }else{
+    x.type="password"
+    y.classList.remove("fa-eye")
+    y.classList.add("fa-eye-slash")
+  }
+}
+
+const showPassword3 =()=>{
+  var x = document.getElementById("show3")
+  var y = document.getElementById("icon3")
+  if(x.type==="password"){
+    x.type="text"
+    y.classList.remove("fa-eye-slash")
+    y.classList.add("fa-eye")
+  }else{
+    x.type="password"
+    y.classList.remove("fa-eye")
+    y.classList.add("fa-eye-slash")
+  }
+}
+
 const handleSubmit = async (e)=>{
 e.preventDefault()
 
@@ -43,25 +71,37 @@ if(update){
 
   return (
     <div className="bg-dark" style={{ height: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
-      <div className='alert align-middle bg-dark text-light bg-opacity-75' style={{ display: "flex", height: "330px", width:"20%", flexDirection: "column", alignItems: "center" }}>
+      <div className='alert align-middle bg-dark text-light bg-opacity-75' style={{ display: "flex", height: "400px", width:"20%", flexDirection: "column", alignItems: "center" }}>
         <div className=" d-flex justify-content-center">
           <div className='' style={{ width: "100%" }}>
           
             <form  className="mt-3">
 
             <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">contraseña anterior</label>
-                <input type="password" name="contraseñaAnterior" id="exampleInputEmail1" aria-describedby="emailHelp" value={input.contraseñaAnterior} placeholder="contraseña anterior..." className='form-control' onChange={e => handleChange(e)} />
+                <label for="exampleInputEmail1" className="form-label">correo electronico</label>
+                  <div style={{position:"relative"}}>
+                   <input type="text" name="contraseñaAnterior" style={{borderRadius:"5px", height:"40px", width:"230px"}} id="show" aria-describedby="emailHelp" value={input.contraseñaAnterior} placeholder="correo electronico..." onChange={e => handleChange(e)} />          
+                 </div>
               </div>
 
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Nueva contraseña</label>
-                <input type="password" name="contraseña" id="exampleInputEmail1" aria-describedby="emailHelp" value={input.contraseña} placeholder="contraseña nueva..." className='form-control' onChange={e => handleChange(e)} />
+                  <div style={{position:"relative"}}>
+                   <input type="password" name="contraseña" style={{borderRadius:"5px", height:"40px", width:"230px"}} id="show2" aria-describedby="emailHelp" value={input.contraseña} placeholder="contraseña anterior..." onChange={e => handleChange(e)} />
+                   <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword2} id="eye">
+                     <i class="fa-solid fa-eye-slash" id="icon2"></i>
+                   </span>               
+                 </div>
               </div>
 
               <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Confirmar Nueva Contraseña</label>
-                <input type="password" name="confirmarContraseña" id="exampleInputEmail1" aria-describedby="emailHelp" value={input.confirmarContraseña} placeholder="confirmar contraseña..." className='form-control' onChange={e => handleChange(e)} />
+                  <div style={{position:"relative"}}>
+                   <input type="password" name="confirmarContraseña" style={{borderRadius:"5px", height:"40px", width:"230px"}} id="show3" aria-describedby="emailHelp" value={input.confirmarContraseña} placeholder="confirmar contraseña..." onChange={e => handleChange(e)} />
+                   <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword3} id="eye">
+                     <i class="fa-solid fa-eye-slash" id="icon3"></i>
+                   </span>               
+                 </div>
               </div>
 
             </form>
