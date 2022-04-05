@@ -21,7 +21,6 @@ function Shop() {
     if (!arrProductos.length) dispatch(getProducts());
     if (!productOnSale.length) dispatch(getProductPromo())
   }, [dispatch, arrProductos]);
-  console.log('---------------------promo------------------------\n',productOnSale)
 
   let arrProducts = filteredProducts?.slice(0, inview);
 
