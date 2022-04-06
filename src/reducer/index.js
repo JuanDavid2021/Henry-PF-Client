@@ -67,6 +67,7 @@ import {
   SET_PROMOCIONES,
   PUT_PROMOCION,
   ADD_PROMOCION,
+  GET_WISHLIST
 } from './../action-types/index';
 
 
@@ -99,7 +100,8 @@ const initialState = {
   users: [],//lista de usuarios para borrar / forzar password
   categoryFilterStatus: true,
   searchFilterStatus: true,
-  loading: false
+  loading: false,
+  wishlist: {}
 };
 
 //establece el valor inicial del carrito. Si el usuario estuvo cargando productos, quedaran en el localStorage
@@ -700,6 +702,13 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       pedidos: filtro
+    };
+  }
+
+  if (action.type === GET_WISHLIST) {
+    return {
+      ...state,
+      wishlist: action.payload
     };
   }
 

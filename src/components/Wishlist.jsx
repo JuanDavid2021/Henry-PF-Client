@@ -26,12 +26,12 @@ function Wishlist() {
 
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     dispatch(getWishlist(currenuser));
+    useEffect(() => {
+        dispatch(getWishlist(currenuser.email));
 
-    // }, [dispatch])
+    }, [dispatch])
 
-    console.log(wishlist)
+    console.log(currenuser.email)
 
     const [show, setShow] = useState(false);
     const [prod, setProd] = useState({nombre:"", ProductoId:""});

@@ -62,6 +62,7 @@ import {
   SET_PROMOCIONES,
   PUT_PROMOCION,
   ADD_PROMOCION,
+  GET_WISHLIST,
 
 } from './../action-types/index';
 const axios = require("axios");
@@ -970,6 +971,21 @@ export function getProductPromo() {
     dispatch({
       type: GET_PORDUCT_PROMO,
       payload: productsOnSale.data
+    });
+  };
+}
+
+//WISHLIST
+
+export function getWishlist(userId) {
+  return async (dispatch) => {
+    const wishlist = await axios.get(`${REACT_APP_API_URL}/wishlist/get`,
+    {
+      user: userId
+    });
+    dispatch({
+      type: GET_WISHLIST,
+      payload: wishlist.data
     });
   };
 }
