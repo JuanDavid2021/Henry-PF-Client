@@ -237,7 +237,7 @@ function rootReducer(state = initialState, action) {
 
   if (action.type === ADD_REVIEW) {    
     let newProductDetails = { ...state.productDetails };
-    newProductDetails.Reviews.unshift(action.payload);
+    newProductDetails.Reviews?.unshift(action.payload);
     return {
       ...state,
       productDetails: newProductDetails
