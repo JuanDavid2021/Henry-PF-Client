@@ -75,7 +75,7 @@ function DetailProduct() {
     return () => { };
   }, [id, productDetails, currentUser, dispatch]);
 
-  const precioFinal = productDetails.promocion  ? productDetails.precio_descuento :  productDetails.precio
+  const precioFinal = productDetails.promocion ? productDetails.precio_descuento : productDetails.precio
 
 
   const handleAddProductInCart = (e) => {
@@ -114,16 +114,16 @@ function DetailProduct() {
         <Card>
           {
             productDetails.promocion ?
-          <Card.Header>
-            <div className="w-100 d-flex justify-content-end bg-white">
-              <span className="badge bg-danger mt-0 me-2 position-absolute d-flex align-items-center" style={{ height: "34px", textTransform: "uppercase" }}>{productDetails.promocion}  {productOnSale.filter(p => p.promocion === productDetails.promocion)[0].porcentaje}%</span>
-            </div>
-            <Card.Title>{productDetails.nombre}</Card.Title>
-          </Card.Header>
-          :
-          <Card.Header>
-            <Card.Title>{productDetails.nombre}</Card.Title>
-          </Card.Header>
+              <Card.Header className="d-flex flex-md-row flex-sm-column flex-xs-column justify-content-between w-100">
+                <Card.Title>{productDetails.nombre}</Card.Title>
+                <div className="d-flex justify-content-end bg-white">
+                  <span className="badge bg-danger mt-0 d-flex align-items-center" style={{ height: "34px", textTransform: "uppercase" }}>{productDetails.promocion} { productOnSale.filter(p => p.promocion === productDetails.promocion)[0]?.porcentaje}%</span>
+                </div>
+              </Card.Header>
+              :
+              <Card.Header>
+                <Card.Title>{productDetails.nombre}</Card.Title>
+              </Card.Header>
           }
           <Card.Body>
             <Row>
