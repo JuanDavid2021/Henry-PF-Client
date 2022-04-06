@@ -78,21 +78,21 @@ const showPassword2 =()=>{
           
             <form  className="mt-3">
             <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Nueva contraseña</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Nueva contraseña</label>
                   <div style={{position:"relative"}}>
                    <input type="password" name="contraseña" id="show" aria-describedby="emailHelp" value={input.contraseña} placeholder="contraseña..."  onChange={e => handleChange(e)} className="form-control"/>
                    <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword} id="eye">
-                     <i class="fa-solid fa-eye-slash" id="icon"></i>
+                     <i className="fa-solid fa-eye-slash" id="icon"></i>
                    </span>               
                  </div>
               </div>
 
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Confirmar nueva contraseña</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Confirmar nueva contraseña</label>
                   <div style={{position:"relative"}}>
                    <input type="password" name="nuevaContraseña" id="show2" aria-describedby="emailHelp" value={input.nuevaContraseña} placeholder="Confirmar contraseña..."  onChange={e => handleChange(e)} className="form-control"/>
                    <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword2} id="eye">
-                     <i class="fa-solid fa-eye-slash" id="icon2"></i>
+                     <i className="fa-solid fa-eye-slash" id="icon2"></i>
                    </span>               
                  </div>
               </div>

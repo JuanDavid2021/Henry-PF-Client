@@ -105,7 +105,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
             <Row>
             {
               promocion !== null ?
-            <Col > Precio por kg: <p className="text-muted text-decoration-line-through fw-light m-0"> $ {precio}</p> <p className='fs-5 d-flex justify-content-between'>$ {precioDesc}<span class="badge bg-danger" style={{height:"100%"}}>promo</span></p></Col>
+            <Col > Precio por kg: <p className="text-muted text-decoration-line-through fw-light m-0"> $ {precio}</p> <p className='fs-5 d-flex justify-content-between'>$ {precioDesc}<span className="badge bg-danger" style={{height:"100%"}}>promo</span></p></Col>
             :
             <Col>Precio por kg: $ {precio}</Col> 
             }

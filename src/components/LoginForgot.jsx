@@ -52,7 +52,7 @@ if(forgot.data.linkUser){
           
             <form  className="mt-3">
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Correo electrónico</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Correo electrónico</label>
                 <input type="email" name="correo" id="exampleInputEmail1" aria-describedby="emailHelp" value={input.correo} placeholder="correo..." className='form-control' onChange={e => handleChange(e)} />
               </div>
             </form>
