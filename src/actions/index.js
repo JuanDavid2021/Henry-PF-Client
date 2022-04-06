@@ -865,7 +865,7 @@ export function getPedidos(userData, productoId) {
           });
         }
       } else if (productoId && userData.token) {
-        console.log('productoId && userData.token');
+        
         const pedido = await axios.get(`${REACT_APP_API_URL}/pedido/get/` + productoId, {
           headers: {
             token: userData.token
@@ -878,7 +878,7 @@ export function getPedidos(userData, productoId) {
           });
         }
       }
-      console.log('no entró', productoId, '\nToken: ', userData.token);
+      //console.log('no entró', productoId, '\nToken: ', userData.token);
     } catch (error) {
       console.log(error);
     }

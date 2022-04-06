@@ -183,6 +183,7 @@ export const LoginUser = ({ setAuth }) => {
                 <input type="email" name="correo" id="exampleInputEmail1" aria-describedby="emailHelp" value={correo} placeholder="correo..." className='form-control' onChange={e => onChange(e)} />
               </div>
               <div className="mb-3">
+
                 <label for="exampleInputEmail1" className="form-label">Contraseña</label>
                 <div style={{position:"relative"}}>
                   <input 
@@ -204,6 +205,7 @@ export const LoginUser = ({ setAuth }) => {
                     <i class="fa-solid fa-eye-slash" id="icon"></i>
                   </span>               
                 </div>
+
               </div>
             </form>
             <div className="mb-3">

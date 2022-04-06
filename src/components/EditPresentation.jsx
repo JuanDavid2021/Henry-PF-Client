@@ -117,7 +117,7 @@ function EditPresentation() {
               placeholder={ editing.id !== 0 ? editing.nombre : `Crear Presentación` }
               value={input.nombre}
               onChange={(e) => handleChangeString(e)}
-              trim
+              trim="true"
             />
           </Col>
           <Col xs="4" md="3">
