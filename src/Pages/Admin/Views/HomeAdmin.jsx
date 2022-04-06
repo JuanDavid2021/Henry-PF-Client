@@ -30,7 +30,7 @@ function HomeAdmin() {
   const pedidos = useSelector(state => state.pedidos)
   const currenuser = useSelector(store => store.user)
   
-  const pedidos1 = pedidos?.filter(p => p.status === "Dispatched")
+  const pedidos1 = pedidos.length ? pedidos?.filter(p => p.status === "Dispatched") : null
   
   const dispatch = useDispatch();
   

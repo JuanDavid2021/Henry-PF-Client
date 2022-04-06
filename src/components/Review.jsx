@@ -40,6 +40,7 @@ function Review({ id, califications, toDispatch, available=false }) {
       comentario: comment
     }
     const adr = await dispatch(toDispatch(review, currentUser))
+    console.log("asdasdasdasdsadas",adr)
     if (adr.status === 200) {      
       setRating(0)
       setComment("");

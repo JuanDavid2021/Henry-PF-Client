@@ -37,13 +37,13 @@ function ReviewModal({ id, status, show, handleClose, nombreCap }) {
                     <Modal.Title>{nombreCap}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form /* noValidate validated={validated} */>
+                    <div /* noValidate validated={validated} */>
                         <Review
                             id={id}
                             available={comprado}
                             califications={["Pasable", "Regular", "Bueno", "Muy bueno", "Exelente"]}
                             toDispatch={addReview} />
-                    </Form>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" onClick={handleClose}>
