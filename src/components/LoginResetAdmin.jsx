@@ -4,6 +4,7 @@ import swal from "sweetalert"
 import { login, setPlatformUser,loginreset } from "../actions/index"
 import { useDispatch } from "react-redux"
 import axios from "axios"
+const {REACT_APP_API_URL} = process.env
 
 
 
@@ -56,7 +57,7 @@ const showPassword3 =()=>{
 
 const handleSubmit = async (e)=>{
 e.preventDefault()
-const update = await axios.post("http://localhost:3001/api/user/updatepassword", input)
+const update = await axios.post(`${REACT_APP_API_URL}/api/user/updatepassword`, input)
 if(update){
   swal({
     text: "contraseña cambiada con éxito, ya puedes iniciar sesion",
