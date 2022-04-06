@@ -114,7 +114,7 @@ function PromoForm({
   const promoProduct = (e) => {
     let id = e.target.value;
     let isIn = promo.productos.filter((pp) => pp === id).length//parseInt(e.target.getAttribute("in"));
-    console.log(isIn)
+    
     if (isIn) {      
       setPromo({
         ...promo,

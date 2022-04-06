@@ -136,14 +136,14 @@ function rootReducer(state = initialState, action) {
   }
 
   if (action.type === PUT_PROMOCION) {
-    console.log(state.promos)
+    
     let newPromos = state.promos.map(sP => {
       if (sP.id === action.payload.id) {
         return action.payload
       }
       return sP
     })
-    console.log(newPromos)
+    
     return {
       ...state,
       promos:newPromos
