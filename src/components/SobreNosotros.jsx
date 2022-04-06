@@ -73,9 +73,9 @@ function SobreNosotros() {
             <div className="container">
                 <div className="row py-5">
                     {
-                        nosotros?.map((persona) => {
+                        nosotros?.map((persona, index) => {
                             return (
-                                <div className="col-auto col-sm-6 col-lg-4 col-xl-3">
+                                <div className="col-auto col-sm-6 col-lg-4 col-xl-3" key={index}>
                                     <motion.div className="card mx-xl-3 mx-sm-1 my-3 text-light border-0" whileHover={{ scale: 1.1, boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.14)" }} style={{ background: "linear-gradient(157deg, rgba(28,28,28,1) 0%, rgba(34,11,11,1) 80%, rgba(42,0,0,1) 100%)" }}>
                                         <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
                                             <img src={persona.img} className="card-img-top rounded-circle" alt={persona.nombre} style={{ width: "70%" }} />
