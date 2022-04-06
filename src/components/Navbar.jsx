@@ -85,6 +85,7 @@ function NavBar({ setAuth }) {
 
     document.addEventListener("scroll", () => {
         let navcontent = document.getElementById("navbarSupportedContent")
+        setIsOpen(false)
         navcontent.classList.remove("show")
     })
 
@@ -99,6 +100,7 @@ function NavBar({ setAuth }) {
                 var isClickInsideElement = ignoreClickOnMeElement.contains(evt.target);
                 if (!isClickInsideElement) {
                     ignoreClickOnMeElement.classList?.remove("show")
+                    setIsOpen(false)
                 }
             }
         })
@@ -112,8 +114,8 @@ function NavBar({ setAuth }) {
                     <img src={img} alt="logo" style={{ width: "100%" }} />
                 </Link>
                 <Link className="text-light text-decoration-none fs-4 mx-3 navbar-brand" to="/">Beef Shop</Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" onClick={() => setIsOpen(isOpen => !isOpen)} data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="btnHamburger">
-                    <motion.span className="navbar-toggler-icon" animate={isOpen ? "open" : "closed"} variants={variants} ><GiHamburgerMenu size={"30px"} color={"white"}/></motion.span>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" onClick={() => setIsOpen(isOpen => !isOpen)} data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" id="btnHamburger" style={{ zIndex: "100"}}>
+                    <motion.span style={{position: "relative", zIndex:"-1"}} className="navbar-toggler-icon" animate={isOpen ? "open" : "closed"} variants={variants} ><GiHamburgerMenu size={"30px"} color={"white"} /></motion.span>
                 </button>
                 <div className="collapse navbar-collapse justify-content-between" id="navbarSupportedContent" >
                     <ul className="navbar-nav">
