@@ -107,7 +107,7 @@ export const LoginUser = ({ setAuth }) => {
 
   const handleLogin = async (googleData) => {
 
-    const res = await fetch("/api/user/google-login", {
+    const res = await fetch(`${REACT_APP_API_URL}/user/google-login`, {
       method: 'POST',
       body: JSON.stringify({
         token: googleData.tokenId
