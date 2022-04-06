@@ -106,6 +106,14 @@ function App() {
         <Route exact path='/shop' element={<Shop />} />
         {/* <Route exact path='/profile/:id' element={<Profile />} /> */}
 
+        <Route exact path='/pedido/:id' element={<ProtectedRoute isAllowed={currentUser.administrador} >
+            <DetailPedido />
+          </ProtectedRoute>
+        } />
+
+
+
+
         <Route exact path='/user/:id' element={
           <ProtectedRoute isAllowed={currentUser.administrador} >
             <UserDetail />
@@ -115,7 +123,6 @@ function App() {
         <Route exact path='/login/forgot' element={<LoginForgot />} />
         <Route path='/login/reset/:token' element={<LoginReset />} />       
         <Route exact path='/pedidos' element={<Pedidos />} />
-        <Route exact path='/pedido/:id' element={<DetailPedido />} /> 
         <Route exact path='/creationForm' element={<CreationForm />} />
         <Route exact path='/cartDetails' element={<CartDetails />} />
         <Route path='/cartDetailsCheckout' element={<CartDetailsCheckout />} />
