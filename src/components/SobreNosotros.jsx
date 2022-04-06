@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion'
-import React from 'react'
-import { BsGithub, BsLinkedin } from 'react-icons/bs'
+import { motion } from 'framer-motion';
+import React from 'react';
+import { BsGithub, BsLinkedin } from 'react-icons/bs';
 
 
 
@@ -8,55 +8,64 @@ import { BsGithub, BsLinkedin } from 'react-icons/bs'
 function SobreNosotros() {
 
 
-    const nosotros = [{
-        nombre: "Valentino Spada",
-        linkedin: "https://www.linkedin.com/in/valentino-spada/",
-        github: "https://github.com/valentinoSPADA",
-        puesto: "Front End",
-        img: "https://avatars.githubusercontent.com/u/91897537?v=4"
-    },
-    {
-        nombre: "Franco Gonzalez",
-        linkedin: "https://www.linkedin.com/in/fran-gonzalez13/",
-        github: "https://github.com/Franco-13",
-        puesto: "Front End",
-        img: "https://avatars.githubusercontent.com/u/79342530?v=4"
-    },
-    {
-        nombre: "Jorge Luis Nuñez Nuñez",
-        linkedin: "https://www.linkedin.com/in/jorge-luis-nu%C3%B1ez-n/",
-        github: "https://github.com/Oleguis",
-        puesto: "Back End",
-        img: "https://avatars.githubusercontent.com/u/91699181?v=4"
-    },
-    {
-        nombre: "Juan David Rodriguez",
-        linkedin: "https://www.linkedin.com/in/juandavidrodriguezlopez/",
-        github: "https://github.com/JuanDavid2021",
-        puesto: "Full Stack",
-        img: "https://avatars.githubusercontent.com/u/87767241?v=4"
-    },
-    {
-        nombre: "Federico Di Donato",
-        linkedin: "https://www.linkedin.com/in/federicodidonato/",
-        github: "https://github.com/FDDeC",
-        puesto: "Full Stack",
-        img: "https://avatars.githubusercontent.com/u/83348277?v=4",
-    },
-    {
-        nombre: "Fabricio Olivera",
-        linkedin: "https://www.linkedin.com/in/fabricio-olivera-developer/",
-        github: "https://github.com/FabricioOlivera",
-        puesto: "Back End",
-        img: "https://avatars.githubusercontent.com/u/78769625?v=4",
-    },
-    {
-        nombre: "David Niño",
-        linkedin: "https://www.linkedin.com/in/david-alejandro-nino/",
-        github: "https://github.com/Alejo-Nino95",
-        puesto: "Full Stack",
-        img: "https://avatars.githubusercontent.com/u/90222547?v=4",
-    }]
+    const nosotros = [
+        {
+            nombre: "Valentino Spada",
+            linkedin: "https://www.linkedin.com/in/valentino-spada/",
+            github: "https://github.com/valentinoSPADA",
+            puesto: "Front End",
+            img: "https://avatars.githubusercontent.com/u/91897537?v=4"
+        },
+        {
+            nombre: "Franco Gonzalez",
+            linkedin: "https://www.linkedin.com/in/fran-gonzalez13/",
+            github: "https://github.com/Franco-13",
+            puesto: "Front End",
+            img: "https://avatars.githubusercontent.com/u/79342530?v=4"
+        },
+        {
+            nombre: "Jorge Luis Nuñez Nuñez",
+            linkedin: "https://www.linkedin.com/in/jorge-luis-nu%C3%B1ez-n/",
+            github: "https://github.com/Oleguis",
+            puesto: "Back End",
+            img: "https://avatars.githubusercontent.com/u/91699181?v=4"
+        },
+        {
+            nombre: "Juan David Rodriguez",
+            linkedin: "https://www.linkedin.com/in/juandavidrodriguezlopez/",
+            github: "https://github.com/JuanDavid2021",
+            puesto: "Full Stack",
+            img: "https://avatars.githubusercontent.com/u/87767241?v=4"
+        },
+        {
+            nombre: "Federico Di Donato",
+            linkedin: "https://www.linkedin.com/in/federicodidonato/",
+            github: "https://github.com/FDDeC",
+            puesto: "Full Stack",
+            img: "https://avatars.githubusercontent.com/u/83348277?v=4",
+        },
+        {
+            nombre: "Fabricio Olivera",
+            linkedin: "https://www.linkedin.com/in/fabricio-olivera-developer/",
+            github: "https://github.com/FabricioOlivera",
+            puesto: "Back End",
+            img: "https://avatars.githubusercontent.com/u/78769625?v=4",
+        },
+        {
+            nombre: "David Niño",
+            linkedin: "https://www.linkedin.com/in/david-alejandro-nino/",
+            github: "https://github.com/Alejo-Nino95",
+            puesto: "Full Stack",
+            img: "https://avatars.githubusercontent.com/u/90222547?v=4",
+        },
+        {
+            nombre: "Nepundir",
+            linkedin: "https://github.com/nepundir",
+            github: "https://github.com/nepundir",
+            puesto: "Full Stack",
+            img: "https://avatars.githubusercontent.com/u/8496859?v=4"
+        }
+    ];
 
 
     return (
@@ -94,14 +103,14 @@ function SobreNosotros() {
                                         </div>
                                     </motion.div>
                                 </div>
-                            )
+                            );
                         })
                     }
                 </div>
             </div>
         </div>
 
-    )
+    );
 }
 
-export default SobreNosotros
+export default SobreNosotros;
