@@ -26,10 +26,10 @@ function Wishlist() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        dispatch(getWishlist(currenuser));
+    // useEffect(() => {
+    //     dispatch(getWishlist(currenuser));
 
-    }, [dispatch])
+    // }, [dispatch])
 
     console.log(wishlist)
 
