@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Modal, Container, Row, Col, Carousel, Form, Stack } from 'react-bootstrap';
 import { RiShoppingCartLine, RiSearchEyeLine, RiShoppingCartFill } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
+import { BsCardList } from "react-icons/bs";
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { addCartItem } from '../actions';
 
@@ -22,6 +23,8 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
     idItemFront:"",
     stock
   })
+
+  const currentUser = useSelector(state => state.user);
   
   const handleDetailst = () => {
     navigate(`/product/${id.toString()}`)
@@ -157,6 +160,13 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
                   <Button variant="dark" onClick={handleViewCart}>
                     Ver Carrito <RiShoppingCartFill />
                   </Button>
+                  {(localStorage.token !== undefined || localStorage.loginData !== undefined) ? (currentUser.administrador ?
+                  null
+                  :
+                  <Button variant="dark" onClick={handleViewCart}>
+                    Añadir a lista de deseos <BsCardList />
+                  </Button>
+                ) : null}
                   <Button variant="dark" onClick={ handleDetailst }>
                     Ver más detalles <RiSearchEyeLine />
                   </Button>
