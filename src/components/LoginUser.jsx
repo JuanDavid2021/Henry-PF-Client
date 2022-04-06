@@ -184,7 +184,7 @@ export const LoginUser = ({ setAuth }) => {
               </div>
               <div className="mb-3">
 
-                <label for="exampleInputEmail1" className="form-label">Contraseña</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Contraseña</label>
                 <div style={{position:"relative"}}>
                   <input 
                     type="password" 
@@ -202,7 +202,7 @@ export const LoginUser = ({ setAuth }) => {
                     onClick={showPassword} 
                     id="eye"
                   >
-                    <i class="fa-solid fa-eye-slash" id="icon"></i>
+                    <i className="fa-solid fa-eye-slash" id="icon"></i>
                   </span>               
                 </div>
 

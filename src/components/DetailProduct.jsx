@@ -114,9 +114,9 @@ function DetailProduct() {
         <Card>
           {
             productDetails.promocion ?
-              <Card.Header className="d-flex flex-md-row flex-sm-column flex-xs-column justify-content-between w-100">
+              <Card.Header className="d-flex flex-md-row flex-column  justify-content-between w-100">
                 <Card.Title>{productDetails.nombre}</Card.Title>
-                <div className="d-flex justify-content-end bg-white">
+                <div className="d-md-flex d-flex flex-column justify-content-end bg-white" style={{ width:"fit-content"}}>
                   <span className="badge bg-danger mt-0 d-flex align-items-center" style={{ height: "34px", textTransform: "uppercase" }}>{productDetails.promocion} { productOnSale.filter(p => p.promocion === productDetails.promocion)[0]?.porcentaje}%</span>
                 </div>
               </Card.Header>

@@ -76,28 +76,28 @@ if(update){
           
             <form  className="mt-3">
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Correo electrónico</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Correo electrónico</label>
                   <div style={{position:"relative"}}>
                    <input type="text" name="contraseñaAnterior" id="show" aria-describedby="emailHelp" value={input.contraseñaAnterior} placeholder="correo electrónico..." onChange={e => handleChange(e)} className="form-control"/>          
                  </div>
               </div>
 
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Nueva contraseña</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Nueva contraseña</label>
                   <div style={{position:"relative"}}>
                    <input type="password" name="contraseña" id="show2" aria-describedby="emailHelp" value={input.contraseña} placeholder="nueva contraseña" onChange={e => handleChange(e)} className="form-control"/>
                    <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword2} id="eye">
-                     <i class="fa-solid fa-eye-slash" id="icon2"></i>
+                     <i className="fa-solid fa-eye-slash" id="icon2"></i>
                    </span>               
                  </div>
               </div>
 
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Confirmar Nueva Contraseña</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Confirmar Nueva Contraseña</label>
                   <div style={{position:"relative"}}>
                    <input type="password" name="confirmarContraseña" id="show3" aria-describedby="emailHelp" value={input.confirmarContraseña} placeholder="confirmar contraseña..." onChange={e => handleChange(e)} className="form-control"/>
                    <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword3} id="eye">
-                     <i class="fa-solid fa-eye-slash" id="icon3"></i>
+                     <i className="fa-solid fa-eye-slash" id="icon3"></i>
                    </span>               
                  </div>
               </div>

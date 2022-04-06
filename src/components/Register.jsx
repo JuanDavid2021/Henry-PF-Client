@@ -150,7 +150,7 @@ export const Register = ({setAuth}) => {
                 style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword} 
                 id="eye"
               >
-                <i class="fa-solid fa-eye-slash" id="icon"></i>
+                <i className="fa-solid fa-eye-slash" id="icon"></i>
               </span>               
             </div>
         </div>
