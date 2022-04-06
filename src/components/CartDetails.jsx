@@ -10,11 +10,8 @@ function CartDetails() {
   const arrCartProducts = useSelector(state => state.cart);
   const arrProducts = useSelector(state => state.products);
 
-
   const [modal, setModal] = useState({ show: false, msg: "" })
   const [user, setUser] = useState(false)
-
-
 
   const navigate = useNavigate()
 
@@ -30,8 +27,6 @@ function CartDetails() {
   useEffect(() => {
     ifLogin()
   }, [localStorage.token])
-
-
 
   const handleNavigateDelibery = (e) => {
     e.preventDefault()
@@ -50,7 +45,6 @@ function CartDetails() {
         }
       })
 
-
       arrCartProducts.forEach((p) => {
         arrProducts.forEach((prod) => {
           if (prod.id === p.id) {
@@ -67,7 +61,6 @@ function CartDetails() {
           msg: "El precio se ha modificado o estaba en descuento y se vencio"
         })
       }
-
 
       if (stock) {
         setModal({
@@ -86,9 +79,6 @@ function CartDetails() {
     }
   }
   
-  
-  
-  
   const handleCloseModal = () => {
     setModal(false)
   }
@@ -98,7 +88,6 @@ function CartDetails() {
   arrCartProducts.map((p) => arrSuma.push(p.precioTotal * p.cantidad))
   
   let suma = arrSuma?.reduce((a, b) => Number(a) + Number(b), 0)
-  console.log(arrCartProducts[0])
   
   return (
     <section className="py-5">
@@ -108,7 +97,7 @@ function CartDetails() {
           <div className="col-lg-9">
             {/* Tabla de productos */}
             <form >
-              <div className="table-responsive ">
+              <div className="table-responsive scrollBar">
                 <table className="table text-nowrap ">
                   <thead  >
                     <tr className="text-sm ">
@@ -200,7 +189,7 @@ export function Resume() {
   return (
     <div className="col-lg-3">
       <div className="mb-5">
-        <div className="p-4 bg-gray-200">
+        <div className="p-4 pt-0 bg-gray-200">
           <h3 className="text-uppercase mb-0">Resumen</h3>
         </div>
         <div className="bg-light py-4 px-3">
@@ -248,7 +237,7 @@ export function TrItemCart({ el, inputRender }) {
     }
     dispatch(setCartItem(elem))
   }
-console.log(el.precioFinal)
+  
   return (
     <tr className="text-sm">
       <td className="align-middle border-gray-300 py-3"><img className="img-fluid flex-shrink-0" src={Array.isArray(el.arrFotos) ? el.arrFotos[0] : el.arrFotos} alt={el.nombre} style={{ minWidth: "50px" }} width="50" /></td>

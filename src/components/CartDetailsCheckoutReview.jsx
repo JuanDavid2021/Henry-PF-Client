@@ -1,17 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { RiMapPin2Line, RiTruckLine, RiEyeLine, RiMoneyDollarCircleLine, RiArrowLeftSLine, RiArrowRightSLine } from 'react-icons/ri';
 import { useSelector } from 'react-redux';
 import { TrItemCart, Resume } from './CartDetails';
+import { Modal, Button } from 'react-bootstrap';
 
 function CartDetailsCheckoutReview() {
   const arrCartProducts = useSelector(state => state.cart);
   const despacho = useSelector(state => state.despacho)
   const navigate = useNavigate()
-
+  
   const handleNavigatePayment = (e) => {
     navigate("/cartDetailsCheckoutPaymentMethod")
   }
+  
+  let fRequerida = despacho?.f_requerida
+
+  const mes = ( fRequerida?.getMonth() + 1) < 9 ? "0" + ( fRequerida?.getMonth() + 1 ) : ( fRequerida?.getMonth() + 1 )
+  const dia = ( fRequerida?.getDate() ) < 9 ? "0" + ( fRequerida?.getDate() ) : ( fRequerida?.getDate() )
+
+  const fechaEntrega = ( dia + "/" + mes + "/" + fRequerida?.getFullYear() )
+  
+  useEffect(() => {
+    if (despacho === null) {
+      setModal(true)
+      setTimeout(() => {
+        navigate("/cartDetailsCheckout")
+      }, 2000);
+    }
+    if (despacho?.tipo_entrega === "express") setString({tipoEntrega:"EXPRESS", fecha: fechaEntrega})
+    if (despacho?.tipo_entrega === "estandar") setString({tipoEntrega:"ESTANDAR", fecha: fechaEntrega})
+    if (despacho?.tipo_entrega === "selectDate") setString({tipoEntrega:"EXACTA", fecha: fechaEntrega})
+  },[despacho, navigate])
+
+  const [string, setString] = useState({tipoEntrega:"", fecha: fechaEntrega})
+  const [modal, setModal] = useState(false)
 
   let arrSuma = []
 
@@ -52,7 +75,7 @@ function CartDetailsCheckoutReview() {
               </li>
             </ul>
             {/* <!-- CHECKOUT REVIEW TABLE --> */}
-            <div className="table-responsive ">
+            <div className="table-responsive scrollBar">
               <table className="table text-nowrap ">
                 <thead  >
                   <tr className="text-sm ">
@@ -85,9 +108,12 @@ function CartDetailsCheckoutReview() {
                   </tr>
                 </tfoot>
               </table>
-              <div>
+              <div className="p-2">
                 <h5>
-                  Método de envío: {despacho.tipo_entrega.toUpperCase()}
+                  Método de envío: {string.tipoEntrega}
+                </h5>
+                <h5>
+                  Fecha de llegada: {string.fecha}
                 </h5>
               </div>
             </div>
@@ -96,7 +122,7 @@ function CartDetailsCheckoutReview() {
                 <div className="row">
                   <div className="col-md-6 text-md-start py-1">
                     <Link to={"/cartDetailsCheckoutDelivery"} className="btn btn-dark my-1">
-                      <RiArrowLeftSLine/> Volver a Dirección
+                      <RiArrowLeftSLine/> Método de envío
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1">
@@ -109,6 +135,21 @@ function CartDetailsCheckoutReview() {
           <Resume/>
         </div>
       </div>
+      <Modal
+        show={modal}
+        size="sm"
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title><p style={{ textAlign: "center" }}>Error</p></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Será redirigido a la sección Dirección</p>
+        </Modal.Body>
+      </Modal>
     </section>
   )
 }
