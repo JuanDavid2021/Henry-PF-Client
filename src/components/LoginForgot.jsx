@@ -5,7 +5,7 @@ import GoogleLogin from "react-google-login";
 import { login, setPlatformUser,loginforgot } from "../actions/index"
 import { useDispatch } from "react-redux"
 import axios from "axios"
-
+const {REACT_APP_API_URL} = process.env
 
 
 export const LoginForgot = () => {
@@ -24,7 +24,7 @@ setInput({...input, [e.target.name]: e.target.value})
 
 const handleSubmit =async(e)=>{
 e.preventDefault()
-const forgot = await axios.post("http://localhost:3001/api/user/forgot", input)
+const forgot = await axios.post(`${REACT_APP_API_URL}/user/forgot`, input)
 
 if(forgot.data.linkUser){
   swal({
