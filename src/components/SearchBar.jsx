@@ -76,7 +76,7 @@ function SearchBar({filtro}) {
   }
 
 
-  const transition = {type:"spring", damping:50, stiffness:150}
+  // const transition = {type:"spring", damping:50, stiffness:150}
 
   const filterP = (e) => {
     dispatch(filterPedidos(e.target.value));
@@ -186,7 +186,7 @@ function SearchBar({filtro}) {
       <Row className="mx-4 mt-3">
         <Col sm="12" md="4" lg="4" xl="4" className="mb-2" >
           <InputGroup >
-             <motion.div animate={expanding & filter.input.length>0 & productosFilter.length>0 ? "expanded":"close"}  ref={ref}  transition={transition}variants={conteinerVariants}  style={{ width:"400px", height:"100px", overflow:"hidden", backgroundColor:"white"}} >
+             <motion.div animate={expanding & filter.input.length>0 & productosFilter.length>0 ? "expanded":"close"}  ref={ref}  variants={conteinerVariants}  style={{ width:"400px", height:"100px", overflow:"hidden", backgroundColor:"white"}} >
             <FormControl
               isInvalid={!searchFilterStatus}
               placeholder="Buscar por nombre..."
