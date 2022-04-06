@@ -4,6 +4,7 @@ import swal from "sweetalert"
 import { login, setPlatformUser,loginreset } from "../actions/index"
 import { useDispatch } from "react-redux"
 import axios from "axios"
+const {REACT_APP_API_URL} = process.env 
 
 
 
@@ -28,8 +29,8 @@ setInput({
 
 const handleSubmit = async (e)=>{
 e.preventDefault()
-const urlTokenUser = window.location.href.slice(34).toString() 
-const reset = await axios.post("http://localhost:3001/api/user/reset", input, {headers:{reset: urlTokenUser}} )
+const urlTokenUser = window.location.href.slice(40).toString() 
+const reset = await axios.post(`${REACT_APP_API_URL}/user/reset`, input, {headers:{reset: urlTokenUser}} )
 console.log(reset)
 if(reset){
   swal({
