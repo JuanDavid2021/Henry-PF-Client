@@ -57,7 +57,7 @@ if(forgot.data.linkUser){
               </div>
             </form>
               <div className="mb-3">
-                <button onClick={(e)=>handleSubmit(e)} className="btn btn-success btn-block" disabled={input.correo === ""}>Solicitar Nueva Contraseña</button>
+                <button onClick={(e)=>handleSubmit(e)} className="btn btn-success btn-block w-100" disabled={input.correo === ""}>Solicitar Nueva Contraseña</button>
               </div>
             <div className='d-flex justify-content-center align-items-center'>
 

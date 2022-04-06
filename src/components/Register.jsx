@@ -74,9 +74,9 @@ export const Register = ({setAuth}) => {
 
   return (
   <div className="py-3 bg-dark" style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
-    <div className="alert align-middle bg-dark text-light bg-opacity-75 mb-0 mx-1" style={{ display: "flex",flexDirection: "column", justifyContent: "center", minWidth: "300px", maxWidth: "300px" }}>
-      <h2 className='text-center my-4'>Registro de usuario</h2>
-      <form className="px-md-2 needs-validation" onSubmit={onSubmitForm}>
+    <div className="alert align-middle bg-dark text-light bg-opacity-75 mt-3" style={{ display: "flex",flexDirection: "column", justifyContent: "center", minWidth: "300px", maxWidth: "300px" }}>
+      <h1 className='text-center my-4'>Registro</h1>
+      <form className="needs-validation" onSubmit={onSubmitForm}>
         <div>
           <label htmlFor="validationCustom01">Nombre</label>
           <input 
@@ -135,17 +135,27 @@ export const Register = ({setAuth}) => {
             onChange={e=>onChange(e)}
           />
         </div>
-        <div className="mb-3">
-                <label htmlFor="validationCustom06" className="form-label">Contraseña</label>
-                  <div style={{position:"relative"}}>
-                   <input type="password" name="contraseña" style={{borderRadius:"5px", height:"42px", width:"250px"}} id="show" aria-describedby="emailHelp" value={contraseña} placeholder="contraseña..."  onChange={e=>onChange(e)} />
-                   <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword} id="eye">
-                     <i class="fa-solid fa-eye-slash" id="icon"></i>
-                   </span>               
-                 </div>
-              </div>
+        <div >
+          <label htmlFor="validationCustom06" className="form-label">Contraseña</label>
+            <div style={{position:"relative"}}>
+              <input 
+                type="password" 
+                name="contraseña" 
+                id="show" aria-describedby="emailHelp" 
+                value={contraseña} placeholder="contraseña..."
+                className="form-control form-control my-2"
+                onChange={e=>onChange(e)} 
+              />
+              <span 
+                style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword} 
+                id="eye"
+              >
+                <i class="fa-solid fa-eye-slash" id="icon"></i>
+              </span>               
+            </div>
+        </div>
         <button 
-          className="btn btn-success my-3" 
+          className="btn btn-success my-3 w-100" 
           disabled={inputs.nombre==="" || inputs.apellido==="" || inputs.celular==="" || inputs.direccion==="" || inputs.correo==="" || inputs.contraseña===""}
         >Registrate</button>
         <div className='d-flex justify-content-center align-items-center'>
