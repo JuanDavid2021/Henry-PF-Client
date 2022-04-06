@@ -243,7 +243,7 @@ function SearchBar({filtro}) {
             </option>
             {categories.map((e, i) => {
               return (
-                <option key={i} value={e.id}>
+                <option hidden={ !e.activo } key={i} value={e.id}>
                   Carne de {e.nombre}
                 </option>
               );
