@@ -139,7 +139,7 @@ function DetailCompra() {
                                     Envio:
                                 </p>
                                 <p>
-                                    $3220
+                                    Gratis
                                 </p>
                             </div>
                             <div className="d-flex justify-content-between mt-2">
