@@ -8,6 +8,8 @@ export const EDIT_PRODUCT = "editProduct";//admin
 
 export const GET_PORDUCT_PROMO = "getProductPromo"
 export const SET_PROMOCIONES = "setPromos"
+export const PUT_PROMOCION = "putPromocion"
+export const ADD_PROMOCION = "addPromocion"
 
 export const RATE_PRODUCT = "rateProduct";
 export const ADD_PRODUCT_COMMENT = "addProductComment";

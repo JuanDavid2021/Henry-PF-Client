@@ -12,7 +12,13 @@ import {
   Carousel,
   InputGroup,
 } from "react-bootstrap";
-import { getAllPromos, getProducts } from "../../../actions";
+import swal from "sweetalert";
+import {
+  getAllPromos,
+  getProducts,
+  putPromo,
+  addPromo,
+} from "../../../actions";
 import PromoForm from "../../../components/PromoForm";
 function Promos() {
   const storePromos = useSelector((state) => state.promos);
@@ -21,48 +27,99 @@ function Promos() {
   const currentUser = useSelector((state) => state.user);
   const days = ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab"];
   const [editingId, setEditingId] = useState("");
+  const newPromo = {
+    id: "",
+    promocion: "",
+    porcentaje: "5",
+    f_inicio: new Date(Date.now()).toISOString(),
+    f_final: new Date(Date.now()).toISOString(),
+    status: true,
+    dias_semana: [0, 1, 2, 3, 4, 5, 6],
+    productos: [],
+  };
   useEffect(() => {
     if (!storePromos.length) dispatch(getAllPromos(currentUser));
     if (!arrProductos.length) dispatch(getProducts());
-  }, [storePromos, currentUser, dispatch,arrProductos]);
-  const updatePromo = (promo) => {
-    console.log(promo);
+  }, [storePromos, currentUser, dispatch, arrProductos]);
+  const updatePromo = async (promo) => {    
+    if (!promo.dias_semana.length) {
+      promo.dias_semana=[0,1,2,3,4,5,6]
+    }
+    let toPut = {
+      data: promo,
+      currentUser: currentUser,
+    };    
+    const updated = await dispatch(putPromo(toPut));    
+    if (updated.status === 200) {
+      swal(
+        updated.data.status
+          ? "Correcto! Promocion Activada!"
+          : "Correcto! Promoción Desactivada!",
+        {
+          icon: updated.data.status ? "success" : "info",
+          timer: 1000,
+          buttons: false,
+        }
+      );
+    } else {
+      swal("Existen errores!", {
+        icon: "warning",
+        timer: 2000,
+        buttons: false,
+      });
+    }
   };
   const selectPromo = (id) => {
     setEditingId(id);
   };
-  const newPromo = {
-    id: "",
-    promocion: "",
-    porcentaje: 5,
-    f_inicio: new Date(Date.now()).toISOString(),
-    f_final: new Date(Date.now()).toISOString(),
-    status: true,
-    dias_semana: [],
-    productos:[]
+  
+  const createPromo = async (promo) => {
+    delete promo.id
+    if (!promo.dias_semana.length) {
+      promo.dias_semana = [0,1,2,3,4,5,6]
+    }
+    let toAdd = {
+      data: promo,
+      currentUser: currentUser,
+    };    
+    const created = await dispatch(addPromo(toAdd));
+    if (created.status === 200) {
+      swal(
+        created.data.status
+          ? "Creada! Promocion Activada!"
+          : "Creada! Promoción Desactivada!",
+        {
+          icon: created.data.status ? "success" : "info",
+          timer: 1000,
+          buttons: false,
+        }
+      );
+    } else {
+      swal("Existen errores!", {
+        icon: "warning",
+        timer: 2000,
+        buttons: false,
+      });
+    }
   };
-  const createPromo = (promo) => {
-    console.log(promo)
-  }
   return (
     <>
       <PromoForm
         creationForm={true}
-        days={days}        
+        days={days}
         promoToView={newPromo}
-        createPromo={ createPromo }
+        createPromo={createPromo}
       />
       ;
       {storePromos?.map((sP) => {
         return (
-          <PromoForm            
+          <PromoForm
             key={sP.id}
             editingId={editingId}
             days={days}
             selectPromo={selectPromo}
             promoToView={sP}
-            updatePromo={ updatePromo }
-            
+            updatePromo={updatePromo}
           />
         );
       })}

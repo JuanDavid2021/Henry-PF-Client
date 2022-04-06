@@ -16,15 +16,14 @@ import {
   Carousel,
   InputGroup,
 } from "react-bootstrap";
-import { getAllPromos } from "../actions";
 
 function validate(toTest, toCompare) {
   let error = {};
   let letternumber = new RegExp(/^[A-Za-z0-9\sZñÑáéíóú]+$/g);
   let number = new RegExp(/[0-9]/g);
-  if (!letternumber.test(toTest.promocion)) {
+  if (!letternumber.test(toTest.promocion) && toTest.promocion.length) {
     error.promocion = "Solo acepta números y letras";
-  } else if (toTest.length < 3 || toTest.length > 20) {
+  } else if (toTest.promocion.length < 3 || toTest.promocion.length > 20) {
     error.promocion = "Debe contener de 3 a 20 caracteres";
   }
   if (!number.test(toTest.porcentaje)) {
@@ -115,7 +114,7 @@ function PromoForm({
   const promoProduct = (e) => {
     let id = e.target.value;
     let isIn = promo.productos.filter((pp) => pp === id).length//parseInt(e.target.getAttribute("in"));
-    console.log(isIn)
+    
     if (isIn) {      
       setPromo({
         ...promo,
@@ -138,14 +137,14 @@ function PromoForm({
     if (!creationForm) {
       updatePromo({
         ...promo,
-        status: !promo.status
+        status: !promoToView.status
       })
     } else {
        setPromo({
       ...promo,
       status: !promo.status,
-    });
-    }
+       });      
+    }    
   };
   const cancelChanges = () => {
     setPromo(promoToView);    
@@ -206,6 +205,7 @@ function PromoForm({
                     value={promo.promocion}
                     onChange={(e) => handleChangeString(e)}
                   />
+                  {creationForm ?
                   <InputGroup.Text id="basic-addon2">
                     {promo.status ? (
                       <span className="text-success">
@@ -216,7 +216,22 @@ function PromoForm({
                         <FaEyeSlash className="pb-1" />
                       </span>
                     )}
+                  </InputGroup.Text>  
+                  
+                :
+                    <InputGroup.Text id="basic-addon2">
+                    {promoToView.status ? (
+                      <span className="text-success">
+                        <FaEye className="pb-1" />
+                      </span>
+                    ) : (
+                      <span className="text-danger">
+                        <FaEyeSlash className="pb-1" />
+                      </span>
+                    )}
                   </InputGroup.Text>
+                }
+                  
                 </InputGroup>
               </Form.Group>
             </Col>
@@ -308,7 +323,7 @@ function PromoForm({
                       key={i}
                       
                       label={p.nombre}
-                      disabled={!promo.status}
+                      disabled={!promoToView.status}
                       value={p.id}
                       //in={promo.productos.filter((pp) => pp === p.id).length}
                       checked={
@@ -323,17 +338,25 @@ function PromoForm({
           </Row>
 
           <Row style={{ display: "flex", justifyContent: "space-around" }}>
-            {creationForm ? <Button disabled={ promo.promocion.length<3 || Object.keys(errors)?.length }className="col-3" onClick={() => create()}>
+            {creationForm ? 
+            <>
+            <Button disabled={ promo.promocion.length<3 || Object.keys(errors)?.length }className="col-3" onClick={() => create()}>
               Crear
             </Button>
+              <Button className={ promo.status ? "col-3 btn-success" : "col-3 btn-warning" } onClick={() => toggle()}>
+              { promo.status ? "Activada" : "Desactivada" }
+            </Button>
+              </>
               :
+              <>
               <Button className="col-3" onClick={() => apply()}>
               Aplicar
+                </Button>
+                <Button className={ promoToView.status ? "col-3 btn-success" : "col-3 btn-warning" } onClick={() => toggle()}>
+              { promoToView.status ? "Activada" : "Desactivada" }
             </Button>
-             }
-            <Button className="col-3" onClick={() => toggle()}>
-              StatusT
-            </Button>
+                </>
+             }           
             <Button className="col-3" onClick={() => cancelChanges()}>
               Cancelar
             </Button>
@@ -445,7 +468,7 @@ function PromoForm({
                     <Form.Check
                       key={i}
                       label={p.nombre}
-                      disabled={!promo.status}
+                      disabled={!promoToView.status}
                       checked={
                         promo.productos.filter((pp) => pp === p.id).length
                       }

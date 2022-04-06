@@ -59,7 +59,9 @@ import {
   ADD_REVIEW,
   GET_USER_BY_ID,
   RESET_ADMIN,
-  SET_PROMOCIONES
+  SET_PROMOCIONES,
+  PUT_PROMOCION,
+  ADD_PROMOCION,
 
 } from './../action-types/index';
 const axios = require("axios");
@@ -838,11 +840,10 @@ export function getAllPromos(userData) {
           token: userData.token
         }
       });
-      if (promos.status === 200) {
-        //console.log(promos.data)
+      if (promos.status === 200) {        
         dispatch({ type: SET_PROMOCIONES, payload: promos.data });
       }
-      console.log(promos);
+      
     } catch (error) {
       console.log(error);
     }
@@ -901,6 +902,52 @@ export function putPedidos(payload) {
           payload: pedido.data
         });
       }
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+}
+
+export function putPromo(payload) {
+  return async function (dispatch) {
+    try {
+      const newPromo = await axios({
+        url: `${REACT_APP_API_URL}/promocion/update/` + payload.data.id,
+        method: 'put',
+        headers: { token: payload.currentUser.token },
+        data: payload.data
+      });  
+      if (newPromo.status === 200) {
+        dispatch({
+          type: PUT_PROMOCION,
+          payload: newPromo.data
+        });
+      }
+      return newPromo
+    } catch (error) {
+      console.log(error);
+    }
+
+  };
+}
+
+export function addPromo(payload) {
+  return async function (dispatch) {
+    try {
+      const newPromo = await axios({
+        url: `${REACT_APP_API_URL}/promocion/create`,
+        method: 'post',
+        headers: { token: payload.currentUser.token },
+        data: payload.data
+      });
+      if (newPromo.status === 200) {        
+        dispatch({
+        type: ADD_PROMOCION,
+        payload: newPromo.data
+        });
+      }
+      return newPromo
     } catch (error) {
       console.log(error);
     }

@@ -64,7 +64,9 @@ import {
   DELETE_PRESENTATION,
   GET_USER_BY_ID,
   GET_PORDUCT_PROMO,
-  SET_PROMOCIONES
+  SET_PROMOCIONES,
+  PUT_PROMOCION,
+  ADD_PROMOCION,
 } from './../action-types/index';
 
 
@@ -130,6 +132,28 @@ function rootReducer(state = initialState, action) {
     return {
       ...state,
       promos:action.payload
+    }
+  }
+
+  if (action.type === PUT_PROMOCION) {
+    
+    let newPromos = state.promos.map(sP => {
+      if (sP.id === action.payload.id) {
+        return action.payload
+      }
+      return sP
+    })
+    
+    return {
+      ...state,
+      promos:newPromos
+    }
+  }
+
+  if (action.type === ADD_PROMOCION) {    
+    return {
+      ...state,
+      promos:[action.payload,...state.promos]
     }
   }
 
