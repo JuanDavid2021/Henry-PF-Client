@@ -42,7 +42,7 @@ function Shop() {
         <SearchBar />
 
         <Container>
-          {!loading ?
+          {loading ?
             <Row className="my-3 " style={{display:"flex" , justifyContent: "center"}}>
               <Col className="mb-5" style={{display:"flex" , justifyContent: "center"}} >
               <PacmanLoader color={"#212529"}/>

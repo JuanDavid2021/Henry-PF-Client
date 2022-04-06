@@ -139,7 +139,7 @@ function DetailCompra() {
                                     Envio:
                                 </p>
                                 <p>
-                                    $3220
+                                    Gratis
                                 </p>
                             </div>
                             <div className="d-flex justify-content-between mt-2">
@@ -147,7 +147,7 @@ function DetailCompra() {
                                     Total:
                                 </p>
                                 <p>
-                                    ${pedido.ItemsPedidos.reduce((i, p) => i += p.precioTotal, 0) + 3220}
+                                    ${pedido.ItemsPedidos.reduce((i, p) => i += p.precioTotal, 0)}
                                 </p>
                             </div>
                         </div>
