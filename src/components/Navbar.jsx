@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { RiShoppingCartLine } from 'react-icons/ri';
 import { CgProfile } from 'react-icons/cg';
+import { BsCardList } from "react-icons/bs";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -44,6 +45,9 @@ function NavBar({ setAuth }) {
         navigate('/profile')
     }
 
+    const toList = () => {
+        navigate('/wishlist')
+    }
 
     const logout = (e) => {
         e.preventDefault()
@@ -138,6 +142,11 @@ function NavBar({ setAuth }) {
                                             <span></span>
                                     }
                                 </Link>
+                                {currentUser.administrador ?
+                                    null
+                                    :
+                                    <button className="btn btn-danger text-light mx-2" onClick={toList}>Lista de deseos <BsCardList size={20} style={{ marginBottom: "3px" }} /> </button>
+                                }
                                 <button className="btn btn-primary text-light mx-2" onClick={e => logout(e)}>Salir</button>
                                 {currentUser.administrador ?
                                     <button className="btn btn-secondary text-light mx-2" onClick={dashboard}>Dashboard</button>

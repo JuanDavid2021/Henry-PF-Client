@@ -79,6 +79,8 @@ export const LOGINFORGOT = "loginForgot"
 export const FILTER_AUTO ="filterAuto"
 export const RESET_ADMIN = "resetAdmin"
 
+export const GET_WISHLIST = "getWishlist"
+
 
 
 

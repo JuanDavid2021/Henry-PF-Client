@@ -59,7 +59,8 @@ import {
   ADD_REVIEW,
   GET_USER_BY_ID,
   RESET_ADMIN,
-  SET_PROMOCIONES
+  SET_PROMOCIONES,
+  GET_WISHLIST
 
 } from './../action-types/index';
 const axios = require("axios");
@@ -102,7 +103,7 @@ export function logoutuser(payload) {
   };
 }
 
-export const resetAdmin= async(payload)=>{
+export const resetAdmin = async (payload) => {
   console.log(payload)
   let userPass = await axios.post("http://localhost:3001/api/user/resetPasswordAdmin", payload)
   return userPass
@@ -833,9 +834,9 @@ export function getAllPromos(userData) {
   return async dispatch => {
     try {
       const promos = await axios.get(`http://localhost:3001/api/promocion/all?activas=0`, {
-          headers: {
-            token: userData.token
-          }
+        headers: {
+          token: userData.token
+        }
       });
       if (promos.status === 200) {
         //console.log(promos.data)
@@ -922,6 +923,23 @@ export function getProductPromo() {
     dispatch({
       type: GET_PORDUCT_PROMO,
       payload: productsOnSale.data
+    })
+  }
+}
+
+//WISHLIST
+
+export function getWishlist(payload) {
+  return async (dispatch) => {
+    const wishlist = await axios({
+      url: "http://localhost:3001/api/wishlist/get",
+      method: 'get',
+      headers: { token: payload.currenuser.token },
+      data: { user: payload.email}
+    })
+    dispatch({
+      type: GET_WISHLIST,
+      payload: wishlist.data
     })
   }
 }

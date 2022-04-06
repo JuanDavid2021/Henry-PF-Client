@@ -1,33 +1,44 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Modal, Container, Row, Col, Carousel, Form, Stack } from 'react-bootstrap';
 import { RiShoppingCartLine, RiSearchEyeLine, RiShoppingCartFill } from 'react-icons/ri';
-import { useDispatch } from 'react-redux';
+import { BsCardList } from "react-icons/bs";
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { addCartItem } from '../actions';
 
-function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, arrFotos, presentacion, promocion, precioDesc }) {
-  
+function DetailProductModal({ id, show, stock, handleClose, nombreCap, precio, arrFotos, presentacion, promocion, precioDesc }) {
+
   const precioFinal = promocion !== null ? precioDesc : precio
-  
+
   const [valoresDetalleProducto, setValoresDetalleProducto] = useState({
     id,
     arrFotos,
     nombre: nombreCap,
     precioFinal,
     precio,
-    peso:"",
-    tipo_corte:"",
+    peso: "",
+    tipo_corte: "",
     precioTotal: "",
     cantidad: 1,
-    idItemFront:"",
+    idItemFront: "",
     stock
   })
-  
+
+  const currentUser = useSelector(state => state.user);
+
   const handleDetailst = () => {
     navigate(`/product/${id.toString()}`)
   }
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (currentUser.email === "beefshophenry@gmail.com") {
+      currentUser.administrador = true;
+    } else {
+      currentUser.administrador = false;
+    }
+  }, [])
 
   const handleChange = (e) => {
     setValoresDetalleProducto({
@@ -47,14 +58,14 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
     const form = e.currentTarget;
     let itemToAdd = {
       ...valoresDetalleProducto,
-      idItemFront:( valoresDetalleProducto.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso )
+      idItemFront: (valoresDetalleProducto.id + valoresDetalleProducto.tipo_corte + valoresDetalleProducto.peso)
     }
     if (form.checkValidity() === false) {
       e.preventDefault();
       e.stopPropagation();
-    }else if( stock === 0 || valoresDetalleProducto.tipo_corte === "" || valoresDetalleProducto.peso === "" ){
+    } else if (stock === 0 || valoresDetalleProducto.tipo_corte === "" || valoresDetalleProducto.peso === "") {
       return
-    }else{
+    } else {
       dispatch(addCartItem(itemToAdd))
       setConfirmModal(true)
     }
@@ -66,7 +77,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
     setValoresDetalleProducto({
       ...valoresDetalleProducto,
       peso: "",
-      tipo_corte:""
+      tipo_corte: ""
     })
     setConfirmModal(false)
   }
@@ -87,10 +98,10 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
         <Modal.Body>
           <Container className="mb-2 p-0">
             <Row>
-              <Col style={{ display: "flex", justifyContent:"center" }}>
+              <Col style={{ display: "flex", justifyContent: "center" }}>
                 <Carousel fade variant="dark" style={{ width: "12em" }}>
                   {arrFotos?.map((el) => (
-                    <Carousel.Item style={{ width: "12em"}} key={el}>
+                    <Carousel.Item style={{ width: "12em" }} key={el}>
                       <img
                         className="d-block w-100"
                         src={el}
@@ -103,67 +114,74 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
               </Col>
             </Row>
             <Row>
-            {
-              promocion !== null ?
-            <Col > Precio por kg: <p className="text-muted text-decoration-line-through fw-light m-0"> $ {precio}</p> <p className='fs-5 d-flex justify-content-between'>$ {precioDesc}<span class="badge bg-danger" style={{height:"100%"}}>promo</span></p></Col>
-            :
-            <Col>Precio por kg: $ {precio}</Col> 
-            }
+              {
+                promocion !== null ?
+                  <Col > Precio por kg: <p className="text-muted text-decoration-line-through fw-light m-0"> $ {precio}</p> <p className='fs-5 d-flex justify-content-between'>$ {precioDesc}<span class="badge bg-danger" style={{ height: "100%" }}>promo</span></p></Col>
+                  :
+                  <Col>Precio por kg: $ {precio}</Col>
+              }
             </Row>
           </Container>
 
           <Form /* noValidate validated={validated} */>
             <Form.Group className="mb-3">
               <Form.Label>Cantidad</Form.Label>
-              <Form.Control 
-                required 
-                as="select" 
-                type="select" 
-                onChange={handleChange} 
-                name="peso" 
-                value={valoresDetalleProducto.peso} 
+              <Form.Control
+                required
+                as="select"
+                type="select"
+                onChange={handleChange}
+                name="peso"
+                value={valoresDetalleProducto.peso}
               >
                 <option value="" disabled>Seleccione un peso</option>
                 <option value="0.5">0.5 kg</option>
                 <option value="1">1.0 kg</option>
                 <option value="1.5">1.5 kg</option>
-              </Form.Control>  
+              </Form.Control>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Tipo de presentación</Form.Label>
-              <Form.Control 
-                required 
-                as="select" 
-                type="select" 
-                onChange={handleChange} 
-                name="tipo_corte" 
-                value={valoresDetalleProducto.tipo_corte} 
+              <Form.Control
+                required
+                as="select"
+                type="select"
+                onChange={handleChange}
+                name="tipo_corte"
+                value={valoresDetalleProducto.tipo_corte}
               >
                 <option value="" disabled>Seleccione un tipo de presentación</option>
                 {
                   presentacion?.length > 0
-                  ? presentacion.map(el => <option key={el.nombre} value={el.nombre}>{el.nombre}</option>) 
-                  : <option value="Unidad">Unidad</option>
+                    ? presentacion.map(el => <option key={el.nombre} value={el.nombre}>{el.nombre}</option>)
+                    : <option value="Unidad">Unidad</option>
                 }
               </Form.Control>
             </Form.Group>
 
             <Form.Group className="mb-3">
               <Stack gap={2} >
-                  <Button disabled={(stock === 0 || valoresDetalleProducto.tipo_corte === "" || valoresDetalleProducto.peso === "") && true} variant="dark" onClick={handleAddProductInCart} >
-                    Agregar al Carrito <RiShoppingCartLine />
-                  </Button>
+                <Button disabled={(stock === 0 || valoresDetalleProducto.tipo_corte === "" || valoresDetalleProducto.peso === "") && true} variant="dark" onClick={handleAddProductInCart} >
+                  Agregar al Carrito <RiShoppingCartLine />
+                </Button>
+                <Button variant="dark" onClick={handleViewCart}>
+                  Ver Carrito <RiShoppingCartFill />
+                </Button>
+                {(localStorage.token !== undefined || localStorage.loginData !== undefined) ? (currentUser.administrador ?
+                  null
+                  :
                   <Button variant="dark" onClick={handleViewCart}>
-                    Ver Carrito <RiShoppingCartFill />
+                    Añadir a lista de deseos <BsCardList />
                   </Button>
-                  <Button variant="dark" onClick={ handleDetailst }>
-                    Ver más detalles <RiSearchEyeLine />
-                  </Button>
+                ) : null}
+                <Button variant="dark" onClick={handleDetailst}>
+                  Ver más detalles <RiSearchEyeLine />
+                </Button>
               </Stack>
               {
-                stock === 0 
-                  && 
+                stock === 0
+                &&
                 <Form.Text muted>
                   Sin stock. Sentimos las molestias
                 </Form.Text>
@@ -177,7 +195,7 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
           </Button>
         </Modal.Footer>
         {/* modal confirmación */}
-        <Modal 
+        <Modal
           show={confirmModal}
           size="sm"
           onHide={handleCloseModal}
