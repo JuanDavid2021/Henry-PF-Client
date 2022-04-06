@@ -70,16 +70,16 @@ const showPassword2 =()=>{
 }
 
   return (
-    <div className="bg-dark" style={{ height: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
-      <div className='alert align-middle bg-dark text-light bg-opacity-75' style={{ display: "flex", height: "330px", width:"20%", flexDirection: "column", alignItems: "center", minWidth: "300px", maxWidth: "300px" }}>
+    <div className="bg-dark" style={{ minHeight: "70vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
+      <div className='alert align-middle bg-dark text-light bg-opacity-75 mt-3' style={{ display: "flex", height: "330px", flexDirection: "column", alignItems: "center", minWidth: "300px", maxWidth: "300px" }}>
         <div className=" d-flex justify-content-center">
           <div className='' style={{ width: "100%" }}>
           
             <form  className="mt-3">
             <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Nueva Contraseña</label>
+                <label for="exampleInputEmail1" className="form-label">Nueva contraseña</label>
                   <div style={{position:"relative"}}>
-                   <input type="password" name="contraseña" style={{borderRadius:"5px", height:"40px", width:"265px"}} id="show" aria-describedby="emailHelp" value={input.contraseña} placeholder="contraseña..."  onChange={e => handleChange(e)} />
+                   <input type="password" name="contraseña" id="show" aria-describedby="emailHelp" value={input.contraseña} placeholder="contraseña..."  onChange={e => handleChange(e)} className="form-control"/>
                    <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword} id="eye">
                      <i class="fa-solid fa-eye-slash" id="icon"></i>
                    </span>               
@@ -87,9 +87,9 @@ const showPassword2 =()=>{
               </div>
 
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Confirmar Nueva Contraseña</label>
+                <label for="exampleInputEmail1" className="form-label">Confirmar nueva contraseña</label>
                   <div style={{position:"relative"}}>
-                   <input type="password" name="nuevaContraseña" style={{borderRadius:"5px", height:"40px", width:"265px"}} id="show2" aria-describedby="emailHelp" value={input.nuevaContraseña} placeholder="Confirmar contraseña..."  onChange={e => handleChange(e)} />
+                   <input type="password" name="nuevaContraseña" id="show2" aria-describedby="emailHelp" value={input.nuevaContraseña} placeholder="Confirmar contraseña..."  onChange={e => handleChange(e)} className="form-control"/>
                    <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword2} id="eye">
                      <i class="fa-solid fa-eye-slash" id="icon2"></i>
                    </span>               
@@ -98,7 +98,7 @@ const showPassword2 =()=>{
 
             </form>
               <div className="mb-3">
-                <button onClick={(e)=>handleSubmit(e)} className="btn btn-success btn-block" disabled={input.contraseña === "" || input.nuevaContraseña===""}>Cambiar Contraseña</button>
+                <button onClick={(e)=>handleSubmit(e)} className="btn btn-success btn-block w-100" disabled={input.contraseña === "" || input.nuevaContraseña===""}>Cambiar Contraseña</button>
               </div>
             <div className='d-flex justify-content-center align-items-center'>
 

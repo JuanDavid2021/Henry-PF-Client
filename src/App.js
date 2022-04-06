@@ -33,6 +33,8 @@ import UserDetail from './Pages/Admin/Views/UserDetail';
 import { LoginResetAdmin } from './components/LoginResetAdmin';
 import Wishlist from './components/Wishlist';
 
+const {REACT_APP_API_URL} = process.env
+
 
 function App() {
 
@@ -58,7 +60,7 @@ function App() {
       if (!localStorage.token) {
         return setIsAuthenticated(false)
       }
-        const response = await fetch("http://localhost:3001/api/user/is-verify",
+        const response = await fetch(`${REACT_APP_API_URL}/user/is-verify`,
           {
             method: "GET",
             headers: { token: localStorage?.token }
