@@ -4,32 +4,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiTruckLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 import { postPedido, pagarPedido } from '../actions';
 import { Resume } from './CartDetails';
+import { Modal } from 'react-bootstrap';
 
 function CartDetailCheckoutPaymentMethod() {
-
+  
   const carrito = useSelector(state => state.cart)
   let idPedido = useSelector(state => state.idPago)
   const pedidoBack = useSelector(state => state.pedido)
   const despacho = useSelector(state => state.despacho)
   const currenuser = useSelector((state => state.user))
   const loading = useSelector((state => state.loading))
-
-
+  
+  
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // const carritoMod = carrito.forEach(el => {
   //   el.peso = Number(el.peso)
   //   delete el.idItemFront;
   // })
+  
+  const [modal, setModal] = useState(false)
 
   const pedidos = {
-    f_pedido: despacho.f_pedido,
-    f_requerida: despacho.f_requerida,
+    f_pedido: despacho?.f_pedido,
+    f_requerida: despacho?.f_requerida,
     UsuarioCorreo: localStorage.mail,
     status: "Created",
-    enviado_a: `${despacho.nombre} ${despacho.apellido}`,
-    direccion_despacho: `${despacho.direccion_despacho}-${despacho.localidad}-${despacho.zip}`,
-    comentario: despacho.comentario,
+    enviado_a: `${despacho?.nombre} ${despacho?.apellido}`,
+    direccion_despacho: `${despacho?.direccion_despacho}-${despacho?.localidad}-${despacho?.zip}`,
+    comentario: despacho?.comentario,
     ItemsPedidos: carrito
   }
 
@@ -50,16 +54,20 @@ function CartDetailCheckoutPaymentMethod() {
       navigate('/cartDetails')
       clearInterval(intervalo);
     }
+    if (despacho === null) {
+      setModal(true)
+      setTimeout(() => {
+        navigate("/cartDetailsCheckout")
+      }, 2000);
+    }
     return () => clearInterval(intervalo);
   }, [activo, segundos])
 
 
   useEffect(() => {
-    // console.log(pedidos)
     dispatch(postPedido(currenuser,pedidos))
   }, [dispatch])
 
-  const navigate = useNavigate()
 
 
 
@@ -161,6 +169,21 @@ function CartDetailCheckoutPaymentMethod() {
           <Resume />
         </div>
       </div>
+      <Modal
+        show={modal}
+        size="sm"
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title><p style={{ textAlign: "center" }}>Error</p></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Será redirigido a la sección Dirección</p>
+        </Modal.Body>
+      </Modal>
     </section>
   )
 }

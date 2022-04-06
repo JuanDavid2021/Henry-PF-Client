@@ -1,17 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { RiMapPin2Line, RiTruckLine, RiMoneyDollarCircleLine, RiEyeLine, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDelivery } from './../actions';
-import { Form, Col, Row } from 'react-bootstrap';
+import { Form, Col, Row, Modal } from 'react-bootstrap';
 import { Resume } from './CartDetails';
 
 function CartDetailsCheckout() {
   const user = useSelector((state) => state.user)
-
+  const arrCartProducts = useSelector(state => state.cart);
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (arrCartProducts?.length === 0) {
+      setModalError(true)
+      setTimeout(() => {
+        navigate("/shop")
+      }, 2000);
+    }
+  },[arrCartProducts, navigate])
+
+  const [modalError, setModalError] = useState(false)
+
+
   const [validate, setValidate] = useState(false);
+
   const [input, setInput] = useState({
     nombre: "",
     apellido: "",
@@ -165,7 +179,7 @@ function CartDetailsCheckout() {
                 <div className="row">
                   <div className="col-md-6 text-md-start py-1">
                   <Link to={"/cartDetails"} className="btn btn-dark my-1">
-                    <RiArrowLeftSLine/> Volver al resumen
+                    <RiArrowLeftSLine/> Volver al Carrito
                   </Link>
                 </div>
                    <div className="col-md-6 text-md-end py-1">
@@ -179,6 +193,23 @@ function CartDetailsCheckout() {
           <Resume />
         </Row>
       </div>
+      {/* modal error */}
+      <Modal
+        show={modalError}
+        size="sm"
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title><p style={{ textAlign: "center" }}>Error</p></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>No posee productos en el carrito.</p>
+          <p>Será redirigido a la tienda</p>
+        </Modal.Body>
+      </Modal>
     </section>
   );
 }

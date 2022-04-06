@@ -1,14 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { RiTruckLine, RiMoneyDollarCircleLine, RiEyeLine, RiMapPin2Line, RiArrowRightSLine, RiArrowLeftSLine } from 'react-icons/ri';
 import { Modal, Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addOrderDate } from '../actions';
 import { Resume } from './CartDetails';
 
 function CartDetailsCheckoutDelibery() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const despacho = useSelector(state => state.despacho)
+
+  useEffect(() => {
+    if (despacho === null) {
+      setModalError(true)
+      setTimeout(() => {
+        navigate("/cartDetailsCheckout")
+      }, 2000);
+    }
+  },[despacho, navigate])
+  
+  const [modalError, setModalError] = useState(false)
   
   const fecha = new Date()
   
@@ -190,7 +202,7 @@ function CartDetailsCheckoutDelibery() {
                 <div className="row">
                   <div className="col-md-6 text-md-start py-1">
                     <Link to={"/cartDetailsCheckout"} className="btn btn-dark my-1">
-                      <RiArrowLeftSLine/> Volver a Dirección
+                      <RiArrowLeftSLine/> Dirección
                     </Link>
                   </div>
                   <div className="col-md-6 text-md-end py-1">
@@ -224,6 +236,23 @@ function CartDetailsCheckoutDelibery() {
         <Modal.Footer>
           <Button variant="primary" onClick={handleCloseModal}>Aceptar</Button>
         </Modal.Footer>
+      </Modal>
+      
+      {/* modal error */}
+      <Modal
+        show={modalError}
+        size="sm"
+        backdrop="static"
+        keyboard={false}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header>
+          <Modal.Title><p style={{ textAlign: "center" }}>Error</p></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Será redirigido a la sección Dirección</p>
+        </Modal.Body>
       </Modal>
     </section>
   )

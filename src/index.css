@@ -77,14 +77,14 @@ code {
 }
 
 /*sidebar Admin*/
-@media (max-width:560px) {
+@media (max-width:577px) {
   .sidebarAdmin{
     flex: 0 0 auto;
     width: 8.33333333%;
   }
 }
 
-@media (max-width:560px) {
+@media (max-width:577px) {
   .contentAdmin{
     flex: 0 0 auto;
     width: 91.77777777%;

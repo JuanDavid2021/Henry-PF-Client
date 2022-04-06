@@ -28,7 +28,7 @@ function Card({ id, prod, nombre, stock, presentacion, precio, arrFotos, descrip
           {
               promocion !== null ? 
             <div className="w-100 d-flex flex-column align-items-center">
-            <div className="w-100 d-flex justify-content-end bg-white"><span className="badge bg-danger mt-2 me-2 position-absolute" style={{height:"24px"}}>promo {productOnSale.filter(p => p.promocion === promocion )[0].porcentaje}%</span></div>
+            <div className="w-100 d-flex justify-content-end bg-white"><span className="badge bg-danger mt-2 me-2 position-absolute" style={{height:"24px"}}>promo {productOnSale.filter(p => p.promocion === promocion )[0]?.porcentaje}%</span></div>
             <CardBootstrap.Img variant="top" style={{ height: "12em", width: "12em", alignItems: "center" }} src={pics && pics[randomPic]} />
             </div>
               :

@@ -97,7 +97,8 @@ function HomeAdmin() {
           color: "#000000",
           font: {
             size: 14,
-          }
+          },
+          stepSize: 1
         }
       },
       x: {
@@ -167,7 +168,7 @@ function HomeAdmin() {
 return (
   <div className="container" >
     <h5 className="my-2">Datos referidos a ventas concluidas</h5>
-    <Row className="my-5" style={{ display: "flex" ,justifyContent: "center" }}>
+    <Row className="mb-5" style={{ display: "flex" ,justifyContent: "center" }}>
       <div className="scrollBar" style={{ width:"60em", overflow:"auto", overflowX: "visible" }}>
         <Col sm={12} className="col py-3" style={{ width:"60em" }}>
           <Bar options={optionsVentas} data={dataVentas} />
