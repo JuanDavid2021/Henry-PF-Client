@@ -117,7 +117,7 @@ function EditCategory() {
               placeholder={ editing.id !== 0 ? editing.nombre : `Crear Categoria` }
               value={input.nombre}
               onChange={(e) => handleChangeString(e)}
-              trim
+              trim="true"
             />
           </Col>
           <Col xs="4" md="3">

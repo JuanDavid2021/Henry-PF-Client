@@ -183,7 +183,7 @@ export const LoginUser = ({ setAuth }) => {
                 <input type="email" name="correo" id="exampleInputEmail1" aria-describedby="emailHelp" value={correo} placeholder="correo..." className='form-control' onChange={e => onChange(e)} />
               </div>
               <div className="mb-3">
-                <label for="exampleInputEmail1" className="form-label">Contraseña</label>
+                <label htmlFor="exampleInputEmail1" className="form-label">Contraseña</label>
                   <div style={{position:"relative"}}>
                    <input type="password" name="contraseña" style={{borderRadius:"5px", height:"40px", width:"265px"}} id="show" aria-describedby="emailHelp" value={contraseña} placeholder="contraseña..."  onChange={e => onChange(e)} />
                    <span style={{position:"absolute", right:"10px", cursor:"pointer", top:"50%", transform:"translateY(-50%)", color:"grey"}} className="icon-eye" onClick={showPassword} id="eye">

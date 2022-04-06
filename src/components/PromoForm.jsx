@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import "./PromoForm.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { DateRange } from "react-date-range";
+import { es } from "date-fns/locale";
 import { FaCircle, FaEye, FaEyeSlash } from "react-icons/fa";
 import {
   Row,
@@ -16,75 +20,187 @@ import { getAllPromos } from "../actions";
 
 function validate(toTest, toCompare) {
   let error = {};
-  var pattern = new RegExp(/^[A-Za-z0-9\s]+$/g);
-  if (!pattern.test(toTest)) {
-    error.nombre = "Solo acepta números y letras";
+  let letternumber = new RegExp(/^[A-Za-z0-9\sZñÑáéíóú]+$/g);
+  let number = new RegExp(/[0-9]/g);
+  if (!letternumber.test(toTest.promocion)) {
+    error.promocion = "Solo acepta números y letras";
   } else if (toTest.length < 3 || toTest.length > 20) {
-    error.nombre = "Debe contener de 3 a 20 caracteres";
+    error.promocion = "Debe contener de 3 a 20 caracteres";
+  }
+  if (!number.test(toTest.porcentaje)) {
+    error.porcentaje = "Debe ser número del 1 al 100";
   }
   for (let i = 0; i < toCompare.length; i++) {
-    if (toCompare[i].nombre.toLowerCase() === toTest.toLowerCase()) {
-      error = "Ya existe otra promoción con ese nombre";
+    if (
+      toCompare[i].id !== toTest.id &&
+      toCompare[i].promocion.toLowerCase() === toTest.promocion.toLowerCase()
+    ) {
+      error.promocion = "Ya existe otra promoción con ese nombre";
       break;
     }
   }
   return error;
 }
 
-function PromoForm({ edit = false, days = [], promoToView }) {
+function PromoForm({
+  editingId = "",
+  creationForm = false,
+  days = [],
+  promoToView,
+  updatePromo,
+  selectPromo,
+  createPromo
+}) {
   const [promo, setPromo] = useState(promoToView);
+  const [load,setLoad] = useState(true)
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(Date.parse(promoToView.f_inicio)), //promoToView.f_inicio.toLocaleString('es-AR', { timeZone: 'UTC' }),
+      endDate: new Date(Date.parse(promoToView.f_final)), //promoToView.f_final.toLocaleString('es-AR', { timeZone: 'UTC' }),
+      key: "selection",
+    },
+  ]);
   const [errors, setErrors] = useState("");
   const storeProducts = useSelector((state) => state.products);
+  const storePromos = useSelector((state) => state.promos);
 
-  const handleChangeChecks = (e) => {
-    console.log(e);
-    // let name = e.target.name;
-    // if (name === "day")
-    //   setPromo({
-    //     ...promo,
-    //     [e.target.name]: e.target.checked,
-    //   });
+  const setRange = (item) => {
+    setDateRange([item.selection]);
+    setPromo({
+      ...promo,
+      f_inicio: item.selection.startDate.toISOString(),
+      f_final: item.selection.endDate.toISOString(),
+    });
   };
-  const handleChangeString = (e) => {
-    console.log(e);
-  };
-  const promoProduct = (e) => {
-    let id = e.target.id; 
-    let isIn = parseInt(e.target.value)    
+  const handleChangeDays = (e) => {
+    let id = parseInt(e.target.value);
+    let isIn = parseInt(e.target.getAttribute("in"));
     if (isIn) {
-      let newProducts = promo.productos.filter(pp => pp !== id)
       setPromo({
         ...promo,
-        productos:newProducts
-      })      
+        dias_semana: promo.dias_semana.filter((ds) => ds !== id),
+      });
     } else {
       setPromo({
         ...promo,
-        productos:[...promo.productos,id]
-      })      
-    }    
+        dias_semana: [...promo.dias_semana, id],
+      });
+    }
   };
 
-  if (edit) {
+  const handleChangeString = (e) => {
+    if (e.target.name === "porcentaje") {
+      if (e.target.value > 99) {
+        e.target.value = 99;
+      }
+      if (e.target.value < 1) {
+        e.target.value = 1;
+      }
+    }
+
+    setPromo({
+      ...promo,
+      [e.target.name]: e.target.value,
+    });
+    setErrors(
+      validate(
+        {
+          ...promo,
+          [e.target.name]: e.target.value,
+        },
+        storePromos
+      )
+    );
+  };
+  const promoProduct = (e) => {
+    let id = e.target.value;
+    let isIn = promo.productos.filter((pp) => pp === id).length//parseInt(e.target.getAttribute("in"));
+    console.log(isIn)
+    if (isIn) {      
+      setPromo({
+        ...promo,
+        productos: promo.productos.filter((pp) => pp !== id),
+      });
+    } else {
+      setPromo({
+        ...promo,
+        productos: [...promo.productos, id],
+      });
+    }
+  };
+  const apply = () => {
+    updatePromo(promo);
+  };
+  const create = () => {
+    createPromo(promo)
+  }
+  const toggle = () => {   
+    if (!creationForm) {
+      updatePromo({
+        ...promo,
+        status: !promo.status
+      })
+    } else {
+       setPromo({
+      ...promo,
+      status: !promo.status,
+    });
+    }
+  };
+  const cancelChanges = () => {
+    setPromo(promoToView);    
+      setDateRange([
+      {
+        startDate: new Date(Date.parse(promoToView.f_inicio)), //promoToView.f_inicio.toLocaleString('es-AR', { timeZone: 'UTC' }),
+        endDate: new Date(Date.parse(promoToView.f_final)), //promoToView.f_final.toLocaleString('es-AR', { timeZone: 'UTC' }),
+        key: "selection",
+      },
+      ]);
+    if (!creationForm) {
+      setErrors("");
+    } else {
+      setErrors(validate(promo,storePromos))
+    }
+  };
+  const toLocal = (date) => {
+    return new Date(Date.parse(date)).toLocaleString("es-AR", {
+            timeZone: 'UTC',
+            hour12: false, dateStyle:"long",//timeStyle:"short"
+            });
+  }
+
+  useEffect(() => {
+    if (creationForm && load) {
+    setErrors(
+      validate(
+        promo,
+        storePromos
+      )
+      );
+      setLoad(false)
+    }
+  }, [load, creationForm,storePromos,promo])
+  if (editingId === promoToView.id || creationForm) {
     return (
-      <Row className="mx-4 my-1">
-        <Col sm="12" md="6">
+      <Row className="mx-4 my-1" style={{borderTop: "2px solid", marginTop: "10px" }}>
+        <Col md="12" lg="6">
           <Row>
-            <Col className="col-10">
+            <Col className="col-9">
               <Form.Group>
                 <Form.Label
                   className={
-                    errors?.nombre?.length ? "mb-0 text-danger" : "mb-0"
+                    errors?.promocion?.length ? "mb-0 text-danger" : "mb-0"
                   }
                 >
-                  {errors?.nombre?.length ? errors?.nombre : "Nombre"}
+                  {errors?.promocion?.length ? errors?.promocion : "Nombre"}
                 </Form.Label>
                 <InputGroup>
                   <Form.Control
-                    isInvalid={errors?.nombre?.length || ""}
+                    isInvalid={errors?.promocion?.length || ""}
+                    className="col-12"
                     type="text"
                     pattern="[a-zA-Z. ]{3,30}"
-                    name="nombre"
+                    name="promocion"
                     placeholder="Nombre del producto"
                     aria-describedby="basic-addon2"
                     value={promo.promocion}
@@ -104,15 +220,16 @@ function PromoForm({ edit = false, days = [], promoToView }) {
                 </InputGroup>
               </Form.Group>
             </Col>
-            <Col className="col-2">
+            <Col className="col-3">
               <Form.Group>
                 <Form.Label className="mb-0">Desc. %</Form.Label>
                 <Form.Control
                   isInvalid={errors?.porcentaje?.length || ""}
                   type="number"
+                  className="col-12"
                   pattern="^[0-9]+"
                   name="porcentaje"
-                  placeholder="Descuento"
+                  placeholder="Desc."
                   value={promo.porcentaje}
                   onChange={(e) => handleChangeString(e)}
                 />
@@ -130,9 +247,11 @@ function PromoForm({ edit = false, days = [], promoToView }) {
                         key={i}
                         label={d}
                         value={i}
-                        name="day"
-                        checked={promo.dias_semana.find(d=> d=== i)}
-                        onChange={(e) => handleChangeChecks(e)}
+                        in={promo.dias_semana.filter((pd) => pd === i).length}
+                        checked={
+                          promo.dias_semana.filter((pd) => pd === i).length
+                        }
+                        onChange={(e) => handleChangeDays(e)}
                       />
                     );
                   })}
@@ -140,46 +259,206 @@ function PromoForm({ edit = false, days = [], promoToView }) {
               </Form.Group>
             </Col>
           </Row>
+          <Row>
+            <Col>
+              <Row>
+                <Form.Label className="col-12 mb-0">
+                  Rango de fechas:
+                </Form.Label>
+              </Row>
+              <Row>
+                <DateRange
+                  //showMonthAndYearPickers={false}
+                  minDate={new Date()}
+                  shownDate={new Date()}
+                  classNAme="col-12"
+                  locale={es}
+                  editableDateInputs={true}
+                  onChange={(item) => setRange(item)}
+                  moveRangeOnFirstSelection={false}
+                  ranges={dateRange}
+                />
+              </Row>
+            </Col>
+          </Row>
         </Col>
-        <Col
-          
-          sm="12"
-          md="6"
-        >
-          <Form.Group>
-            <Form.Label className="mb-0">Productos afectados:</Form.Label>
-            <div style={{ maxHeight: "150px", display: "flex-col", overflowY: "auto" }} >
-          {storeProducts?.map((p, i) => {
-            return (
-              <Form.Check
+        <Col md="12" lg="6">
+          <Row
+            style={{
+              height: "440px",
+              //boxSizing:"100%",
+              marginBottom: "10px",
+            }}
+          >
+            <Form.Group>
+              <Form.Label className="mb-1">
+                Productos afectados: {promo.productos.length}
+              </Form.Label>
+              <div
+                className="col-12 pl-3"
+                style={{
+                  display: "flex-col",
+                  maxHeight: "410px",
+                  overflowY: "auto",
+                }}
+              >
+                {storeProducts?.map((p, i) => {
+                  return (
+                    <Form.Check
                       key={i}
-                label={p.nombre}
-                disabled={ !promo.status }
-                value={p.id}
-                in={ promo.productos.find((pp) => pp === p.id) ? 1 : 0 }
-                      checked={promo.productos.find((pp) => pp === p.id)}
+                      
+                      label={p.nombre}
+                      disabled={!promo.status}
+                      value={p.id}
+                      //in={promo.productos.filter((pp) => pp === p.id).length}
+                      checked={
+                        promo.productos.filter((pp) => pp === p.id).length
+                      }
                       onChange={(e) => promoProduct(e)}
                     />
-              // <div
-              //   key={p.id}
-              //   id={p.id}
-              //   in={ promo.productos.find((pp) => pp === p.id) ? 1 : 0 }
-              //   onClick={(e) => promoProduct(e)}
-              //   className={
-              //     promo.productos.find((pp) => pp === p.id) ? "text-danger in" : ""
-              //   }
-              // >
-              //   {p.nombre}
-              // </div>
-            );
-          })}
+                  );
+                })}
               </div>
             </Form.Group>
+          </Row>
+
+          <Row style={{ display: "flex", justifyContent: "space-around" }}>
+            {creationForm ? <Button disabled={ promo.promocion.length<3 || Object.keys(errors)?.length }className="col-3" onClick={() => create()}>
+              Crear
+            </Button>
+              :
+              <Button className="col-3" onClick={() => apply()}>
+              Aplicar
+            </Button>
+             }
+            <Button className="col-3" onClick={() => toggle()}>
+              StatusT
+            </Button>
+            <Button className="col-3" onClick={() => cancelChanges()}>
+              Cancelar
+            </Button>
+          </Row>
         </Col>
       </Row>
     );
   } else {
-    return <Row></Row>;
+    return (
+      <Row className="mx-4 my-1" style={{borderTop: "2px solid", marginTop: "10px", cursor:"pointer" }} onClick={() => selectPromo(promoToView.id)}>
+        <Col md="12" lg="6">
+          <Row>
+            <Col className="col-9">
+              <Form.Group>
+                <Form.Label
+                  className={
+                    errors?.promocion?.length ? "mb-0 text-danger" : "mb-0"
+                  }
+                >
+                  {errors?.promocion?.length ? errors?.promocion : "Nombre"}
+                </Form.Label>
+                <InputGroup>
+                  <Form.Control readOnly className="col-12" value={promoToView.promocion} />
+                  <InputGroup.Text id="basic-addon2">
+                    {promo.status ? (
+                      <span className="text-success">
+                        <FaEye className="pb-1" />
+                      </span>
+                    ) : (
+                      <span className="text-danger">
+                        <FaEyeSlash className="pb-1" />
+                      </span>
+                    )}
+                  </InputGroup.Text>
+                </InputGroup>
+              </Form.Group>
+            </Col>
+            <Col className="col-3">
+              <Form.Group>
+                <Form.Label className="mb-0">Desc. %</Form.Label>
+                <Form.Control
+                  className="col-12"
+                  readOnly
+                  type="number"
+                  value={promoToView.porcentaje}
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col className="col-12">
+              <Form.Group>
+                <Form.Label className="mb-0">Dias:</Form.Label>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+                  {days?.map((d, i) => {
+                    return (
+                      <Form.Check
+                        key={i}
+                        label={d}
+                        checked={
+                          promoToView.dias_semana.filter((pd) => pd === i)
+                            .length
+                        }
+                        readOnly
+                      />
+                    );
+                  })}
+                </div>
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col className="col-12">
+                             <Form.Label className="col-12 mb-0">
+                  Rango de fechas:
+                </Form.Label>
+                <Form.Control
+                    className="col-12"
+                    disabled={promoToView.status}
+                    readOnly
+                    value={`${toLocal(promoToView.f_inicio)} al ${toLocal(promoToView.f_final)}`}
+                  />          
+            </Col>
+          </Row>
+        </Col>
+        <Col md="12" lg="6">
+          <Row
+            style={{
+              height: "150px",
+              //boxSizing:"100%",
+              marginBottom: "10px",
+            }}
+          >
+            <Form.Group>
+              <Form.Label className="mb-0">
+                Productos afectados: {promo.productos.length}
+              </Form.Label>
+              <div
+                style={{
+                  display: "flex-col",
+                  maxHeight: "140px",
+                  overflowY: "auto",
+                }}
+              >
+                {storeProducts?.map((p, i) => {
+                  return (
+                    <Form.Check
+                      key={i}
+                      label={p.nombre}
+                      disabled={!promo.status}
+                      checked={
+                        promo.productos.filter((pp) => pp === p.id).length
+                      }
+                      readOnly
+                    />
+                  );
+                })}
+              </div>
+            </Form.Group>
+          </Row>
+        </Col>
+      </Row>
+    );
   }
 }
 
