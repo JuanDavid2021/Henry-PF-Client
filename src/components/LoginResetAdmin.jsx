@@ -42,7 +42,7 @@ const showPassword2 =()=>{
 }
 
 const showPassword3 =()=>{
-  var x = document.getElementById("show3")
+  var x = document.getElementById("show3");
   var y = document.getElementById("icon3")
   if(x.type==="password"){
     x.type="text"
@@ -57,7 +57,7 @@ const showPassword3 =()=>{
 
 const handleSubmit = async (e)=>{
 e.preventDefault()
-const update = await axios.post(`${REACT_APP_API_URL}/api/user/updatepassword`, input)
+const update = await axios.post(`${REACT_APP_API_URL}/user/updatepassword`, input)
 if(update){
   swal({
     text: "contraseña cambiada con éxito, ya puedes iniciar sesion",
