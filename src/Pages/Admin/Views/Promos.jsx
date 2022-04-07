@@ -16,6 +16,7 @@ import swal from "sweetalert";
 import {
   getAllPromos,
   getProducts,
+  getProductPromo,
   putPromo,
   addPromo,
 } from "../../../actions";
@@ -62,6 +63,7 @@ function Promos() {
         }
       );
       dispatch(getProducts())
+      dispatch(getProductPromo())
     } else {
       swal("Existen errores!", {
         icon: "warning",
@@ -96,6 +98,7 @@ function Promos() {
         }
       );
       dispatch(getProducts())
+      dispatch(getProductPromo())
     } else {
       swal("Existen errores!", {
         icon: "warning",
