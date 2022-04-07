@@ -24,7 +24,7 @@ function SobreNosotros() {
             img: "https://avatars.githubusercontent.com/u/79342530?v=4"
         },
         {
-            nombre: "Jorge Luis Nuñez Nuñez",
+            nombre: "Jorge Luis Nuñez",
             linkedin: "https://www.linkedin.com/in/jorge-luis-nu%C3%B1ez-n/",
             github: "https://github.com/Oleguis",
             puesto: "Back End",
@@ -84,13 +84,13 @@ function SobreNosotros() {
                     {
                         nosotros?.map((persona, index) => {
                             return (
-                                <div className="col-auto col-sm-6 col-lg-4 col-xl-3" key={index}>
+                                <div className="col-auto col-12 col-sm-6 col-lg-4 col-xl-3" key={index}>
                                     <motion.div className="card mx-xl-3 mx-sm-1 my-3 text-light border-0" whileHover={{ scale: 1.1, boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.14)" }} style={{ background: "linear-gradient(157deg, rgba(28,28,28,1) 0%, rgba(34,11,11,1) 80%, rgba(42,0,0,1) 100%)" }}>
                                         <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
                                             <img src={persona.img} className="card-img-top rounded-circle" alt={persona.nombre} style={{ width: "70%" }} />
                                         </div>
                                         <div className="card-body ">
-                                            <h5 className="card-title m-0">{persona.nombre}</h5>
+                                            <h5 className="card-title m-0 text-center">{persona.nombre}</h5>
                                         </div>
                                         <ul className="list-group list-group-flush border-0" style={{ background: "transparent" }}>
                                             <li className="list-group-item border-0 text-light" style={{ background: "transparent" }}><h5 className="m-0 fw-normal">Full Stack Developer</h5></li>
