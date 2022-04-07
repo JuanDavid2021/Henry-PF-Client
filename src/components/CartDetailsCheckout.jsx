@@ -93,7 +93,7 @@ function CartDetailsCheckout() {
                   <Form.Control 
                     type="text" 
                     name="nombre" 
-                    pattern="[/^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/]{2,254}"
+                    pattern="[a-zA-Z\u00C0-\u00FF ]*$"
                     value={input.nombre} 
                     onChange={handleChangeInputs}
                     placeholder="Quien recibirá el pedido"
@@ -106,7 +106,7 @@ function CartDetailsCheckout() {
                   <Form.Control 
                     type="text" 
                     name="apellido" 
-                    pattern="[/^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/]{2,254}"
+                    pattern="[a-zA-Z\u00C0-\u00FF ]*$"
                     value={input.apellido} 
                     onChange={handleChangeInputs}
                     placeholder="Quien recibirá el pedido"
