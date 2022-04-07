@@ -192,7 +192,7 @@ function rootReducer(state = initialState, action) {
   if (action.type === ACT_CART) {
     return {
       ...state,
-      cart: state.cart.concat(action.payload)
+      cart: state.cart?.concat(action.payload)
     };
   }
 
