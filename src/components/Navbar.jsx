@@ -32,6 +32,9 @@ function NavBar({ setAuth }) {
         } else {
             currentUser.administrador = false;
         }
+        if (!JSON.parse(localStorage.getItem("cart"))?.length) {
+            localStorage.setItem("cart", JSON.stringify([]));
+        }
     }, [])
     /*      const handleLogin = () => {
             user ? setUser(false) : setUser(true)
