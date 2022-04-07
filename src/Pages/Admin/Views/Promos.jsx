@@ -61,7 +61,7 @@ function Promos() {
           buttons: false,
         }
       );
-      dispatch(getAllPromos(currentUser))
+      dispatch(getProducts())
     } else {
       swal("Existen errores!", {
         icon: "warning",
@@ -95,7 +95,7 @@ function Promos() {
           buttons: false,
         }
       );
-      dispatch(getAllPromos(currentUser))
+      dispatch(getProducts())
     } else {
       swal("Existen errores!", {
         icon: "warning",
