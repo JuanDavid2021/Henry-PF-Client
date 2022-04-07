@@ -28,7 +28,7 @@ function UserInterface() {
                         pedidos?.pedidos?.filter(p => p.status !== "Created" ).map((p) => {
                             return (
                                 <Card key={p.id} text="dark" bg-opacity="75%" style={{ marginTop: "30px" }}>
-                                    <Card.Header as="h5" className="fw-normal">{p.ItemsPedidos.map(p => p.nombre).join(" || ").substring(0, 95) + "..."}</Card.Header>
+                                    <Card.Header as="h5" className="fw-normal" onClick={()=> navigate(`/product/${p.id}`)}>{p.ItemsPedidos.map(p => p.nombre).join(" || ").substring(0, 95) + "..."}</Card.Header>
                                     <Card.Body style={{ display: "flex", alignItems: "center" }}>
                                         <Card.Body>
                                             {p.status === "Approbed" ?
