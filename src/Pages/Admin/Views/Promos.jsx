@@ -61,6 +61,7 @@ function Promos() {
           buttons: false,
         }
       );
+      dispatch(getProducts());
     } else {
       swal("Existen errores!", {
         icon: "warning",
@@ -94,6 +95,7 @@ function Promos() {
           buttons: false,
         }
       );
+      dispatch(getProducts());
     } else {
       swal("Existen errores!", {
         icon: "warning",
