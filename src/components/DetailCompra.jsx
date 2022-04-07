@@ -96,7 +96,7 @@ function DetailCompra() {
                         {
                             pedido.ItemsPedidos.map((i, el) => (
                                 <Card className="mb-3">
-                                    <Card.Header as="h5">{i.nombre}</Card.Header>
+                                    <Card.Header as="h5" onClick={()=> navigate(`/product/${i.ProductoId}`)} className="d-flex justify-content-between align-items-center" style={{cursor:"pointer"}}>{i.nombre} <p className="fs-6 mt-3 fw-normal text-primary text-decoration-underline">ver detalle</p></Card.Header>
                                     <Card.Body>
                                         <Row className="row row-wrap">
                                             <Col className="col col-lg-10">
