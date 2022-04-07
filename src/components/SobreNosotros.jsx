@@ -72,9 +72,9 @@ function SobreNosotros() {
         <div className='d-flex flex-column align-items-center' style={{ backgroundSize: "cover", backgroundImage: "url(https://estaticos.muyinteresante.es/uploads/images/article/5a37f7435cafe848e93c9869/carne-roja_0.jpg)" }}>
             <div className='card bg-dark bg-opacity-75 px-4 py-4 rounded mx-3 my-5' style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <h2 className='text-light'> Sobre Nosotros </h2>
-                <p className='text-light fs-5'>Beef shop es un e-commerce que facilita la compra de productos de carniceria.</p>
-                <p className='text-light fs-5'>Nuestro objetivo es lograr que cualquier persona pueda realizar una compra de manera rapida y sencilla.</p>
-                <p className='text-light fs-5'>Esto es parte del proyecto final del Bootcamp Soy Henry, por lo cual todo lo que este relacionado con el stock, los pagos, etc. es ficticio.</p>
+                <p className='text-center text-light fw-light pd-0 mb-1 fs-5'>Beef shop es un e-commerce que facilita la compra de productos de carniceria.</p>
+                <p className='text-center text-light fw-light pd-0 mb-1 fs-5'>Nuestro objetivo es lograr que cualquier persona pueda realizar una compra de manera rapida y sencilla.</p>
+                <p className='text-center text-light fw-normal pd-0 fs-5'>Esto es parte del proyecto final del Bootcamp Soy Henry, por lo cual todo lo que este relacionado con el stock, los pagos, etc. es ficticio.</p>
             </div>
             <div className='card bg-light bg-opacity-50 px-4 py-4 rounded' style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                 <h1 className='text-dark fw-bold'> EQUIPO DE TRABAJO </h1>
