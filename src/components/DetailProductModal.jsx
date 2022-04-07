@@ -160,13 +160,13 @@ function DetailProductModal({id, show, stock, handleClose, nombreCap, precio, ar
                   <Button variant="dark" onClick={handleViewCart}>
                     Ver Carrito <RiShoppingCartFill />
                   </Button>
-                  {(localStorage.token !== undefined || localStorage.loginData !== undefined) ? (currentUser.administrador ?
+                  {/* {(localStorage.token !== undefined || localStorage.loginData !== undefined) ? (currentUser.administrador ?
                   null
                   :
                   <Button variant="dark" onClick={handleViewCart}>
                     Añadir a lista de deseos <BsCardList />
                   </Button>
-                ) : null}
+                ) : null} */}
                   <Button variant="dark" onClick={ handleDetailst }>
                     Ver más detalles <RiSearchEyeLine />
                   </Button>

@@ -45,9 +45,9 @@ function NavBar({ setAuth }) {
         navigate('/profile')
     }
 
-    const toList = () => {
-        navigate('/wishlist')
-    }
+    // const toList = () => {
+    //     navigate('/wishlist')
+    // }
 
     const logout = (e) => {
         e.preventDefault()
@@ -144,11 +144,11 @@ function NavBar({ setAuth }) {
                                             <span></span>
                                     }
                                 </Link>
-                                {currentUser.administrador ?
+                                {/* {currentUser.administrador ?
                                     null
                                     :
                                     <button className="btn btn-danger text-light mx-2" onClick={toList}>Lista de deseos <BsCardList size={20} style={{ marginBottom: "3px" }} /> </button>
-                                }
+                                } */}
                                 <button className="btn btn-primary text-light mx-2" onClick={e => logout(e)}>Salir</button>
                                 {currentUser.administrador ?
                                     <button className="btn btn-secondary text-light mx-2" onClick={dashboard}>Dashboard</button>

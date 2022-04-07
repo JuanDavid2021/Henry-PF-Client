@@ -31,7 +31,7 @@ import ProtectedRoute from './Middleware/ProtectedRoute';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import UserDetail from './Pages/Admin/Views/UserDetail';
 import { LoginResetAdmin } from './components/LoginResetAdmin';
-import Wishlist from './components/Wishlist';
+// import Wishlist from './components/Wishlist';
 
 const {REACT_APP_API_URL} = process.env
 
@@ -133,7 +133,7 @@ function App() {
         <Route exact path='/pagorechazado' element={<PagoDenied />} />
 
         <Route exact path='/profile' element={isAuthenticated ? (<UserInterface />) : (<Navigate to="/loginuser" />)} />
-        <Route exact path='/wishlist' element={isAuthenticated ? (<Wishlist />) : (<Navigate to="/loginuser" />)} />
+        {/* <Route exact path='/wishlist' element={isAuthenticated ? (<Wishlist />) : (<Navigate to="/loginuser" />)} /> */}
         <Route exact path='/compra/:id' element={isAuthenticated ? (<DetailCompra />) : (<Navigate to="/loginuser" />)} /> 
 
 

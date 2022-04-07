@@ -101,7 +101,6 @@ const initialState = {
   categoryFilterStatus: true,
   searchFilterStatus: true,
   loading: false,
-  wishlist: {}
 };
 
 //establece el valor inicial del carrito. Si el usuario estuvo cargando productos, quedaran en el localStorage
@@ -705,12 +704,12 @@ function rootReducer(state = initialState, action) {
     };
   }
 
-  if (action.type === GET_WISHLIST) {
-    return {
-      ...state,
-      wishlist: action.payload
-    };
-  }
+  // if (action.type === GET_WISHLIST) {
+  //   return {
+  //     ...state,
+  //     wishlist: action.payload
+  //   };
+  // }
 
   /*   if (action.type === "ORDER_BY_SCORE") {
       const orderedRecipes = orderByScore(
