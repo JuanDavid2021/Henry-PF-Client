@@ -72,7 +72,7 @@ export const LoginUser = ({ setAuth }) => {
         dispatch(setPlatformUser(finalRes))
         if (finalRes.shoppingCart) {
             const carrito = parseRes.shoppingCart.map((p)=>JSON.parse(p))
-            dispatch(actCart(carrito))
+            if(carrito?.length) dispatch(actCart(carrito))
         }
 
         setAuth(true)
