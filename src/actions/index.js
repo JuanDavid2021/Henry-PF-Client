@@ -979,10 +979,7 @@ export function getProductPromo() {
 
 export function getWishlist(userId) {
   return async (dispatch) => {
-    const wishlist = await axios.get(`${REACT_APP_API_URL}/wishlist/get`,
-    {
-      user: userId
-    });
+    const wishlist = await axios.get(`${REACT_APP_API_URL}/wishlist/get?user=${userId}`);
     dispatch({
       type: GET_WISHLIST,
       payload: wishlist.data
