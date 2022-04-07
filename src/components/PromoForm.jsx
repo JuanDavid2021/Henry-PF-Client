@@ -19,12 +19,12 @@ import {
 
 function validate(toTest, toCompare) {
   let error = {};
-  let letternumber = new RegExp(/^[A-Za-z0-9\sZñÑáéíóú]+$/g);
+  let letternumber = new RegExp(/^[A-Za-z0-9/.,sZñÑáéíóú]+$/g);
   let number = new RegExp(/[0-9]/g);
   if (!letternumber.test(toTest.promocion) && toTest.promocion.length) {
     error.promocion = "Solo acepta números y letras";
-  } else if (toTest.promocion.length < 3 || toTest.promocion.length > 20) {
-    error.promocion = "Debe contener de 3 a 20 caracteres";
+  } else if (toTest.promocion.length < 3 || toTest.promocion.length > 30) {
+    error.promocion = "Debe contener de 3 a 30 caracteres";
   }
   if (!number.test(toTest.porcentaje)) {
     error.porcentaje = "Debe ser número del 1 al 100";
@@ -135,6 +135,10 @@ function PromoForm({
   }
   const toggle = () => {   
     if (!creationForm) {
+      setPromo({
+        ...promo,
+        status: !promoToView.status
+      })
       updatePromo({
         ...promo,
         status: !promoToView.status
@@ -276,14 +280,28 @@ function PromoForm({
           </Row>
           <Row>
             <Col>
-              <Row>
+              {/* <Row>
                 <Form.Label className="col-12 mb-0">
                   Rango de fechas:
                 </Form.Label>
-              </Row>
+              </Row> */}
+              <Row>
+            <Col className="col-12">
+                             <Form.Label className="col-12 mb-0">
+                  Rango de fechas:
+                </Form.Label>
+                <Form.Control
+                    className="col-12 text-center"
+                    disabled={promoToView.status}
+                    readOnly
+                    value={`${toLocal(promo.f_inicio)} al ${toLocal(promo.f_final)}`}
+                  />          
+            </Col>
+          </Row>
               <Row>
                 <DateRange
                   //showMonthAndYearPickers={false}
+                  showDateDisplay={ false }
                   minDate={new Date()}
                   shownDate={new Date()}
                   classNAme="col-12"
@@ -436,7 +454,7 @@ function PromoForm({
                   Rango de fechas:
                 </Form.Label>
                 <Form.Control
-                    className="col-12"
+                    className="col-12 text-center"
                     disabled={promoToView.status}
                     readOnly
                     value={`${toLocal(promoToView.f_inicio)} al ${toLocal(promoToView.f_final)}`}
