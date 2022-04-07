@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { deleteUser, getUser, updateUser } from '../../../actions/index';
+import swal from 'sweetalert';
 
 export default function UserDetail() {
 
@@ -40,7 +41,7 @@ export default function UserDetail() {
   };
 
   const handleDelete = (e) => {
-    e?.preventDefault();
+    e.preventDefault()
     dispatch(deleteUser(target.correo));
   };
 
@@ -73,7 +74,7 @@ export default function UserDetail() {
             
             <div className="btn-group mb-3 w-100">
               <button value={target.correo} className="btn btn-success" onClick={handleSubmit}>Actualizar</button>
-              <button value={target.correo} className="btn btn-warning text-light" onClick={handleDelete}>Desactivar</button>
+              <button value={target.correo} className="btn btn-warning text-light" onClick={handleDelete}>{target.activo?'Desactivar' : 'Activar'}</button>
             </div>
               <button value={target.correo} className="btn btn-info text-light  w-100" onClick={handleCancel}>Cancelar</button>
           </form>
