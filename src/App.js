@@ -32,6 +32,7 @@ import AdminDashboard from './Pages/Admin/AdminDashboard';
 import UserDetail from './Pages/Admin/Views/UserDetail';
 import { LoginResetAdmin } from './components/LoginResetAdmin';
 // import Wishlist from './components/Wishlist';
+import PageNotFound from './components/PageNotFound';
 
 const {REACT_APP_API_URL} = process.env
 
@@ -125,10 +126,10 @@ function App() {
         <Route exact path='/pedidos' element={<Pedidos />} />
         <Route exact path='/creationForm' element={<CreationForm />} />
         <Route exact path='/cartDetails' element={<CartDetails />} />
-        <Route path='/cartDetailsCheckout' element={<CartDetailsCheckout />} />
-        <Route path='/cartDetailsCheckoutDelivery' element={<CartDetailsCheckoutDelivery />} />
-        <Route path='/cartDetailsCheckoutReview' element={<CartDetailsCheckoutReview />} />
-        <Route path='/cartDetailsCheckoutPaymentMethod' element={<CartDetailCheckoutPaymentMethod />} />
+        <Route exact path='/cartDetailsCheckout' element={isAuthenticated ? <CartDetailsCheckout /> : <Navigate to="/cartDetails" /> } />
+        <Route exact path='/cartDetailsCheckoutDelivery' element={isAuthenticated ? <CartDetailsCheckoutDelivery /> : <Navigate to="/cartDetails" /> } />
+        <Route exact path='/cartDetailsCheckoutReview' element={isAuthenticated ? <CartDetailsCheckoutReview /> : <Navigate to="/cartDetails" /> } />
+        <Route exact path='/cartDetailsCheckoutPaymentMethod' element={isAuthenticated ? <CartDetailCheckoutPaymentMethod /> : <Navigate to="/cartDetails" /> } />
         <Route exact path='/pagoaprobado' element={<PagoSuccess />} />
         <Route exact path='/pagorechazado' element={<PagoDenied />} />
 
@@ -136,7 +137,7 @@ function App() {
         {/* <Route exact path='/wishlist' element={isAuthenticated ? (<Wishlist />) : (<Navigate to="/loginuser" />)} /> */}
         <Route exact path='/compra/:id' element={isAuthenticated ? (<DetailCompra />) : (<Navigate to="/loginuser" />)} /> 
 
-
+        <Route path='*' element={<PageNotFound />}/>
       </Routes>
       <Footer />
     </div>
