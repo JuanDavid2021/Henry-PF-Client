@@ -19,7 +19,7 @@ import {
 
 function validate(toTest, toCompare) {
   let error = {};
-  let letternumber = new RegExp(/^[A-Za-z0-9/.,sZñÑáéíóú]+$/g);
+  let letternumber = new RegExp(/^[A-Za-z0-9\s.,\u00C0-\u00FFZñÑáéíóú]+$/g);
   let number = new RegExp(/[0-9]/g);
   if (!letternumber.test(toTest.promocion) && toTest.promocion.length) {
     error.promocion = "Solo acepta números y letras";
