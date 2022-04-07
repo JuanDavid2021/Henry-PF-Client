@@ -26,7 +26,7 @@ function Pedidos() {
             <Row >
                 <SearchBar filtro={true}/>
             </Row>
-            <div className="table-responsive">
+            <div className="table-responsive scrollBar">
                 <table className="table text-nowrap">
                     <thead  >
                         <tr className="text-sm">
