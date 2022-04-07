@@ -23,8 +23,8 @@ function validate(toTest, toCompare) {
   let number = new RegExp(/[0-9]/g);
   if (!letternumber.test(toTest.promocion) && toTest.promocion.length) {
     error.promocion = "Solo acepta números y letras";
-  } else if (toTest.promocion.length < 3 || toTest.promocion.length > 30) {
-    error.promocion = "Debe contener de 3 a 30 caracteres";
+  } else if (toTest.promocion.length < 3 || toTest.promocion.length > 40) {
+    error.promocion = "Debe contener de 3 a 40 caracteres";
   }
   if (!number.test(toTest.porcentaje)) {
     error.porcentaje = "Debe ser número del 1 al 100";
