@@ -31,16 +31,28 @@ function UserInterface() {
                                     <Card.Header as="h5" className="fw-normal">{p.ItemsPedidos.map(p => p.nombre).join(" || ").substring(0, 95) + "..."}</Card.Header>
                                     <Card.Body style={{ display: "flex", alignItems: "center" }}>
                                         <Card.Body>
-                                            {p.status === "Approbed" || "Aprobada" ?
+                                            {p.status === "Approbed" ?
                                                 <div style={{ display: "flex" }}>
                                                     <Card.Title style={{ marginRight: "4px" }}>Estado:</Card.Title>
-                                                    <Card.Title className='text-success'> {p.status}</Card.Title>
+                                                    <Card.Title className='text-primary'> Aprobado </Card.Title>
                                                 </div>
+                                                :
+                                                p.status === "Processed" ?
+                                                <div style={{ display: "flex" }}>
+                                                    <Card.Title style={{ marginRight: "4px" }}>Estado:</Card.Title>
+                                                    <Card.Title className='text-warning'> Procesado </Card.Title>
+                                                </div>
+                                                :
+                                                p.status === "Cancelled" ?
+                                                <div style={{ display: "flex" }}>
+                                                    <Card.Title style={{ marginRight: "4px" }}>Estado:</Card.Title>
+                                                    <Card.Title className='text-danger'> Cancelado </Card.Title>
+                                                </div> 
                                                 :
                                                 <div style={{ display: "flex" }}>
                                                     <Card.Title style={{ marginRight: "4px" }}>Estado:</Card.Title>
-                                                    <Card.Title className='text-danger'> {p.status}</Card.Title>
-                                                </div>
+                                                    <Card.Title className='text-success'> Despachado </Card.Title>
+                                                </div> 
                                             }
                                             <Card.Text>
                                                 Fecha de entrega: {p.f_requerida.substring(0, 10)}
