@@ -736,7 +736,7 @@ export function flushCart() {
   };
 }
 
-export function actCart(payload) {  
+export function actCart(payload) {   
   return (dispatch) => {
     let cartLocal = JSON.parse(localStorage.getItem("cart"));
     const cartLocal2 = cartLocal?.concat(payload);
